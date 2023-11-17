@@ -1,0 +1,36 @@
+# 서버 포트 번호
+server:
+  port: 8093
+
+spring:
+  # 콘솔 ansi 색상
+  output:
+    ansi:
+      enabled: always
+
+  # Thymeleaf 설정
+  thymeleaf:
+    cache: false
+    prefix: classpath:templates/views/
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/traindb?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: train
+    password: 1234
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+
+    hibernate:
+      ddl-auto: update
+
+# 페이징 관련 세팅값
+app:
+  pagination:
+    # 기본 write_pages 값. 한 [페이징] 당 몇개의 페이지를 표시
+    write_pages: 10
+    # 기본 page_rows 값. 한 '페이지'에 몇개의 글을 리스트 할것인가?
+    page_rows: 10
