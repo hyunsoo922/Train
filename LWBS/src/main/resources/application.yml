@@ -11,7 +11,7 @@ spring:
   # Thymeleaf 설정
   thymeleaf:
     cache: false
-    prefix: classpath:templates/views/
+    prefix: classpath:/templates/views/
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver

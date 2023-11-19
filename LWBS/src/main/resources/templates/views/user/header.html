@@ -1,0 +1,58 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<header th:fragment="headerfrag">-->
+<!--    <img src="/images/logo.png" alt="로고 이미지">-->
+<!--    <div>-->
+<!--        <button class="button" onclick="goToMyPage()">마이페이지</button>-->
+<!--        <button class="button" onclick="logout()">로그아웃</button>-->
+<!--    </div>-->
+<!--</header>-->
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f2f2f2;
+        }
+
+        .button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+<header th:fragment="headerfrag">
+    <img src="/images/logo.png" alt="로고 이미지">
+    <div>
+        <button class="button" onclick="goToMyPage()">마이페이지</button>
+        <button class="button" onclick="logout()">로그아웃</button>
+        <nav>
+            <div th:replace="~{/user/nav::navfrag}"></div>
+        </nav>
+    </div>
+
+</header>
+
+</body>
+
+</html>
