@@ -1,6 +1,9 @@
 package com.project.LWBS.controller;
 
+import com.project.LWBS.domain.User;
 import com.project.LWBS.service.KakaoService;
+import com.project.LWBS.service.UserService;
+import com.project.LWBS.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +22,12 @@ public class UserController {
     }
 
 
+
     @GetMapping("/login")
     public String getLogin(Model model)
     {
         model.addAttribute("kakaoUrl",kakaoService.getKakaoLogin());
         return "user/login";
+
     }
 }

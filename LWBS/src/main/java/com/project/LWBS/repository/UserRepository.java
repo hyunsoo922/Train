@@ -1,4 +1,8 @@
 package com.project.LWBS.repository;
 
-public class UserRepository {
+import com.project.LWBS.domain.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User,Long> {
+
 }
