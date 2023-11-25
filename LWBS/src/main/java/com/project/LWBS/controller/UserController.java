@@ -28,6 +28,19 @@ public class UserController {
     {
         model.addAttribute("kakaoUrl",kakaoService.getKakaoLogin());
         return "user/login";
+    }
 
+    @GetMapping("/register")
+    public String register(Model model)
+    {
+        model.addAttribute("kakaoUrl",kakaoService.getKakaoLogin());
+        return "user/register";
+    }
+
+    @GetMapping("/registerOk")
+    public String getRegisterOk()
+    {
+
+        return "user/registerOk";
     }
 }

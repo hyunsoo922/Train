@@ -32,9 +32,6 @@ public class KakaoServiceImpl implements KakaoService{
 
     @Override
     public String getKakaoLogin() {
-        System.out.println(KAKAO_CLIENT_ID);
-        System.out.println(KAKAO_CLIENT_SECRET);
-        System.out.println(KAKAO_REDIRECT_URL);
         return KAKAO_AUTH_URI + "/oauth/authorize" + "?client_id=" + KAKAO_CLIENT_ID
                 + "&redirect_uri=" + KAKAO_REDIRECT_URL + "&response_type=code";
     }
@@ -71,7 +68,6 @@ public class KakaoServiceImpl implements KakaoService{
             JSONObject jsonObject =(JSONObject) jsonParser.parse(response.getBody());
 
             accessToken = (String)jsonObject.get("access_token");
-            System.out.println("액세스토큰"+accessToken);
             refreshToken = (String) jsonObject.get("refresh_token");
         }catch (Exception e)
         {
@@ -106,6 +102,7 @@ public class KakaoServiceImpl implements KakaoService{
         long id = (long)jsonObject.get("id");
         String nickname = String.valueOf(profile.get("nickname"));
         String profile_img = String.valueOf(profile.get("profile_image_url"));
+        System.out.println("카카오ID"+id);
         return KakaoDTO.builder()
                 .id(id)
                 .profile_img(profile_img)
