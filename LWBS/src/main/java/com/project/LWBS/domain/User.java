@@ -20,7 +20,7 @@ public class User {
     private String name;
 
     @Column(nullable = false)
-    private String kakao_id;
+    private String kakaoId;
 
     @Column(length = 100)
     private String franchisee;
