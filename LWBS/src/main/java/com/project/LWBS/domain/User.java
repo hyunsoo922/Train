@@ -26,19 +26,17 @@ public class User {
     private String franchisee;
 
     @Column(length = 100, unique = true)
-    private String student_id;
+    private String studentId;
 
     @Column
-    private String student_pw;
+    private String studentPw;
 
     @Column
-    private String profile_img_url;
+    private String profileImgUrl;
 
     @ManyToOne
     @JoinColumn(name = "authority_id")
     @ToString.Exclude
     private Authority authority;
-
-
 
 }

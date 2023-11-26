@@ -8,4 +8,5 @@ public interface KakaoService {
     KakaoDTO getKakaoInfo(String code) throws Exception;
 
     KakaoDTO getUserInfoWithUserToken(String accessToken) throws Exception;
+
 }

@@ -4,9 +4,20 @@ $(function () {
     $('input[name="kind"]').change(function () {
 
         var selectKind = $(this).val();
+        console.log(selectKind);
 
         $(".student-container, .bookStore-container").addClass('hidden');
 
         $("." + selectKind + "-container").removeClass('hidden');
+
+        if(selectKind == "student")
+        {
+            $("#publisherId").val("");
+        }
+        else if(selectKind == "bookStore")
+        {
+            $("#LMSID").val("");
+            $("#LMSPW").val("");
+        }
     });
 });

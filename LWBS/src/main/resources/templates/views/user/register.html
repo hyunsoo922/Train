@@ -17,17 +17,18 @@
 <body>
     <h1>회원가입 페이지</h1>
 
-    <label>
-        <input type="radio" name="kind" value="student" checked>
-        학생
-    </label>
 
-    <label>
-        <input type="radio" name="kind" value="bookStore">
-        서점
-    </label>
 
     <form th:action="@{/user/register}" class="student" id="student" method="POST">
+        <label>
+            <input type="radio" name="kind" value="student" checked>
+            학생
+        </label>
+
+        <label>
+            <input type="radio" name="kind" value="bookStore">
+            서점
+        </label>
         <div class="student-container">
             <div>
                 <label>LMS ID</label>
@@ -46,6 +47,8 @@
                 <input type="text" id="publisherId" name="publisherId" placeholder="가맹점 아이디를 입력하세요.">
             </div>
         </div>
+
+        <button type="submit">회원가입 하기</button>
     </form>
 
 
