@@ -1,8 +1,11 @@
 package com.project.LWBS.repository;
 
+import com.project.LWBS.domain.Mileage;
 import com.project.LWBS.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+import java.util.List;
+
+public interface MileageRepository extends JpaRepository<Mileage, Long> {
 
 }

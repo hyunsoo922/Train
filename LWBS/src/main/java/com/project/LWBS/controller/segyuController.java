@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 public class segyuController {
     //@RequestMapping(value = "/hello", method = RequestMethod.GET)
-    @GetMapping("/home")
-    public String hello() {
-        return "home";
-    }
+//    @GetMapping("/home")
+//    public String hello() {
+//        return "home";
+//    }
 }
