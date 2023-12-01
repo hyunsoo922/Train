@@ -1,6 +1,5 @@
 package com.project.LWBS.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,8 +11,6 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
 
-    @Autowired
-    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception
@@ -28,7 +25,12 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/user/login")
                         .loginProcessingUrl("/user/login")
-                        .successHandler(customAuthenticationSuccessHandler)
+                        .successHandler(new CustomLoginSuccessHandler("/home"))
+                )
+                .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
+                        .logoutUrl("/user/logout")        // 로그아웃 수행 url
+                        .invalidateHttpSession(false)    // session invalidate (디폴트 true)
+                        .logoutSuccessHandler(new CustomLogoutSuccessHandler())
                 )
                 .build();
     }

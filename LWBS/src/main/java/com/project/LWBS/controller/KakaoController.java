@@ -1,7 +1,9 @@
 package com.project.LWBS.controller;
 
 import com.project.LWBS.common.MsgEntity;
+import com.project.LWBS.config.PrincipalDetailsService;
 import com.project.LWBS.domain.DTO.KakaoDTO;
+import com.project.LWBS.domain.User;
 import com.project.LWBS.service.KakaoService;
 import com.project.LWBS.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,11 +29,17 @@ public class KakaoController {
 
     private UserService userService;
 
+    private final PrincipalDetailsService principalDetailsService;
+
     @Autowired
-    public KakaoController(KakaoService kakaoService, UserService userService) {
+    public KakaoController(KakaoService kakaoService, UserService userService, PrincipalDetailsService principalDetailsService) {
         this.kakaoService = kakaoService;
         this.userService = userService;
+        this.principalDetailsService = principalDetailsService;
     }
+
+
+
 
     //    @GetMapping("/callback")
 //    public ResponseEntity<MsgEntity> callback(HttpServletRequest request) throws Exception{
@@ -41,7 +53,8 @@ public class KakaoController {
     public ResponseEntity<MsgEntity> callback(HttpServletRequest request) throws Exception {
         KakaoDTO kakaoDTO = kakaoService.getKakaoInfo(request.getParameter("code"));
         String kakaoId = String.valueOf(kakaoDTO.getId());
-        if(!userService.isExistKakaoIdByUser(kakaoId))
+        User user = userService.findByKakaoId(kakaoId);
+        if(user == null)
         {
             userService.setKakaoDTO(kakaoDTO);
             // 다음 페이지로의 URL을 클라이언트에게 전달
@@ -52,6 +65,14 @@ public class KakaoController {
             // 302 Found 상태 코드와 함께 리디렉션 URL을 클라이언트에게 전달
             return new ResponseEntity<>(headers, HttpStatus.FOUND);
         }
+
+        // 카카오 로그인 성공 시, PrincipalDetails를 사용하여 인증 정보를 설정
+        UserDetails userDetails = principalDetailsService.loadUserByUsername(kakaoId);
+        System.out.println(userDetails+"유저디테일");
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        System.out.println(SecurityContextHolder.getContext().getAuthentication()+"권한");
 
         return ResponseEntity.ok().body(new MsgEntity("Success",kakaoDTO));
 

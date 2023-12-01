@@ -8,6 +8,9 @@ import com.project.LWBS.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -22,13 +25,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Boolean isExistKakaoIdByUser(String kakao_id) {
-        User user = userRepository.findByKakaoId(kakao_id);
-        if(user != null)
-        {
-            return true;
-        }
-        return false;
+    public User findByKakaoId(String kakao_id) {
+        return userRepository.findByKakaoId(kakao_id);
     }
 
     @Override
@@ -72,5 +70,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public void setKakaoDTO(KakaoDTO kakaoDTO) {
         this.kakaoDTO = kakaoDTO;
+    }
+
+    @Override
+    public List<Authority> findAuthorityById(Long id) {
+        List<Authority> list = new ArrayList<>();
+        list.add(userRepository.findById(id).get().getAuthority());
+        return list;
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByName(username);
+    }
+
+    @Override
+    public Authority findById(Long authority_id) {
+        Authority authority = authorityRepository.findById(authority_id).orElse(null);
+        return authority;
     }
 }
