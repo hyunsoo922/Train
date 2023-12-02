@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Date Range Picker App</title>
+</head>
+<body>
+
+<div>
+    <h2>Select Date Range</h2>
+    <form th:action="@{/bookStore/DaySelect}" method="post">
+        <label for="startDate">Start Date:</label>
+        <input type="date" name="startDate" id="startDate" th:value="${selectedStartDate}" />
+
+        <label for="endDate">End Date:</label>
+        <input type="date" name="endDate" id="endDate" th:value="${selectedEndDate}" />
+
+        <button type="submit">선택완료</button>
+    </form>
+</div>
+
+</body>
+</html>

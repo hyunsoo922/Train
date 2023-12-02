@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Result Page</title>
+</head>
+<body>
+
+<div>
+    <h2>Selected Date Range</h2>
+    <p>시작 날짜: <span th:text="${selectedStartDate}"></span></p>
+    <p>종료 날짜: <span th:text="${selectedEndDate}"></span></p>
+    <p>총 기간: <span th:text="${numberOfDays}"></span></p>
+</div>
+
+</body>
+</html>
