@@ -1,3 +1,4 @@
+/*
 package com.project.LWBS.domain;
 
 import jakarta.persistence.*;
@@ -20,3 +21,4 @@ public class Receipt {
     private LocalDate day;
 
 }
+*/

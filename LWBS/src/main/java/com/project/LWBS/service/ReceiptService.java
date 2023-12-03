@@ -1,3 +1,4 @@
+/*
 package com.project.LWBS.service;
 
 import com.project.LWBS.domain.Receipt;
@@ -8,9 +9,9 @@ public interface ReceiptService {
 
     static List<Receipt> getAllReceipts() {
 
-        return ;
     }
 
 
-
+    List<Receipt> getAllReceipt();
 }
+*/
