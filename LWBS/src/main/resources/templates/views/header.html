@@ -15,7 +15,7 @@
       <!-- 로그인 했을때는 username, mypage 와 로그아웃 form 보여주기 -->
       <form th:action="@{/user/logout}" method="POST" sec:authorize="Authenticated" th:with="user=${user}">
         <span class="text-light p-2">[[${user.name}]] 님 환영합니다 </span>
-        <a class="btn btn-light" th:href="@{/mypage}">마이페이지</a>
+        <a class="btn btn-light" th:href="@{|/mypage/${user.id}|}">마이페이지</a>
         <span><button class="btn btn-danger" type="submit">로그아웃</button></span>
       </form>
     </div>
