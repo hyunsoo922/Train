@@ -50,6 +50,7 @@ public class UserController {
         System.out.println("lmspw"+LMSPW);
         System.out.println("가맹점아이디"+publisherId);
         KakaoDTO kakaoDTO = userService.getKakaoDTO();
+        System.out.println("!!!!카카오아이디!!!!" + kakaoDTO);
         userService.registerUser(kind,LMSID,LMSPW,publisherId,kakaoDTO);
 
 
