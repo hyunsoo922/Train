@@ -33,5 +33,4 @@ public class MyPageController {
         this.mypageService = mypageService;
     }
     // 로그인된 사용자의 id값을 받아와서 /mypage/{user_id}로 넘긴다.
-
 }
