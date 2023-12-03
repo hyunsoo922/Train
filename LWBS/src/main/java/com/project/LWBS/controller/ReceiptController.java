@@ -1,7 +1,9 @@
+/*
 package com.project.LWBS.controller;
 
 import com.project.LWBS.domain.Receipt;
 import com.project.LWBS.service.ReceiptService;
+import org.apache.tomcat.util.modeler.BaseAttributeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import java.util.List;
 public class ReceiptController {
 
     private ReceiptService receiptService;
+    private BaseAttributeFilter model;
 
     @Autowired
     public ReceiptController(ReceiptService receiptService){this.receiptService = receiptService;}
@@ -22,7 +25,9 @@ public class ReceiptController {
 
     @GetMapping("Receipt")
     public String getAllReceipt(Module module){
-        List<Receipt> receipts = ReceiptService.getAllReceipts();
-        model.addAttribute();
+        List<Receipt> Receipt = ReceiptService.getAllReceipts();
+        model.addAttribute("receipts");
+        return "Receipt";
     }
 }
+*/
