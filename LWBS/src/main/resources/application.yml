@@ -1,3 +1,7 @@
+#selenium:
+#  chromedriver:
+#    path: C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe
+
 # 서버 포트 번호
 server:
   port: 8093
@@ -11,7 +15,7 @@ spring:
   # Thymeleaf 설정
   thymeleaf:
     cache: false
-    prefix: classpath:templates/views/
+    prefix: classpath:/templates/views/
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver

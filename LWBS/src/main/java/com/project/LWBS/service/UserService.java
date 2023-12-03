@@ -22,3 +22,4 @@ public interface UserService {
 
     Authority findById(Long authority_id);
 }
+

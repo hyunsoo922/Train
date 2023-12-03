@@ -2,8 +2,7 @@ package com.project.LWBS.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-
+import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,4 +38,6 @@ public class User {
     @ToString.Exclude
     private Authority authority;
 
+    @OneToMany
+    private List<Mileage> mileage;
 }
