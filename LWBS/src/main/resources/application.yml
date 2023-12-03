@@ -1,3 +1,7 @@
+#selenium:
+#  chromedriver:
+#    path: C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe
+
 # 서버 포트 번호
 server:
   port: 8093
@@ -11,7 +15,7 @@ spring:
   # Thymeleaf 설정
   thymeleaf:
     cache: false
-    prefix: classpath:templates/views/
+    prefix: classpath:/templates/views/
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
@@ -34,3 +38,10 @@ app:
     write_pages: 10
     # 기본 page_rows 값. 한 '페이지'에 몇개의 글을 리스트 할것인가?
     page_rows: 10
+
+kakao:
+  client:
+    id: b45dc756bf1f71d465dbf93f791be727
+    secret: ZwJupmVkWPJM9UiAR1M5ICGAwih2fLd5
+  redirect:
+    url: http://localhost:8093/kakao/callback
