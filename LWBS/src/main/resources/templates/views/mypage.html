@@ -50,7 +50,8 @@
 <input type="image", th:value="${URL}">
 
 <img src="/images/nameko.jpg" alt="로고 이미지">
-<th:block th:insert="~{/header::headerfrag}"></th:block>
+<th:block th:insert="~{/header::header}"></th:block>
+
 <li th:each="entity : ${entities}"></li>
 <section>
     <h2>수강신청 내역</h2>
