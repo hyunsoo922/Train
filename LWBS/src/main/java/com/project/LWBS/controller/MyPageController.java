@@ -15,7 +15,9 @@ import java.util.Map;
 @Controller
 @RequestMapping
 public class MyPageController {
-    private MyPageService mypageService;@GetMapping("/mypage/{user_id}")
+    private MyPageService mypageService;
+
+    @GetMapping("/mypage/{user_id}")
     public String hello(@PathVariable Long user_id, Model model) {
         int a = mypageService.sumMileage(user_id);
         String b = mypageService.getName(user_id);

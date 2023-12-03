@@ -18,4 +18,6 @@ public class Enrollment {
 
     @Column(nullable = false, length = 100)
     private String enrollmentName;
+
+    // user id 외래키 받기
 }
