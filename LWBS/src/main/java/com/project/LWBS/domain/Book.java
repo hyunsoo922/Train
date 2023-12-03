@@ -3,13 +3,15 @@ package com.project.LWBS.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
-@ToString
+@ToString(callSuper = true)
 @Builder
 public class Book {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
