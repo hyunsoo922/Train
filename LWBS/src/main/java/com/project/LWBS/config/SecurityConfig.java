@@ -29,7 +29,7 @@ public class SecurityConfig {
                 )
                 .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
                         .logoutUrl("/user/logout")        // 로그아웃 수행 url
-                        .invalidateHttpSession(false)    // session invalidate (디폴트 true)
+                        .invalidateHttpSession(true)    // session invalidate (디폴트 true)
                         .logoutSuccessHandler(new CustomLogoutSuccessHandler())
                 )
                 .build();
