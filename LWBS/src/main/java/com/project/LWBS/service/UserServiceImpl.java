@@ -89,4 +89,9 @@ public class UserServiceImpl implements UserService {
         Authority authority = authorityRepository.findById(authority_id).orElse(null);
         return authority;
     }
+
+    @Override
+    public void deleteUser(User user) {
+        userRepository.delete(user);
+    }
 }

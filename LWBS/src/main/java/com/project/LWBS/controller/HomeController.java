@@ -28,7 +28,7 @@ public class HomeController {
             model.addAttribute("user",principalDetails.getUser());
         } catch (Exception e){
             System.out.println("로그인실패");
-            model.addAttribute("logged_id", null);
+            model.addAttribute("user", null);
         }
     }
 

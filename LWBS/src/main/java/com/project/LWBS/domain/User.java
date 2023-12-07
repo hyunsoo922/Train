@@ -38,6 +38,6 @@ public class User {
     @ToString.Exclude
     private Authority authority;
 
-    @OneToMany
-    private List<Mileage> mileage;
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Mileage> mileage;
 }

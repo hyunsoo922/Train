@@ -21,5 +21,7 @@ public interface UserService {
     User findByUsername(String username);
 
     Authority findById(Long authority_id);
+
+    void deleteUser(User user);
 }
 
