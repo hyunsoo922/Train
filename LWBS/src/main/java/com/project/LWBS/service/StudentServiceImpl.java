@@ -81,4 +81,31 @@ public class StudentServiceImpl implements StudentService {
             receiptRepository.saveAndFlush(receipt);
         }
     }
+
+    @Override
+    public List<Receipt> findAllUser(User user) {
+        List<Receipt> receiptList = receiptRepository.findByUser(user);
+        return receiptList;
+    }
+
+    @Override
+    public void updateDay(User user, String day) {
+        List<Receipt> receiptList = receiptRepository.findByUser(user);
+        List<Receive> receiveList = receiveRepository.findByDay(day);
+        Receive receive = new Receive();
+        for(int x = 0; x< receiveList.size(); x++)
+        {
+            if(receiveList.get(x).getReceiveCheck().equals("미수령"))
+            {
+                receive = receiveList.get(x);
+            }
+        }
+
+        for(int i=0; i < receiptList.size(); i++)
+        {
+            receiptList.get(i).setReceive(receive);
+            receiptRepository.flush();
+        }
+
+    }
 }

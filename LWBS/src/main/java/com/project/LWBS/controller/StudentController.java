@@ -2,6 +2,7 @@ package com.project.LWBS.controller;
 
 import com.project.LWBS.config.PrincipalDetails;
 import com.project.LWBS.domain.Book;
+import com.project.LWBS.domain.Receipt;
 import com.project.LWBS.domain.Receive;
 import com.project.LWBS.domain.User;
 import com.project.LWBS.service.StudentService;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -95,12 +97,33 @@ public class StudentController {
     }
 
     @GetMapping("/purchase/receipt")
-    public void complete(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model)
+    public void receipt(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model)
     {
         model.addAttribute("user",principalDetails.getUser());
+        List<Receipt> receiptList = studentService.findAllUser(principalDetails.getUser());
+        List<Book> bookList = new ArrayList<>();
+
+        for (int i = 0; i < receiptList.size(); i++)
+        {
+            bookList.add(receiptList.get(i).getBook());
+        }
+
+        model.addAttribute("bookList",bookList);
+        model.addAttribute("receiveDay",receiptList.get(0).getReceive().getDay());
+        model.addAttribute("receiveCheck",receiptList.get(0).getReceive().getReceiveCheck());
+        model.addAttribute("daySelect",studentService.findReceiveCheck());
 
     }
 
+    @PostMapping("/purchase/receipt")
+    public String postReceipt(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model,@RequestParam String day)
+    {
+        model.addAttribute("user",principalDetails.getUser());
 
+        studentService.updateDay(principalDetails.getUser(),day);
+
+        return "redirect:/student/purchase/receipt";
+
+    }
 
 }
