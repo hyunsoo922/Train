@@ -1,23 +1,23 @@
-/*
 package com.project.LWBS.service;
 
 import com.project.LWBS.domain.Receipt;
 import com.project.LWBS.repository.ReceiptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.util.List;
 
-public class ReceiptServiceImpl implements ReceiptService{
+@Service
+public class ReceiptServiceImpl implements ReceiptService {
 
-    private final ReceiptService receiptService;
+    private final ReceiptRepository receiptRepository;
 
     @Autowired
-    public ReceiptServiceImpl(ReceiptService receiptService){
-        this.receiptService = receiptService;
+    public ReceiptServiceImpl(ReceiptRepository receiptRepository) {
+        this.receiptRepository = receiptRepository;
     }
 
     @Override
-    public List<Receipt> getAllReceipt(){
-        return ReceiptRepository.findAll();
+    public List<Receipt> getAllReceipts() {
+        return receiptRepository.findAll();
     }
 }
-*/

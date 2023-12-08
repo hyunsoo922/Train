@@ -1,11 +1,23 @@
-<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt List</title>
 </head>
 <body>
 
+<h1>Receipt List</h1>
+
+<ul th:if="${receipts.isEmpty()}">
+    <li>No receipts available</li>
+</ul>
+
+<ul th:unless="${receipts.isEmpty()}">
+    <li th:each="receipt : ${receipts}">
+        <span th:text="'ID: ' + ${receipt.id} + ', Day: ' + ${receipt.day}"></span>
+    </li>
+</ul>
+
 </body>
-</html>-->
+</html>
