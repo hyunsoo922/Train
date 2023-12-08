@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ReceiveRepository extends JpaRepository<Receive,Long> {
     List<Receive> findByReceiveCheck(String receiveCheck);
+
+    List<Receive> findByDay(String receiveDay);
 }

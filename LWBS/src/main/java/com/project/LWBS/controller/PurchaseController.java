@@ -1,13 +1,18 @@
 package com.project.LWBS.controller;
 
 
+import com.project.LWBS.domain.Book;
 import com.project.LWBS.domain.DTO.Purchase;
+import com.project.LWBS.domain.User;
 import com.project.LWBS.service.PurchaseService;
+import com.project.LWBS.service.StudentService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -16,6 +21,9 @@ public class PurchaseController {
 
     @Autowired
     private PurchaseService purchaseService;
+
+    @Autowired
+    private StudentService studentService;
 
     @GetMapping("/payment")
     public @ResponseBody Purchase payment(@RequestParam String item, @RequestParam String totalPrice, @RequestParam String totalCnt)
@@ -29,8 +37,19 @@ public class PurchaseController {
     }
 
     @GetMapping("/success")
-    public String success()
+    public String success(HttpSession session)
     {
+        List<Book> bookList = (List<Book>)session.getAttribute("books");
+        User user = (User) session.getAttribute("users");
+        String receiveDay =(String)session.getAttribute("receiveDate");
+
+        System.out.println("구매한 책"+bookList);
+        System.out.println("구매자"+user);
+        System.out.println("수령일"+receiveDay);
+
+        studentService.createReceipt(bookList,user,receiveDay);
+
+
         return "/purchase/success";
     }
 

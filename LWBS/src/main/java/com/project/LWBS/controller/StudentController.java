@@ -87,6 +87,9 @@ public class StudentController {
         model.addAttribute("totalPrice",totalPrice);
         model.addAttribute("totalCnt",totalCnt);
         model.addAttribute("item",item);
+        session.setAttribute("books",bookList);
+        session.setAttribute("receiveDate",receiveDay);
+        session.setAttribute("users",principalDetails.getUser());
 
         return "student/purchase/bookPay";
     }

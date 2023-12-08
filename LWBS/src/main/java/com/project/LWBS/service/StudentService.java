@@ -13,4 +13,6 @@ public interface StudentService {
     List<Receive> findReceiveCheck();
 
     List<Book> findByIds(List<String> bookList);
+
+    void createReceipt(List<Book> bookList,User user,String receiveDay);
 }

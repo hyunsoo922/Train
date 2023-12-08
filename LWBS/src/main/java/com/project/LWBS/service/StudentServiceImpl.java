@@ -1,11 +1,9 @@
 package com.project.LWBS.service;
 
-import com.project.LWBS.domain.Book;
-import com.project.LWBS.domain.Enrollment;
-import com.project.LWBS.domain.Receive;
-import com.project.LWBS.domain.User;
+import com.project.LWBS.domain.*;
 import com.project.LWBS.repository.BookRepository;
 import com.project.LWBS.repository.EnrollmentRepository;
+import com.project.LWBS.repository.ReceiptRepository;
 import com.project.LWBS.repository.ReceiveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +22,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private ReceiveRepository receiveRepository;
+
+    @Autowired
+    private ReceiptRepository receiptRepository;
 
     @Override
     public List<Book> findMyClass(User user) {
@@ -53,5 +54,31 @@ public class StudentServiceImpl implements StudentService {
             books.add(bookRepository.findById(id).orElse(null));
         }
         return books;
+    }
+
+    @Override
+    public void createReceipt(List<Book> bookList, User user, String receiveDay) {
+
+        List<Receive> receiveList = receiveRepository.findByDay(receiveDay);
+        Receive receive = new Receive();
+
+        for(int x =0; x < receiveList.size(); x++)
+        {
+            if(receiveList.get(x).getReceiveCheck().equals("미수령"))
+            {
+                receive = receiveList.get(x);
+            }
+        }
+
+        for(int i =0; i < bookList.size(); i++)
+        {
+            Receipt receipt = Receipt.builder()
+                    .book(bookList.get(i))
+                    .receive(receive)
+                    .user(user)
+                    .build();
+
+            receiptRepository.saveAndFlush(receipt);
+        }
     }
 }

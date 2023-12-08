@@ -1,5 +1,6 @@
 package com.project.LWBS.domain;
 
+import com.project.LWBS.domain.listner.Auditable;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Data
 @MappedSuperclass
 @EntityListeners(value = AuditingEntityListener.class)
-public class BaseEntity {
+public class BaseEntity implements Auditable {
 
     @CreatedDate
     private LocalDateTime createdAt;
