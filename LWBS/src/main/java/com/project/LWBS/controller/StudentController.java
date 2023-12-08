@@ -67,6 +67,7 @@ public class StudentController {
     {
         List<Book> bookList = (List<Book>)session.getAttribute("bookLists");
         int totalPrice = 0;
+        int totalCnt = bookList.size();
 
         for(int i = 0; i < bookList.size(); i++)
         {
@@ -76,15 +77,26 @@ public class StudentController {
 
         String receiveDay = (String)session.getAttribute("receiveDay");
 
+        String item = bookList.get(0).getName() + "외" + (bookList.size()-1) + "권";
+
         System.out.println("교재"+bookList);
         System.out.println("수령일"+receiveDay);
         model.addAttribute("user",principalDetails.getUser());
         model.addAttribute("bookList",bookList);
         model.addAttribute("receiveDay",receiveDay);
         model.addAttribute("totalPrice",totalPrice);
+        model.addAttribute("totalCnt",totalCnt);
+        model.addAttribute("item",item);
 
         return "student/purchase/bookPay";
     }
+
+    @GetMapping("/purchase/receipt")
+    public void complete(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model)
+    {
+        model.addAttribute("user",principalDetails.getUser());
+    }
+
 
 
 }
