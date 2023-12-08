@@ -24,7 +24,7 @@ public class User {
     @Column(length = 100)
     private String franchisee;
 
-    @Column(length = 100, unique = true)
+    @Column(length = 100)
     private String studentId;
 
     @Column
@@ -33,7 +33,7 @@ public class User {
     @Column
     private String profileImgUrl;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "authority_id")
     @ToString.Exclude
     private Authority authority;
