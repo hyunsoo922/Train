@@ -1,9 +1,6 @@
 package com.project.LWBS.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Data
@@ -18,5 +15,15 @@ public class Receipt extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "user_id")
+    private User user;
 
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "receive_id")
+    private Receive receive;
+
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "book_id")
+    private Book book;
 }

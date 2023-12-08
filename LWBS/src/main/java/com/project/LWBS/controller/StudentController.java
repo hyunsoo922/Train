@@ -95,6 +95,7 @@ public class StudentController {
     public void complete(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model)
     {
         model.addAttribute("user",principalDetails.getUser());
+
     }
 
 
