@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +15,7 @@
 
 <ul th:unless="${receipts.isEmpty()}">
     <li th:each="receipt : ${receipts}">
-        <span th:text="'ID: ' + ${receipt.id} + ', Day: ' + ${receipt.day}"></span>
+        <span th:text="'ID: ' + ${receipt.id}"></span>
     </li>
 </ul>
 

@@ -1,11 +1,13 @@
 package com.project.LWBS.service;
 
-import org.springframework.stereotype.Service;
+import com.project.LWBS.domain.Receipt;
 
 import java.util.List;
+import java.util.Map;
 
-@Service
 public interface StatisticsService {
-    long countAll();
-    List<Object[]> countByBook();
+
+    List <Receipt> findAll();
+
+    Map<String, Integer> count(List<Receipt> receiptList, List<String> nameList);
 }

@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book List</title>
+    <title>교재 리스트</title>
 </head>
 <body>
-<h2>Book List</h2>
+<h2>교재 리스트</h2>
 <table>
     <thead>
     <tr>
@@ -27,7 +27,7 @@
     </tbody>
     <tbody>
     <tr th:if="${books.isEmpty()}">
-        <td colspan="4">No books available</td>
+        <td colspan="4">항목이 없습니다.</td>
     </tr>
     <tr th:each="book : ${books}">
         <td th:text="${book.id}"></td>

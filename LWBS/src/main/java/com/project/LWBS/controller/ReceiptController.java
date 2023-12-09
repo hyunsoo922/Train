@@ -21,6 +21,7 @@ public class ReceiptController {
         this.receiptService = receiptService;
     }
 
+    //책 정보, 구매자, 구매일자, 수령 체크, 수령날짜
     @GetMapping("/Receipt")
     public String getAllReceipts(Model model) {
         List<Receipt> receipts = receiptService.getAllReceipts();
