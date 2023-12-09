@@ -50,7 +50,7 @@ public class PurchaseController {
         studentService.createReceipt(bookList,user,receiveDay);
 
 
-        return "/purchase/success";
+        return "purchase/success";
     }
 
     @GetMapping("/cancle")

@@ -33,7 +33,7 @@ public class User {
     @Column
     private String profileImgUrl;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "authority_id")
     @ToString.Exclude
     private Authority authority;

@@ -21,7 +21,7 @@ public class Mileage {
 //    @ManyToOne
 //    @JoinColumn(name = "user_id")
 //    private User userID;
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
