@@ -218,9 +218,6 @@
 //}
 package com.project.LWBS.controller;
 
-import com.project.LWBS.config.PrincipalDetails;
-import com.project.LWBS.domain.Department;
-import com.project.LWBS.domain.User;
 import com.project.LWBS.service.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor; // 추가
@@ -230,7 +227,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
