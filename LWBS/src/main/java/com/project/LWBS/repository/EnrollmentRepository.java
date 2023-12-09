@@ -1,13 +1,15 @@
 package com.project.LWBS.repository;
 
 import com.project.LWBS.domain.Enrollment;
+import com.project.LWBS.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
-//    List<Enrollment> makeEnrollmentList(Long user_id);
+
+    List<Enrollment> findByUser(User user);
 
     Enrollment findByEnrollmentName(String enrollmentName);
 

@@ -24,7 +24,7 @@ public class User {
     @Column(length = 100)
     private String franchisee;
 
-    @Column(length = 100, unique = true)
+    @Column(length = 100)
     private String studentId;
 
     @Column
@@ -38,6 +38,6 @@ public class User {
     @ToString.Exclude
     private Authority authority;
 
-    @OneToMany
-    private List<Mileage> mileage;
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Mileage> mileage;
 }

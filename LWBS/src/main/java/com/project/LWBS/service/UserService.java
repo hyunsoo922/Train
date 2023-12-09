@@ -27,5 +27,7 @@ public interface UserService {
     void updateUserInfo(String studentId, String studentPw, Long user_id);
 
     void updateBookStoreInfo(String franchisee, Long user_id);
+
+    void deleteUser(User user);
 }
 

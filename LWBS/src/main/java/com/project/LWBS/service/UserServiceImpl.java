@@ -112,4 +112,9 @@ public class UserServiceImpl implements UserService {
         user.setFranchisee(franchisee);
         userRepository.flush();
     }
+
+    @Override
+    public void deleteUser(User user) {
+        userRepository.delete(user);
+    }
 }

@@ -4,11 +4,10 @@ package com.project.LWBS.repository;
 import com.project.LWBS.domain.Receipt;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import com.project.LWBS.domain.User;
 
 public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
     @Query("SELECT r.book.id as book_id, COUNT(r.book.id) as count " +
@@ -27,4 +26,6 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
         }
         return topBookIds;
     }
+
+    List<Receipt> findByUser(User user);
 }

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>마이페이지</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -48,7 +49,16 @@
 <input type="text", th:value="${sumpoint}">
 <input type="text", th:value="${name}">
 <img th:src="${URL}" alt="이미지">
+<div> 총 마일리지
+    <input type="text", th:value="${sumpoint}" disabled>
+</div>
 
+<div> 유저 이름
+    <input type="text", th:value="${name}" disabled>
+</div>
+<!--<input type="image", th:value="${URL}">-->
+
+<img th:src="${URL}" alt="로고 이미지">
 <th:block th:insert="~{/header::header}"></th:block>
 
 <li th:each="entity : ${entities}"></li>
@@ -57,6 +67,9 @@
     <button onclick="조회하기()">수강신청 내역 조회</button>
     <button onclick="이동하기()">내 정보 수정</button>
     <div id="수강신청내역"></div>
+
+    <a th:href="@{/user/delete}">회원탈퇴</a>
+
 </section>
 
 <footer>
