@@ -28,9 +28,9 @@ public class HomeStudentController {
         //this.userService = userService;
     }
 
-    @GetMapping("/home/student/{user_id}")
-    public String hello(@PathVariable Long user_id, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
-        List<Book> bookList = bookService.findByBookName(user_id);
+    @GetMapping("/home/student")
+    public String hello(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
+        List<Book> bookList = bookService.findByBookName(principalDetails.getUser().getId());
         model.addAttribute("bookList", bookList);
         model.addAttribute("user",principalDetails.getUser());
         return "/home/student";

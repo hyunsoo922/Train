@@ -46,19 +46,10 @@
 </head>
 
 <body>
-<input type="text", th:value="${sumpoint}">
-<input type="text", th:value="${name}">
+<input type="text", th:value="${sumpoint}" disabled>
+<input type="text", th:value="${name}" disabled>
 <img th:src="${URL}" alt="이미지">
-<div> 총 마일리지
-    <input type="text", th:value="${sumpoint}" disabled>
-</div>
 
-<div> 유저 이름
-    <input type="text", th:value="${name}" disabled>
-</div>
-<!--<input type="image", th:value="${URL}">-->
-
-<img th:src="${URL}" alt="로고 이미지">
 <th:block th:insert="~{/header::header}"></th:block>
 
 <li th:each="entity : ${entities}"></li>

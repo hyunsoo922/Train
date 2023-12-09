@@ -77,7 +77,7 @@ public class KakaoController {
 
         if(user.getAuthority().getName().equals("ROLE_STUDENT"))
         {
-            redirectUrl = "http://localhost:8093/home/student/" + user.getId();
+            redirectUrl = "http://localhost:8093/home/student";
         }
         else if(user.getAuthority().getName().equals("ROLE_BOOKSTORE"))
         {
