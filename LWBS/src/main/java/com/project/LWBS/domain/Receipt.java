@@ -26,4 +26,7 @@ public class Receipt extends BaseEntity{
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "book_id")
     private Book book;
+
+    public void setReceiveCheck(String check) {
+    }
 }

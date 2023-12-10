@@ -1,10 +1,13 @@
 package com.project.LWBS.service;
 
 import com.project.LWBS.domain.Receipt;
+import com.project.LWBS.domain.Receive;
 import com.project.LWBS.repository.ReceiptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReceiptServiceImpl implements ReceiptService {
@@ -20,4 +23,23 @@ public class ReceiptServiceImpl implements ReceiptService {
     public List<Receipt> getAllReceipts() {
         return receiptRepository.findAll();
     }
+
+    @Override
+    public void saveReceipts(List<Receipt> receipts) {
+
+    }
+
+    @Override
+    public List<Receipt> findReceiptsByStudentId(String studentId) {
+        return receiptRepository.findByUserStudentId(studentId);
+    }
+
+    @Override
+    public void findById(long Id, Receive receive) {
+        Receipt receipt = receiptRepository.findById(Id).orElse(null);
+        receipt.setReceive(receive);
+        receiptRepository.flush();
+    }
+
+
 }

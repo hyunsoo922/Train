@@ -1,12 +1,16 @@
 package com.project.LWBS.controller;
 
 import com.project.LWBS.domain.Receipt;
+import com.project.LWBS.domain.Receive;
 import com.project.LWBS.service.ReceiptService;
+import com.project.LWBS.service.ReceiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -16,17 +20,43 @@ public class ReceiptController {
 
     private final ReceiptService receiptService;
 
+   private  final ReceiveService receiveService;
     @Autowired
-    public ReceiptController(ReceiptService receiptService) {
+    public ReceiptController(ReceiptService receiptService, ReceiveService receiveService) {
         this.receiptService = receiptService;
+        this.receiveService = receiveService;
     }
 
-    //책 정보, 구매자, 구매일자, 수령 체크, 수령날짜
     @GetMapping("/Receipt")
     public String getAllReceipts(Model model) {
         List<Receipt> receipts = receiptService.getAllReceipts();
         model.addAttribute("receipts", receipts);
-        return "bookstore/Receipt";
+        return "bookStore/Receipt";
+    }
+
+    @GetMapping("/ReceiptSearch")
+    public String searchReceipts(@RequestParam(name = "studentId") String studentId, Model model) {
+        List<Receipt> filteredReceipts = receiptService.findReceiptsByStudentId(studentId);
+        model.addAttribute("receipts", filteredReceipts);
+        return "bookStore/ReceiptSearch";
+    }
+
+    @PostMapping("/Receipt")
+    public String updateReceipt(@RequestParam("receiptId") String receiptId, @RequestParam("check") String check, @RequestParam("receiveDay") String receiveDay) {
+        List<Receive> receives = receiveService.findDay(receiveDay);
+        Receive receive = new Receive();
+
+        for(int i = 0;i < receives.size();i++)
+        {
+            if (receives.get(i).getReceiveCheck().equals(check))
+            {
+                receive = receives.get(i);
+                System.out.println("check : "+receive);
+            }
+
+        }
+        long Id = Long.parseLong(receiptId);
+        receiptService.findById(Id, receive);
+        return "redirect:/bookStore/Receipt";
     }
 }
-
