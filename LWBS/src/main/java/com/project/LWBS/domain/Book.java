@@ -50,4 +50,5 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
+<<<<<<< HEAD
 }

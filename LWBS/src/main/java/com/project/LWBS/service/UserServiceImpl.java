@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
         }
         else if(kind.equals("bookStore"))
         {
-            user = User.builder()
+             user = User.builder()
                     .authority(bookStore)
                     .franchisee(publisherId)
                     .name(kakaoDTO.getNickname())
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
                     .build();
         }
 
-        userRepository.saveAndFlush(user);
+         userRepository.saveAndFlush(user);
     }
 
     @Override
@@ -88,6 +88,29 @@ public class UserServiceImpl implements UserService {
     public Authority findById(Long authority_id) {
         Authority authority = authorityRepository.findById(authority_id).orElse(null);
         return authority;
+    }
+
+    @Override
+    public User findByUserId(Long user_id) {
+        User user = userRepository.findById(user_id).orElse(null);
+        return user;
+    }
+
+    @Override
+    public void updateUserInfo(String studentId, String studentPw, Long user_id) {
+        User user = userRepository.findById(user_id).orElse(null);
+        if(user != null) {
+            user.setStudentId(studentId);
+            user.setStudentPw(studentPw);
+            userRepository.flush();
+        }
+    }
+
+    @Override
+    public void updateBookStoreInfo(String franchisee, Long user_id) {
+        User user = userRepository.findById(user_id).orElse(null);
+        user.setFranchisee(franchisee);
+        userRepository.flush();
     }
 
     @Override

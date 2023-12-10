@@ -12,24 +12,25 @@
   <title>결제 사이트</title>
 </head>
 <body>
-<th:block th:insert="~{/header::header}"></th:block>
+    <th:block th:insert="~{/header::header}"></th:block>
 
-<form th:action="@{/student/purchase/bookPay}" method="post" enctype="multipart/form-data">
-  <th:block th:each="book:${bookList}">
-    <span th:text="${book.name}"></span> <br>
-    <span th:text="${book.publisher}"></span> <br>
-    <span th:text="${book.author}"></span> <br>
-    <span th:text="${book.price}"></span>
-  </th:block>
+    <form th:action="@{/student/purchase/bookPay}" method="post" enctype="multipart/form-data">
+      <th:block th:each="book:${bookList}">
+          <span th:text="${book.name}"></span> <br>
+          <span th:text="${book.publisher}"></span> <br>
+          <span th:text="${book.author}"></span> <br>
+          <span th:text="${book.price}"></span>
+      </th:block>
 
-  <div>총 결제금액
-    <div th:text="${totalPrice}"></div>
-  </div>
-  <input type="hidden" th:value="${totalPrice}" id="totalPrice">
-  <input type="hidden" th:value="${item}" id="item">
-  <input type="hidden" th:value="${totalCnt}" id="totalCnt">
+      <div>총 결제금액
+        <div th:text="${totalPrice}"></div>
+      </div>
+      <input type="hidden" th:value="${totalPrice}" id="totalPrice">
+      <input type="hidden" th:value="${item}" id="item">
+      <input type="hidden" th:value="${totalCnt}" id="totalCnt">
 
-  <button type="button" id="purchaseBtn">카카오페이로 결제하기</button>
-</form>
+      <button type="button" id="purchaseBtn">카카오페이로 결제하기</button>
+    </form>
 </body>
 </html>
+>>>>>>> master

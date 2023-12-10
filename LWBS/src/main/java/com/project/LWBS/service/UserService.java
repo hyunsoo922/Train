@@ -22,5 +22,12 @@ public interface UserService {
 
     Authority findById(Long authority_id);
 
+    User findByUserId(Long user_name);
+
+    void updateUserInfo(String studentId, String studentPw, Long user_id);
+
+    void updateBookStoreInfo(String franchisee, Long user_id);
+
     void deleteUser(User user);
 }
+

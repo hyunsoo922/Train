@@ -19,17 +19,24 @@ public class HomeController {
     }
 
     @RequestMapping("/home")
-    public void home(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
+    public String home(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
         try{
 //            PrincipalDetails userDetails = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //            User user = userDetails.getUser();
 //            Long id = user.getId();
             System.out.println("홈에 들어옴 로그인"+principalDetails.getUsername());
             model.addAttribute("user",principalDetails.getUser());
+            if(principalDetails.getUser().getAuthority().getName().equals("ROLE_STUDENT")) {
+                return "redirect:/home/student";
+            }
+            else if(principalDetails.getUser().getAuthority().getName().equals("ROLE_BOOKSTORE")) {
+                return "redirect:/home/bookStore";
+            }
         } catch (Exception e){
             System.out.println("로그인실패");
-            model.addAttribute("logged_id", null);
+            model.addAttribute("user", null);
         }
+        return "home";
     }
 
     @RequestMapping("/auth")

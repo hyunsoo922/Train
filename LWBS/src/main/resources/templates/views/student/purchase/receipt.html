@@ -11,28 +11,28 @@
     <title>구매 내역 사이트</title>
 </head>
 <body>
-<th:block th:insert="~{/header::header}"></th:block>
-<form th:action="@{/student/purchase/receipt}" method="POST" enctype="multipart/form-data">
-    <th:block th:each="book:${bookList}">
-        <img th:src="${book.imageUrl}" alt="">
-        <div th:text="${book.name}"></div>
-        <div th:text="${book.author}"></div>
-        <div th:text="${book.publisher}"></div>
-        <div th:text="${book.description}"></div>
-        <div th:text="${book.department.name}"></div>
-        <div th:text="${book.subject.name}"></div>
-    </th:block>
-
-    <select name="day" id="day" title="day">
-        <option>수령 날짜 변경</option>
-        <th:block th:each="receive:${daySelect}">
-            <option th:value="${receive.day}" th:utext="${receive.day}"></option>
+    <th:block th:insert="~{/header::header}"></th:block>
+    <form th:action="@{/student/purchase/receipt}" method="POST" enctype="multipart/form-data">
+        <th:block th:each="book:${bookList}">
+            <img th:src="${book.imageUrl}" alt="">
+            <div th:text="${book.name}"></div>
+            <div th:text="${book.author}"></div>
+            <div th:text="${book.publisher}"></div>
+            <div th:text="${book.description}"></div>
+            <div th:text="${book.department.name}"></div>
+            <div th:text="${book.subject.name}"></div>
         </th:block>
-    </select>
 
-    <span th:text="${receiveCheck}"></span>
-    <span th:text="${receiveDay}"></span>
-    <button type="submit">날짜 변경하기</button>
-</form>
+        <select name="day" id="day" title="day">
+          <option>수령 날짜 변경</option>
+          <th:block th:each="receive:${daySelect}">
+            <option th:value="${receive.day}" th:utext="${receive.day}"></option>
+          </th:block>
+        </select>
+
+        <span th:text="${receiveCheck}"></span>
+        <span th:text="${receiveDay}"></span>
+        <button type="submit">날짜 변경하기</button>
+    </form>
 </body>
 </html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 정보 수정</title>
+</head>
+<body>
+
+<h2>학생 정보 수정</h2>
+
+<form action="/mypage/myInfoUpdate/student" method="post">
+    <!-- 사용자로부터 값을 입력받을 입력 필드 -->
+    <label for="studentId">사용자명:</label>
+    <input type="text" id="studentId" name="studentId" required>
+
+    <br>
+
+    <label for="studentPw">비밀번호:</label>
+    <input type="password" id="studentPw" name="studentPw" required>
+    <br>
+
+    <!-- 전송 버튼 -->
+    <button type="submit">완료</button>
+</form>
+
+</body>
+</html>

@@ -89,9 +89,9 @@ public class KakaoServiceImpl implements KakaoService{
         HttpEntity<MultiValueMap<String,String>> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<String> response =restTemplate.exchange(
                 KAKAO_API_URI + "/v2/user/me",
-                HttpMethod.POST,
-                httpEntity,
-                String.class
+                    HttpMethod.POST,
+                    httpEntity,
+                    String.class
         );
 
         JSONParser jsonParser = new JSONParser();

@@ -51,13 +51,13 @@ public class KakaoController {
 
     @GetMapping("/callback")
     public ResponseEntity<MsgEntity> callback(HttpServletRequest request) throws Exception {
-        KakaoDTO kakao = kakaoService.getKakaoInfo(request.getParameter("code"));
-        String kakaoId = String.valueOf(kakao.getId());
+        KakaoDTO kakaoDTO = kakaoService.getKakaoInfo(request.getParameter("code"));
+        String kakaoId = String.valueOf(kakaoDTO.getId());
         User user = userService.findByKakaoId(kakaoId);
         String redirectUrl = "";
         if(user == null)
         {
-            userService.setKakaoDTO(kakao);
+            userService.setKakaoDTO(kakaoDTO);
             // 다음 페이지로의 URL을 클라이언트에게 전달
             redirectUrl = "http://localhost:8093/user/register";  // 실제 다음 페이지의 URL로 대체해야 합니다.
             HttpHeaders headers = new HttpHeaders();

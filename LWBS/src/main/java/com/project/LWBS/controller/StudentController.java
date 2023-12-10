@@ -31,17 +31,17 @@ public class StudentController {
     @GetMapping("/purchase/book")
     public void getBook(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails)
     {
-        User user = principalDetails.getUser();
-        model.addAttribute("user",user);
+            User user = principalDetails.getUser();
+            model.addAttribute("user",user);
 
-        List<Book> bookList = studentService.findMyClass(user);
+            List<Book> bookList = studentService.findMyClass(user);
 
-        System.out.println(bookList);
+            System.out.println(bookList);
 
-        List<Receive> receiveList = studentService.findReceiveCheck();
+            List<Receive> receiveList = studentService.findReceiveCheck();
 
-        model.addAttribute("bookList", bookList);
-        model.addAttribute("receiveDays",receiveList);
+            model.addAttribute("bookList", bookList);
+            model.addAttribute("receiveDays",receiveList);
 
     }
 
@@ -126,4 +126,5 @@ public class StudentController {
 
     }
 
+<<<<<<< HEAD
 }

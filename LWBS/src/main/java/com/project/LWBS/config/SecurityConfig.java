@@ -19,7 +19,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
 //                        .requestMatchers("/").authenticated() // 이후 hasAnyRole 로 권한부여 예정
-                                .requestMatchers("/user/login").anonymous()
+                        .requestMatchers("/user/login").anonymous()
                                 .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
