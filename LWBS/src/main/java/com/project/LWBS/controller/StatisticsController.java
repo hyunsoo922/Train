@@ -1,8 +1,10 @@
 package com.project.LWBS.controller;
 
+import com.project.LWBS.config.PrincipalDetails;
 import com.project.LWBS.domain.Receipt;
 import com.project.LWBS.service.StatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +27,7 @@ public class StatisticsController {
 
 
     @GetMapping("/Statistics")
-    public String getBookSalesCount(Model model) {
+    public String getBookSalesCount(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         List<Receipt> receiptList = statisticsService.findAll();
         List<String> nameList = new ArrayList<>();  // 이 부분은 필요에 따라 초기화 방식을 변경할 수 있습니다.
         for (Receipt receipt : receiptList) {
@@ -45,6 +47,7 @@ public class StatisticsController {
         System.out.println("countList"+countList);
         model.addAttribute("nameList",  nameList);
         model.addAttribute("countList", countList );
+        model.addAttribute("user",principalDetails.getUser());
         return "bookStore/Statistics";
     }
 }

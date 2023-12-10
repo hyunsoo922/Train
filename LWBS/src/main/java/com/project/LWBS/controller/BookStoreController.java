@@ -1,9 +1,11 @@
 package com.project.LWBS.controller;
 
+import com.project.LWBS.config.PrincipalDetails;
 import com.project.LWBS.service.BookStoreService;
 import com.project.LWBS.service.ReceiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +29,9 @@ public class BookStoreController {
     }
 
     @GetMapping("/DaySelect")
-    public void showDaySelect() { }
+    public void showDaySelect(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        model.addAttribute("user",principalDetails.getUser());
+    }
 
     @PostMapping("/DaySelect")
     public String submitDaySelect(
@@ -36,7 +40,8 @@ public class BookStoreController {
             @RequestParam(value = "startDate", required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(value = "endDate", required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @AuthenticationPrincipal PrincipalDetails principalDetails
     ) {
 
         LocalDate defaultStartDate = LocalDate.now().minusDays(30);
@@ -53,6 +58,7 @@ public class BookStoreController {
         model.addAttribute("selectedStartDate", selectedStartDate);
         model.addAttribute("selectedEndDate", selectedEndDate);
         model.addAttribute("numberOfDays", numberOfDays);
+        model.addAttribute("user",principalDetails.getUser());
 
         receiveService.createReceive(startDate, endDate, numberOfDays);
 
