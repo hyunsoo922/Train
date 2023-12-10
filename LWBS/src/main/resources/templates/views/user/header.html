@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:fragment="header">
+
+    <nav id="nav-header" class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/home}">Logo</a>
+            <!-- 로그인 안했을때는 회원가입, 로그인 보여주기 -->
+            <div>
+                <a class="btn btn-primary" sec:authorize="isAnonymous()" th:href="@{/user/login}">Login</a>
+            </div>
+            <!-- 로그인 했을때는 username, mypage 와 로그아웃 form 보여주기 -->
+            <form th:action="@{/user/logout}" method="POST" sec:authorize="Authenticated" th:with="user=${user}">
+                <span class="text-light p-2">[[${user.name}]] 님 환영합니다 </span>
+                <a class="btn btn-light" th:href="@{|/mypage/${user.id}|}">마이페이지</a>
+                <span><button class="btn btn-danger" type="submit">로그아웃</button></span>
+            </form>
+        </div>
+    </nav>
+
+</th:block>
+<!--<head>-->
+<!--  <title></title>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <style>-->
+<!--        body {-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--        }-->
+
+<!--        header {-->
+<!--            display: flex;-->
+<!--            justify-content: space-between;-->
+<!--            align-items: center;-->
+<!--            padding: 10px;-->
+<!--            background-color: #f2f2f2;-->
+<!--        }-->
+
+<!--        .button {-->
+<!--            margin-left: 10px;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--<header th:fragment="headerfrag">-->
+<!--  <img src="/images/logo.png" alt="로고 이미지">-->
+<!--  <div>-->
+<!--    <button class="button" onclick="goToMyPage()">마이페이지</button>-->
+<!--    <button class="button" onclick="logout()">로그아웃</button>-->
+
+<!--  </div>-->
+
+<!--</header>-->
+
+<!--</body>-->
+
+</html>
