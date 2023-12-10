@@ -24,6 +24,8 @@ public class MyPageController {
         int a = mypageService.sumMileage(user_id);
         String b = mypageService.getName(user_id);
         String c = mypageService.getProfile(user_id);
+        Long id = user_id;
+        Long authority = mypageService.getAuthority(user_id);
         try{
 //            PrincipalDetails userDetails = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //            User user = userDetails.getUser();
@@ -33,6 +35,8 @@ public class MyPageController {
             model.addAttribute("sumpoint",a);
             model.addAttribute("name", b);
             model.addAttribute("URL", c);
+            model.addAttribute("ID", id);
+            model.addAttribute("authority", authority);
         } catch (Exception e){
             System.out.println("로그인실패");
             model.addAttribute("logged_id", null);

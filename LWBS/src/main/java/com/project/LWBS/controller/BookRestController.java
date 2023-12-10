@@ -218,7 +218,6 @@
 //}
 package com.project.LWBS.controller;
 
-import com.project.LWBS.domain.Department;
 import com.project.LWBS.service.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor; // 추가
@@ -230,6 +229,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.*;
@@ -248,6 +248,7 @@ import org.json.JSONObject;
 public class BookRestController {
     private static EnrollmentService enrollmentService;
     private static BookService bookService;
+    private static UserService userService;
 
     private static void sleep(int milliseconds) {
         try {
@@ -258,13 +259,14 @@ public class BookRestController {
     }
 
     @Autowired
-    public BookRestController(EnrollmentService enrollmentService, BookService bookService) {
+    public BookRestController(EnrollmentService enrollmentService, BookService bookService, UserService userService) {
         this.enrollmentService = enrollmentService;
         this.bookService = bookService;
+        this.userService = userService;
     }
 
-    @GetMapping("/webscraping")
-    public String hello() {
+    @GetMapping("/webscraping/{user_id}")
+    public String hello(@PathVariable Long user_id) {
         // headless 옵션 추가
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
@@ -274,8 +276,8 @@ public class BookRestController {
 
         System.out.println("시작");
 
-        String id = "18102101";
-        String ps = "sk991116!";
+        String id = userService.findByUserId(user_id).getStudentId();
+        String ps = userService.findByUserId(user_id).getStudentPw();
 
         driver.get("https://sso.nsu.ac.kr/login?redirect_url=https%3A%2F%2Fmypage.nsu.ac.kr%2Fmypage%2Fstudent%2F");
 
@@ -360,9 +362,9 @@ public class BookRestController {
         subjects.remove(2);
 
         // 웹스크래핑으로 가져온 교재명을 Enrollment에 저장
-        for (String E : bookNames) {
-            enrollmentService.createEnrollment(E);
-        }
+//        for (String E : bookNames) {
+//            enrollmentService.createEnrollment(E, userService.findByUserId(user_id).getId());
+//        }
 
         sleep(100);
         driver.quit();
@@ -427,6 +429,7 @@ public class BookRestController {
                         String D = departments.get(index-1);
                         String S = subjects.get(index-1);
                         bookService.createBook(title, author, publisher, discount, imageUrl, isbn, description, D, S);
+                        enrollmentService.createEnrollment(title, userService.findByUserId(user_id).getId());
                     }
                 } else {
                     System.out.println("에러 코드: " + responseCode);

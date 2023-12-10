@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ReceiveRepository extends JpaRepository<Receive, Long> {
+public interface ReceiveRepository extends JpaRepository<Receive,Long> {
+    List<Receive> findByReceiveCheck(String receiveCheck);
 
-
-    List<Receive> findByDay(String day);
+    List<Receive> findByDay(String receiveDay);
 }

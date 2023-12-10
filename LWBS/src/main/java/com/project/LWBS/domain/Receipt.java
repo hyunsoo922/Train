@@ -19,14 +19,11 @@ public class Receipt extends BaseEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "receive_id")
     private Receive receive;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
-
-    public void setReceiveCheck(String check) {
-    }
 }
