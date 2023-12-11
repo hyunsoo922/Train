@@ -20,7 +20,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
 //                        .requestMatchers("/").authenticated() // 이후 hasAnyRole 로 권한부여 예정
                         .requestMatchers("/user/login").anonymous()
-                                .anyRequest().permitAll()
+                        .requestMatchers("/home/student","/student/purchase/book","/student/purchase/bookPay","/student/purchase/receipt").hasAnyRole("STUDENT")
+                        .requestMatchers("/home/bookStore","/bookStore/DaySelect","/bookStore/DaySelectResult","/bookStore/list","/bookStore/Receipt"
+                                        ,"/bookStore/ReceiptSearch","/bookStore/Statistics").hasAnyRole("BOOKSTORE")
+                        .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
                         .loginPage("/user/login")
