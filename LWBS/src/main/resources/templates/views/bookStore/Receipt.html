@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>All Receipts</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<th:block th:insert="~{/header::header}"></th:block>
+<th:block th:insert="~{/storenav::navfrag}"></th:block>
+<div class="container mt-5">
+    <h1>All Receipts</h1>
+
+    <!-- 검색 폼 추가 -->
+    <form th:action="@{/bookStore/ReceiptSearch}" method="get">
+        <div class="form-group">
+            <label for="studentId">학생 번호:</label>
+            <input type="text" class="form-control" id="studentId" name="studentId" required>
+        </div>
+        <button type="submit" class="btn btn-primary">검색</button>
+    </form>
+
+    <!-- 인쇄 버튼 추가 -->
+    <button id="printButton" class="btn btn-secondary">인쇄</button>
+
+    <table class="table mt-3">
+        <thead>
+        <tr>
+            <th>체크</th>
+            <th>학생번호</th>
+            <th>이름</th>
+            <th>교재명</th>
+            <th>출판사명</th>
+            <th>저자명</th>
+            <th>구매일</th>
+            <th>수령예정일</th>
+            <th>수령여부</th>
+            <th>수령여부변경</th>
+            <th>수령날짜</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="receipt : ${receipts}">
+            <td>
+                <input type="checkbox" th:id="${'check_' + receipt.id}" name="check" th:value="${receipt.id}">
+            </td>
+            <td><span th:text="${receipt.user.studentId}"></span></td>
+            <td><span th:text="${receipt.user.name}"></span></td>
+            <td><span th:text="${receipt.book.name}"></span></td>
+            <td><span th:text="${receipt.book.publisher}"></span></td>
+            <td><span th:text="${receipt.book.author}"></span></td>
+            <td><span th:text="${receipt.createdAt}"></span></td>
+            <td><span th:text="${receipt.receive.day}"></span></td>
+            <td><span th:text="${receipt.receive.receiveCheck}"></span></td>
+
+        <td>
+            <form th:action ="@{/bookStore/Receipt}" method="post">
+
+                        <select name = "check">
+                            <option value="Check">Check</option>
+                            <option value="NonCheck">NonCheck</option>
+                        </select>
+                <input type="hidden" name="receiptId" th:value="${receipt.id}">
+                <input type="hidden" name="receiveDay" th:value="${receipt.receive.day}">
+                <button type="submit">변경</button>
+
+            </form>
+        </td>
+
+            <td><span th:text="${receipt.receive.day}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- 인쇄 스크립트 추가 -->
+<script>
+    document.getElementById("printButton").addEventListener("click", function () {
+        var selectedRows = document.querySelectorAll('input[name="check"]:checked');
+        var selectedData = [];
+
+        selectedRows.forEach(function (row) {
+            var receiptId = row.value;
+            var receiptData = {
+                studentId: "${receipt.user.studentId}",
+                name: "${receipt.user.name}",
+                bookName: "${receipt.book.name}",
+                publisher: "${receipt.book.publisher}",
+                author: "${receipt.book.author}",
+                purchaseDate: "${receipt.receive.day}",
+                receiveDate: "${receipt.receive.day}",
+                receiveCheck: "${receipt.receive.receiveCheck}"
+            };
+            selectedData.push(receiptData);
+        });
+
+        // 선택된 데이터를 서버로 보내거나, 다른 인쇄 동작을 수행할 수 있습니다.
+        // 여기에서는 브라우저의 인쇄 기능을 사용합니다.
+        window.print();
+    });
+</script>
+
+</body>
+</html>

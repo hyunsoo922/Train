@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore Statistics - Book Sales Count</title>
+</head>
+<body>
+<th:block th:insert="~{/header::header}"></th:block>
+<th:block th:insert="~{/storenav::navfrag}"></th:block>
+<h1>Bookstore Statistics - Book Sales Count</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Book Name</th>
+        <th>Sales Count</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="name : ${nameList}">
+        <td th:text="${name}"></td>
+    </tr>
+    <tr th:each="count : ${countList}">
+        <td th:text="${count}"></td>
+    </tbody>
+</table>
+
+</body>
+</html>
