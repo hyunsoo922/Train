@@ -54,7 +54,6 @@ public class KakaoController {
             HttpHeaders headers = new HttpHeaders();
             headers.add("Location", redirectUrl);
 
-            // 302 Found 상태 코드와 함께 리디렉션 URL을 클라이언트에게 전달
             return new ResponseEntity<>(headers, HttpStatus.FOUND);
         }
 
