@@ -35,10 +35,10 @@
 
 <th:block th:fragment="navfrag">
     <nav style="display: flex; justify-content: space-evenly;">
-        <a href="#" style="padding: 10px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 4px; margin: 5px;">전체 교재 조회</a>
-        <a href="#" style="padding: 10px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 4px; margin: 5px;">전체 구매 내역</a>
-        <a href="#" style="padding: 10px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 4px; margin: 5px;">수령 날짜 범위</a>
-        <a href="#" style="padding: 10px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 4px; margin: 5px;">교재 통계</a>
+        <a th:href="@{/bookStore/list}" style="padding: 10px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 4px; margin: 5px;">전체 교재 조회</a>
+        <a th:href="@{/bookStore/Receipt}" style="padding: 10px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 4px; margin: 5px;">전체 구매 내역</a>
+        <a th:href="@{/bookStore/DaySelect}" style="padding: 10px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 4px; margin: 5px;">수령 날짜 범위</a>
+        <a th:href="@{/bookStore/Statistics}" style="padding: 10px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 4px; margin: 5px;">교재 통계</a>
     </nav>
 </th:block>
 </body>
