@@ -1,3 +1,10 @@
-.hidden{
+.hidden {
     display: none;
+}
+
+#radio-wrap {
+    display: flex;
+    justify-content: space-between;
+    width: 500px;
+    height: 300px;
 }

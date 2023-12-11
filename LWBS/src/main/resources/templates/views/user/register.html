@@ -20,15 +20,18 @@
 
 
     <form th:action="@{/user/register}" class="student" id="student" method="POST">
-        <label>
-            <input type="radio" name="kind" value="student" checked>
-            학생
-        </label>
+        <div id="radio-wrap">
+            <label>
+                <input type="radio" name="kind" value="student" checked>
+                학생
+            </label>
 
-        <label>
-            <input type="radio" name="kind" value="bookStore">
-            서점
-        </label>
+            <label>
+                <input type="radio" name="kind" value="bookStore">
+                서점
+            </label>
+        </div>
+
         <div class="student-container">
             <div>
                 <label>LMS ID</label>
