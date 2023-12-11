@@ -5,28 +5,28 @@
     <link rel="stylesheet" th:href="@{/css/banner.css}">
 </head>
 <body>
-<th:block th:insert="~{/header::header}"></th:block>
-<th:block th:insert="~{/nav::nav}"></th:block>
-<th:block th:insert="~{/banner::banner}"></th:block>
-<table>
-    <thead>
-    <tr>
-        <th>Image</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Author</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="book : ${bookList}">
-        <td>
-            <img th:src="${book.imageUrl}" alt="Book Image" width="100" height="150"/>
-        </td>
-        <td th:text="${book.name}">Name</td>
-        <td th:text="${book.price}">Price</td>
-        <td th:text="${book.author}">Author</td>
-    </tr>
-    </tbody>
-</table>
+    <th:block th:insert="~{/header::header}"></th:block>
+    <th:block th:insert="~{/nav::nav}"></th:block>
+    <th:block th:insert="~{/banner::banner}"></th:block>
+    <table>
+        <thead>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Author</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book : ${bookList}">
+            <td>
+                <img th:src="${book.imageUrl}" alt="Book Image" width="100" height="150"/>
+            </td>
+            <td th:text="${book.name}">Name</td>
+            <td th:text="${book.price}">Price</td>
+            <td th:text="${book.author}">Author</td>
+        </tr>
+        </tbody>
+    </table>
 </body>
 </html>
