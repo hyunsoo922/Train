@@ -1,37 +1,67 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-  <script th:src="@{/js/student/bookPay.js}"></script>
-  <title>결제 사이트</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/banner.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script th:src="@{/js/student/bookPay.js}"></script>
+    <title>결제 사이트</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .bookContainer {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .bookContainer>span {
+            margin-right: 20px;
+        }
+
+        #purchaseBtn {
+            cursor: pointer;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-    <th:block th:insert="~{/header::header}"></th:block>
-
+<th:block th:insert="~{/header::header}"></th:block>
+<th:block th:insert="~{/banner::banner}"></th:block>
+<div class="container">
     <form th:action="@{/student/purchase/bookPay}" method="post" enctype="multipart/form-data">
-      <th:block th:each="book:${bookList}">
-          <span th:text="${book.name}"></span> <br>
-          <span th:text="${book.publisher}"></span> <br>
-          <span th:text="${book.author}"></span> <br>
-          <span th:text="${book.price}"></span>
-      </th:block>
+        <th:block th:each="book:${bookList}">
+            <div class="bookContainer">
+                <span th:text="${book.name}"></span> <br>
+                <span th:text="${book.publisher}"></span> <br>
+                <span th:text="${book.author}"></span> <br>
+                <span th:text="${book.price}"></span>
+            </div>
+        </th:block>
         <div> 사용하신 마일리지
             <span th:text="${point}"></span>
         </div>
-      <div>총 결제금액
-        <div th:text="${totalPrice}"></div>
-      </div>
-      <input type="hidden" th:value="${totalPrice}" id="totalPrice">
-      <input type="hidden" th:value="${item}" id="item">
-      <input type="hidden" th:value="${totalCnt}" id="totalCnt">
+        <div>총 결제금액
+            <div th:text="${totalPrice}"></div>
+        </div>
+        <input type="hidden" th:value="${totalPrice}" id="totalPrice">
+        <input type="hidden" th:value="${item}" id="item">
+        <input type="hidden" th:value="${totalCnt}" id="totalCnt">
 
-      <button type="button" id="purchaseBtn">카카오페이로 결제하기</button>
+        <button type="button" id="purchaseBtn">카카오페이로 결제하기</button>
     </form>
+</div>
 </body>
+
 </html>

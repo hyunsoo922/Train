@@ -5,7 +5,6 @@ import com.project.LWBS.domain.User;
 import com.project.LWBS.service.UserService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -28,7 +27,6 @@ public class PrincipalDetails implements UserDetails {
         this.user = user;
     }
 
-    // 로그인한 User 의 권한 을 가져오기 위한 method
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collect = new ArrayList<>();
