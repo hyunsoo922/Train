@@ -55,7 +55,6 @@ public class ReceiptController {
             if (receives.get(i).getReceiveCheck().equals(check))
             {
                 receive = receives.get(i);
-                System.out.println("check : "+receive);
             }
 
         }
