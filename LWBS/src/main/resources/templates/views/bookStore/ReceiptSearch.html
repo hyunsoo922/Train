@@ -12,6 +12,7 @@
 <th:block th:insert="~{/storenav::navfrag}"></th:block>
 <div class="container mt-5">
     <h1>검색 결과</h1>
+    <button id="printButton" class="btn btn-secondary">인쇄</button>
     <table class="table">
         <thead>
         <tr>
@@ -59,5 +60,29 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    document.getElementById("printButton").addEventListener("click", function () {
+        var selectedRows = document.querySelectorAll('input[name="check"]:checked');
+        var selectedData = [];
+
+        selectedRows.forEach(function (row) {
+            var receiptId = row.value;
+            var receiptData = {
+                studentId: "${receipt.user.studentId}",
+                name: "${receipt.user.name}",
+                bookName: "${receipt.book.name}",
+                publisher: "${receipt.book.publisher}",
+                author: "${receipt.book.author}",
+                purchaseDate: "${receipt.receive.day}",
+                receiveDate: "${receipt.receive.day}",
+                receiveCheck: "${receipt.receive.receiveCheck}"
+            };
+            selectedData.push(receiptData);
+        });
+        window.print();
+    });
+</script>
+
 </body>
 </html>

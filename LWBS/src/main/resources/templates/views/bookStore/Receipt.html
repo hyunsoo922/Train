@@ -11,17 +11,15 @@
 <div class="container mt-5">
     <h1>전체 구매 내역</h1>
 
-    <!-- 검색 폼 추가 -->
     <form th:action="@{/bookStore/ReceiptSearch}" method="get">
         <div class="form-group">
             <label for="studentId">학생 번호:</label>
             <input type="text" class="form-control" id="studentId" name="studentId" required>
         </div>
+        <button id="printButton" class="btn btn-secondary">인쇄</button>
         <button type="submit" class="btn btn-primary">검색</button>
     </form>
 
-    <!-- 인쇄 버튼 추가 -->
-    <button id="printButton" class="btn btn-secondary">인쇄</button>
 
     <table class="table mt-3">
         <thead>
@@ -71,7 +69,6 @@
     </table>
 </div>
 
-<!-- 인쇄 스크립트 추가 -->
 <script>
     document.getElementById("printButton").addEventListener("click", function () {
         var selectedRows = document.querySelectorAll('input[name="check"]:checked');
@@ -91,9 +88,6 @@
             };
             selectedData.push(receiptData);
         });
-
-        // 선택된 데이터를 서버로 보내거나, 다른 인쇄 동작을 수행할 수 있습니다.
-        // 여기에서는 브라우저의 인쇄 기능을 사용합니다.
         window.print();
     });
 </script>
