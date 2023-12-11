@@ -29,7 +29,7 @@ public class StatisticsController {
     @GetMapping("/Statistics")
     public String getBookSalesCount(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         List<Receipt> receiptList = statisticsService.findAll();
-        List<String> nameList = new ArrayList<>();  // 이 부분은 필요에 따라 초기화 방식을 변경할 수 있습니다.
+        List<String> nameList = new ArrayList<>();
         for (Receipt receipt : receiptList) {
             String bookName = receipt.getBook().getName();
             if (!nameList.contains(bookName)) {

@@ -5,31 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>교재 리스트</title>
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center; /* 가운데 정렬 스타일 */
+        }
+    </style>
 </head>
 <body>
 <th:block th:insert="~{/header::header}"></th:block>
 <th:block th:insert="~{/storenav::navfrag}"></th:block>
-<h2>교재 리스트</h2>
-<table>
+
+<table border="1">
     <thead>
     <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Author</th>
-        <th>Publisher</th>
+        <th>이미지</th>
+        <th>교재명</th>
+        <th>가격</th>
+        <th>출판사</th>
+        <th>저자</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="book : ${books}">
-        <td th:text="${book.id}"></td>
+        <td th:text="${book.imageUrl}"></td>
         <td th:text="${book.name}"></td>
-        <td th:text="${book.author}"></td>
+        <td th:text="${book.price}"></td>
         <td th:text="${book.publisher}"></td>
+        <td th:text="${book.author}"></td>
     </tr>
-    </tbody>
-    <tbody>
     <tr th:if="${books.isEmpty()}">
-        <td colspan="4">항목이 없습니다.</td>
+        <td colspan="5">항목이 없습니다.</td>
     </tr>
     </tbody>
 </table>

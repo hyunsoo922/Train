@@ -3,27 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookstore Statistics - Book Sales Count</title>
+    <title>전체 교재 구매 통계</title>
 </head>
 <body>
 <th:block th:insert="~{/header::header}"></th:block>
 <th:block th:insert="~{/storenav::navfrag}"></th:block>
-<h1>Bookstore Statistics - Book Sales Count</h1>
+<h1>전체 교재 구매 통계</h1>
 
 <table border="1">
     <thead>
     <tr>
-        <th>Book Name</th>
-        <th>Sales Count</th>
+        <th>교재명</th>
+        <th>판매량</th>
     </tr>
     </thead>
     <tbody>
+    <tr>
     <tr th:each="name : ${nameList}">
-        <td th:text="${name}"></td>
-    </tr>
+        <td><span th:text="${name}"></span>
     <tr th:each="count : ${countList}">
-        <td th:text="${count}"></td>
+        <td><span th:text="${count}"></span></td>
+
+    </tr>
     </tbody>
+
 </table>
 
 </body>
