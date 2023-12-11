@@ -19,7 +19,7 @@ public class Enrollment {
     @Column(nullable = false, length = 100)
     private String enrollmentName;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 }
