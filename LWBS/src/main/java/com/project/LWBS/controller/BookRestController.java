@@ -362,15 +362,12 @@ public class BookRestController {
         subjects.remove(2);
 
         // 웹스크래핑으로 가져온 교재명을 Enrollment에 저장
-<<<<<<< HEAD
-        for (String E : bookNames) {
-            enrollmentService.createEnrollment(E);
-        }
-=======
+//        for (String E : bookNames) {
+//            enrollmentService.createEnrollment(E);
+//        }
 //        for (String E : bookNames) {
 //            enrollmentService.createEnrollment(E, userService.findByUserId(user_id).getId());
 //        }
->>>>>>> master
 
         sleep(100);
         driver.quit();

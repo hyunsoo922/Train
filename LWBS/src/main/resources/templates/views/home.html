@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/banner.css}">
     <title>나의 홈페이지</title>
 
     <style>
@@ -46,7 +47,7 @@
 </head>
 <body>
 <th:block th:insert="~{/header::header}"></th:block>
-
+<th:block th:insert="~{/banner::banner}"></th:block>
 
 <main>
     <h2>컨텐츠</h2>
