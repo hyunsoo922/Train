@@ -13,5 +13,8 @@ public interface ReceiptService {
 
     void findById(long Id, Receive receive);
 
+
     List<Map<String, Object>> ranking();
+
+    List<Map<String, Object>> statistics();
 }

@@ -4,7 +4,6 @@ import com.project.LWBS.domain.Book;
 import com.project.LWBS.repository.BookRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import com.google.j2objc.annotations.ObjectiveCName;
 import com.project.LWBS.domain.Department;
 import com.project.LWBS.domain.Subject;
 import com.project.LWBS.repository.DepartmentRepository;
@@ -13,7 +12,6 @@ import com.project.LWBS.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -72,8 +70,6 @@ public class BookServiceImpl implements BookService {
         List<String> EnrollBookNameList = enrollmentRepository.findEnrollmentNamesByUserId(user_id);
         List<Book> bookList = new ArrayList<>();
         for (String s:EnrollBookNameList) {
-            // EnrollBookNameList를 문자열 참조 변수 s로 순회하며
-            // s에 담긴 교재명에 해당하는 교재 정보(Book 객체)를 bookList에 담음
             bookList.add(bookRepository.findByName(s));
         }
         return bookList;

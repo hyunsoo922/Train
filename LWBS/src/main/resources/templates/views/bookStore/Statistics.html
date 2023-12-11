@@ -7,14 +7,13 @@
 
     <style>
         table {
-            width: 100%;
-            border-collapse: collapse;
+            margin : auto;
         }
 
         th, td {
             border: 1px solid black;
             padding: 8px;
-            text-align: center; /* 가운데 정렬 스타일 */
+            text-align: center;
         }
     </style>
 </head>
@@ -26,12 +25,14 @@
 <table border="1">
     <thead>
     <tr>
+        <th>학과</th>
         <th>교재명</th>
         <th>판매량</th>
     </tr>
     </thead>
     <tbody>
         <tr th:each="book, iterStat : ${bookList}">
+            <td th:text="${book.department}"></td>
             <td th:text="${book.name}"></td>
             <td th:text="${countList[iterStat.index]}"></td>
         </tr>

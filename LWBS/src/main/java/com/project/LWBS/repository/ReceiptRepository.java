@@ -29,7 +29,6 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
             "LIMIT 4")
     List<Map<String, Object>> findTopBookIds();
 
-    // 결과에서 book_id만 추출하는 기본 메서드도 정의할 수 있습니다
     default List<Long> findTopBookIdsList() {
         List<Map<String, Object>> result = findTopBookIds();
         List<Long> topBookIds = new ArrayList<>();

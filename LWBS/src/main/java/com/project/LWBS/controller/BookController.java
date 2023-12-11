@@ -23,11 +23,15 @@ public class BookController {
         this.bookService = bookService;
     }
 
+    //모든 교재 목록 표시
     @GetMapping("/list")
     public String getAllBooks(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+       //BookService를 사용해서 모든 교재 표시
         List<Book> books = bookService.getAllBooks();
+        //모델에 사용자, 책 목록 속성 추가
         model.addAttribute("user",principalDetails.getUser());
         model.addAttribute("books", books);
+
         return "bookStore/list";
     }
 }

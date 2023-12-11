@@ -29,6 +29,7 @@ public class ReceiptController {
         this.receiveService = receiveService;
     }
 
+    //모든 구매내역을 조회
     @GetMapping("/Receipt")
     public String getAllReceipts(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         List<Receipt> receipts = receiptService.getAllReceipts();
@@ -36,7 +37,7 @@ public class ReceiptController {
         model.addAttribute("user",principalDetails.getUser());
         return "bookStore/Receipt";
     }
-
+    //학생 번호을 입력하면 입력한 학생의 구매내역을 조회
     @GetMapping("/ReceiptSearch")
     public String searchReceipts(@RequestParam(name = "studentId") String studentId, Model model,@AuthenticationPrincipal PrincipalDetails principalDetails) {
         List<Receipt> filteredReceipts = receiptService.findReceiptsByStudentId(studentId);
@@ -44,9 +45,12 @@ public class ReceiptController {
         model.addAttribute("user",principalDetails.getUser());
         return "bookStore/ReceiptSearch";
     }
-
+    //구매 수령 여부 변경
     @PostMapping("/Receipt")
-    public String updateReceipt(@RequestParam("receiptId") String receiptId, @RequestParam("check") String check, @RequestParam("receiveDay") String receiveDay,Model model ,@AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public String updateReceipt(@RequestParam("receiptId") String receiptId,
+                                @RequestParam("check") String check,
+                                @RequestParam("receiveDay") String receiveDay,Model model,
+                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
         List<Receive> receives = receiveService.findDay(receiveDay);
         Receive receive = new Receive();
         model.addAttribute("user",principalDetails.getUser());
@@ -55,6 +59,7 @@ public class ReceiptController {
             if (receives.get(i).getReceiveCheck().equals(check))
             {
                 receive = receives.get(i);
+                System.out.println("check : "+receive);
             }
 
         }
