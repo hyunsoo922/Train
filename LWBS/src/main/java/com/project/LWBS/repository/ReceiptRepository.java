@@ -30,5 +30,14 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
             "LIMIT 4")
     List<Map<String, Object>> findTopBookIds();
 
+    default List<Long> findTopBookIdsList() {
+        List<Map<String, Object>> result = findTopBookIds();
+        List<Long> topBookIds = new ArrayList<>();
+        for (Map<String, Object> row : result) {
+            Long bookId = (Long) row.get("book_id");
+        }
+        return topBookIds;
+    }
+
     List<Receipt> findByUser(User user);
 }
