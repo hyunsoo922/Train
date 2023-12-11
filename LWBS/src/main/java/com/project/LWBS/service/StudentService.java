@@ -15,9 +15,11 @@ public interface StudentService {
 
     List<Book> findByIds(List<String> bookList);
 
-    void createReceipt(List<Book> bookList,User user,String receiveDay);
+    void createReceipt(List<Book> bookList,User user,String receiveDay,int useMileage);
 
     List<Receipt> findAllUser(User user);
 
     void updateDay(User user,String day);
+
+
 }

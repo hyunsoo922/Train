@@ -42,12 +42,12 @@ public class PurchaseController {
         List<Book> bookList = (List<Book>)session.getAttribute("books");
         User user = (User) session.getAttribute("users");
         String receiveDay =(String)session.getAttribute("receiveDate");
-
+        int useMileage = Integer.parseInt((String)session.getAttribute("mileagePoint"));
         System.out.println("구매한 책"+bookList);
         System.out.println("구매자"+user);
         System.out.println("수령일"+receiveDay);
 
-        studentService.createReceipt(bookList,user,receiveDay);
+        studentService.createReceipt(bookList,user,receiveDay,useMileage);
 
 
         return "purchase/success";

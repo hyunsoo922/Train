@@ -46,7 +46,7 @@ public class StudentController {
     }
 
     @PostMapping("/purchase/book")
-    public String postBook(@RequestParam String receiveDay, @RequestParam String books,@AuthenticationPrincipal PrincipalDetails principalDetails,HttpSession session) {
+    public String postBook(@RequestParam String receiveDay, @RequestParam String books,@RequestParam String mileagePoint,@AuthenticationPrincipal PrincipalDetails principalDetails,HttpSession session) {
         // 문자열을 다시 배열로 변환
         session.setAttribute("user",principalDetails.getUser());
         List<String> bookList = Arrays.asList(books.split(","));
@@ -57,6 +57,7 @@ public class StudentController {
         System.out.println("교재: " + bookLists);
         session.setAttribute("bookLists",bookLists);
         session.setAttribute("receiveDay",receiveDay);
+        session.setAttribute("mileagePoint",mileagePoint);
 //        model.addAttribute("bookLists",bookLists);
 //        model.addAttribute("receiveDay",receiveDay);
 
@@ -76,7 +77,8 @@ public class StudentController {
             int price = Integer.parseInt(bookList.get(i).getPrice());
             totalPrice+=price;
         }
-
+        int point = Integer.parseInt((String)session.getAttribute("mileagePoint"));
+        totalPrice-=point;
         String receiveDay = (String)session.getAttribute("receiveDay");
 
         String item = bookList.get(0).getName() + "외" + (bookList.size()-1) + "권";
@@ -89,6 +91,7 @@ public class StudentController {
         model.addAttribute("totalPrice",totalPrice);
         model.addAttribute("totalCnt",totalCnt);
         model.addAttribute("item",item);
+        model.addAttribute("point",point);
         session.setAttribute("books",bookList);
         session.setAttribute("receiveDate",receiveDay);
         session.setAttribute("users",principalDetails.getUser());

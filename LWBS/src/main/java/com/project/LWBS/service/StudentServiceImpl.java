@@ -1,13 +1,11 @@
 package com.project.LWBS.service;
 
 import com.project.LWBS.domain.*;
-import com.project.LWBS.repository.BookRepository;
-import com.project.LWBS.repository.EnrollmentRepository;
-import com.project.LWBS.repository.ReceiptRepository;
-import com.project.LWBS.repository.ReceiveRepository;
+import com.project.LWBS.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +25,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private ReceiptRepository receiptRepository;
+
+    @Autowired
+    private MileageRepository mileageRepository;
 
     @Override
     public List<Book> findMyClass(User user) {
@@ -59,11 +60,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void createReceipt(List<Book> bookList, User user, String receiveDay) {
+    public void createReceipt(List<Book> bookList, User user, String receiveDay,int useMileage) {
 
         List<Receive> receiveList = receiveRepository.findByDay(receiveDay);
         Receive receive = new Receive();
-
+        int point = 0;
         for(int x =0; x < receiveList.size(); x++)
         {
             if(receiveList.get(x).getReceiveCheck().equals("미수령"))
@@ -74,6 +75,8 @@ public class StudentServiceImpl implements StudentService {
 
         for(int i =0; i < bookList.size(); i++)
         {
+            point += Integer.parseInt(bookList.get(i).getPrice());
+
             Receipt receipt = Receipt.builder()
                     .book(bookList.get(i))
                     .receive(receive)
@@ -81,7 +84,28 @@ public class StudentServiceImpl implements StudentService {
                     .build();
 
             receiptRepository.saveAndFlush(receipt);
+
         }
+
+        point -= useMileage;
+        int mileagePoint = point/10;
+        Mileage mileage = Mileage.builder()
+                .user(user)
+                .point(mileagePoint)
+                .day(LocalDateTime.now())
+                .build();
+
+        mileageRepository.saveAndFlush(mileage);
+
+        useMileage = -useMileage;
+
+        Mileage useMileagePoint = Mileage.builder()
+                .user(user)
+                .point(useMileage)
+                .day(LocalDateTime.now())
+                .build();
+
+        mileageRepository.saveAndFlush(useMileagePoint);
     }
 
     @Override
@@ -110,6 +134,8 @@ public class StudentServiceImpl implements StudentService {
         }
 
     }
+
+
 
 
 }
