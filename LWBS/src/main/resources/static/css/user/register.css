@@ -2,9 +2,69 @@
     display: none;
 }
 
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+}
+
 #radio-wrap {
     display: flex;
     justify-content: space-between;
-    width: 500px;
-    height: 300px;
+    align-items: center;
+    width: 300px;
+}
+
+#radio-wrap label {
+    margin: 0 10px;
+}
+
+#radio-wrap label .kind:checked {
+    background-color: red;
+    color: red;
+}
+
+
+
+h1 {
+    position: absolute;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 0;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+form {
+    width: 300px;
+}
+
+.info label {
+    padding-right: 100px;
+}
+
+.infoInput {
+    width: 300px;
+}
+
+button {
+    margin-top: 20px;
+    width: 300px;
+    cursor: pointer;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
 }

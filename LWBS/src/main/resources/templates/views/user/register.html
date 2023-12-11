@@ -15,45 +15,48 @@
 </head>
 
 <body>
-    <h1>회원가입 페이지</h1>
 
 
 
-    <form th:action="@{/user/register}" class="student" id="student" method="POST">
-        <div id="radio-wrap">
-            <label>
-                <input type="radio" name="kind" value="student" checked>
-                학생
-            </label>
+    <div class="container">
+        <h1>회원가입 페이지</h1>
+        <form th:action="@{/user/register}" class="student" id="student" method="POST">
+            <div id="radio-wrap">
+                <label>
+                    <input type="radio" class="kind" name="kind" value="student" checked>
+                    학생
+                </label>
 
-            <label>
-                <input type="radio" name="kind" value="bookStore">
-                서점
-            </label>
-        </div>
-
-        <div class="student-container">
-            <div>
-                <label>LMS ID</label>
-                <input type="text" id="LMSID" name="LMSID" placeholder="LMS 아이디를 입력하세요." th:value="${LMSID}">
+                <label>
+                    <input type="radio" class="kind" name="kind" value="bookStore">
+                    서점
+                </label>
             </div>
 
-            <div>
-                <label>LMS PW</label>
-                <input type="password" id="LMSPW" name="LMSPW" placeholder="LMS 비밀번호를 입력하세요.">
+            <div class="student-container ">
+                <div class="info">
+                    <label>LMS ID</label>
+                    <input class="infoInput" type="text" id="LMSID" name="LMSID" placeholder="LMS 아이디를 입력하세요."
+                        th:value="${LMSID}">
+                </div>
+
+                <div class="info">
+                    <label>LMS PW</label>
+                    <input class="infoInput" type="password" id="LMSPW" name="LMSPW" placeholder="LMS 비밀번호를 입력하세요.">
+                </div>
             </div>
-        </div>
 
-        <div class="bookStore-container hidden">
-            <div>
-                <label>가맹점 ID</label>
-                <input type="text" id="publisherId" name="publisherId" placeholder="가맹점 아이디를 입력하세요.">
+            <div class="bookStore-container hidden">
+                <div class="info">
+                    <label>가맹점 ID</label>
+                    <input class="infoInput" type="text" id="publisherId" name="publisherId"
+                        placeholder="가맹점 아이디를 입력하세요.">
+                </div>
             </div>
-        </div>
 
-        <button type="submit">회원가입 하기</button>
-    </form>
-
+            <button type="submit">회원가입 하기</button>
+        </form>
+    </div>
 
 </body>
 

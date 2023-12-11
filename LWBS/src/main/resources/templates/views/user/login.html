@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/user/login.css}">
     <title>Login</title>
 </head>
+
 <body>
     <h1>카카오 로그인</h1>
-    <a th:href="@{|${kakaoUrl}|}" class="btn btn-secondary active" role="button">카카오 로그인</a>
+    <div class="login-wrapper">
+        <a id="kakaoLogin" th:href="@{|${kakaoUrl}|}" class="btn btn-secondary active" role="button"></a>
+    </div>
 </body>
+
 </html>
