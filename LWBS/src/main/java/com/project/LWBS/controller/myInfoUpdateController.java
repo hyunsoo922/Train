@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/mypage/myInfoUpdate")
-public class myInfoUpdateController {
+public class MyInfoUpdateController {
 
     private final UserService userService;
 
     @Autowired
-    public myInfoUpdateController(UserService userService) {
+    public MyInfoUpdateController(UserService userService) {
         this.userService = userService;
     }
     @GetMapping("/student")
