@@ -7,7 +7,6 @@ import com.project.LWBS.repository.AuthorityRepository;
 import com.project.LWBS.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +20,6 @@ public class UserServiceImpl implements UserService {
     private AuthorityRepository authorityRepository;
 
     private KakaoDTO kakaoDTO;
-
-
 
     @Override
     public User findByKakaoId(String kakao_id) {
@@ -91,12 +88,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    // 매개변수로 전달받은 user_id를 통해 User 테이블에서 해당하는 User 레코드의 정보를 User 객체에게 전달하는 메서드
     public User findByUserId(Long user_id) {
         User user = userRepository.findById(user_id).orElse(null);
         return user;
     }
 
     @Override
+    // 마이페이지에서 수정한 개인정보를 전달받아 User 테이블에 반영하는 메서드
     public void updateUserInfo(String studentId, String studentPw, Long user_id) {
         User user = userRepository.findById(user_id).orElse(null);
         if(user != null) {
@@ -107,6 +106,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    // 마이페이지에서 수정한 개인정보를 전달받아 User 테이블에 반영하는 메서드
     public void updateBookStoreInfo(String franchisee, Long user_id) {
         User user = userRepository.findById(user_id).orElse(null);
         user.setFranchisee(franchisee);
@@ -116,5 +116,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(User user) {
         userRepository.delete(user);
+    }
+
+    @Override
+    public String findAuthority(Long user_id) {
+        Authority authority = userRepository.findById(user_id).orElse(null).getAuthority();
+        String authorityName = authority.getName();
+        return authorityName;
     }
 }

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* 스타일링을 위한 간단한 CSS */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -35,13 +34,11 @@
 <body>
 
 <th:block th:fragment="navfrag">
-    <nav>
-        <a th:href="@{/student/purchase/book}">교재 구매</a>
-        <a th:href="@{/student/purchase/receipt}">구매 내역</a>
+    <nav style="display: flex; justify-content: space-around;">
+        <a th:href="@{/student/purchase/book}" style="padding: 10px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 4px; margin: 5px;">교재 구매</a>
+        <a th:href="@{/student/purchase/receipt}" style="padding: 10px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 4px; margin: 5px;">구매 내역</a>
     </nav>
 </th:block>
-
-<!-- 여기에 웹 페이지의 나머지 내용을 추가할 수 있습니다. -->
 
 </body>
 </html>

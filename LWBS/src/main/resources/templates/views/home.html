@@ -32,27 +32,49 @@
             width: 100%;
         }
 
-        .button {
-            padding: 10px;
-            margin: 5px;
-            cursor: pointer;
-            border: none;
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 5px;
+        table {
+            margin: auto;
         }
     </style>
 
 </head>
 <body>
 <th:block th:insert="~{/header::header}"></th:block>
-
-
-<main>
-    <h2>컨텐츠</h2>
-    <p>여기에 홈페이지의 내용을 작성하세요.</p>
-</main>
-
+<br><br>
+<table border="1">
+    <tr>
+        <th:block th:each="book, iterStat : ${bookList}">
+            <td>
+                <img th:src="${book.imageUrl}" alt="Book Image" width="280" height="350"/>
+            </td>
+        </th:block>
+    </tr>
+    <tr>
+        <th:block th:each="book, iterStat : ${bookList}">
+            <td>
+                <span>서명: </span>
+                <span th:text="${book.name}"></span>
+            </td>
+        </th:block>
+    </tr>
+    <tr>
+        <th:block th:each="book, iterStat : ${bookList}">
+            <td>
+                <span>가격: </span>
+                <span th:text="${book.price}"></span>
+                <span> 원</span>
+            </td>
+        </th:block>
+    </tr>
+    <tr>
+        <th:block th:each="book, iterStat : ${bookList}">
+            <td>
+                <span>저자: </span>
+                <span th:text="${book.author}"></span>
+            </td>
+        </th:block>
+    </tr>
+</table>
 <footer>
     <p>&copy; 2023 나의 홈페이지. 모든 권리 보유.</p>
 </footer>

@@ -3,7 +3,6 @@ package com.project.LWBS.service;
 import com.project.LWBS.domain.Authority;
 import com.project.LWBS.domain.DTO.KakaoDTO;
 import com.project.LWBS.domain.User;
-
 import java.util.List;
 
 public interface UserService {
@@ -29,5 +28,7 @@ public interface UserService {
     void updateBookStoreInfo(String franchisee, Long user_id);
 
     void deleteUser(User user);
+
+    String findAuthority(Long user_id);
 }
 

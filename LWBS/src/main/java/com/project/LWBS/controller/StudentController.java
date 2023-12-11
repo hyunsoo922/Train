@@ -56,8 +56,6 @@ public class StudentController {
         session.setAttribute("bookLists",bookLists);
         session.setAttribute("receiveDay",receiveDay);
         session.setAttribute("mileagePoint",mileagePoint);
-//        model.addAttribute("bookLists",bookLists);
-//        model.addAttribute("receiveDay",receiveDay);
 
         return "redirect:/student/purchase/bookPay";
 
