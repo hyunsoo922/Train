@@ -2,29 +2,52 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Book List</title>
+    <style>
+        table {
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
 <th:block th:insert="~{/header::header}"></th:block>
+<br><br>
 <th:block th:insert="~{/nav::nav}"></th:block>
-<table>
-    <thead>
+<br><br><br>
+<!--Controller에서 thymeleaf로 받은 BookList를 th반복문으로 출력-->
+<table border="1">
     <tr>
-        <th>Image</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Author</th>
+        <th:block th:each="book : ${bookList}">
+            <td>
+                <img th:src="${book.imageUrl}" alt="Book Image" width="280" height="350"/>
+            </td>
+        </th:block>
     </tr>
-    </thead>
-    <tbody>
-    <tr th:each="book : ${bookList}">
-        <td>
-            <img th:src="${book.imageUrl}" alt="Book Image" width="100" height="150"/>
-        </td>
-        <td th:text="${book.name}">Name</td>
-        <td th:text="${book.price}">Price</td>
-        <td th:text="${book.author}">Author</td>
+    <tr>
+        <th:block th:each="book : ${bookList}">
+            <td th:text="${book.name}">Name</td>
+        </th:block>
     </tr>
-    </tbody>
+    <tr>
+        <th:block th:each="book : ${bookList}">
+            <td th:text="${book.author}">Author</td>
+        </th:block>
+    </tr>
+    <tr>
+        <th:block th:each="book : ${bookList}">
+            <td th:text="${book.publisher}">Publisher</td>
+        </th:block>
+    </tr>
+    <tr>
+        <th:block th:each="book : ${bookList}">
+            <td th:text="${book.price}">Price</td>
+        </th:block>
+    </tr>
 </table>
+<thead>
+</thead>
+<tbody>
+
+
+</tbody>
 </body>
 </html>

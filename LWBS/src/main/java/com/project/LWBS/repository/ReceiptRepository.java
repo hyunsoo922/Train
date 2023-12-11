@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.List;
 
 public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
+    // Receipt 테이블에게 동일한 book_id 값을 갖는 레코드의 개수를 COUNT하여 내림차순으로 정렬하여 Map으로 만드는 메서드
     static void save(Receive receive) {
     }
 
@@ -28,16 +29,6 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
             "ORDER BY count DESC " +
             "LIMIT 4")
     List<Map<String, Object>> findTopBookIds();
-
-    // 결과에서 book_id만 추출하는 기본 메서드도 정의할 수 있습니다
-    default List<Long> findTopBookIdsList() {
-        List<Map<String, Object>> result = findTopBookIds();
-        List<Long> topBookIds = new ArrayList<>();
-        for (Map<String, Object> row : result) {
-            Long bookId = (Long) row.get("book_id");
-        }
-        return topBookIds;
-    }
 
     List<Receipt> findByUser(User user);
 }

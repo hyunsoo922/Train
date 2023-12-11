@@ -5,8 +5,7 @@
     <title>서점 메인 페이지</title>
     <style>
         table {
-            border-collapse: collapse;
-            width: 100%;
+            margin: auto;
         }
 
         th, td {
@@ -14,39 +13,57 @@
             padding: 8px;
             text-align: left;
         }
-
-        img {
-            max-width: 100px;
-            max-height: 150px;
-        }
     </style>
 </head>
 <body>
 <th:block th:insert="~{/header::header}"></th:block>
+<br><br>
 <th:block th:insert="~{/storenav::navfrag}"></th:block>
-<table>
-    <thead>
+<br><br><br>
+<table border="1">
     <tr>
-        <th>이미지</th>
-        <th>순위</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Author</th>
-        <th>판매 수량</th>
+        <th:block th:each="book, iterStat : ${bookList}">
+            <td>
+                <img th:src="${book.imageUrl}" alt="Book Image" width="280" height="350"/>
+            </td>
+        </th:block>
     </tr>
-    </thead>
-    <tbody>
-    <tr th:each="book, iterStat : ${bookList}">
-        <td>
-            <img th:src="${book.imageUrl}" alt="책 이미지"/>
-        </td>
-        <td th:text="${iterStat.index + 1 + '위'}"></td>
-        <td th:text="${book.name}"></td>
-        <td th:text="${book.price}"></td>
-        <td th:text="${book.author}"></td>
-        <td th:text="${countList[iterStat.index]}"></td>
+    <tr>
+        <th:block th:each="book, iterStat : ${bookList}">
+            <td>
+                <span>판매 순위: </span>
+                <span th:text="${iterStat.index + 1 + '위'}"></span>
+                <span> (</span>
+                <span th:text="${countList[iterStat.index]}"></span>
+                <span>권 )</span>
+            </td>
+        </th:block>
     </tr>
-    </tbody>
+    <tr>
+        <th:block th:each="book, iterStat : ${bookList}">
+            <td>
+                <span>서명: </span>
+                <span th:text="${book.name}"></span>
+            </td>
+        </th:block>
+    </tr>
+    <tr>
+        <th:block th:each="book, iterStat : ${bookList}">
+            <td>
+                <span>가격: </span>
+                <span th:text="${book.price}"></span>
+                <span> 원</span>
+            </td>
+        </th:block>
+    </tr>
+    <tr>
+        <th:block th:each="book, iterStat : ${bookList}">
+            <td>
+                <span>저자: </span>
+                <span th:text="${book.author}"></span>
+            </td>
+        </th:block>
+    </tr>
 </table>
 </body>
 </html>

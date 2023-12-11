@@ -37,9 +37,6 @@ public class KakaoController {
         this.userService = userService;
         this.principalDetailsService = principalDetailsService;
     }
-
-
-
     @GetMapping("/callback")
     public ResponseEntity<MsgEntity> callback(HttpServletRequest request) throws Exception {
         KakaoDTO kakaoDTO = kakaoService.getKakaoInfo(request.getParameter("code"));

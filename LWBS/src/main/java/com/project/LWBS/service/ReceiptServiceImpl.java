@@ -1,13 +1,14 @@
 package com.project.LWBS.service;
 
+
 import com.project.LWBS.domain.Receipt;
 import com.project.LWBS.domain.Receive;
 import com.project.LWBS.repository.BookRepository;
 import com.project.LWBS.repository.ReceiptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -46,6 +47,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
+    // Receipt 테이블에서 가장 많이 팔린 책의 id 값과 개수를 Map 리스트로 만드는 메서드
     public List<Map<String, Object>> ranking() {
         List<Map<String, Object>> rankingList = receiptRepository.findTopBookIds();
         return rankingList;
