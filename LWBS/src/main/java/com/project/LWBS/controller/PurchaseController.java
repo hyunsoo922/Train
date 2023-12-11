@@ -30,8 +30,6 @@ public class PurchaseController {
     {
         Purchase response = purchaseService.paymentKakaoPay(item,totalPrice,totalCnt);
 
-        System.out.println("결제고유번호: "+ response.getTid());
-        System.out.println("결제요청 URL"+response.getNext_redirect_pc_url());
 
         return response;
     }
@@ -43,9 +41,6 @@ public class PurchaseController {
         User user = (User) session.getAttribute("users");
         String receiveDay =(String)session.getAttribute("receiveDate");
         int useMileage = Integer.parseInt((String)session.getAttribute("mileagePoint"));
-        System.out.println("구매한 책"+bookList);
-        System.out.println("구매자"+user);
-        System.out.println("수령일"+receiveDay);
 
         studentService.createReceipt(bookList,user,receiveDay,useMileage);
 

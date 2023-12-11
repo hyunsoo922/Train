@@ -53,8 +53,6 @@ public class StudentController {
 
         List<Book> bookLists = studentService.findByIds(bookList);
 
-        System.out.println("수령일: " + receiveDay);
-        System.out.println("교재: " + bookLists);
         session.setAttribute("bookLists",bookLists);
         session.setAttribute("receiveDay",receiveDay);
         session.setAttribute("mileagePoint",mileagePoint);
@@ -83,8 +81,6 @@ public class StudentController {
 
         String item = bookList.get(0).getName() + "외" + (bookList.size()-1) + "권";
 
-        System.out.println("교재"+bookList);
-        System.out.println("수령일"+receiveDay);
         model.addAttribute("user",principalDetails.getUser());
         model.addAttribute("bookList",bookList);
         model.addAttribute("receiveDay",receiveDay);

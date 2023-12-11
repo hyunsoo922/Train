@@ -4,7 +4,6 @@ $(function () {
     $('input[name="kind"]').change(function () {
 
         var selectKind = $(this).val();
-        console.log(selectKind);
 
         $(".student-container, .bookStore-container").addClass('hidden');
 

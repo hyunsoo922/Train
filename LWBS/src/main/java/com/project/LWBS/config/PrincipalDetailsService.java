@@ -1,6 +1,5 @@
 package com.project.LWBS.config;
 
-import com.project.LWBS.config.PrincipalDetails;
 import com.project.LWBS.domain.User;
 import com.project.LWBS.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -45,14 +44,11 @@ public class PrincipalDetailsService implements UserDetailsService {
     }
 
     private void loadUserDirectly(PrincipalDetails principalDetails) {
-        // Authentication 객체 생성
         Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
 
-        // SecurityContext 가져오고, Authentication 객체 설정
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authentication);
 
-        // 세션에 SecurityContext 저장
         httpSession.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
     }
 }

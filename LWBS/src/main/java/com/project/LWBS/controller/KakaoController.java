@@ -40,15 +40,6 @@ public class KakaoController {
 
 
 
-
-    //    @GetMapping("/callback")
-//    public ResponseEntity<MsgEntity> callback(HttpServletRequest request) throws Exception{
-//        KakaoDTO kakaoDTO = kakaoService.getKakaoInfo(request.getParameter("code"));
-//
-//
-//    }
-
-
     @GetMapping("/callback")
     public ResponseEntity<MsgEntity> callback(HttpServletRequest request) throws Exception {
         KakaoDTO kakaoDTO = kakaoService.getKakaoInfo(request.getParameter("code"));
@@ -69,11 +60,9 @@ public class KakaoController {
 
         // 카카오 로그인 성공 시, PrincipalDetails를 사용하여 인증 정보를 설정
         UserDetails userDetails = principalDetailsService.loadUserByUsername(kakaoId);
-        System.out.println(userDetails+"유저디테일");
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println(SecurityContextHolder.getContext().getAuthentication()+"권한");
 
         if(user.getAuthority().getName().equals("ROLE_STUDENT"))
         {

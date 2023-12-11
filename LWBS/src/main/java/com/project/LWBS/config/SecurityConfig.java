@@ -18,7 +18,6 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/").authenticated() // 이후 hasAnyRole 로 권한부여 예정
                         .requestMatchers("/user/login").anonymous()
                         .requestMatchers("/home/student","/student/purchase/book","/student/purchase/bookPay","/student/purchase/receipt").hasAnyRole("STUDENT")
                         .requestMatchers("/home/bookStore","/bookStore/DaySelect","/bookStore/DaySelectResult","/bookStore/list","/bookStore/Receipt"

@@ -4,15 +4,12 @@ import com.project.LWBS.domain.Authority;
 import com.project.LWBS.domain.User;
 import com.project.LWBS.service.UserService;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-// 로그인 한 유저의 정보를 가져오기 위한 class
-// Security Session -> Authentication 객체 -> UserDetails 정보
 public class PrincipalDetails implements UserDetails {
 
     UserService userService;
