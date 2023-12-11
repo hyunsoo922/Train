@@ -25,13 +25,13 @@ public class ReceiveServiceImpl implements ReceiveService{
             {
                 Receive receive1 = Receive.builder()
                         .day(endDay)
-                        .receiveCheck("Check")
+                        .receiveCheck("수령")
                         .build();
                 receiveRepository.saveAndFlush(receive1);
 
                 Receive receive2 = Receive.builder()
                         .day(endDay)
-                        .receiveCheck("NonCheck")
+                        .receiveCheck("미수령")
                         .build();
                 receiveRepository.saveAndFlush(receive2);
                 System.out.println(endDay+"종료날짜");
@@ -41,13 +41,13 @@ public class ReceiveServiceImpl implements ReceiveService{
                 String current = currentDate.toString();
                 Receive receive1 = Receive.builder()
                         .day(current)
-                        .receiveCheck("Check")
+                        .receiveCheck("수령")
                         .build();
                 receiveRepository.saveAndFlush(receive1);
 
                 Receive receive2 = Receive.builder()
                         .day(current)
-                        .receiveCheck("NonCheck")
+                        .receiveCheck("미수령")
                         .build();
                 receiveRepository.saveAndFlush(receive2);
                 System.out.println(current+"현재날짜");

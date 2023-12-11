@@ -21,10 +21,6 @@ public class HomeController {
     @RequestMapping("/home")
     public String home(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
         try{
-//            PrincipalDetails userDetails = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//            User user = userDetails.getUser();
-//            Long id = user.getId();
-            System.out.println("홈에 들어옴 로그인"+principalDetails.getUsername());
             model.addAttribute("user",principalDetails.getUser());
             if(principalDetails.getUser().getAuthority().getName().equals("ROLE_STUDENT")) {
                 return "redirect:/home/student";

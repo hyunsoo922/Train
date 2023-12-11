@@ -40,9 +40,8 @@ public class UserController {
     }
 
     @GetMapping("/register")
-    public void register(Model model)
+    public void register()
     {
-
     }
 
     @PostMapping("/register")

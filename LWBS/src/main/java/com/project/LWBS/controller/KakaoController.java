@@ -50,7 +50,7 @@ public class KakaoController {
         {
             userService.setKakaoDTO(kakaoDTO);
             // 다음 페이지로의 URL을 클라이언트에게 전달
-            redirectUrl = "http://localhost:8093/user/register";  // 실제 다음 페이지의 URL로 대체해야 합니다.
+            redirectUrl = "http://localhost:8093/user/register";
             HttpHeaders headers = new HttpHeaders();
             headers.add("Location", redirectUrl);
 
