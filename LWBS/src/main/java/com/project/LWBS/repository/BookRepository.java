@@ -9,6 +9,9 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Long> {
     Book findByIsbn(String isbn);
 
+
+    List<Book> findAll();
+
     Book findByName(String name);
 
     @Query("SELECT b.name FROM Book b")

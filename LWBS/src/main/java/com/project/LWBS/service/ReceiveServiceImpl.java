@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 //서비스 임플과 리퍼지터리랑 연결
@@ -54,5 +55,13 @@ public class ReceiveServiceImpl implements ReceiveService{
 
         }
 
+    }
+
+    @Override
+    public List<Receive> findDay(String day) {
+
+        List<Receive> receiveList = receiveRepository.findByDay(day);
+
+        return receiveList;
     }
 }

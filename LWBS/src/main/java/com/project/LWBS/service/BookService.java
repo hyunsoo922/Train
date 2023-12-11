@@ -5,6 +5,8 @@ import com.project.LWBS.domain.Book;
 import java.util.List;
 
 public interface BookService {
+    List<Book> getAllBooks();
+
 
     //Book createBook(String title, String author, String publisher, String price, String imageUrl, String isbn, String description);
 
