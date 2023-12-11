@@ -1,8 +1,8 @@
 package com.project.LWBS.controller;
-
 import com.project.LWBS.config.PrincipalDetails;
-import com.project.LWBS.domain.Receipt;
-import com.project.LWBS.service.StatisticsService;
+import com.project.LWBS.domain.Book;
+import com.project.LWBS.service.BookService;
+import com.project.LWBS.service.ReceiptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -14,40 +14,38 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
+
 @Controller
 @RequestMapping("/bookStore")
 public class StatisticsController {
 
-    private final StatisticsService statisticsService;
-
+    private static ReceiptService receiptService;
+    private static BookService bookService;
     @Autowired
-    public StatisticsController(StatisticsService statisticsService) {
-        this.statisticsService = statisticsService;
+    public StatisticsController(ReceiptService receiptService, BookService bookService) {
+        this.receiptService = receiptService;
+        this.bookService = bookService;
     }
 
 
     @GetMapping("/Statistics")
     public String getBookSalesCount(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        List<Receipt> receiptList = statisticsService.findAll();
-        List<String> nameList = new ArrayList<>();  // 이 부분은 필요에 따라 초기화 방식을 변경할 수 있습니다.
-        for (Receipt receipt : receiptList) {
-            String bookName = receipt.getBook().getName();
-            if (!nameList.contains(bookName)) {
-                nameList.add(bookName);
-            }
-        }
-        Map<String, Integer> bookSales = statisticsService.count(receiptList, nameList);
+        List<Map<String, Object>> statisticsList = receiptService.statistics();
+        List<Book> bookList = new ArrayList<>();
         List<Integer> countList = new ArrayList<>();
-        for(int i = 0 ; i < nameList.size(); i++)
-        {
-            countList.add(bookSales.get(nameList.get(i)));
+        for (Map<String, Object> map : statisticsList) {
+            Long bookId = (Long) map.get("book_id");
+            int count = ((Number) map.get("count")).intValue();
+            countList.add(count);
+
+            Book book = bookService.findById(bookId);
+            bookList.add(book);
         }
 
-        System.out.println("nameList"+nameList);
-        System.out.println("countList"+countList);
-        model.addAttribute("nameList",  nameList);
-        model.addAttribute("countList", countList );
+        model.addAttribute("bookList", bookList);
+        model.addAttribute("countList", countList);
         model.addAttribute("user",principalDetails.getUser());
-        return "bookStore/Statistics";
+         return "bookStore/Statistics";
     }
 }

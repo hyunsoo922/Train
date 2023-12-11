@@ -1,14 +1,13 @@
 package com.project.LWBS.service;
 
-
 import com.project.LWBS.domain.Receipt;
 import com.project.LWBS.domain.Receive;
 import com.project.LWBS.repository.BookRepository;
 import com.project.LWBS.repository.ReceiptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
 import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -51,5 +50,10 @@ public class ReceiptServiceImpl implements ReceiptService {
     public List<Map<String, Object>> ranking() {
         List<Map<String, Object>> rankingList = receiptRepository.findTopBookIds();
         return rankingList;
+    }
+    @Override
+    public List<Map<String, Object>> statistics() {
+        List<Map<String, Object>> statistics = receiptRepository.findTopBookIds();
+        return statistics;
     }
 }

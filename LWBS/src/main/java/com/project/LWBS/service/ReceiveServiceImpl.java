@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
+
+//서비스 임플과 리퍼지터리랑 연결
 @Service
 public class ReceiveServiceImpl implements ReceiveService{
     @Autowired

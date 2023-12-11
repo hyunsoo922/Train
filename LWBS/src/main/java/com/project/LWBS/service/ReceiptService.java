@@ -15,4 +15,6 @@ public interface ReceiptService {
 
     // Receipt 테이블에서 가장 많이 팔린 책의 id 값과 개수를 Map 리스트로 만드는 메서드
     List<Map<String, Object>> ranking();
+
+    List<Map<String, Object>> statistics();
 }

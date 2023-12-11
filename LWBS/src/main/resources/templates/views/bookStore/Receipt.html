@@ -2,26 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>All Receipts</title>
+    <title>전체 구매 내역</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 <th:block th:insert="~{/header::header}"></th:block>
 <th:block th:insert="~{/storenav::navfrag}"></th:block>
 <div class="container mt-5">
-    <h1>All Receipts</h1>
+    <h1>전체 구매 내역</h1>
 
-    <!-- 검색 폼 추가 -->
     <form th:action="@{/bookStore/ReceiptSearch}" method="get">
         <div class="form-group">
             <label for="studentId">학생 번호:</label>
             <input type="text" class="form-control" id="studentId" name="studentId" required>
         </div>
+        <button id="printButton" class="btn btn-secondary">인쇄</button>
         <button type="submit" class="btn btn-primary">검색</button>
     </form>
 
-    <!-- 인쇄 버튼 추가 -->
-    <button id="printButton" class="btn btn-secondary">인쇄</button>
 
     <table class="table mt-3">
         <thead>
@@ -37,6 +35,15 @@
             <th>수령여부</th>
             <th>수령여부변경</th>
             <th>수령날짜</th>
+
+            <style>
+
+                th, td {
+                    padding: 8px;
+                    text-align: center;
+                }
+            </style>
+
         </tr>
         </thead>
         <tbody>
@@ -52,7 +59,6 @@
             <td><span th:text="${receipt.createdAt}"></span></td>
             <td><span th:text="${receipt.receive.day}"></span></td>
             <td><span th:text="${receipt.receive.receiveCheck}"></span></td>
-
         <td>
             <form th:action ="@{/bookStore/Receipt}" method="post">
 
@@ -66,14 +72,12 @@
 
             </form>
         </td>
-
             <td><span th:text="${receipt.receive.day}"></span></td>
         </tr>
         </tbody>
     </table>
 </div>
 
-<!-- 인쇄 스크립트 추가 -->
 <script>
     document.getElementById("printButton").addEventListener("click", function () {
         var selectedRows = document.querySelectorAll('input[name="check"]:checked');
@@ -93,9 +97,6 @@
             };
             selectedData.push(receiptData);
         });
-
-        // 선택된 데이터를 서버로 보내거나, 다른 인쇄 동작을 수행할 수 있습니다.
-        // 여기에서는 브라우저의 인쇄 기능을 사용합니다.
         window.print();
     });
 </script>
