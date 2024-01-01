@@ -20,7 +20,7 @@
 
     <div class="container">
         <h1>회원가입 페이지</h1>
-        <form th:action="@{/user/register}" class="student" id="student" method="POST">
+        <form th:action="@{/user/register}" class="register" id="register" method="POST">
             <div id="radio-wrap">
                 <label>
                     <input type="radio" class="kind" name="kind" value="student" checked>
@@ -54,7 +54,7 @@
                 </div>
             </div>
 
-            <button type="submit">회원가입 하기</button>
+            <button type="button" id="regBtn">회원가입 하기</button>
         </form>
     </div>
 
