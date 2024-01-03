@@ -45,14 +45,7 @@ $(function () {
                 alert("가맹점ID를 입력해주세요.")
             }
             else {
-                if(ver === "t")
-                {
                     frm.submit();
-                }
-                else
-                {
-                    alert("LMS계정 확인을 해주세요.");
-                }
             }
         }
 
