@@ -18,6 +18,7 @@ public class myInfoUpdateController {
     public myInfoUpdateController(UserService userService) {
         this.userService = userService;
     }
+
     @GetMapping("/student")
     public String showChangeStudentInfoForm(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         // 이 메소드에서 필요한 초기화 작업을 수행할 수 있습니다.
@@ -25,10 +26,12 @@ public class myInfoUpdateController {
         model.addAttribute("user", principalDetails.getUser());
         return "/mypage/myInfoUpdate/student"; // changeInfo.html과 매핑되는 뷰 이름
     }
+
     @GetMapping("/bookStore")
     public String showChangeBookStoreInfoForm() {
         return "/mypage/myInfoUpdate/bookStore";
     }
+
     @PostMapping("/student")
     public String handleSubmit(@RequestParam("studentId") String studentId,
                                @RequestParam("studentPw") String studentPw,
@@ -37,9 +40,11 @@ public class myInfoUpdateController {
         model.addAttribute("user", principalDetails.getUser());
         return "redirect:/mypage/" + principalDetails.getUser().getId();
     }
+
     @PostMapping("/bookStore")
     public String handleSubmit(@RequestParam("franchisee") String franchisee,
                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
         userService.updateBookStoreInfo(franchisee, principalDetails.getUser().getId());
         return "redirect:/mypage/" + principalDetails.getUser().getId();
     }
+}
