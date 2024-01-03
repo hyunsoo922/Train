@@ -16,8 +16,8 @@
             <label for="studentId">학생 번호:</label>
             <input type="text" class="form-control" id="studentId" name="studentId" required>
         </div>
-        <button id="printButton" class="btn btn-secondary">인쇄</button>
         <button type="submit" class="btn btn-primary">검색</button>
+        <button id="printButton" class="btn btn-secondary">인쇄</button>
     </form>
 
 
@@ -39,8 +39,9 @@
             <style>
 
                 th, td {
-                    padding: 8px;
+                    padding: 100px;
                     text-align: center;
+
                 }
             </style>
 
@@ -63,8 +64,8 @@
             <form th:action ="@{/bookStore/Receipt}" method="post">
 
                         <select name = "check">
-                            <option value="Check">Check</option>
-                            <option value="NonCheck">NonCheck</option>
+                            <option value="Check">수령</option>
+                            <option value="NonCheck">미수령</option>
                         </select>
                 <input type="hidden" name="receiptId" th:value="${receipt.id}">
                 <input type="hidden" name="receiveDay" th:value="${receipt.receive.day}">
@@ -74,6 +75,7 @@
         </td>
             <td><span th:text="${receipt.receive.day}"></span></td>
         </tr>
+
         </tbody>
     </table>
 </div>

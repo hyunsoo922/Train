@@ -38,13 +38,7 @@ public class ReceiptController {
         return "bookStore/Receipt";
     }
     //학생 번호을 입력하면 입력한 학생의 구매내역을 조회
-    @GetMapping("/ReceiptSearch")
-    public String searchReceipts(@RequestParam(name = "studentId") String studentId, Model model,@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        List<Receipt> filteredReceipts = receiptService.findReceiptsByStudentId(studentId);
-        model.addAttribute("receipts", filteredReceipts);
-        model.addAttribute("user",principalDetails.getUser());
-        return "bookStore/ReceiptSearch";
-    }
+
     //구매 수령 여부 변경
     @PostMapping("/Receipt")
     public String updateReceipt(@RequestParam("receiptId") String receiptId,
@@ -59,12 +53,20 @@ public class ReceiptController {
             if (receives.get(i).getReceiveCheck().equals(check))
             {
                 receive = receives.get(i);
-                System.out.println("check : "+receive);
+                System.out.println("수령 : "+receive);
             }
 
         }
         long Id = Long.parseLong(receiptId);
         receiptService.findById(Id, receive);
         return "redirect:/bookStore/Receipt";
+    }
+
+    @GetMapping("/ReceiptSearch")
+    public String searchReceipts(@RequestParam(name = "studentId") String studentId, Model model,@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        List<Receipt> filteredReceipts = receiptService.findReceiptsByStudentId(studentId);
+        model.addAttribute("receipts", filteredReceipts);
+        model.addAttribute("user",principalDetails.getUser());
+        return "bookStore/ReceiptSearch";
     }
 }

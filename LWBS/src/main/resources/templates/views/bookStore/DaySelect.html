@@ -3,22 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>교재 구매 날짜 범위 선택</title>
+
+    <style>
+        h2 {
+            font-size: 24px; /* 원하는 크기로 조정하세요 */
+        }
+    </style>
 </head>
 <body>
 <th:block th:insert="~{/header::header}"></th:block>
 <th:block th:insert="~{/storenav::navfrag}"></th:block>
 <div>
-    <h2>날짜 범위 선택</h2>
-    <form th:action="@{/bookStore/DaySelect}" method="post">
-        <label for="startDate">Start Date:</label>
-        <input type="date" name="startDate" id="startDate" th:value="${selectedStartDate}" />
+    <div>
+        <div style="text-align: center;">
+            <h2 style="font-size: 50px;">날짜 범위 선택</h2>
+        </div>
+        <form th:action="@{/bookStore/DaySelect}" method="post">
+            <div style="text-align: center;">
+                <label for="startDate">시작 날짜 :      </label>
+                <input type="date" name="startDate" id="startDate" th:value="${selectedStartDate}" />
 
-        <label for="endDate">End Date:</label>
-        <input type="date" name="endDate" id="endDate" th:value="${selectedEndDate}" />
+                <label for="endDate">~     종료 날짜 : </label>
+                <input type="date" name="endDate" id="endDate" th:value="${selectedEndDate}" />
+            </div>
 
-        <button type="submit">선택완료</button>
-    </form>
+            <div style="text-align: center;">
+                <button type="submit">선택완료</button>
+            </div>
+        </form>
+    </div>
 </div>
-
 </body>
 </html>
