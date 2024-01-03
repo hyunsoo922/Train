@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <th>날짜</th>
+        <th>마일리지</th>
+        <th>종류</th>
+    </tr>
+    <th:block th:each="history, iterStat : ${history}">
+        <tr>
+            <td th:text="${#temporals.format(history.day, 'yyyy년 MM월 dd일 HH시 mm분')}">day</td>
+            <td th:text="${history.point}">point</td>
+            <td>
+                <span th:if="${iterStat.odd}">적립</span>
+                <span th:if="${iterStat.even}">사용</span>
+            </td>
+        </tr>
+    </th:block>
+</table>
+</body>
+</html>

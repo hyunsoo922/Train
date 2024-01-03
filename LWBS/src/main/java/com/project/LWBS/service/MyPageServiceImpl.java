@@ -58,4 +58,11 @@ public class MyPageServiceImpl implements MyPageService{
         String franchisee = user.getFranchisee();
         return franchisee;
     }
+
+    @Override
+    public List<Mileage> history(Long user_id) {
+        User user = userRepository.findById(user_id).orElse(null);
+        List<Mileage> history = mileageRepository.findByUser(user);
+        return history;
+    }
 }

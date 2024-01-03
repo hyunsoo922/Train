@@ -15,12 +15,9 @@
 </head>
 
 <body>
-
-
-
     <div class="container">
         <h1>회원가입 페이지</h1>
-        <form th:action="@{/user/register}" class="student" id="student" method="POST">
+        <form th:action="@{/user/register}" class="register" id="register" method="POST">
             <div id="radio-wrap">
                 <label>
                     <input type="radio" class="kind" name="kind" value="student" checked>
@@ -32,7 +29,6 @@
                     서점
                 </label>
             </div>
-
             <div class="student-container ">
                 <div class="info">
                     <label>LMS ID</label>
@@ -45,7 +41,6 @@
                     <input class="infoInput" type="password" id="LMSPW" name="LMSPW" placeholder="LMS 비밀번호를 입력하세요.">
                 </div>
             </div>
-
             <div class="bookStore-container hidden">
                 <div class="info">
                     <label>가맹점 ID</label>
@@ -53,11 +48,50 @@
                         placeholder="가맹점 아이디를 입력하세요.">
                 </div>
             </div>
-
-            <button type="submit">회원가입 하기</button>
+            <button type="button" onclick="LMS계정확인()">LMS 계정 확인</button>
+            <input type="hidden" id="ver" value="">
+            <button type="button" onclick="회원가입()" id="regBtn">회원가입 하기</button>
         </form>
     </div>
-
+    <script>
+        function 회원가입() {
+            var v = document.getElementById("ver").value;
+            var frm = document.getElementById("register");
+            if (v === "t") {
+                frm.submit();
+            }
+            else {
+                alert("LMS 계정 확인을 마쳐주세요.")
+            }
+        }
+        function LMS계정확인() {
+            // 사용자가 입력한 ID와 PW 가져오기
+            var lmsId = document.getElementById("LMSID").value;
+            var lmsPw = document.getElementById("LMSPW").value;
+            var v = document.getElementById("ver");
+            // AJAX를 통해 서버로 데이터 전송
+            $.ajax({
+                type: "GET",
+                url: "/verification", // 서버의 엔드포인트 경로
+                data: {
+                    id: lmsId,
+                    pw: lmsPw
+                },
+                success: function (result) {
+                    // 서버로부터의 응답을 처리하는 코드
+                    if (result) {
+                        alert("계정 확인 성공!");
+                        v.value = "t"
+                    } else {
+                        alert("계정 확인 실패!");
+                    }
+                },
+                error: function () {
+                    alert("서버 오류 발생!");
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

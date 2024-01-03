@@ -4,6 +4,7 @@ import com.project.LWBS.common.MsgEntity;
 import com.project.LWBS.config.PrincipalDetailsService;
 import com.project.LWBS.domain.DTO.KakaoDTO;
 import com.project.LWBS.domain.User;
+import com.project.LWBS.service.EnrollmentService;
 import com.project.LWBS.service.KakaoService;
 import com.project.LWBS.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,11 +32,14 @@ public class KakaoController {
 
     private final PrincipalDetailsService principalDetailsService;
 
+    private EnrollmentService enrollmentService;
+
     @Autowired
-    public KakaoController(KakaoService kakaoService, UserService userService, PrincipalDetailsService principalDetailsService) {
+    public KakaoController(KakaoService kakaoService, UserService userService, PrincipalDetailsService principalDetailsService, EnrollmentService enrollmentService) {
         this.kakaoService = kakaoService;
         this.userService = userService;
         this.principalDetailsService = principalDetailsService;
+        this.enrollmentService = enrollmentService;
     }
     @GetMapping("/callback")
     public ResponseEntity<MsgEntity> callback(HttpServletRequest request) throws Exception {
@@ -62,7 +66,14 @@ public class KakaoController {
 
         if(user.getAuthority().getName().equals("ROLE_STUDENT"))
         {
-            redirectUrl = "http://localhost:8093/home/student";
+            if(!enrollmentService.isEmptyData(user.getId()))
+            {
+                redirectUrl = "http://localhost:8093/home/student";
+            }
+            else
+            {
+                redirectUrl = "http://localhost:8093/mypage/" + user.getId();
+            }
         }
         else if(user.getAuthority().getName().equals("ROLE_BOOKSTORE"))
         {

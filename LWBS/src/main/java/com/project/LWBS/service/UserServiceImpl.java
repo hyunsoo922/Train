@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerUser(String kind, String LMSID, String LMSPW, String publisherId,KakaoDTO kakaoDTO) {
+    public Long registerUser(String kind, String LMSID, String LMSPW, String publisherId,KakaoDTO kakaoDTO) {
         Authority student = authorityRepository.findById(1L).orElse(null);
         Authority bookStore = authorityRepository.findById(2L).orElse(null);
         User user = new User();
@@ -56,7 +56,8 @@ public class UserServiceImpl implements UserService {
                     .build();
         }
 
-         userRepository.saveAndFlush(user);
+        User saveuser = userRepository.saveAndFlush(user);
+        return saveuser.getId();
     }
 
     @Override
