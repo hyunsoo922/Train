@@ -21,6 +21,7 @@ $(function () {
     $("#regBtn").click(function () {
         const frm = $("#register");
         const kind = $("input[name='kind']:checked").val();
+        const ver = $("#ver").val().trim();
         if (kind === "student") {
             const ID = $("#LMSID").val().trim();
             const PW = $("#LMSPW").val().trim();
@@ -28,7 +29,14 @@ $(function () {
                 alert("아이디와 비밀번호를 입력해주세요.");
             }
             else {
-                frm.submit();
+                if(ver === "t")
+                {
+                    frm.submit();
+                }
+                else
+                {
+                    alert("LMS계정 확인을 해주세요.");
+                }
             }
         }
         else {
@@ -37,7 +45,14 @@ $(function () {
                 alert("가맹점ID를 입력해주세요.")
             }
             else {
-                frm.submit();
+                if(ver === "t")
+                {
+                    frm.submit();
+                }
+                else
+                {
+                    alert("LMS계정 확인을 해주세요.");
+                }
             }
         }
 

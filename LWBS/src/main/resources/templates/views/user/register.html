@@ -51,20 +51,10 @@
 
             <button type="button" onclick="LMS계정확인()">LMS 계정 확인</button>
             <input type="hidden" id="ver" value="">
-            <button type="button" onclick="회원가입()" id="regBtn">회원가입 하기</button>
+            <button type="button" id="regBtn">회원가입 하기</button>
         </form>
     </div>
     <script>
-        function 회원가입() {
-            var v = document.getElementById("ver").value;
-            var frm = document.getElementById("register");
-            if (v === "t") {
-                frm.submit();
-            }
-            else {
-                alert("LMS 계정 확인을 마쳐주세요.")
-            }
-        }
         function LMS계정확인() {
             // 사용자가 입력한 ID와 PW 가져오기
             var lmsId = document.getElementById("LMSID").value;
