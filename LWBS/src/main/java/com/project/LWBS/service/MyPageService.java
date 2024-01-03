@@ -1,5 +1,9 @@
 package com.project.LWBS.service;
 
+import com.project.LWBS.domain.Mileage;
+
+import java.util.List;
+
 public interface MyPageService {
     // 현재 로그인 중인 User의 마일리지를 계산하는 메서드
     int sumMileage(Long user_id);
@@ -11,4 +15,6 @@ public interface MyPageService {
     Long getAuthority(Long user_id);
     // 현재 로그인 중인 서점 계정의 가맹점 id를 가져오는 메서드
     String getFranchisee(Long user_id);
+    // 마이페이지에서 보여줄 마일리지 적립 및 사용 내역
+    List<Mileage> history(Long user_id);
 }

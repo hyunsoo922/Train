@@ -8,4 +8,6 @@ public interface EnrollmentService {
 
     // Enrollment 테이블에 정보를 저장하기 전, 중복 값을 체크하는 메서드
     Boolean isExistData(String name, Long user_id);
+
+    Boolean isEmptyData(Long user_id);
 }

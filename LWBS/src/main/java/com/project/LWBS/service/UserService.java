@@ -9,7 +9,7 @@ public interface UserService {
 
     User findByKakaoId(String kakao_id);
 
-    void registerUser(String kind,String LMSID,String LMSPW,String publisherId,KakaoDTO kakaoDTO);
+    Long registerUser(String kind,String LMSID,String LMSPW,String publisherId,KakaoDTO kakaoDTO);
 
     KakaoDTO getKakaoDTO();
 
@@ -30,5 +30,6 @@ public interface UserService {
     void deleteUser(User user);
 
     String findAuthority(Long user_id);
+
 }
 
