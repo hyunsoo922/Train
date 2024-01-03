@@ -6,8 +6,12 @@
     <title>전체 교재 구매 통계</title>
 
     <style>
+        h1 {
+            text-align: center;
+        }
+
         table {
-            margin : auto;
+            margin: auto;
         }
 
         th, td {
@@ -31,11 +35,11 @@
     </tr>
     </thead>
     <tbody>
-        <tr th:each="book, iterStat : ${bookList}">
-            <td th:text="${book.department}"></td>
-            <td th:text="${book.name}"></td>
-            <td th:text="${countList[iterStat.index]}"></td>
-        </tr>
+    <tr th:each="book, iterStat : ${bookList}">
+        <td th:text="${book.department}"></td>
+        <td th:text="${book.name}"></td>
+        <td th:text="${countList[iterStat.index]}"></td>
+    </tr>
     </tbody>
 </table>
 

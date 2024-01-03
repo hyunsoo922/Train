@@ -53,8 +53,8 @@
                 <form th:action ="@{/bookStore/ReceiptSearch}" method="post">
 
                     <select name = "check">
-                        <option value="Check">Check</option>
-                        <option value="NonCheck">NonCheck</option>
+                        <option value="Check">수령</option>
+                        <option value="NonCheck">미수령</option>
                     </select>
                     <input type="hidden" name="receiptId" th:value="${receipt.id}">
                     <input type="hidden" name="receiveDay" th:value="${receipt.receive.day}">
