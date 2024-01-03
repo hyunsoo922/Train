@@ -11,10 +11,14 @@ $(function () {
 
         if (selectKind == "student") {
             $("#publisherId").val("");
+            $("#lmsCh").removeClass('hidden');
+
         }
         else if (selectKind == "bookStore") {
             $("#LMSID").val("");
             $("#LMSPW").val("");
+            $("#lmsCh").addClass('hidden');
+
         }
     });
 
