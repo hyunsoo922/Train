@@ -35,6 +35,7 @@ $(function () {
             else {
                 if(ver === "t")
                 {
+                    alert("회원가입이 완료되었습니다. 환영합니다.");
                     frm.submit();
                 }
                 else
@@ -49,6 +50,7 @@ $(function () {
                 alert("가맹점ID를 입력해주세요.")
             }
             else {
+                    alert("회원가입이 완료되었습니다. 환영합니다.");
                     frm.submit();
             }
         }
