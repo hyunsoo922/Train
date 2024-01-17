@@ -47,7 +47,6 @@ public class IdVerificationController {
         }
     }
 
-    // 다른 코드와 동일하게 유지
     private static void sleep(int milliseconds) {
         try {
             Thread.sleep(milliseconds);
