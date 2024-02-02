@@ -47,9 +47,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="receipt : ${receipts}">
-            <td>
+        <tr th:each="receipt, status : ${receipts}">
+            <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
                 <input type="checkbox" th:id="${'check_' + receipt.id}" name="check" th:value="${receipt.id}">
+            </td>
+            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
             </td>
             <td><span th:text="${receipt.user.studentId}"></span></td>
             <td><span th:text="${receipt.user.name}"></span></td>
@@ -88,7 +90,7 @@
             var receiptData = {
                 studentId: "${receipt.user.studentId}",
                 name: "${receipt.user.name}",
-                bookName: "${receipt.book.name}",
+
                 publisher: "${receipt.book.publisher}",
                 author: "${receipt.book.author}",
                 purchaseDate: "${receipt.receive.day}",

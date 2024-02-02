@@ -35,7 +35,7 @@ public class StatisticsServiceImpl implements StatisticsService {
             }
             countMap.put(name, count);
         }
-        System.out.println("countmap"+countMap);
+
 
         return countMap;
     }

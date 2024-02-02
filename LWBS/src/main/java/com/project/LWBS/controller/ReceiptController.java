@@ -19,7 +19,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/bookStore")
 public class ReceiptController {
-
+           
     private final ReceiptService receiptService;
 
    private  final ReceiveService receiveService;
@@ -69,4 +69,24 @@ public class ReceiptController {
         model.addAttribute("user",principalDetails.getUser());
         return "bookStore/ReceiptSearch";
     }
+
+    @PostMapping("/ReceiptSearch")
+    public String updateReceiptSearch(@RequestParam("receiptId") String receiptId,
+                                      @RequestParam("check") String check,
+                                      @RequestParam("receiveDay") String receiveDay, Model model,
+                                      @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        List<Receive> receives = receiveService.findDay(receiveDay);
+        Receive receive = new Receive();
+        model.addAttribute("user", principalDetails.getUser());
+        for (int i = 0; i < receives.size(); i++) {
+            if (receives.get(i).getReceiveCheck().equals(check)) {
+                receive = receives.get(i);
+                System.out.println("수령 : " + receive);
+            }
+        }
+        long Id = Long.parseLong(receiptId);
+        receiptService.findById(Id, receive);
+        return "redirect:/bookStore/ReceiptSearch";
+    }
+
 }
