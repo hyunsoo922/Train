@@ -6,6 +6,9 @@
         table {
             margin: auto;
         }
+        td {
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -13,41 +16,16 @@
 <br><br>
 <th:block th:insert="~{/nav::nav}"></th:block>
 <br><br><br>
-<!--Controller에서 thymeleaf로 받은 BookList를 th반복문으로 출력-->
-<table border="1">
-    <tr>
-        <th:block th:each="book : ${bookList}">
-            <td>
-                <img th:src="${book.imageUrl}" alt="Book Image" width="280" height="350"/>
-            </td>
-        </th:block>
-    </tr>
-    <tr>
-        <th:block th:each="book : ${bookList}">
-            <td th:text="${book.name}">Name</td>
-        </th:block>
-    </tr>
-    <tr>
-        <th:block th:each="book : ${bookList}">
-            <td th:text="${book.author}">Author</td>
-        </th:block>
-    </tr>
-    <tr>
-        <th:block th:each="book : ${bookList}">
-            <td th:text="${book.publisher}">Publisher</td>
-        </th:block>
-    </tr>
-    <tr>
-        <th:block th:each="book : ${bookList}">
-            <td th:text="${book.price}">Price</td>
-        </th:block>
+<table>
+    <tr th:each="row : ${#numbers.sequence(0, ((bookList.size - 1) div 4))}">
+        <td th:each="index : ${#numbers.sequence(row*4, (row*4)+3)}" th:if="${index lt bookList.size}" style="padding: 30px; text-align: left; position: relative;">
+            <img th:src="${bookList[index].imageUrl}" alt="Book Image" width="280" height="350"/><br>
+            <span th:text="${bookList[index].name}">교재명</span><br>
+            <span th:text="${bookList[index].author}">저자명</span><br>
+            <span th:text="${bookList[index].publisher}">출판사명</span><br>
+            <span th:text="${bookList[index].price}">가격</span><br>
+        </td>
     </tr>
 </table>
-<thead>
-</thead>
-<tbody>
-
-
-</tbody>
 </body>
 </html>

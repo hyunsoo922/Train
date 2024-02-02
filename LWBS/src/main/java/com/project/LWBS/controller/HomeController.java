@@ -52,6 +52,7 @@ public class HomeController {
         }
         // View에게 bookList를 전달
         model.addAttribute("bookList", bookList);
+        model.addAttribute("countList", countList);
         try{
             System.out.println("홈에 들어옴 로그인"+principalDetails.getUsername());
             model.addAttribute("user",principalDetails.getUser());
