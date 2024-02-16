@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ReceiptServiceImpl implements ReceiptService {
+public  class ReceiptServiceImpl implements  ReceiptService{
 
     private final ReceiptRepository receiptRepository;
 
@@ -51,9 +51,11 @@ public class ReceiptServiceImpl implements ReceiptService {
         List<Map<String, Object>> rankingList = receiptRepository.findTopBookIds();
         return rankingList;
     }
+
     @Override
     public List<Map<String, Object>> statistics() {
-        List<Map<String, Object>> statistics = receiptRepository.findTopBookIds();
-        return statistics;
+        List<Map<String, Object>> statisticsList = receiptRepository.findBookIds();
+        return statisticsList;
     }
+
 }

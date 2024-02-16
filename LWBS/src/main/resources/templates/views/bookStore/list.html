@@ -16,6 +16,10 @@
          padding: 8px;
          text-align: center;
      }
+      .refresh-button {
+            margin-right: 200px;
+            font-size: 16px;
+     }
     </style>
 </head>
 <body>
@@ -27,6 +31,7 @@
     <h1>전체 교재 리스트</h1>
 </div>
 <table border="1">
+    <button class="refresh-button" onclick="refreshPage()">갱신</button>
     <thead>
     <tr>
         <th>이미지</th>
@@ -49,5 +54,12 @@
     </tr>
     </tbody>
 </table>
+
+<script>
+    function refreshPage() {
+        location.reload(true);
+    }
+</script>
+
 </body>
 </html>

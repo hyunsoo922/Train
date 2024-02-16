@@ -29,34 +29,29 @@ public class StatisticsController {
     }
 
     @GetMapping("/Statistics")
-    public String getBookSalesCount(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        List<Book> allBooks = bookService.getAllBooks();  // 전체 교재 목록을 가져오기
+    public void hello(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        // 가장 많이 팔린 책 리스트
         List<Map<String, Object>> statisticsList = receiptService.statistics();
-
+        // 책의 id로 검색한 Book 객체를 담을 리스트
         List<Book> bookList = new ArrayList<>();
+        // 순위 정보를 담을 리스트
         List<Integer> countList = new ArrayList<>();
-
-        for (Book book : allBooks) {
-            Long bookId = book.getId();
-            int count = findCountForBook(bookId, statisticsList);  // 해당 교재에 대한 판매량 찾기
-            countList.add(count);
+        for (Map<String, Object> map : statisticsList) {
+            // Map 타입 객체 map으로 rangkingList를 순회하며
+            // 책의 id 값을 추출
+            Long bookId = (Long) map.get("book_id");
+            // 추출한 id 값에 해당하는 Book 객체를 검색
+            Book book = bookService.findById(bookId);
+            // 검색한 Book 객체를 bookList에 저장
             bookList.add(book);
+            // 순위 정보를 추출
+            int count = ((Number) map.get("count")).intValue();
+            // 순위 정보를 countList에 추가
+            countList.add(count);
         }
-
+        // 책 정보와 순위 정보, 현재 로그인 중인 user의 정보를 view에게 전달
         model.addAttribute("bookList", bookList);
         model.addAttribute("countList", countList);
-        model.addAttribute("user", principalDetails.getUser());
-
-        return "bookStore/Statistics";
-    }
-
-    private int findCountForBook(Long bookId, List<Map<String, Object>> statisticsList) {
-        for (Map<String, Object> map : statisticsList) {
-            Long currentBookId = (Long) map.get("book_id");
-            if (bookId.equals(currentBookId)) {
-                return ((Number) map.get("count")).intValue();
-            }
-        }
-        return 0;  // 해당 교재에 대한 판매량이 없으면 0으로 처리
+        model.addAttribute("user",principalDetails.getUser());
     }
 }

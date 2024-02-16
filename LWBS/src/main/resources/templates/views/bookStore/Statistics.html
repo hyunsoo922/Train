@@ -1,68 +1,72 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>전체 교재 구매 통계</title>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <title>서점 메인 페이지</title>
     <style>
-        h1 {
-            text-align: center;
-        }
-
-        canvas {
-            display: block;
+        table {
             margin: auto;
         }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        /* 추가된 부분: 표를 숨기는 스타일 */
+        table.hidden {
+            display: none;
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <th:block th:insert="~{/header::header}"></th:block>
+<br><br>
 <th:block th:insert="~{/storenav::navfrag}"></th:block>
-<h1>전체 교재 구매 통계</h1>
+<br><br><br>
 
-<!-- 파이 차트를 그릴 캔버스 요소 추가 -->
-<canvas id="myPieChart" width="400" height="400"></canvas>
+<!-- 표에 hidden 클래스 추가 -->
+<table border="1" class="hidden">
+    <tr th:each="book, iterStat : ${bookList}">
+        <td>
+            <span>교재명 : <span class="book-name" th:text="${book.name}"></span></span>
+            <br>
+            <span>판매량: <span class="book-count" th:text="${countList[iterStat.index]}"></span>권</span>
+        </td>
+    </tr>
+</table>
 
-<!-- 각 학과별로 교재 판매량을 수집하는 스크립트 -->
-<script th:inline="javascript">
-    var departmentSales = [];
+<canvas id="myPieChart" style="width: 3px; height: 3px;"></canvas>
 
-
-    <th:block th:each="book, iterStat : ${bookList}">
-        var department = /* Thymeleaf 표현식을 사용하여 학과명을 가져옴 */;
-        var sales = /* Thymeleaf 표현식을 사용하여 판매량을 가져옴 */;
-
-        departmentSales.push({
-            department: department,
-            sales: sales
-        });
-    </th:block>
-</script>
-
-<!-- 파이 차트 생성 스크립트 -->
 <script>
+    // Thymeleaf에서 생성된 데이터를 JavaScript로 가져와서 사용
+    var bookNames = document.querySelectorAll('.book-name');
+    var bookCounts = document.querySelectorAll('.book-count');
 
+    var labels = Array.from(bookNames).map(function(bookName) {
+        return bookName.innerText;
+    });
+
+    var data = Array.from(bookCounts).map(function(bookCount) {
+        return parseInt(bookCount.innerText);
+    });
+
+    var dynamicData = {
+        labels: labels,
+        datasets: [{
+            data: data,
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'] // 각 항목의 색상
+        }]
+    };
+
+    // 차트 생성
     var ctx = document.getElementById('myPieChart').getContext('2d');
     var myPieChart = new Chart(ctx, {
         type: 'pie',
-        data: {
-            labels: departmentSales.map(item => item.department),
-            datasets: [{
-                data: departmentSales.map(item => item.sales),
-                backgroundColor: [
-                    '#FF6384',
-                    '#36A2EB',
-                    '#FFCE56',
-                    // 추가 색상도 필요에 따라 더 추가 가능
-                ],
-            }]
-        },
+        data: dynamicData
     });
 </script>
 </body>
 </html>
-
