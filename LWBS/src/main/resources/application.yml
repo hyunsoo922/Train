@@ -16,6 +16,7 @@ spring:
   thymeleaf:
     cache: false
     prefix: classpath:/templates/views/
+    suffix: .html
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
