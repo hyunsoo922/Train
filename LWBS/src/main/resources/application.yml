@@ -46,3 +46,8 @@ kakao:
     secret: ZwJupmVkWPJM9UiAR1M5ICGAwih2fLd5
   redirect:
     url: http://51.21.62.144:8093/kakao/callback
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
