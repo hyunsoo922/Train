@@ -27,11 +27,10 @@ spring:
   jpa:
     show-sql: true
     properties:
-      hibernate.format_sql: true
-
-    hibernate:
-      ddl-auto: update
-      dialect: org.hibernate.dialect.MariaDBDialect
+      hibernate:
+        format_sql: true
+        ddl-auto: update
+        dialect: org.hibernate.dialect.MariaDBDialect
 
 # 페이징 관련 세팅값
 app:
