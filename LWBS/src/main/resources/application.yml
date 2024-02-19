@@ -31,6 +31,7 @@ spring:
 
     hibernate:
       ddl-auto: create
+      dialect: org.hibernate.dialect.MariaDBDialect
 
 # 페이징 관련 세팅값
 app:
