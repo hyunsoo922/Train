@@ -19,7 +19,7 @@ public class IdVerificationController {
         options.addArguments("--headless");
 
 //        System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
         WebDriver driver = new ChromeDriver(options);
 
         System.out.println("시작");
