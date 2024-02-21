@@ -51,7 +51,7 @@ public class KakaoController {
         {
             userService.setKakaoDTO(kakaoDTO);
             // 다음 페이지로의 URL을 클라이언트에게 전달
-            redirectUrl = "16.171.218.129:8093/user/register";
+            redirectUrl = "http://51.21.62.144:8093/user/register";
             HttpHeaders headers = new HttpHeaders();
             headers.add("Location", redirectUrl);
 
@@ -68,16 +68,16 @@ public class KakaoController {
         {
             if(!enrollmentService.isEmptyData(user.getId()))
             {
-                redirectUrl = "16.171.218.129:8093/home/student";
+                redirectUrl = "http://51.21.62.144:8093/home/student";
             }
             else
             {
-                redirectUrl = "16.171.218.129:8093/mypage/" + user.getId();
+                redirectUrl = "http://51.21.62.144:8093/mypage/" + user.getId();
             }
         }
         else if(user.getAuthority().getName().equals("ROLE_BOOKSTORE"))
         {
-            redirectUrl = "16.171.218.129:8093/home/bookStore";
+            redirectUrl = "http://51.21.62.144:8093/home/bookStore";
         }
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", redirectUrl);

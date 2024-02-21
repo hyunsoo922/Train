@@ -25,5 +25,6 @@ public class Mileage {
     private int point;
 
     @Column(nullable = false)
+    @Builder.Default
     private LocalDateTime day = LocalDateTime.now();
 }

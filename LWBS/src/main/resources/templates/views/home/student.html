@@ -12,9 +12,9 @@
     </style>
 </head>
 <body>
-<th:block th:insert="~{/header::header}"></th:block>
+<th:block th:insert="~{header::header}"></th:block>
 <br><br>
-<th:block th:insert="~{/nav::nav}"></th:block>
+<th:block th:insert="~{nav::nav}"></th:block>
 <br><br><br>
 <table>
     <tr th:each="row : ${#numbers.sequence(0, ((bookList.size - 1) div 4))}">

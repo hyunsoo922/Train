@@ -29,6 +29,6 @@ public class HomeStudentController {
         model.addAttribute("bookList", bookList);
         model.addAttribute("user",principalDetails.getUser());
         // /home/student 경로를 반환
-        return "/home/student";
+        return "home/student";
     }
 }

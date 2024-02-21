@@ -48,9 +48,10 @@ public class BookRestController {
     @GetMapping("/webscraping/{user_id}")
     public String hello(@PathVariable Long user_id) {
         ChromeOptions options = new ChromeOptions();
-        //options.addArguments("--headless");
+        options.addArguments("--headless");
 
-        System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
+//        System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
         WebDriver driver = new ChromeDriver(options);
 
         System.out.println("시작");
@@ -79,7 +80,7 @@ public class BookRestController {
         Year.click();
         Year.clear();
         sleep(100);
-        Year.sendKeys("2018");
+        Year.sendKeys("2023");
         sleep(100);
         // 드롭다운 메뉴의 2학기 옵션의 XPATH
         String second = "//*[@id=\"wrapper\"]/div[1]/div/div/div[2]/div/table/tbody/tr/td[4]/div/select/option[3]";
@@ -259,6 +260,6 @@ public class BookRestController {
                 e.printStackTrace();
             }
         }
-        return "/mypage";
+        return "mypage";
     }
 }
