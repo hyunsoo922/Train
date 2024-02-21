@@ -29,7 +29,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        ddl-auto: create
+        ddl-auto: update
         dialect: org.hibernate.dialect.MariaDBDialect
 
 # 페이징 관련 세팅값
