@@ -25,12 +25,12 @@ public class myInfoUpdateController {
     @GetMapping("/student")
     public String showChangeStudentInfoForm(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         model.addAttribute("user", principalDetails.getUser());
-        return "/mypage/myInfoUpdate/student"; // changeInfo.html과 매핑되는 뷰 이름
+        return "mypage/myInfoUpdate/student"; // changeInfo.html과 매핑되는 뷰 이름
     }
 
     @GetMapping("/bookStore")
     public String showChangeBookStoreInfoForm() {
-        return "/mypage/myInfoUpdate/bookStore";
+        return "mypage/myInfoUpdate/bookStore";
     }
 
     @PostMapping("/student")
@@ -66,14 +66,14 @@ public class myInfoUpdateController {
         } catch (NoSuchElementException e) {
             driver.quit();
         }
-        return "redirect:/mypage/" + principalDetails.getUser().getId();
+        return "redirect:mypage/" + principalDetails.getUser().getId();
     }
 
     @PostMapping("/bookStore")
     public String handleSubmit(@RequestParam("franchisee") String franchisee,
                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
         userService.updateBookStoreInfo(franchisee, principalDetails.getUser().getId());
-        return "redirect:/mypage/" + principalDetails.getUser().getId();
+        return "redirect:mypage/" + principalDetails.getUser().getId();
     }
 
     private static void sleep(int milliseconds) {

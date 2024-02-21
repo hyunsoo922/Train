@@ -51,12 +51,12 @@ public class PurchaseController {
     @GetMapping("/cancle")
     public String cancle()
     {
-        return "/purchase/cancle";
+        return "purchase/cancle";
     }
 
     @GetMapping("/fail")
     public String fail()
     {
-        return "/purchase/fail";
+        return "purchase/fail";
     }
 }

@@ -62,7 +62,7 @@ public class MyPageController {
                 System.out.println("로그인실패");
                 model.addAttribute("logged_id", null);
             }
-            return "/mypage";
+            return "mypage";
         }
         else if(userService.findAuthority(user_id).equals("ROLE_BOOKSTORE")) {
             // 가맹점 ID를 전달
@@ -88,9 +88,9 @@ public class MyPageController {
                 System.out.println("로그인실패");
                 model.addAttribute("logged_id", null);
             }
-            return "/mypageBookStore";
+            return "mypageBookStore";
         }
-        return "/mypage";
+        return "mypage";
     }
     @GetMapping("/mypage/mileage/{user_id}")
     public String mileage(@PathVariable Long user_id, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
@@ -103,6 +103,6 @@ public class MyPageController {
             System.out.println("마일리지 조회 실패");
             model.addAttribute("logged_id", null);
         }
-        return "/mypage/mileage";
+        return "mypage/mileage";
     }
 }

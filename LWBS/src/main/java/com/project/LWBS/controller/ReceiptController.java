@@ -59,7 +59,7 @@ public class ReceiptController {
         }
         long Id = Long.parseLong(receiptId);
         receiptService.findById(Id, receive);
-        return "redirect:/bookStore/Receipt";
+        return "redirect:bookStore/Receipt";
     }
 
     @GetMapping("/ReceiptSearch")
@@ -86,7 +86,7 @@ public class ReceiptController {
         }
         long Id = Long.parseLong(receiptId);
         receiptService.findById(Id, receive);
-        return "redirect:/bookStore/ReceiptSearch";
+        return "redirect:bookStore/ReceiptSearch";
     }
 
 }
