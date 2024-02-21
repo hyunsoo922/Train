@@ -63,29 +63,35 @@ public class BookRestController {
 
         WebElement elem = driver.findElement(By.id("id_input"));
         elem.sendKeys(id);
+        System.out.println(id);
 
         WebElement passwordInput = driver.findElement(By.id("password_input"));
         passwordInput.sendKeys(ps);
+        System.out.println(ps);
         passwordInput.sendKeys(Keys.RETURN);
 
         sleep(300);
         System.out.println("로그인 단계");
         driver.get("https://mypage.nsu.ac.kr/mypage/student/?m1=A00020%2FHSK511%25");
-
+        System.out.println("수강신청확인 페이지 접속");
         /* 수강신청확인서 페이지가 2024년으로 갱신되어 추가적인 조작이 필요하여 추가한 코드 */
 
         // 년도 입력창의 XPATH
         String year = "//*[@id=\"wrapper\"]/div[1]/div/div/div[2]/div/table/tbody/tr/td[2]/input";
         WebElement Year = driver.findElement(By.xpath(year));
         Year.click();
+        System.out.println("year 버튼 클릭");
         Year.clear();
+        System.out.println("year 버튼 초기화");
         sleep(100);
         Year.sendKeys("2023");
+        System.out.println("year에 2023 입력");
         sleep(100);
         // 드롭다운 메뉴의 2학기 옵션의 XPATH
         String second = "//*[@id=\"wrapper\"]/div[1]/div/div/div[2]/div/table/tbody/tr/td[4]/div/select/option[3]";
         WebElement Second = driver.findElement(By.xpath(second));
         Second.click();
+        System.out.println("드롭다운 메뉴 2학기 클릭");
         sleep(100);
         // 조회 버튼의 XPATH
         String checkbutton = "//*[@id=\"wrapper\"]/div[1]/div/div/div[3]/div[2]/div";
