@@ -16,7 +16,7 @@ public class IdVerificationController {
             @RequestParam(name = "id") String id,
             @RequestParam(name = "pw") String pw) {
         ChromeOptions options = new ChromeOptions();
-//        options.addArguments("--headless");
+        options.addArguments("--headless");
 
 //        System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
         System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");

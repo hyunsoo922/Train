@@ -38,7 +38,7 @@ public class myInfoUpdateController {
                                @RequestParam("studentPw") String studentPw,
                                Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         ChromeOptions options = new ChromeOptions();
-//        options.addArguments("--headless");
+        options.addArguments("--headless");
 
 //        System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
         System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
