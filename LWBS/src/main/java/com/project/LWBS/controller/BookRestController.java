@@ -80,7 +80,7 @@ public class BookRestController {
         Year.click();
         Year.clear();
         sleep(100);
-        Year.sendKeys("2018");
+        Year.sendKeys("2023");
         sleep(100);
         // 드롭다운 메뉴의 2학기 옵션의 XPATH
         String second = "//*[@id=\"wrapper\"]/div[1]/div/div/div[2]/div/table/tbody/tr/td[4]/div/select/option[3]";
