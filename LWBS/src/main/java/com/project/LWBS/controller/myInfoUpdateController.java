@@ -41,7 +41,7 @@ public class myInfoUpdateController {
         options.addArguments("--headless");
 
 //        System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "/home/ubuntu/Train/LWBS/build/libs/chromedriver-win64/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver.exe");
         WebDriver driver = new ChromeDriver(options);
 
         System.out.println("시작");
