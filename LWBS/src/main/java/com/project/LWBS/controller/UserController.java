@@ -67,7 +67,7 @@ public class UserController {
         new SecurityContextLogoutHandler().logout(request,response,null);
         userService.deleteUser(user);
 
-        return  "redirect:home";
+        return  "redirect:/home";
     }
 
 }

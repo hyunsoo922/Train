@@ -48,7 +48,7 @@ public class BookRestController {
     @GetMapping("/webscraping/{user_id}")
     public String hello(@PathVariable Long user_id) {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
+//        options.addArguments("--headless");
 
 //        System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
         System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
