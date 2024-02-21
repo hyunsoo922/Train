@@ -50,7 +50,7 @@ public class BookRestController {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
 
-//        System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
         System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
         WebDriver driver = new ChromeDriver(options);
 
@@ -68,8 +68,8 @@ public class BookRestController {
         passwordInput.sendKeys(ps);
         passwordInput.sendKeys(Keys.RETURN);
 
-        sleep(1000);
-
+        sleep(300);
+        System.out.println("로그인 단계");
         driver.get("https://mypage.nsu.ac.kr/mypage/student/?m1=A00020%2FHSK511%25");
 
         /* 수강신청확인서 페이지가 2024년으로 갱신되어 추가적인 조작이 필요하여 추가한 코드 */
@@ -91,10 +91,10 @@ public class BookRestController {
         String checkbutton = "//*[@id=\"wrapper\"]/div[1]/div/div/div[3]/div[2]/div";
         WebElement Checkbutton = driver.findElement(By.xpath(checkbutton));
         Checkbutton.click();
-
+        System.out.println("수강신청확인서 접속");
         /* 새 학기가 시작되면 없앨것 */
 
-        sleep(1000);
+        sleep(300);
 
         int professorButtonIndex = 2;
         String professorButton1 = "//*[@id=\"wrapper\"]/div[1]/div/div/div[6]/div[1]/div/table/tbody/tr[";
@@ -107,7 +107,7 @@ public class BookRestController {
         List<String> bookNames = new ArrayList<>();
         List<String> departments = new ArrayList<>();
         List<String> subjects = new ArrayList<>();
-
+        System.out.println("XPath 조합 시작");
         while (true) {
             // 메뉴 버튼 XPath 조합
             String menuButtonXPath = professorButton1 + professorButtonIndex + professorButton2;
@@ -117,6 +117,7 @@ public class BookRestController {
                 // 메뉴 버튼을 클릭
                 ((JavascriptExecutor) driver).executeScript("arguments[0].click();", menuButton);
                 sleep(100);
+                System.out.println("메뉴 버튼 클릭");
                 while (true) {
                     // 주교재명 XPath 조합
                     String menuButtonXPath2 = BookInfo1 + BookInfoIndex + BookInfo2;
@@ -124,23 +125,28 @@ public class BookRestController {
                     String subjectXPath = "//*[@id=\"popup_layout_list\"]/div/div[2]/div[2]/div/div[1]/div/div/table/tbody/tr[1]/td[4]/div/span[1]";
                     // 학과 요소 XPath
                     String departmentXPath = "//*[@id=\"popup_layout_list\"]/div/div[2]/div[2]/div/div[1]/div/div/table/tbody/tr[3]/td[4]/span";
+                    System.out.println("주교재, 과목, 학과 XPath 확인");
                     try {
+                        System.out.println("과목 XPath 탐색 시작");
                         // 과목 요소 XPath에 해당하는 웹 요소를 탐색
                         WebElement subjectElement = driver.findElement(By.xpath(subjectXPath));
                         // 수집한 웹 요소를 저장
+                        System.out.println("웹 요소 저장");
                         String subject = subjectElement.getText();
                         // 0.1초 대기
                         sleep(100);
-
+                        System.out.println("학과 XPath 탐색 시작");
                         // 학과 요소 XPath에 해당하는 웹 요소를 탐색
                         WebElement departmentElement = driver.findElement(By.xpath(departmentXPath));
                         // 수집한 웹 요소를 저장
+                        System.out.println("웹 요소 저장");
                         String department = departmentElement.getText();
                         sleep(100);
-
+                        System.out.println("주교재명 XPath 탐색 시작");
                         // 주교재명 XPath에 해당하는 웹 요소를 탐색
                         WebElement bookElement = driver.findElement(By.xpath(menuButtonXPath2));
                         // 수집한 웹 요소를 저장
+                        System.out.println("웹 요소 저장");
                         String book = bookElement.getText();
                         sleep(100);
 
@@ -153,6 +159,7 @@ public class BookRestController {
                             subjects.add(subject);
                             System.out.println(subjects);
                         }
+                        System.out.println("웹스크래핑 종료");
                         break;
                     } catch (org.openqa.selenium.NoSuchElementException e) {
                         // 교재명이 없는 경우 다음 교재명을 탐색
@@ -184,7 +191,7 @@ public class BookRestController {
 
         sleep(100);
         driver.quit();
-
+        System.out.println("네이버 API 시작");
         String clientId = "GjB1T5WYEFrpN4KIf6Pb";
         String clientSecret = "U9jyF2ZCDa";
         int index = 0;
