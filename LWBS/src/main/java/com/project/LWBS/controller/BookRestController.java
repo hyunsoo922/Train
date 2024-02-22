@@ -50,8 +50,8 @@ public class BookRestController {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
 
-        //System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
         WebDriver driver = new ChromeDriver(options);
 
         System.out.println("시작");
@@ -80,19 +80,21 @@ public class BookRestController {
         String year = "//*[@id=\"wrapper\"]/div[1]/div/div/div[2]/div/table/tbody/tr/td[2]/input";
         WebElement Year = driver.findElement(By.xpath(year));
         Year.click();
+        sleep(300);
         System.out.println("year 버튼 클릭");
         Year.clear();
+        sleep(300);
         System.out.println("year 버튼 초기화");
-        sleep(100);
+        sleep(300);
         Year.sendKeys("2023");
         System.out.println("year에 2023 입력");
-        sleep(100);
+        sleep(300);
         // 드롭다운 메뉴의 2학기 옵션의 XPATH
         String second = "//*[@id=\"wrapper\"]/div[1]/div/div/div[2]/div/table/tbody/tr/td[4]/div/select/option[3]";
         WebElement Second = driver.findElement(By.xpath(second));
         Second.click();
         System.out.println("드롭다운 메뉴 2학기 클릭");
-        sleep(100);
+        sleep(300);
         // 조회 버튼의 XPATH
         String checkbutton = "//*[@id=\"wrapper\"]/div[1]/div/div/div[3]/div[2]/div";
         WebElement Checkbutton = driver.findElement(By.xpath(checkbutton));
