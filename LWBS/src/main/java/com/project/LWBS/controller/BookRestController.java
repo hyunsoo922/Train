@@ -59,7 +59,7 @@ public class BookRestController {
         //WebDriver driver = new ChromeDriver(options);
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
+        //options.addArguments("--headless");
         
         // EC2 서버의 IP 주소와 포트 설정
         String ec2ServerIP = "51.21.62.144";
