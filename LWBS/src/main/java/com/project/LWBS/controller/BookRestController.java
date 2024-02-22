@@ -4,7 +4,6 @@ import com.project.LWBS.service.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -14,18 +13,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.*;
 import com.project.LWBS.service.BookService;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 
 @Controller
 @RequestMapping
@@ -51,25 +46,14 @@ public class BookRestController {
     }
 
     @GetMapping("/webscraping/{user_id}")
-    public String hello(@PathVariable Long user_id) throws MalformedURLException {
-        //ChromeOptions options = new ChromeOptions();
-        //options.addArguments("--headless");
-        //System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
-        //System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
-        //WebDriver driver = new ChromeDriver(options);
-
+    public String hello(@PathVariable Long user_id) {
         ChromeOptions options = new ChromeOptions();
-        //options.addArguments("--headless");
-        
-        // EC2 서버의 IP 주소와 포트 설정
-        String ec2ServerIP = "51.21.62.144";
-        int ec2ServerPort = 8093;
+        options.addArguments("--headless");
 
-        // 원격 드라이버에 연결하기 위한 URL 설정
-        URL serverURL = new URL("http://" + ec2ServerIP + ":" + ec2ServerPort);
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
+        WebDriver driver = new ChromeDriver(options);
 
-        // 원격으로 실행 중인 크롬 드라이버에 연결
-        WebDriver driver = new RemoteWebDriver(serverURL, options);
         System.out.println("시작");
 
         String id = userService.findByUserId(user_id).getStudentId();
@@ -186,7 +170,7 @@ public class BookRestController {
                         }
                         System.out.println("웹스크래핑 종료");
                         break;
-                    } catch (NoSuchElementException e) {
+                    } catch (org.openqa.selenium.NoSuchElementException e) {
                         // 교재명이 없는 경우 다음 교재명을 탐색
                         BookInfoIndex++;
                         continue;
@@ -202,7 +186,7 @@ public class BookRestController {
 
                 // 다음 강의 계획서에서 첫 번째 주교재 항목을 찾도록 초기화
                 BookInfoIndex = 1;
-            } catch (NoSuchElementException e) {
+            } catch (org.openqa.selenium.NoSuchElementException e) {
                 // 수강신청 리스트 페이지에서 수강신청한 강의를 찾지 못할 시 종료
                 System.out.println("종료");
                 break;
