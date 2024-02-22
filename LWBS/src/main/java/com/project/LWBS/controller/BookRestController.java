@@ -70,31 +70,31 @@ public class BookRestController {
         System.out.println(ps);
         passwordInput.sendKeys(Keys.RETURN);
 
-        sleep(300);
+        sleep(1000);
         System.out.println("로그인 단계");
         driver.get("https://mypage.nsu.ac.kr/mypage/student/?m1=A00020%2FHSK511%25");
         System.out.println("수강신청확인 페이지 접속");
         /* 수강신청확인서 페이지가 2024년으로 갱신되어 추가적인 조작이 필요하여 추가한 코드 */
-        sleep(300);
+        sleep(1000);
         // 년도 입력창의 XPATH
         String year = "//*[@id=\"wrapper\"]/div[1]/div/div/div[2]/div/table/tbody/tr/td[2]/input";
         WebElement Year = driver.findElement(By.xpath(year));
         Year.click();
-        sleep(300);
+        sleep(1000);
         System.out.println("year 버튼 클릭");
         Year.clear();
-        sleep(300);
+        sleep(1000);
         System.out.println("year 버튼 초기화");
-        sleep(300);
+        sleep(1000);
         Year.sendKeys("2023");
         System.out.println("year에 2023 입력");
-        sleep(300);
+        sleep(1000);
         // 드롭다운 메뉴의 2학기 옵션의 XPATH
         String second = "//*[@id=\"wrapper\"]/div[1]/div/div/div[2]/div/table/tbody/tr/td[4]/div/select/option[3]";
         WebElement Second = driver.findElement(By.xpath(second));
         Second.click();
         System.out.println("드롭다운 메뉴 2학기 클릭");
-        sleep(300);
+        sleep(1000);
         // 조회 버튼의 XPATH
         String checkbutton = "//*[@id=\"wrapper\"]/div[1]/div/div/div[3]/div[2]/div";
         WebElement Checkbutton = driver.findElement(By.xpath(checkbutton));
@@ -102,7 +102,7 @@ public class BookRestController {
         System.out.println("수강신청확인서 접속");
         /* 새 학기가 시작되면 없앨것 */
 
-        sleep(300);
+        sleep(1000);
         System.out.println("XPath 조합 시작");
         int professorButtonIndex = 2;
         String professorButton1 = "//*[@id=\"wrapper\"]/div[1]/div/div/div[6]/div[1]/div/table/tbody/tr[";
@@ -116,7 +116,7 @@ public class BookRestController {
         List<String> departments = new ArrayList<>();
         List<String> subjects = new ArrayList<>();
         System.out.println("XPath 조합 완료");
-        sleep(300);
+        sleep(1000);
         while (true) {
             // 메뉴 버튼 XPath 조합
             String menuButtonXPath = professorButton1 + professorButtonIndex + professorButton2;
@@ -125,7 +125,7 @@ public class BookRestController {
                 WebElement menuButton = driver.findElement(By.xpath(menuButtonXPath));
                 // 메뉴 버튼을 클릭
                 ((JavascriptExecutor) driver).executeScript("arguments[0].click();", menuButton);
-                sleep(100);
+                sleep(1000);
                 System.out.println("메뉴 버튼 클릭");
                 while (true) {
                     // 주교재명 XPath 조합
@@ -143,21 +143,21 @@ public class BookRestController {
                         System.out.println("웹 요소 저장");
                         String subject = subjectElement.getText();
                         // 0.1초 대기
-                        sleep(100);
+                        sleep(1000);
                         System.out.println("학과 XPath 탐색 시작");
                         // 학과 요소 XPath에 해당하는 웹 요소를 탐색
                         WebElement departmentElement = driver.findElement(By.xpath(departmentXPath));
                         // 수집한 웹 요소를 저장
                         System.out.println("웹 요소 저장");
                         String department = departmentElement.getText();
-                        sleep(100);
+                        sleep(1000);
                         System.out.println("주교재명 XPath 탐색 시작");
                         // 주교재명 XPath에 해당하는 웹 요소를 탐색
                         WebElement bookElement = driver.findElement(By.xpath(menuButtonXPath2));
                         // 수집한 웹 요소를 저장
                         System.out.println("웹 요소 저장");
                         String book = bookElement.getText();
-                        sleep(100);
+                        sleep(1000);
 
                         // 주교재명의 길이가 5 이상인 이름만 리스트에 저장
                         if (book.length() >= 5) {
@@ -182,7 +182,7 @@ public class BookRestController {
                 // x 버튼을 찾고 클릭
                 WebElement closeButton = driver.findElement(By.xpath("//*[@id=\"popup_layout_list\"]/div/div[2]/div[1]/img"));
                 closeButton.click();
-                sleep(100);
+                sleep(1000);
 
                 // 다음 강의 계획서에서 첫 번째 주교재 항목을 찾도록 초기화
                 BookInfoIndex = 1;
@@ -198,7 +198,7 @@ public class BookRestController {
         departments.remove(2);
         subjects.remove(2);
 
-        sleep(100);
+        sleep(1000);
         driver.quit();
         System.out.println("네이버 API 시작");
         String clientId = "GjB1T5WYEFrpN4KIf6Pb";
