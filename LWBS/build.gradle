@@ -1,47 +1,231 @@
-plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.1.5'
-	id 'io.spring.dependency-management' version '1.1.3'
-}
+package com.project.LWBS.controller;
 
-group = 'com.project'
-version = '0.0.1-SNAPSHOT'
+import com.project.LWBS.service.BookService;
+import com.project.LWBS.service.EnrollmentService;
+import com.project.LWBS.service.UserService;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-java {
-	sourceCompatibility = '17'
-}
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-}
+@Controller
+@RequestMapping
+public class BookRestController {
 
-repositories {
-	mavenCentral()
-}
+    private static final int MAX_INDEX = 22;
+    private final WebDriver driver;
+    private final EnrollmentService enrollmentService;
+    private final BookService bookService;
+    private final UserService userService;
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
-	implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
-	implementation 'org.json:json:20210307'
-}
-tasks.named('bootBuildImage') {
-	builder = 'paketobuildpacks/builder-jammy-base:latest'
-}
+    @Autowired
+    public BookRestController(EnrollmentService enrollmentService, BookService bookService, UserService userService) {
+        this.enrollmentService = enrollmentService;
+        this.bookService = bookService;
+        this.userService = userService;
 
-tasks.named('test') {
-	useJUnitPlatform()
+        // WebDriver 인스턴스 생성
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        this.driver = new ChromeDriver(options);
+    }
+
+    @GetMapping("/webscraping/{user_id}")
+    public String hello(@PathVariable Long user_id) {
+        try {
+            String id = userService.findByUserId(user_id).getStudentId();
+            String ps = userService.findByUserId(user_id).getStudentPw();
+
+            login(id, ps);
+
+            Thread.sleep(300);
+
+            goToCoursePage();
+
+            Thread.sleep(300);
+
+            selectYearAndSemester();
+
+            Thread.sleep(300);
+
+            BookInfo bookInfo = scrapeBookInfo();
+            List<String> bookNames = bookInfo.getBookNames();
+            List<String> departments = bookInfo.getDepartments();
+            List<String> subjects = bookInfo.getSubjects();
+
+            String clientId = "GjB1T5WYEFrpN4KIf6Pb";
+            String clientSecret = "U9jyF2ZCDa";
+            searchAndSaveBooks(bookNames, departments, subjects, clientId, clientSecret, user_id);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return "mypage";
+    }
+
+    private void login(String id, String ps) {
+        driver.get("https://sso.nsu.ac.kr/login?redirect_url=https%3A%2F%2Fmypage.nsu.ac.kr%2Fmypage%2Fstudent%2F");
+        WebElement elem = driver.findElement(By.id("id_input"));
+        elem.sendKeys(id);
+
+        WebElement passwordInput = driver.findElement(By.id("password_input"));
+        passwordInput.sendKeys(ps);
+        passwordInput.sendKeys(Keys.RETURN);
+    }
+
+    private void goToCoursePage() {
+        driver.get("https://mypage.nsu.ac.kr/mypage/student/?m1=A00020%2FHSK511%25");
+    }
+
+    private void selectYearAndSemester() {
+        WebElement year = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[1]/div/div/div[2]/div/table/tbody/tr/td[2]/input"));
+        year.click();
+        year.clear();
+        year.sendKeys("2023");
+
+        WebElement semester = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[1]/div/div/div[2]/div/table/tbody/tr/td[4]/div/select/option[3]"));
+        semester.click();
+
+        WebElement checkButton = driver.findElement(By.xpath("//*[@id=\"wrapper\"]/div[1]/div/div/div[3]/div[2]/div"));
+        checkButton.click();
+    }
+    public class BookInfo {
+        private List<String> bookNames;
+        private List<String> departments;
+        private List<String> subjects;
+
+        public BookInfo(List<String> bookNames, List<String> departments, List<String> subjects) {
+            this.bookNames = bookNames;
+            this.departments = departments;
+            this.subjects = subjects;
+        }
+
+        public List<String> getBookNames() {
+            return bookNames;
+        }
+
+        public List<String> getDepartments() {
+            return departments;
+        }
+
+        public List<String> getSubjects() {
+            return subjects;
+        }
+    }
+    public BookInfo scrapeBookInfo() {
+        List<String> bookNames = new ArrayList<>();
+        List<String> departments = new ArrayList<>();
+        List<String> subjects = new ArrayList<>();
+        int professorButtonIndex = 2;
+        int bookInfoIndex = 1;
+        boolean stopLoop = false;
+
+        while (!stopLoop) {
+            try {
+                String menuButtonXPath = String.format("//*[@id=\"wrapper\"]/div[1]/div/div/div[6]/div[1]/div/table/tbody/tr[%d]/td[11]", professorButtonIndex);
+                WebElement menuButton = driver.findElement(By.xpath(menuButtonXPath));
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", menuButton);
+                Thread.sleep(100);
+
+                while (true) {
+                    String bookInfoXPath = String.format("//*[@id=\"popup_layout_list\"]/div/div[2]/div[2]/div/div[2]/div/table/tbody/tr[%d]/td[3]/span", bookInfoIndex);
+                    String departmentInfoXPath = "//*[@id=\"popup_layout_list\"]/div/div[2]/div[2]/div/div[1]/div/div/table/tbody/tr[1]/td[4]/div/span[1]";
+                    String subjectInfoXPath = "//*[@id=\"popup_layout_list\"]/div/div[2]/div[2]/div/div[1]/div/div/table/tbody/tr[3]/td[4]/span";
+                    WebElement bookElement = driver.findElement(By.xpath(bookInfoXPath));
+                    WebElement departmentElement = driver.findElement(By.xpath(departmentInfoXPath));
+                    WebElement subjectElement = driver.findElement(By.xpath(subjectInfoXPath));
+                    String bookName = bookElement.getText();
+                    String department = departmentElement.getText();
+                    String subject = subjectElement.getText();
+                    if (bookName.length() >= 5) {
+                        bookNames.add(bookName);
+                        departments.add(department);
+                        subjects.add(subject);
+                    }
+                    bookInfoIndex++;
+                }
+            } catch (NoSuchElementException | InterruptedException e) {
+                professorButtonIndex++;
+                bookInfoIndex = 1;
+                // Add a condition to break the loop when the desired condition is met
+                if (professorButtonIndex > MAX_INDEX) { // Change MAX_INDEX to the appropriate value
+                    stopLoop = true;
+                }
+            }
+        }
+        return new BookInfo(bookNames, departments, subjects);
+    }
+
+    private void searchAndSaveBooks(List<String> bookNames, List<String> departments, List<String> subjects, String clientId, String clientSecret, Long user_id) {
+        try {
+            int index = 0;
+            List<String> listDepartments = departments;
+            List<String> listSubjects = subjects;
+            for (String term : bookNames) {
+                index++;
+                String encodedQuery = URLEncoder.encode(term, "UTF-8");
+                String apiUrl = "https://openapi.naver.com/v1/search/book.json?query=" + encodedQuery + "&display=1";
+                URL url = new URL(apiUrl);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.setRequestProperty("X-Naver-Client-Id", clientId);
+                con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+
+                int responseCode = con.getResponseCode();
+
+                if (responseCode == 200) {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+
+                    while ((line = br.readLine()) != null) {
+                        response.append(line);
+                    }
+                    br.close();
+
+                    String responseBody = response.toString();
+                    JSONObject jsonResponse = new JSONObject(responseBody);
+                    JSONArray items = jsonResponse.getJSONArray("items");
+
+                    for (int i = 0; i < items.length(); i++) {
+                        JSONObject item = items.getJSONObject(i);
+                        String title = item.getString("title");
+                        String author = item.getString("author");
+                        String discount = item.getString("discount");
+                        String publisher = item.getString("publisher");
+                        String imageUrl = item.getString("image");
+                        String isbn = item.getString("isbn");
+                        String description = item.getString("description");
+
+                        // 해당 교재의 학과 및 과목 정보 가져오기
+                        String D = listDepartments.get(index-1);
+                        String S = listSubjects.get(index-1);
+
+                        bookService.createBook(title, author, publisher, discount, imageUrl, isbn, description, D, S);
+                        enrollmentService.createEnrollment(title, userService.findByUserId(user_id).getId());
+                    }
+                } else {
+                    System.out.println("에러 코드: " + responseCode);
+                }
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
