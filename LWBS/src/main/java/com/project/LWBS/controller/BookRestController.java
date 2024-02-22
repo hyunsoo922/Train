@@ -48,7 +48,7 @@ public class BookRestController {
     @GetMapping("/webscraping/{user_id}")
     public String hello(@PathVariable Long user_id) {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
+        //options.addArguments("--headless");
 
         //System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
         System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
@@ -75,32 +75,32 @@ public class BookRestController {
         driver.get("https://mypage.nsu.ac.kr/mypage/student/?m1=A00020%2FHSK511%25");
         System.out.println("수강신청확인 페이지 접속");
         /* 수강신청확인서 페이지가 2024년으로 갱신되어 추가적인 조작이 필요하여 추가한 코드 */
+        sleep(300);
+        // 년도 입력창의 XPATH
+        String year = "//*[@id=\"wrapper\"]/div[1]/div/div/div[2]/div/table/tbody/tr/td[2]/input";
+        WebElement Year = driver.findElement(By.xpath(year));
+        Year.click();
+        System.out.println("year 버튼 클릭");
+        Year.clear();
+        System.out.println("year 버튼 초기화");
+        sleep(100);
+        Year.sendKeys("2023");
+        System.out.println("year에 2023 입력");
+        sleep(100);
+        // 드롭다운 메뉴의 2학기 옵션의 XPATH
+        String second = "//*[@id=\"wrapper\"]/div[1]/div/div/div[2]/div/table/tbody/tr/td[4]/div/select/option[3]";
+        WebElement Second = driver.findElement(By.xpath(second));
+        Second.click();
+        System.out.println("드롭다운 메뉴 2학기 클릭");
+        sleep(100);
+        // 조회 버튼의 XPATH
+        String checkbutton = "//*[@id=\"wrapper\"]/div[1]/div/div/div[3]/div[2]/div";
+        WebElement Checkbutton = driver.findElement(By.xpath(checkbutton));
+        Checkbutton.click();
+        System.out.println("수강신청확인서 접속");
+        /* 새 학기가 시작되면 없앨것 */
 
-//        // 년도 입력창의 XPATH
-//        String year = "//*[@id=\"wrapper\"]/div[1]/div/div/div[2]/div/table/tbody/tr/td[2]/input";
-//        WebElement Year = driver.findElement(By.xpath(year));
-//        Year.click();
-//        System.out.println("year 버튼 클릭");
-//        Year.clear();
-//        System.out.println("year 버튼 초기화");
-//        sleep(100);
-//        Year.sendKeys("2023");
-//        System.out.println("year에 2023 입력");
-//        sleep(100);
-//        // 드롭다운 메뉴의 2학기 옵션의 XPATH
-//        String second = "//*[@id=\"wrapper\"]/div[1]/div/div/div[2]/div/table/tbody/tr/td[4]/div/select/option[3]";
-//        WebElement Second = driver.findElement(By.xpath(second));
-//        Second.click();
-//        System.out.println("드롭다운 메뉴 2학기 클릭");
-//        sleep(100);
-//        // 조회 버튼의 XPATH
-//        String checkbutton = "//*[@id=\"wrapper\"]/div[1]/div/div/div[3]/div[2]/div";
-//        WebElement Checkbutton = driver.findElement(By.xpath(checkbutton));
-//        Checkbutton.click();
-//        System.out.println("수강신청확인서 접속");
-//        /* 새 학기가 시작되면 없앨것 */
-//
-//        sleep(300);
+        sleep(300);
         System.out.println("XPath 조합 시작");
         int professorButtonIndex = 2;
         String professorButton1 = "//*[@id=\"wrapper\"]/div[1]/div/div/div[6]/div[1]/div/table/tbody/tr[";
@@ -114,6 +114,7 @@ public class BookRestController {
         List<String> departments = new ArrayList<>();
         List<String> subjects = new ArrayList<>();
         System.out.println("XPath 조합 완료");
+        sleep(300);
         while (true) {
             // 메뉴 버튼 XPath 조합
             String menuButtonXPath = professorButton1 + professorButtonIndex + professorButton2;
@@ -219,10 +220,12 @@ public class BookRestController {
                 con.setRequestProperty("X-Naver-Client-Id", clientId);
                 con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
 
+                System.out.println("응답 코드 가져오는중");
                 // HTTP 응답 코드 가져오기
                 int responseCode = con.getResponseCode();
 
                 if (responseCode == 200) { // 성공적인 응답인 경우
+                    System.out.println("응답 코드 가져오기 성공");
                     // 응답 내용을 읽기 위한 BufferedReader 생성
                     BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
                     StringBuilder response = new StringBuilder();
@@ -241,12 +244,13 @@ public class BookRestController {
                     // 교재 정보가 담긴 배열 추출
                     JSONArray items = jsonResponse.getJSONArray("items");
                     int LEN = items.length();
-
+                    System.out.println("교재 정보 개수 : " + LEN);
                     for(int i = 0; i < LEN; i++) {
                         JSONObject item = items.getJSONObject(i);
 
                         // 교재 정보 추출
                         String title = item.getString("title");
+                        System.out.println("교재 이름 : " + title);
                         String author = item.getString("author");
                         String discount = item.getString("discount");
                         String publisher = item.getString("publisher");
@@ -262,6 +266,7 @@ public class BookRestController {
                         bookService.createBook(title, author, publisher, discount, imageUrl, isbn, description, D, S);
                         // Enrollment 객체에 교재명을 담아 Service에게 전달
                         enrollmentService.createEnrollment(title, userService.findByUserId(user_id).getId());
+                        System.out.println("데이터베이스에 값 전달 완료");
                     }
                 } else {
                     // 에러 코드 출력
