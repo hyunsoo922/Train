@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
-@RequestMapping("student")
+@RequestMapping("/student")
 public class StudentController {
 
     private StudentService studentService;
@@ -28,7 +28,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/purchase/book")
+    @GetMapping("/purchase/books")
     public void getBook(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails)
     {
             User user = principalDetails.getUser();

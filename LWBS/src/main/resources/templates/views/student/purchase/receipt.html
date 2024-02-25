@@ -47,6 +47,7 @@
 </head>
 <body>
 <th:block th:insert="~{header::header}"></th:block>
+<th:block th:insert="~{nav::navfrag}"></th:block>
 <th:block th:insert="~{banner::banner}"></th:block>
 <div class="container">
     <form th:action="@{/student/purchase/receipt}" method="POST" enctype="multipart/form-data">
