@@ -28,7 +28,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/purchase/books")
+    @GetMapping("/purchase/book")
     public void getBook(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails)
     {
             User user = principalDetails.getUser();
