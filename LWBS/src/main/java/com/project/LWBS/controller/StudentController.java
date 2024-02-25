@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
-@RequestMapping("/student")
+@RequestMapping("student")
 public class StudentController {
 
     private StudentService studentService;
