@@ -43,7 +43,7 @@ public class StudentController {
             model.addAttribute("bookList", bookList);
             model.addAttribute("receiveDays",receiveList);
 
-            return "student/purchase/book";
+            return "/student/purchase/book";
 
     }
 
