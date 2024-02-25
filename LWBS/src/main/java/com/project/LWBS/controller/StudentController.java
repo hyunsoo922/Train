@@ -29,7 +29,7 @@ public class StudentController {
     }
 
     @GetMapping("/purchase/book")
-    public void getBook(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails)
+    public String getBook(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails)
     {
             User user = principalDetails.getUser();
             model.addAttribute("user",user);
@@ -42,6 +42,8 @@ public class StudentController {
 
             model.addAttribute("bookList", bookList);
             model.addAttribute("receiveDays",receiveList);
+
+            return "student/purchase/book";
 
     }
 
