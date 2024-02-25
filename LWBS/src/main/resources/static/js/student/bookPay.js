@@ -7,7 +7,7 @@ $(function(){
 
         $.ajax({
                     url: "/purchase/payment",
-                    type: "GET",
+                    type: "POST",
                     data:{
                         "item": item,
                         "totalPrice": totalPrice,

@@ -17,7 +17,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/purchase")
-@CrossOrigin(origins = "")
+@CrossOrigin(origins = "http://51.21.62.144:8093")
 public class PurchaseController {
 
     @Autowired
@@ -26,7 +26,7 @@ public class PurchaseController {
     @Autowired
     private StudentService studentService;
 
-    @GetMapping("/payment")
+    @PostMapping("/payment")
     public @ResponseBody Purchase payment(@RequestParam String item, @RequestParam String totalPrice, @RequestParam String totalCnt)
     {
         Purchase response = purchaseService.paymentKakaoPay(item,totalPrice,totalCnt);
