@@ -29,29 +29,20 @@ public class StatisticsController {
     }
 
     @GetMapping("/Statistics")
-    public void hello(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        // 가장 많이 팔린 책 리스트
+    public void statistics(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         List<Map<String, Object>> statisticsList = receiptService.statistics();
-        // 책의 id로 검색한 Book 객체를 담을 리스트
         List<Book> bookList = new ArrayList<>();
-        // 순위 정보를 담을 리스트
         List<Integer> countList = new ArrayList<>();
         for (Map<String, Object> map : statisticsList) {
-            // Map 타입 객체 map으로 rangkingList를 순회하며
-            // 책의 id 값을 추출
             Long bookId = (Long) map.get("book_id");
-            // 추출한 id 값에 해당하는 Book 객체를 검색
             Book book = bookService.findById(bookId);
-            // 검색한 Book 객체를 bookList에 저장
             bookList.add(book);
-            // 순위 정보를 추출
             int count = ((Number) map.get("count")).intValue();
-            // 순위 정보를 countList에 추가
-            countList.add(count);
+             countList.add(count);
         }
-        // 책 정보와 순위 정보, 현재 로그인 중인 user의 정보를 view에게 전달
         model.addAttribute("bookList", bookList);
         model.addAttribute("countList", countList);
         model.addAttribute("user",principalDetails.getUser());
+
     }
 }

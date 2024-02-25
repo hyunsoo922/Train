@@ -11,7 +11,6 @@
 <th:block th:insert="~{/storenav::navfrag}"></th:block>
 <div class="container mt-5">
     <h1>전체 구매 내역</h1>
-
     <form th:action="@{/bookStore/ReceiptSearch}" method="get">
         <div class="form-group">
             <label for="studentId">학생 번호:</label>
@@ -20,8 +19,6 @@
         <button type="submit" class="btn btn-primary">검색</button>
         <button id="printButton" class="btn btn-secondary">인쇄</button>
     </form>
-
-
     <table class="table mt-3">
         <thead>
         <tr>
@@ -32,7 +29,6 @@
             <th>출판사명</th>
             <th>저자명</th>
             <th>구매일</th>
-            <th>수령예정일</th>
             <th>수령여부</th>
             <th>수령여부변경</th>
             <th>수령날짜</th>
@@ -54,28 +50,57 @@
             </td>
             <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
             </td>
-            <td><span th:text="${receipt.user.studentId}"></span></td>
-            <td><span th:text="${receipt.user.name}"></span></td>
+            <!-- 체크박스 -->
+            <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
+                <span th:text="${receipt.user.studentId}"></span>
+            </td>
+            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
+            </td>
+            <!-- 학생번호 -->
+            <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
+                <span th:text="${receipt.user.name}"></span>
+            </td>
+            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
+            </td>
+            <!-- 이름 -->
             <td><span th:text="${receipt.book.name}"></span></td>
+            <!-- 교재명 -->
             <td><span th:text="${receipt.book.publisher}"></span></td>
+            <!-- 출판사 -->
             <td><span th:text="${receipt.book.author}"></span></td>
-            <td><span th:text="${receipt.createdAt}"></span></td>
-            <td><span th:text="${receipt.receive.day}"></span></td>
-            <td><span th:text="${receipt.receive.receiveCheck}"></span></td>
-        <td>
-            <form th:action ="@{/bookStore/Receipt}" method="post">
-
-                        <select name = "check">
-                            <option value="수령">수령</option>
-                            <option value="미수령">미수령</option>
-                        </select>
-                <input type="hidden" name="receiptId" th:value="${receipt.id}">
-                <input type="hidden" name="receiveDay" th:value="${receipt.receive.day}">
-                <button type="submit">변경</button>
-
-            </form>
-        </td>
-            <td><span th:text="${receipt.receive.day}"></span></td>
+            <!-- 저자명 -->
+            <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
+                <span th:text="${receipt.createdAt}"></span>
+            </td>
+            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
+            </td>
+            <!-- 구매일 -->>
+            <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
+                <span th:text="${receipt.receive.receiveCheck}"></span>
+            </td>
+            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
+            </td>
+            <!-- 수령여부 -->
+            <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
+                <form th:action="@{/bookStore/Receipt}" method="post">
+                    <select name="check">
+                        <option value="수령">수령</option>
+                        <option value="미수령">미수령</option>
+                    </select>
+                    <input type="hidden" name="receiptId" th:value="${receipt.id}">
+                    <input type="hidden" name="receiveDay" th:value="${receipt.receive.day}">
+                    <button type="submit">변경</button>
+                </form>
+            </td>
+            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
+            </td>
+            <!-- 수령여부 변경 -->
+            <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
+                <span th:text="${receipt.receive.day}"></span>
+            </td>
+            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
+            </td>
+            <!-- 수령날짜 -->
         </tr>
         </tbody>
     </table>

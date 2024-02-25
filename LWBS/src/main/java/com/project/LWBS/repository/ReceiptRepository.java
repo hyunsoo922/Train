@@ -55,4 +55,5 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
     }
 
     List<Receipt> findByUser(User user);
+
 }

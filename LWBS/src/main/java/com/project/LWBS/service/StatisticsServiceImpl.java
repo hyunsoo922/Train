@@ -26,9 +26,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         for (String name : nameList) {
             int count = 0;
-            System.out.println("nameList"+name);
             for (Receipt receipt : receiptList) {
-                System.out.println("receipt"+receipt.getBook().getName());
                 if (receipt.getBook().getName().equals(name)) {
                     count++;
                 }
@@ -39,4 +37,5 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         return countMap;
     }
+
 }
