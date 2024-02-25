@@ -56,35 +56,35 @@
     <th:block th:insert="~{nav::nav}"></th:block>
 <!--    <th:block th:insert="~{banner::banner}"></th:block>-->
     <div id="container">
-        <form th:action="@{/student/purchase/book}" id="bookFrm" method="POST" enctype="multipart/form-data">
-            <th:block th:each="book:${bookList}">
-                <div id="bookContainer">
-                    <img th:src="${book.imageUrl}">
-                    <div class="textContainer">
-                        <div th:text="${book.name}"></div>
-                        <div th:text="${book.author}"></div>
-                        <div th:text="${book.publisher}"></div>
-    <!--                    <div th:text="${book.description}"></div>-->
-                        <div th:text="${book.department.name}"></div>
-                        <div th:text="${book.subject.name}"></div>
-                    </div>
-                    <input type="checkbox" class="bookCheckBox" th:id="'option' + ${book.id}" th:value="${book.id}">
-                </div>
-            </th:block>
-            <div>
-                <input type="text" name="mileagePoint" id="mileagePoint" value="" placeholder="사용하실 마일리지를 입력하세요">
-            </div>
+        <span>북 접속</span>
+<!--        <form th:action="@{/student/purchase/book}" id="bookFrm" method="POST" enctype="multipart/form-data">-->
+<!--            <th:block th:each="book:${bookList}">-->
+<!--                <div id="bookContainer">-->
+<!--                    <img th:src="${book.imageUrl}">-->
+<!--                    <div class="textContainer">-->
+<!--                        <div th:text="${book.name}"></div>-->
+<!--                        <div th:text="${book.author}"></div>-->
+<!--                        <div th:text="${book.publisher}"></div>-->
+<!--                        <div th:text="${book.department.name}"></div>-->
+<!--                        <div th:text="${book.subject.name}"></div>-->
+<!--                    </div>-->
+<!--                    <input type="checkbox" class="bookCheckBox" th:id="'option' + ${book.id}" th:value="${book.id}">-->
+<!--                </div>-->
+<!--            </th:block>-->
+<!--            <div>-->
+<!--                <input type="text" name="mileagePoint" id="mileagePoint" value="" placeholder="사용하실 마일리지를 입력하세요">-->
+<!--            </div>-->
 
-            <select name="receiveDay" id="receiveDay" title="receiveDay">
-                <option>수령 날짜 선택</option>
-                <th:block th:each="receive:${receiveDays}">
-                    <option th:value="${receive.day}" th:utext="${receive.day}"></option>
-                </th:block>
-            </select>
+<!--            <select name="receiveDay" id="receiveDay" title="receiveDay">-->
+<!--                <option>수령 날짜 선택</option>-->
+<!--                <th:block th:each="receive:${receiveDays}">-->
+<!--                    <option th:value="${receive.day}" th:utext="${receive.day}"></option>-->
+<!--                </th:block>-->
+<!--            </select>-->
 
-            <input type="hidden" name="books" id="books" value="">
-            <button type="button" id="buyBtn">구매하기</button>
-        </form>
+<!--            <input type="hidden" name="books" id="books" value="">-->
+<!--            <button type="button" id="buyBtn">구매하기</button>-->
+<!--        </form>-->
     </div>
 </body>
 
