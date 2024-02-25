@@ -56,7 +56,7 @@ public class StudentController {
         session.setAttribute("receiveDay",receiveDay);
         session.setAttribute("mileagePoint",mileagePoint);
 
-        return "redirect:student/purchase/bookPay";
+        return "redirect:/student/purchase/bookPay";
 
     }
 
@@ -118,7 +118,7 @@ public class StudentController {
 
         studentService.updateDay(principalDetails.getUser(),day);
 
-        return "redirect:student/purchase/receipt";
+        return "redirect:/student/purchase/receipt";
 
     }
 
