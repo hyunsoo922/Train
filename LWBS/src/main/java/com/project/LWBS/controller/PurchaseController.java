@@ -29,6 +29,8 @@ public class PurchaseController {
     @PostMapping("/payment")
     public @ResponseBody Purchase payment(@RequestParam String item, @RequestParam String totalPrice, @RequestParam String totalCnt)
     {
+
+        System.out.println("상품"+item+"총가격"+totalPrice+"상품갯수"+totalCnt);
         Purchase response = purchaseService.paymentKakaoPay(item,totalPrice,totalCnt);
 
 
