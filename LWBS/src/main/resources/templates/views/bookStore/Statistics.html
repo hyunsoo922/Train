@@ -10,7 +10,7 @@
 
         th, td {
             border: 1px solid black;
-            padding: 8px;
+            padding: 4px;
             text-align: left;
         }
 
@@ -27,6 +27,9 @@
 <th:block th:insert="~{/storenav::navfrag}"></th:block>
 <br><br><br>
 
+<!-- 수정된 canvas 요소: 원하는 크기로 설정 -->
+<canvas id="myPieChart" width="500" height="500"></canvas>
+
 <!-- 표에 hidden 클래스 추가 -->
 <table border="1" class="hidden">
     <tr th:each="book, iterStat : ${bookList}">
@@ -37,8 +40,6 @@
         </td>
     </tr>
 </table>
-
-<canvas id="myPieChart" style="width: 3px; height: 3px;"></canvas>
 
 <script>
     // Thymeleaf에서 생성된 데이터를 JavaScript로 가져와서 사용
@@ -65,7 +66,12 @@
     var ctx = document.getElementById('myPieChart').getContext('2d');
     var myPieChart = new Chart(ctx, {
         type: 'pie',
-        data: dynamicData
+        data: dynamicData,
+        options: {
+            responsive: false, // 크기를 동적으로 조절하지 않음
+            maintainAspectRatio: false
+            // 기타 옵션들을 필요에 따라 추가할 수 있습니다.
+        }
     });
 </script>
 </body>

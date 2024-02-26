@@ -63,29 +63,36 @@ public class ReceiptController {
     }
 
     @GetMapping("/ReceiptSearch")
-    public String searchReceipts(@RequestParam(name = "studentId") String studentId, Model model,@AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public String searchReceipts(@RequestParam(name = "studentId", required = false) String studentId, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        if (studentId == null) {
+            // studentId가 없을 경우, 혹은 required=true로 설정하면 무조건 값이 필요할 경우 예외처리를 할 수 있습니다.
+            // 여기서는 기본값으로 현재 사용자의 학생 번호를 사용하도록 했습니다.
+            studentId = principalDetails.getUser().getStudentId();
+        }
+
         List<Receipt> filteredReceipts = receiptService.findReceiptsByStudentId(studentId);
         model.addAttribute("receipts", filteredReceipts);
-        model.addAttribute("user",principalDetails.getUser());
+        model.addAttribute("user", principalDetails.getUser());
         return "bookStore/ReceiptSearch";
     }
 
     @PostMapping("/ReceiptSearch")
-    public String updateReceiptSearch(@RequestParam("receiptId") String receiptId,
+    public String updateReceiptSearch(@RequestParam("receiptId") Long receiptId,
                                       @RequestParam("check") String check,
-                                      @RequestParam("receiveDay") String receiveDay, Model model,
+                                      @RequestParam("receiveDay") String receiveDay,
+                                      Model model,
                                       @AuthenticationPrincipal PrincipalDetails principalDetails) {
         List<Receive> receives = receiveService.findDay(receiveDay);
         Receive receive = new Receive();
-        model.addAttribute("user", principalDetails.getUser());
+
         for (int i = 0; i < receives.size(); i++) {
             if (receives.get(i).getReceiveCheck().equals(check)) {
                 receive = receives.get(i);
                 System.out.println("수령 : " + receive);
             }
         }
-        long Id = Long.parseLong(receiptId);
-        receiptService.findById(Id, receive);
+
+        receiptService.findById(receiptId, receive);
         return "redirect:/bookStore/ReceiptSearch";
     }
 
