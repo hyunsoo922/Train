@@ -15,7 +15,7 @@ public class PurchaseServiceImpl implements PurchaseService{
     @Override
     public Purchase paymentKakaoPay(String item,String totalPrice,String totalCnt) {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization","KakaoAK a6fd627cc7f7209f3f038eb3d0e2860c");
+        headers.set("Authorization","KakaoAK 74d0916631639e978afec5faf0540314");
         headers.set("Content-type","application/x-www-form-urlencoded;charset=utf-8");
 
         MultiValueMap<String,String> paymentData = new LinkedMultiValueMap<>();
