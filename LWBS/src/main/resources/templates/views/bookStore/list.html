@@ -6,20 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>교재 리스트</title>
     <style>
+        table {
+            margin: auto;
+        }
 
-     table {
-         margin: auto;
-     }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
 
-     th, td {
-         border: 1px solid black;
-         padding: 8px;
-         text-align: center;
-     }
-      .refresh-button {
-            margin-right: 200px;
+        .refresh-button {
+            float: right; /* 오른쪽으로 이동 */
             font-size: 16px;
-     }
+            margin-right: 100px; /* 간격 조정 */
+        }
+
     </style>
 </head>
 <body>
@@ -27,11 +29,11 @@
 <br><br>
 <th:block th:insert="~{/storenav::navfrag}"></th:block>
 <br><br><br>
-<div style="text-align: center;">
-    <h1>전체 교재 리스트</h1>
+<  <div style="text-align: center;">
+    <h2 style="font-size: 50px;">전체 교재 리스트</h2>
 </div>
+<button class="refresh-button" onclick="refreshPage()">갱신</button>
 <table border="1">
-    <button class="refresh-button" onclick="refreshPage()">갱신</button>
     <thead>
     <tr>
         <th>이미지</th>
@@ -43,7 +45,9 @@
     </thead>
     <tbody>
     <tr th:each="book : ${books}">
-        <td> <img th:src="${book.imageUrl}"></td>
+        <td>
+            <img th:src="${book.imageUrl}" style="max-width: 100px; max-height: 150px;">
+        </td>
         <td th:text="${book.name}"></td>
         <td th:text="${book.price}"></td>
         <td th:text="${book.publisher}"></td>
@@ -60,6 +64,5 @@
         location.reload(true);
     }
 </script>
-
 </body>
 </html>

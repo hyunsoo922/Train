@@ -9,8 +9,9 @@
 <th:block th:insert="~{/header::header}"></th:block>
 <th:block th:insert="~{/storenav::navfrag}"></th:block>
 <div class="container mt-5">
-    <h1>전체 구매 내역</h1>
-
+    <div style="text-align: center;">
+        <h2 style="font-size: 50px;">전체 구매 내역</h2>
+    </div>
     <form th:action="@{/bookStore/ReceiptSearch}" method="get">
         <div class="form-group">
             <label for="studentId">학생 번호:</label>
