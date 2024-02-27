@@ -4,34 +4,37 @@
     <meta charset="UTF-8">
     <title>서점 메인 페이지</title>
     <style>
-        /* 공통 스타일 */
-        table {
-            margin: auto;
-        }
+        h2 {
+          font-size: 100px; /* 원하는 크기로 조정하세요 */
+      }
+      /* 공통 스타일 */
+      table {
+          margin: auto;
+      }
 
-        th, td {
-            border: 1px solid black;
-            padding: 4px;
-            text-align: left;
-        }
-        /* 추가된 부분: 컨테이너 스타일 */
-         #chartAndTableContainer {
-        display: flex;
-        justify-content: flex-end; /* 오른쪽 정렬로 변경 */
-        align-items: flex-start;
-    }
+      th, td {
+          border: 1px solid black;
+          padding: 4px;
+          text-align: left;
+      }
+      /* 추가된 부분: 컨테이너 스타일 */
+       #chartAndTableContainer {
+      display: flex;
+      justify-content: flex-end; /* 오른쪽 정렬로 변경 */
+      align-items: flex-start;
+  }
 
-    /* 추가된 부분: 파이차트 스타일 */
-    #myPieChart {
-        max-width: 70%; /* 파이차트 너비를 최대 50%로 설정 */
-        margin-left: auto; /* 자동으로 왼쪽 여백을 채우도록 설정 */
-    }
+  /* 추가된 부분: 파이차트 스타일 */
+  #myPieChart {
+      max-width: 70%; /* 파이차트 너비를 최대 50%로 설정 */
+      margin-left: auto; /* 자동으로 왼쪽 여백을 채우도록 설정 */
+  }
 
-        #departmentContainer {
-        text-align: center; /* 텍스트 정렬을 중앙으로 설정 */
-        margin-top: 20px; /* 필요에 따라 상단 여백을 조절하세요 */
-        margin-bottom: 20px; /* 필요에 따라 상단 여백을 조절하세요 */
-    }
+      #departmentContainer {
+      text-align: center; /* 텍스트 정렬을 중앙으로 설정 */
+      margin-top: 20px; /* 필요에 따라 상단 여백을 조절하세요 */
+      margin-bottom: 20px; /* 필요에 따라 상단 여백을 조절하세요 */
+  }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -41,6 +44,9 @@
 <br><br>
 <th:block th:insert="~{/storenav::navfrag}"></th:block>
 <br><br><br>
+<div style="text-align: center;">
+    <h2 style="font-size: 80px;">교재 통계</h2>
+</div>
 
 <div id="departmentContainer">
     <label for="departmentSelect">학과 선택: </label>
