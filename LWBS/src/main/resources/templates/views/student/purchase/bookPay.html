@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -16,23 +15,75 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            flex-direction: column;
         }
-
         .bookContainer {
-            display: flex;
-            flex-direction: row;
+            display: table;
+            border-collapse: collapse;
+            width: calc(100% - 240px);
+            margin: 0 120px;
+            height: 40px;
+            table-layout: fixed;
         }
-
-        .bookContainer>span {
-            margin-right: 20px;
+        .bookContainer > div {
+            display: table-cell;
+            padding: 5px;
+            border: 1px solid #ddd;
+            width: 0;
         }
-
+        .bookName {
+            width: 550px;
+        }
+        .bookPublisher {
+            width: 150px;
+        }
+        .bookAuthor {
+            width: 250px;
+        }
+        .bookPrice {
+            width: 110px;
+        }
         #purchaseBtn {
             cursor: pointer;
             border: none;
             background-color: #4CAF50;
             color: white;
             border-radius: 5px;
+            margin-top: 10px;
+            align-self: center;
+        }
+        .bottomSection {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .bottomSection > div {
+            text-align: end;
+        }
+        .bookContainer headerRow > div {
+            display: table-cell;
+            padding: 5px;
+            border: 1px solid #ddd;
+        }
+        .headerCellSelect {
+            width: 1170px;
+        }
+        .bookContainer midRow > div {
+            display: table-cell;
+            padding: 5px;
+            border: 1px solid #ddd;
+        }
+        .midCellName {
+            width: 550px;
+        }
+        .midCellPublisher {
+            width: 150px;
+        }
+        .midCellAuthor {
+            width: 250px;
+        }
+        .midCellPrice {
+            width: 110px;
         }
     </style>
 </head>
@@ -41,27 +92,36 @@
 <th:block th:insert="~{/banner::banner}"></th:block>
 <div class="container">
     <form th:action="@{/student/purchase/bookPay}" method="post" enctype="multipart/form-data">
+        <div class="bookContainer headerRow">
+            <div class="headerCellSelect">구매 항목</div>
+        </div>
+        <div class = "bookContainer midRow">
+            <div class="midCellName">교재명</div>
+            <div class="midCellPublisher">출판사</div>
+            <div class="midCellAuthor">저자</div>
+            <div class="midCellPrice">가격</div>
+        </div>
         <th:block th:each="book:${bookList}">
             <div class="bookContainer">
-                <span th:text="${book.name}"></span> <br>
-                <span th:text="${book.publisher}"></span> <br>
-                <span th:text="${book.author}"></span> <br>
-                <span th:text="${book.price}"></span>
+                <div class="bookName"><span th:text="${book.name}"></span></div>
+                <div class="bookPublisher"><span th:text="${book.publisher}"></span></div>
+                <div class="bookAuthor"><span th:text="${book.author}"></span></div>
+                <div class="bookPrice"><span th:text="${book.price}"></span></div>
             </div>
         </th:block>
-        <div> 사용하신 마일리지
-            <span th:text="${point}"></span>
-        </div>
-        <div>총 결제금액
-            <div th:text="${totalPrice}"></div>
+        <div class="bottomSection">
+            <div>
+                <div><span> 사용하신 마일리지 </span></div>
+                <div><span th:text="${point}"></span></div>
+                <div><span>총 결제금액 </span></div>
+                <div><span th:text="${totalPrice}"></span></div>
+            </div>
         </div>
         <input type="hidden" th:value="${totalPrice}" id="totalPrice">
         <input type="hidden" th:value="${item}" id="item">
         <input type="hidden" th:value="${totalCnt}" id="totalCnt">
-
-        <button type="button" id="purchaseBtn">카카오페이로 결제하기</button>
     </form>
+    <button type="button" id="purchaseBtn">카카오페이로 결제하기</button>
 </div>
 </body>
-
 </html>
