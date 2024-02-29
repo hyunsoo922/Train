@@ -29,49 +29,49 @@
     <table class="table mt-3">
         <thead>
         <tr>
-            <th>
+            <th style="text-align: center;">
                 <input type="checkbox" id="selectAll" onclick="toggleAllCheckboxes(this)">
                 <label for="selectAll"></label>
             </th>
-            <th>학생번호</th>
-            <th>이름</th>
-            <th>교재명</th>
-            <th>출판사명</th>
-            <th>저자명</th>
-            <th>구매일</th>
-            <th>수령여부</th>
-            <th>수령여부변경</th>
-            <th>수령날짜</th>
+            <th style="text-align: center;">학생번호</th>
+            <th style="text-align: center;">이름</th>
+            <th style="text-align: center;">교재명</th>
+            <th style="text-align: center;">출판사명</th>
+            <th style="text-align: center;">저자명</th>
+            <th style="text-align: center;">구매일</th>
+            <th style="text-align: center;">수령여부</th>
+            <th style="text-align: center;">수령여부변경</th>
+            <th style="text-align: center;">수령날짜</th>
         </tr>
         </thead>
         <tbody>
+
         <tr th:each="receipt, status : ${receipts}">
-            <td >
+            <td style="text-align: center;">
                 <input type="checkbox" th:id="${'check_' + receipt.id}" name="check" th:value="${receipt.id}">
             </td>
-            <!-- 체크박스 -->
-            <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
+
+            <!-- 학생번호 -->
+            <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}" style="text-align: center;">
                 <span th:text="${receipt.user.studentId}"></span>
             </td>
-            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
-            </td>
-            <!-- 학생번호 -->
-            <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
+            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}"></td>
+
+            <!-- 이름 -->
+            <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}" style="text-align: center;">
                 <span th:text="${receipt.user.name}"></span>
             </td>
-            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
-            </td>
-            <!-- 이름 -->
-            <td><span th:text="${receipt.book.name}"></span></td>
-            <!-- 교재명 -->
-            <td><span th:text="${receipt.book.publisher}"></span></td>
-            <!-- 출판사명-->
-            <td><span th:text="${receipt.book.author}"></span></td>
-            <!-- 저자명 -->
-            <td><span th:text="${receipt.createdAt}"></span></td>
-            <!-- 구매일 -->
-            <td><span th:text="${receipt.receive.receiveCheck}"></span></td>
-            <td>
+            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}"></td>
+
+            <!-- 교재명, 출판사명, 저자명, 구매일, 수령여부, 수령여부 변경, 수령일 -->
+            <td style="text-align: center;"><span th:text="${receipt.book.name}"></span></td>
+            <td style="text-align: center;"><span th:text="${receipt.book.publisher}"></span></td>
+            <td style="text-align: center;"><span th:text="${receipt.book.author}"></span></td>
+            <td style="text-align: center;"><span th:text="${receipt.createdAt}"></span></td>
+            <td style="text-align: center;"><span th:text="${receipt.receive.receiveCheck}"></span></td>
+
+            <!-- 수령여부 변경 -->
+            <td style="text-align: center;">
                 <form th:action="@{/bookStore/Receipt}" method="post">
                     <select name="check">
                         <option value="수령">수령</option>
@@ -82,12 +82,29 @@
                     <button type="submit">변경</button>
                 </form>
             </td>
-            <!-- 수령여부 변경 -->
-            <td><span th:text="${receipt.receive.day}"></span></td>
+
             <!-- 수령일 -->
+            <td style="text-align: center;"><span th:text="${receipt.receive.day}"></span></td>
         </tr>
+
         </tbody>
     </table>
+
+    <div style="text-align: center;">
+
+        <!-- 이전 버튼 -->
+        <a th:if="${nowPage > 1}" th:href="@{/bookStore/Receipt(page=${nowPage - 2})}">&lt; 이전</a>
+
+        <!-- 페이지 목록 -->
+        <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+            <a th:if="${page != nowPage}" th:href="@{/bookStore/Receipt(page=${page - 1})}" th:text="${page}"></a>
+            <strong th:if="${page == nowPage}" th:text="${page}" style="color: red;"></strong>
+        </th:block>
+
+        <!-- 다음 버튼 -->
+        <a th:if="${nowPage < totalPages}" th:href="@{/bookStore/Receipt(page=${nowPage})}">다음 &gt;</a>
+
+    </div>
 
     <div id="printArea"></div>
 

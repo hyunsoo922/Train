@@ -5,10 +5,11 @@ import com.project.LWBS.domain.Receive;
 import com.project.LWBS.repository.BookRepository;
 import com.project.LWBS.repository.ReceiptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public  class ReceiptServiceImpl implements  ReceiptService{
@@ -24,8 +25,8 @@ public  class ReceiptServiceImpl implements  ReceiptService{
     private BookRepository bookRepository;
 
     @Override
-    public List<Receipt> getAllReceipts() {
-        return receiptRepository.findAll();
+    public Page<Receipt> getAllReceipts(Pageable pageable) {
+        return receiptRepository.findAll(pageable);
     }
 
     @Override

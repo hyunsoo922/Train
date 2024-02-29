@@ -6,6 +6,8 @@ import com.project.LWBS.domain.Receive;
 import com.project.LWBS.service.ReceiptService;
 import com.project.LWBS.service.ReceiveService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +21,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/bookStore")
 public class ReceiptController {
-           
+
     private final ReceiptService receiptService;
 
-   private  final ReceiveService receiveService;
+    private  final ReceiveService receiveService;
     @Autowired
     public ReceiptController(ReceiptService receiptService, ReceiveService receiveService) {
         this.receiptService = receiptService;
@@ -31,10 +33,34 @@ public class ReceiptController {
 
     //모든 구매내역을 조회
     @GetMapping("/Receipt")
-    public String getAllReceipts(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        List<Receipt> receipts = receiptService.getAllReceipts();
+    public String getAllReceipts(Model model,
+                                 @AuthenticationPrincipal PrincipalDetails principalDetails,
+                                 @RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "10") int size) {
+        // 페이징 객체 생성
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        // Receipt 테이블에서 페이징된 결과를 받아옴
+        Page<Receipt> receiptPage = receiptService.getAllReceipts(pageRequest);
+
+        int nowPage = receiptPage.getPageable().getPageNumber() + 1;
+        int startPage = Math.max(nowPage -4, 1);
+        int endPage = Math.min(nowPage +5, receiptPage.getTotalPages());
+
+
+        // 현재 페이지의 Receipt 목록
+        List<Receipt> receipts = receiptPage.getContent();
+
+
+
         model.addAttribute("receipts", receipts);
-        model.addAttribute("user",principalDetails.getUser());
+        model.addAttribute("user", principalDetails.getUser());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", receiptPage.getTotalPages());
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
         return "bookStore/Receipt";
     }
     //학생 번호을 입력하면 입력한 학생의 구매내역을 조회
@@ -47,6 +73,8 @@ public class ReceiptController {
                                 @AuthenticationPrincipal PrincipalDetails principalDetails) {
         List<Receive> receives = receiveService.findDay(receiveDay);
         Receive receive = new Receive();
+
+
         model.addAttribute("user",principalDetails.getUser());
         for(int i = 0;i < receives.size();i++)
         {
