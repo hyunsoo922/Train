@@ -4,6 +4,10 @@ import com.project.LWBS.config.PrincipalDetails;
 import com.project.LWBS.domain.Book;
 import com.project.LWBS.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,13 +29,24 @@ public class BookController {
 
     //모든 교재 목록 표시
     @GetMapping("/list")
-    public String getAllBooks(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-       //BookService를 사용해서 모든 교재 표시
-        List<Book> books = bookService.getAllBooks();
-        //모델에 사용자, 책 목록 속성 추가
-        model.addAttribute("user",principalDetails.getUser());
+    public String getAllBooks(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails,
+                              @PageableDefault(page = 0, size = 10, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
+
+        Page<Book> books = bookService.getAllBooks(pageable);
+
+        int nowPage = books.getPageable().getPageNumber() + 1;
+        int startPage = Math.max(nowPage - 4, 1);
+        int endPage = Math.min(nowPage + 5, books.getTotalPages());
+
+        model.addAttribute("user", principalDetails.getUser());
         model.addAttribute("books", books);
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("sortProperty", pageable.getSort().toString());
 
         return "bookStore/list";
     }
+
+
 }

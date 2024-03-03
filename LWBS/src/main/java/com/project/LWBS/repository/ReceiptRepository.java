@@ -39,5 +39,21 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
         return topBookIds;
     }
 
+    @Query("SELECT r.book.id as book_id, COUNT(r.book.id) as count " +
+            "FROM Receipt r " +
+            "GROUP BY r.book.id " +
+            "ORDER BY count DESC ")
+    List<Map<String, Object>> findBookIds();
+
+    default List<Long> findBookIdsList() {
+        List<Map<String, Object>> result = findTopBookIds();
+        List<Long> BookIds = new ArrayList<>();
+        for (Map<String, Object> row : result) {
+            Long bookId = (Long) row.get("book_id");
+        }
+        return BookIds;
+    }
+
     List<Receipt> findByUser(User user);
+
 }

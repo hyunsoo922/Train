@@ -16,17 +16,19 @@
     <table class="table">
         <thead>
         <tr>
-            <th>체크</th>
-            <th>학생번호</th>
-            <th>이름</th>
-            <th>교재명</th>
-            <th>출판사명</th>
-            <th>저자명</th>
-            <th>구매일</th>
-            <th>수령예정일</th>
-            <th>수령여부</th>
-            <th>수령여부변경</th>
-            <th>수령날짜</th>
+            <th style="text-align: center;">
+                <input type="checkbox" id="selectAll" onclick="toggleAllCheckboxes(this)">
+                <label for="selectAll"></label>
+            </th>
+            <th style="text-align: center;">학생번호</th>
+            <th style="text-align: center;">이름</th>
+            <th style="text-align: center;">교재명</th>
+            <th style="text-align: center;">출판사명</th>
+            <th style="text-align: center;">저자명</th>
+            <th style="text-align: center;">구매일</th>
+            <th style="text-align: center;">수령여부</th>
+            <th style="text-align: center;">수령여부변경</th>
+            <th style="text-align: center;">수령날짜</th>
             <style>
 
                 th, td {
@@ -37,59 +39,121 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="receipt : ${receipts}">
-            <td>
+        <tr th:each="receipt, status : ${receipts}">
+            <td style="text-align: center;">
                 <input type="checkbox" th:id="${'check_' + receipt.id}" name="check" th:value="${receipt.id}">
             </td>
-            <td><span th:text="${receipt.user.studentId}"></span></td>
-            <td><span th:text="${receipt.user.name}"></span></td>
-            <td><span th:text="${receipt.book.name}"></span></td>
-            <td><span th:text="${receipt.book.publisher}"></span></td>
-            <td><span th:text="${receipt.book.author}"></span></td>
-            <td><span th:text="${receipt.createdAt}"></span></td>
-            <td><span th:text="${receipt.receive.day}"></span></td>
-            <td><span th:text="${receipt.receive.receiveCheck}"></span></td>
-            <td>
-                <form th:action ="@{/bookStore/ReceiptSearch}" method="post">
 
-                    <select name = "check">
-                        <option value="Check">수령</option>
-                        <option value="NonCheck">미수령</option>
+            <!-- 학생번호 -->
+            <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}" style="text-align: center;">
+                <span th:text="${receipt.user.studentId}"></span>
+            </td>
+            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}"></td>
+
+            <!-- 이름 -->
+            <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}" style="text-align: center;">
+                <span th:text="${receipt.user.name}"></span>
+            </td>
+            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}"></td>
+
+            <!-- 교재명, 출판사명, 저자명, 구매일, 수령여부, 수령여부 변경, 수령일 -->
+            <td style="text-align: center;"><span th:text="${receipt.book.name}"></span></td>
+            <td style="text-align: center;"><span th:text="${receipt.book.publisher}"></span></td>
+            <td style="text-align: center;"><span th:text="${receipt.book.author}"></span></td>
+            <td style="text-align: center;"><span th:text="${receipt.createdAt}"></span></td>
+            <td style="text-align: center;"><span th:text="${receipt.receive.receiveCheck}"></span></td>
+
+            <!-- 수령여부 변경 -->
+            <td style="text-align: center;">
+                <form th:action="@{/bookStore/Receipt}" method="post">
+                    <select name="check">
+                        <option value="수령">수령</option>
+                        <option value="미수령">미수령</option>
                     </select>
                     <input type="hidden" name="receiptId" th:value="${receipt.id}">
                     <input type="hidden" name="receiveDay" th:value="${receipt.receive.day}">
                     <button type="submit">변경</button>
-
                 </form>
             </td>
-            <td><span th:text="${receipt.receive.day}"></span></td>
+
+            <!-- 수령일 -->
+            <td style="text-align: center;"><span th:text="${receipt.receive.day}"></span></td>
         </tr>
+
         </tbody>
     </table>
-</div>
 
-<script>
-    document.getElementById("printButton").addEventListener("click", function () {
-        var selectedRows = document.querySelectorAll('input[name="check"]:checked');
-        var selectedData = [];
+    <div id="printArea"></div>
 
-        selectedRows.forEach(function (row) {
-            var receiptId = row.value;
-            var receiptData = {
-                studentId: "${receipt.user.studentId}",
-                name: "${receipt.user.name}",
-                bookName: "${receipt.book.name}",
-                publisher: "${receipt.book.publisher}",
-                author: "${receipt.book.author}",
-                purchaseDate: "${receipt.receive.day}",
-                receiveDate: "${receipt.receive.day}",
-                receiveCheck: "${receipt.receive.receiveCheck}"
+    <script>
+        // 전체 선택 체크박스 클릭 시 모든 체크박스 선택/해제 함수
+        function toggleAllCheckboxes(masterCheckbox) {
+            var checkboxes = document.querySelectorAll('input[name="check"]');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = masterCheckbox.checked;
+            });
+        }
+
+
+        document.getElementById("printButton").addEventListener("click", function () {
+            var selectedRows = document.querySelectorAll('input[name="check"]:checked');
+            var selectedData = [];
+
+            selectedRows.forEach(function (row) {
+                var receiptId = row.value;
+                var receiptData = {
+                    user: {
+                        studentId: row.parentElement.nextElementSibling.textContent,
+                        name: row.parentElement.nextElementSibling.nextElementSibling.textContent,
+                    },
+                    book: {
+                        name: row.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.textContent,
+                        publisher: row.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent,
+                        author: row.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent,
+                    },
+                    createdAt: row.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent,
+                    receiveDate: row.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent,
+                    receiveCheck: row.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent
+                };
+                selectedData.push(receiptData);
+            });
+
+            var printArea = document.getElementById('printArea');
+            printArea.innerHTML = '';
+
+            // 추가된 부분: HTML 표 헤더
+            var tableHTML = '<table border="1"><tr><th>학생 번호</th><th>이름</th><th>교재명</th><th>출판사명</th><th>저자명</th><th>구매일</th><th>수령일</th></tr>';
+
+            selectedData.forEach(function (data) {
+                // 수정된 부분: 각 행을 표로 만들어 추가
+                tableHTML += '<tr>';
+                tableHTML += '<td>' + data.user.studentId + '</td>';
+                tableHTML += '<td>' + data.user.name + '</td>';
+                tableHTML += '<td>' + data.book.name + '</td>';
+                tableHTML += '<td>' + data.book.publisher + '</td>';
+                tableHTML += '<td>' + data.book.author + '</td>';
+                tableHTML += '<td>' + data.createdAt + '</td>';
+                tableHTML += '<td>' + data.receiveCheck + '</td>';
+                tableHTML += '</tr>';
+            });
+
+            // 추가된 부분: 표 닫기
+            tableHTML += '</table>';
+            printArea.innerHTML = tableHTML;
+
+             var printWindow = window.open('', '_blank');
+            printWindow.document.write('<html><head><title>Print</title></head><body>');
+            printWindow.document.write(printArea.innerHTML);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+
+            // 인쇄 후에 페이지 새로고침
+            printWindow.onafterprint = function () {
+                location.reload();
             };
-            selectedData.push(receiptData);
-        });
-        window.print();
-    });
-</script>
 
+            printWindow.print();
+        });
+</script>
 </body>
 </html>

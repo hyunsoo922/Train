@@ -8,20 +8,20 @@
     <style>
 
         .refresh-button {
-            padding: 10px;
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            margin-top: 10px;
-            margin-bottom: 30px;
-            cursor: pointer;
-        }
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
 
-        .refresh-button:hover {
-            background-color: #45a049;
-        }
+.refresh-button:hover {
+    background-color: #45a049;
+}
 
         body
         {
@@ -32,48 +32,48 @@
 
         }
 
-        .container
-        {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            margin-top: 30px;
-        }
+    .container
+    {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        margin-top: 30px;
+    }
 
-        /* Title style (adjust font size as needed) */
-        h2
-        {
-            font-size: 70px;
-            margin-bottom: 20px;
-        }
 
-        /* Refresh button style */
-        .refresh-button
-        {
-            font-size: 16px;
-            margin-top: 10px;
-            margin-bottom: 30px;
-        }
+    h2
+    {
+        font-size: 70px;
+        margin-bottom: 20px;
+    }
 
-        /* Table style */
-        table
-        {
-            border-collapse: collapse;
-            width: 80%;
-            margin-top: 20px;
-        }
 
-        th, td
-        {
-            border: 1px solid #333;
-            padding: 8px;
-            text-align: center;
-        }
+    .refresh-button
+    {
+        font-size: 16px;
+        margin-top: 10px;
+        margin-bottom: 30px;
+    }
 
-        th {
-            background-color: #333;
+
+    table
+     {
+        border-collapse: collapse;
+        width: 80%;
+        margin-top: 20px;
+     }
+
+     th, td
+     {
+        border: 1px solid #333;
+        padding: 8px;
+        text-align: center;
+     }
+
+     th {
+         background-color: #333;
             color: #fff;
         }
 
@@ -86,7 +86,6 @@
         }
 
 
-        /* Message style when books are empty */
         .empty-message {
             font-style: italic;
             color: #888;
@@ -163,35 +162,24 @@
     </table>
 </div>
 
-<div style="text-align: center;">
-
+<div class="pagination">
     <!-- 이전 버튼 -->
     <a th:if="${nowPage > 1}" th:href="@{/bookStore/list(page=${nowPage - 2})}">&lt; 이전</a>
 
     <!-- 페이지 목록 -->
     <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
         <a th:if="${page != nowPage}" th:href="@{/bookStore/list(page=${page - 1})}" th:text="${page}"></a>
-        <strong th:if="${page == nowPage}" th:text="${page}" style="color: red;"></strong>
+        <strong th:if="${page == nowPage}" th:text="${page}"></strong>
     </th:block>
 
     <!-- 다음 버튼 -->
     <a th:if="${nowPage < totalPages}" th:href="@{/bookStore/list(page=${nowPage})}">다음 &gt;</a>
-
 </div>
 
 
 <script>
     function refreshPage() {
-        var xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
-        xhr.open("GET", "/gatherInfo/" + userID, true);
-        xhr.onreadystatechange = function () {
-            // 요청 상태가 변경될 때마다 호출되는 콜백 함수
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var 전체교재조회 = JSON.parse(xhr.responseText).result;
-                document.getElementById("전체교재조회").innerHTML = "<p>" + 전체교재조회 + "</p>";
-            }
-        };
-        xhr.send();
+        location.reload(true);
     }
 </script>
 </body>

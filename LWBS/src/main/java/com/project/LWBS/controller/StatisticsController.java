@@ -29,34 +29,20 @@ public class StatisticsController {
     }
 
     @GetMapping("/Statistics")
-    public String getBookSalesCount(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        List<Book> allBooks = bookService.getAllBooks();  // 전체 교재 목록을 가져오기
+    public void statistics(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         List<Map<String, Object>> statisticsList = receiptService.statistics();
-
         List<Book> bookList = new ArrayList<>();
         List<Integer> countList = new ArrayList<>();
-
-        for (Book book : allBooks) {
-            Long bookId = book.getId();
-            int count = findCountForBook(bookId, statisticsList);  // 해당 교재에 대한 판매량 찾기
-            countList.add(count);
+        for (Map<String, Object> map : statisticsList) {
+            Long bookId = (Long) map.get("book_id");
+            Book book = bookService.findById(bookId);
             bookList.add(book);
+            int count = ((Number) map.get("count")).intValue();
+             countList.add(count);
         }
-
         model.addAttribute("bookList", bookList);
         model.addAttribute("countList", countList);
-        model.addAttribute("user", principalDetails.getUser());
+        model.addAttribute("user",principalDetails.getUser());
 
-        return "bookStore/Statistics";
-    }
-
-    private int findCountForBook(Long bookId, List<Map<String, Object>> statisticsList) {
-        for (Map<String, Object> map : statisticsList) {
-            Long currentBookId = (Long) map.get("book_id");
-            if (bookId.equals(currentBookId)) {
-                return ((Number) map.get("count")).intValue();
-            }
-        }
-        return 0;  // 해당 교재에 대한 판매량이 없으면 0으로 처리
     }
 }

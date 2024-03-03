@@ -6,7 +6,7 @@
 
     <style>
         h2 {
-            font-size: 24px; /* 원하는 크기로 조정하세요 */
+            font-size: 100px; /* 원하는 크기로 조정하세요 */
         }
     </style>
 </head>
@@ -18,20 +18,23 @@
         <div style="text-align: center;">
             <h2 style="font-size: 50px;">날짜 범위 선택</h2>
         </div>
-        <form th:action="@{/bookStore/DaySelect}" method="post">
-            <div style="text-align: center;">
-                <label for="startDate">시작 날짜 :      </label>
-                <input type="date" name="startDate" id="startDate" th:value="${selectedStartDate}" />
+        <div style="text-align: center; margin-bottom: 20px;">
+            <label for="startDate"> 시작 날짜 :      </label>
+            <input type="date" name="startDate" id="startDate" th:value="${selectedStartDate}" />
+        </div>
 
-                <label for="endDate">~     종료 날짜 : </label>
-                <input type="date" name="endDate" id="endDate" th:value="${selectedEndDate}" />
-            </div>
+        <div style="text-align: center; margin-bottom: 20px;">
+          <label for="endDate"> 종료 날짜 :     </label>
+            <input type="date" name="endDate" id="endDate" th:value="${selectedEndDate}" />
+        </div>
 
             <div style="text-align: center;">
                 <button type="submit">선택완료</button>
             </div>
         </form>
     </div>
+
+
 </div>
 </body>
 </html>
