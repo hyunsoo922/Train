@@ -20,8 +20,8 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
     @Override
     // 회원가입한 유저의 enrollment가 비어있는지 체크하는 메서드
-    public Boolean isEmptyData(Long user_id) {
-        Enrollment enrollment = enrollmentRepository.findById(user_id).orElse(null);
+    public Boolean isEmptyData(User user) {
+        List<Enrollment> enrollment = enrollmentRepository.findByUser(user);
         if(enrollment != null)
             // 비어있지 않다면 false
             return false;

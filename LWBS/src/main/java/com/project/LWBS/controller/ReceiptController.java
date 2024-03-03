@@ -21,7 +21,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/bookStore")
 public class ReceiptController {
-
+           
     private final ReceiptService receiptService;
 
     private  final ReceiveService receiveService;

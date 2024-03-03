@@ -42,7 +42,6 @@ public class StudentController {
 
             model.addAttribute("bookList", bookList);
             model.addAttribute("receiveDays",receiveList);
-
     }
 
     @PostMapping("/purchase/book")

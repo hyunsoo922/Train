@@ -17,6 +17,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/purchase")
+@CrossOrigin(origins = "http://51.21.62.144:8093")
 public class PurchaseController {
 
     @Autowired
@@ -25,9 +26,11 @@ public class PurchaseController {
     @Autowired
     private StudentService studentService;
 
-    @GetMapping("/payment")
+    @PostMapping("/payment")
     public @ResponseBody Purchase payment(@RequestParam String item, @RequestParam String totalPrice, @RequestParam String totalCnt)
     {
+
+        System.out.println("상품"+item+"총가격"+totalPrice+"상품갯수"+totalCnt);
         Purchase response = purchaseService.paymentKakaoPay(item,totalPrice,totalCnt);
 
 
@@ -51,12 +54,12 @@ public class PurchaseController {
     @GetMapping("/cancle")
     public String cancle()
     {
-        return "/purchase/cancle";
+        return "purchase/cancle";
     }
 
     @GetMapping("/fail")
     public String fail()
     {
-        return "/purchase/fail";
+        return "purchase/fail";
     }
 }

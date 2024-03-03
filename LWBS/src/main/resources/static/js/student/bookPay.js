@@ -4,10 +4,12 @@ $(function(){
         var item = $("#item").val();
         var totalPrice = $("#totalPrice").val();
         var totalCnt = $("#totalCnt").val();
-
+        console.log("item"+item);
+        console.log("totalPrice"+totalPrice);
+        console.log("totalCnt"+totalCnt);
         $.ajax({
                     url: "/purchase/payment",
-                    type: "GET",
+                    type: "POST",
                     data:{
                         "item": item,
                         "totalPrice": totalPrice,

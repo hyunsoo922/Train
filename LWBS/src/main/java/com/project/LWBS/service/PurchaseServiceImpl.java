@@ -15,7 +15,7 @@ public class PurchaseServiceImpl implements PurchaseService{
     @Override
     public Purchase paymentKakaoPay(String item,String totalPrice,String totalCnt) {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization","KakaoAK a6fd627cc7f7209f3f038eb3d0e2860c");
+        headers.set("Authorization","KakaoAK 74d0916631639e978afec5faf0540314");
         headers.set("Content-type","application/x-www-form-urlencoded;charset=utf-8");
 
         MultiValueMap<String,String> paymentData = new LinkedMultiValueMap<>();
@@ -28,9 +28,9 @@ public class PurchaseServiceImpl implements PurchaseService{
         paymentData.add("quantity",totalCnt);
         paymentData.add("total_amount",totalPrice);
         paymentData.add("tax_free_amount","0");
-        paymentData.add("approval_url","http://localhost:8093/purchase/success");
-        paymentData.add("cancel_url","http://localhost:8093/purchase/cancel");
-        paymentData.add("fail_url","http://localhost:8093/purchase/fail");
+        paymentData.add("approval_url","http://16.170.97.165:8093/purchase/success");
+        paymentData.add("cancel_url","http://16.170.97.165:8093/purchase/cancel");
+        paymentData.add("fail_url","http://16.170.97.165:8093/purchase/fail");
 
         // HTTP 통신을 위해서 header 와 body 를 하나로만들기위함
         HttpEntity<Map> request = new HttpEntity<Map>(paymentData,headers);

@@ -29,7 +29,7 @@ public class HomeController {
     }
     @RequestMapping("/")
     public String home(){
-        return "redirect:/home";
+        return "redirect:home";
     }
 
     @RequestMapping("/home")
@@ -52,16 +52,17 @@ public class HomeController {
         }
         // View에게 bookList를 전달
         model.addAttribute("bookList", bookList);
+        model.addAttribute("countList", countList);
         try{
             System.out.println("홈에 들어옴 로그인"+principalDetails.getUsername());
             model.addAttribute("user",principalDetails.getUser());
             // 현재 로그인한 유저가 학생 계정이라면
             if(principalDetails.getUser().getAuthority().getName().equals("ROLE_STUDENT")) {
-                return "redirect:/home/student";
+                return "redirect:home/student";
             }
             // 서점 계정이라면
             else if(principalDetails.getUser().getAuthority().getName().equals("ROLE_BOOKSTORE")) {
-                return "redirect:/home/bookStore";
+                return "redirect:home/bookStore";
             }
         } catch (Exception e){
             System.out.println("로그인실패");
