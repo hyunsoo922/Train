@@ -263,6 +263,6 @@ public class BookRestController {
                 e.printStackTrace();
             }
         }
-        return "mypage";
+        return "mypage/" + user_id;
     }
 }
