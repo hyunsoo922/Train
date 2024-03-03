@@ -20,10 +20,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/login").anonymous()
                         // 학생 계정으로 로그인시 접속가능
-                        .requestMatchers("/home/student","/student/purchase/book","/student/purchase/bookPay","/student/purchase/receipt").hasAnyRole("STUDENT")
+                        .requestMatchers("/home/student","/student/purchase/book","/student/purchase/bookPay","/student/purchase/receipt",
+                                "/mypage","/mypage/myInfoUpdate/student","/mypage/mileage").hasAnyRole("STUDENT")
                         // 서점 계정으로 로그인시 접속가능
                         .requestMatchers("/home/bookStore","/bookStore/DaySelect","/bookStore/DaySelectResult","/bookStore/list","/bookStore/Receipt"
-                                        ,"/bookStore/ReceiptSearch","/bookStore/Statistics").hasAnyRole("BOOKSTORE")
+                                        ,"/bookStore/ReceiptSearch","/bookStore/Statistics","/mypageBookStore","/mypage/myInfoUpdate/bookStore").hasAnyRole("BOOKSTORE")
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
