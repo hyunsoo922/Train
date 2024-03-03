@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -11,80 +10,132 @@
     <script th:src="@{/js/student/book.js}"></script>
     <title>교재 구매사이트</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
         #container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            flex-direction: column;
+            margin-top: 20px;
         }
-
-        #bookContainer {
+        .bookItem {
+            margin-right: auto; /* 오른쪽 여백을 최대화하여 왼쪽으로 이동 */
             display: flex;
-            align-items: flex-start;
-          }
-
-        #bookContainer img {
-            flex-direction: row;
-            max-width: 100px;
+            align-items: center;
+            padding: 10px;
+            margin: 5px;
+        }
+        .bookCheckBoxContainer {
             margin-right: 10px;
-          }
 
-        #bookContainer .textContainer {
+            margin-left: 120px;
+        }
+        .bookCheckBox {
+            transform: scale(2.5);
+        }
+        .textContainer {
+            margin-right: auto;
+            width: 250px;
+            height: 200px;
+            margin-left: 10px;
+        }
+        .descriptionContainer {
+            margin-right: 120px;
+            width: 250px;
+            height: 193px;
+            word-wrap: break-word;
+            overflow: hidden;
+            margin-left: 10px;
+        }
+        .textContainer > div {
+            margin-bottom: 5px;
+        }
+        #mileageContainer {
             display: flex;
             flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        #mileageContainer > * {
             margin-bottom: 10px;
         }
-
-        #bookContainer .bookCheckBox {
-            order: -1;
+        #mileagePoint, #receiveDay {
+            width: 250px;
         }
-
-        #mileagePoint {
-            width: 330px;
-            text-align: center;
-        }
-
         #buyBtn {
-            width: 195px;
-            height: 26px;
-            margin-top: 2px;
+            width: 250px;
+            height: 30px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .bookList table {
+            border-collapse: collapse;
+        }
+        .bookList th, .bookList td {
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
         }
     </style>
 </head>
 <body>
-    <th:block th:insert="~{header::header}"></th:block>
-    <th:block th:insert="~{nav::navfrag}"></th:block>
-    <th:block th:insert="~{banner::banner}"></th:block>
-    <div id="container">
-        <form th:action="@{/student/purchase/book}" id="bookFrm" method="POST" enctype="multipart/form-data">
-            <th:block th:each="book:${bookList}">
-                <div id="bookContainer">
-                    <img th:src="${book.imageUrl}">
-                    <div class="textContainer">
-                        <div th:text="${book.name}"></div>
-                        <div th:text="${book.author}"></div>
-                        <div th:text="${book.publisher}"></div>
-                        <div th:text="${book.department.name}"></div>
-                        <div th:text="${book.subject.name}"></div>
-                    </div>
-                    <input type="checkbox" class="bookCheckBox" th:id="'option' + ${book.id}" th:value="${book.id}">
-                </div>
-            </th:block>
-            <div>
-                <input type="text" name="mileagePoint" id="mileagePoint" value="" placeholder="사용하실 마일리지를 입력하세요">
+<th:block th:insert="~{header::header}"></th:block>
+<th:block th:insert="~{nav::nav}"></th:block>
+<th:block th:insert="~{banner::banner}"></th:block>
+<div id="container">
+    <form th:action="@{/student/purchase/book}" id="bookFrm" method="POST" enctype="multipart/form-data">
+        <div class="bookList">
+            <table>
+                <th:block th:each="book : ${bookList}">
+                    <tr>
+                        <td>
+                            <div class="bookItem">
+                                <div class="bookCheckBoxContainer">
+                                    <input type="checkbox" class="bookCheckBox" th:id="'option' + ${book.id}" th:value="${book.id}">
+                                </div>
+                                <img th:src="${book.imageUrl}" alt="Book Image" style="height: 200px; width: 150px;">
+                                <div class="textContainer">
+                                    <div th:text="${book.name}"></div>
+                                    <div th:text="${book.author}"></div>
+                                    <div th:text="${book.publisher}"></div>
+                                    <div th:text="${book.department.name}"></div>
+                                    <div th:text="${book.subject.name}"></div>
+                                </div>
+                                <div class="descriptionContainer">
+                                    <div th:text="${book.description}"></div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+            </table>
+        </div>
+        <div id="mileageContainer">
+            <div class="useablemileage">
+                <strong>사용 가능 마일리지:</strong> <span th:text="${sumpoint}"></span>
             </div>
-
+            <input type="text" name="mileagePoint" id="mileagePoint" value="" placeholder="사용하실 마일리지를 입력하세요">
             <select name="receiveDay" id="receiveDay" title="receiveDay">
                 <option>수령 날짜 선택</option>
                 <th:block th:each="receive:${receiveDays}">
                     <option th:value="${receive.day}" th:utext="${receive.day}"></option>
                 </th:block>
             </select>
-
-            <input type="hidden" name="books" id="books" value="">
             <button type="button" id="buyBtn">구매하기</button>
-        </form>
-    </div>
+        </div>
+        <input type="hidden" name="books" id="books" value="">
+    </form>
+</div>
+<script th:inline="javascript">
+    var userID = /*[[${ID}]]*/ null; // Thymeleaf를 통해 ID 값 가져오기
+    var authority = /*[[${authority}]]*/ null;
+</script>
 </body>
-
 </html>

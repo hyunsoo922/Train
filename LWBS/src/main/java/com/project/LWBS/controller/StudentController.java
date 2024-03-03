@@ -5,6 +5,7 @@ import com.project.LWBS.domain.Book;
 import com.project.LWBS.domain.Receipt;
 import com.project.LWBS.domain.Receive;
 import com.project.LWBS.domain.User;
+import com.project.LWBS.service.MyPageService;
 import com.project.LWBS.service.StudentService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,12 @@ import java.util.List;
 public class StudentController {
 
     private StudentService studentService;
+    private MyPageService myPageService;
 
     @Autowired
-    public StudentController(StudentService studentService) {
+    public StudentController(StudentService studentService, MyPageService myPageService) {
         this.studentService = studentService;
+        this.myPageService = myPageService;
     }
 
     @GetMapping("/purchase/book")
@@ -33,15 +36,18 @@ public class StudentController {
     {
             User user = principalDetails.getUser();
             model.addAttribute("user",user);
+            int sum = myPageService.sumMileage(user.getId());
 
             List<Book> bookList = studentService.findMyClass(user);
 
-            System.out.println(bookList);
+//            System.out.println(bookList);
 
             List<Receive> receiveList = studentService.findReceiveCheck();
 
             model.addAttribute("bookList", bookList);
             model.addAttribute("receiveDays",receiveList);
+            model.addAttribute("sumpoint", sum);
+
     }
 
     @PostMapping("/purchase/book")
@@ -52,9 +58,13 @@ public class StudentController {
 
         List<Book> bookLists = studentService.findByIds(bookList);
 
+//        System.out.println("수령일: " + receiveDay);
+//        System.out.println("교재: " + bookLists);
         session.setAttribute("bookLists",bookLists);
         session.setAttribute("receiveDay",receiveDay);
         session.setAttribute("mileagePoint",mileagePoint);
+//        model.addAttribute("bookLists",bookLists);
+//        model.addAttribute("receiveDay",receiveDay);
 
         return "redirect:/student/purchase/bookPay";
 
@@ -142,5 +152,4 @@ public class StudentController {
         // 구매 내역이 있는 경우 해당 페이지로 리다이렉트
         return "redirect:/student/purchase/receipt";
     }
-
 }

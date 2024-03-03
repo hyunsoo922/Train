@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -10,76 +9,111 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <title>구매 내역 사이트</title>
     <style>
-        .container {
+        #container {
+            position: relative; /* 수정: relative로 변경 */
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            flex-direction: column;
         }
-
-        .bookContainer {
-            display: flex;
-            align-items: flex-start;
+        #bookGrid {
+            position: relative; /* 수정: relative로 변경 */
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            min-height: 90vh; /* 수정: height를 min-height로 변경 */
+            padding-bottom: 100px; /* 수정: padding-bottom 추가 */
         }
-
-        .bookContainer img {
-            flex-direction: row;
-            max-width: 100px;
-            margin-right: 10px;
-        }
-
-        .bookContainer .textContainer {
+        #bookContainer {
             display: flex;
             flex-direction: column;
-
+            align-items: center;
+            text-align: left;
+        }
+        #bookContainer img {
+            width: 250px;
+            height: 300px;
             margin-bottom: 10px;
         }
-
-        .dayBtn{
-            width:300px;
+        .textContainer {
+            width: 250px;
+            height: 220px;
+            word-wrap: break-word;
+            overflow: hidden;
+        }
+        #dayBtn {
+            width: 250px;
             cursor: pointer;
             border: none;
             background-color: #4CAF50;
             color: white;
-            border-radius: 5px;
+        }
+        #rightAligned {
+            position: absolute;
+            bottom: 0; /* 수정: bottom 위치 변경 */
+            right: 0; /* 수정: right 위치 변경 */
+        }
+        #noBooksMessage {
+            font-size: 50px;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        @media (max-width: 1321px) {
+            #bookGrid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (max-width: 992px) {
+            #bookGrid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
 <th:block th:insert="~{header::header}"></th:block>
-<th:block th:insert="~{nav::navfrag}"></th:block>
+<th:block th:insert="~{nav::nav}"></th:block>
 <th:block th:insert="~{banner::banner}"></th:block>
-<div class="container">
+<div id="container">
     <form th:action="@{/student/purchase/receipt}" method="POST" enctype="multipart/form-data">
-        <th:block th:each="book:${bookList}">
-            <div class="bookContainer">
-                <img th:src="${book.imageUrl}" alt="">
-                <div class="textContainer">
-                    <div th:text="${book.name}"></div>
-                    <div th:text="${book.author}"></div>
-                    <div th:text="${book.publisher}"></div>
-                    <div th:text="${book.description}"></div>
-                    <div th:text="${book.department.name}"></div>
-                    <div th:text="${book.subject.name}"></div>
-                </div>
-            </div>
-        </th:block>
-
-        <select name="day" id="day" title="day">
-            <option>수령 날짜 변경</option>
-            <th:block th:each="receive:${daySelect}">
-                <option th:value="${receive.day}" th:utext="${receive.day}"></option>
+        <div id="bookGrid">
+            <th:block th:if="${not #lists.isEmpty(bookList)}">
+                <th:block th:each="book:${bookList}">
+                    <div id="bookContainer">
+                        <img th:src="${book.imageUrl}" alt="">
+                        <div class="textContainer">
+                            <div th:text="${book.name}"></div>
+                            <div th:text="${book.author}"></div>
+                            <div th:text="${book.publisher}"></div>
+                            <div th:text="${book.department.name}"></div>
+                            <div th:text="${book.subject.name}"></div>
+                            <div th:text="${book.description}"></div>
+                        </div>
+                    </div>
+                </th:block>
             </th:block>
-        </select>
-
-        <span th:text="${receiveCheck}"></span>
-        <span th:text="${receiveDay}"></span>
-        <div>
-            <button class="dayBtn" type="submit">날짜 변경하기</button>
+            <th:block th:unless="${not #lists.isEmpty(bookList)}">
+                <div id="noBooksMessage" style="font-size: 32px; white-space: nowrap;">구매한 교재가 없습니다</div>
+            </th:block>
+            <div id="rightAligned">
+                <form th:action="@{/student/purchase/receipt}" method="POST" enctype="multipart/form-data">
+                    <select name="day" id="day" title="day">
+                        <option>수령 날짜 변경</option>
+                        <th:block th:each="receive:${daySelect}">
+                            <option th:value="${receive.day}" th:utext="${receive.day}"></option>
+                        </th:block>
+                    </select>
+                    <span th:text="${receiveCheck}"></span>
+                    <span th:text="${receiveDay}"></span>
+                    <br>
+                    <button id="dayBtn" type="submit">날짜 변경하기</button>
+                </form>
+            </div>
         </div>
     </form>
 </div>
-
 </body>
-
 </html>
