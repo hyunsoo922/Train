@@ -2,6 +2,8 @@ package com.project.LWBS.service;
 
 import com.project.LWBS.domain.Book;
 import com.project.LWBS.repository.BookRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import com.project.LWBS.domain.Department;
@@ -24,8 +26,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    public Page<Book> getAllBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable);
     }
 
     @Autowired
@@ -50,6 +52,12 @@ public class BookServiceImpl implements BookService {
         // true를 반환하여 Book 테이블에 책 정보를 추가하지 않음
         return true;
     }
+
+    @Override
+    public Page<Book> getAllBooks() {
+        return null;
+    }
+
     @Override
     // Controller에서 책 정보를 담은 Book 객체를 생성하는 메서드
     public void createBook(String title, String author, String publisher, String price, String imageUrl, String isbn, String description, String dname, String sname) {

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.List;
 
@@ -41,9 +43,30 @@ public  class ReceiptServiceImpl implements  ReceiptService{
 
     @Override
     public void findById(long Id, Receive receive) {
+
+    }
+
+    @Override
+    public void updateReceipt(long Id, Receive receive) {
         Receipt receipt = receiptRepository.findById(Id).orElse(null);
-        receipt.setReceive(receive);
-        receiptRepository.flush();
+
+        if (receipt != null) {
+            // Receive 객체의 필드들을 동적으로 순회
+            for (Field field : Receive.class.getDeclaredFields()) {
+                field.setAccessible(true); // private 필드에 접근 가능하도록 설정
+
+                try {
+                    // Receive 객체에서 각 필드의 값을 가져와서 Receipt 객체에 설정
+                    Object value = field.get(receive);
+                    field.set(receipt, value);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace(); // 필드에 접근할 수 없는 경우 예외 처리
+                }
+            }
+
+            // 업데이트된 Receipt 객체 저장
+            receiptRepository.save(receipt);
+        }
     }
 
     @Override
