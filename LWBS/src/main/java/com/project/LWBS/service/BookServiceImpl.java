@@ -3,14 +3,15 @@ package com.project.LWBS.service;
 import com.project.LWBS.domain.Book;
 import com.project.LWBS.repository.BookRepository;
 import org.springframework.stereotype.Service;
-import java.util.List;
 import com.project.LWBS.domain.Department;
 import com.project.LWBS.domain.Subject;
 import com.project.LWBS.repository.DepartmentRepository;
 import com.project.LWBS.repository.EnrollmentRepository;
 import com.project.LWBS.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import java.util.Set;
+import java.util.HashSet;
+import java.util.List;
 import java.util.ArrayList;
 
 @Service
@@ -38,22 +39,9 @@ public class BookServiceImpl implements BookService {
     private EnrollmentRepository enrollmentRepository;
 
     @Override
-    // Book 테이블에 중복되는 값이 있는지 검사하는 메서드
-    public Boolean isExistIsbn(String isbn) {
-        // 매개변수로 전달받은 isbn에 해당하는 Book 객체를 Book 테이블에서 가져옴
-        Book bookcheck = bookRepository.findByIsbn(isbn);
-        // isbn에 해당하는 Book 객체가 없다면
-        if(bookcheck == null){
-            // false를 반환하여 Book 테이블에 책 정보를 추가
-            return false;
-        }
-        // true를 반환하여 Book 테이블에 책 정보를 추가하지 않음
-        return true;
-    }
-    @Override
     // Controller에서 책 정보를 담은 Book 객체를 생성하는 메서드
     public void createBook(String title, String author, String publisher, String price, String imageUrl, String isbn, String description, String dname, String sname) {
-        if(!isExistIsbn(isbn)){
+        if(bookRepository.findBookNamesByIsbnAndDepartmentAndSubject(isbn, dname, sname).isEmpty()) {
             Department department = departmentRepository.findByName(dname);
             Subject subject = subjectRepository.findByName(sname);
             Book book = Book.builder()
@@ -88,5 +76,26 @@ public class BookServiceImpl implements BookService {
     public Book findById(Long book_id) {
         Book book = bookRepository.findById(book_id).orElse(null);
         return book;
+    }
+
+    @Override
+    public void createSubject(String sname) {
+        Subject existingSubject = subjectRepository.findByName(sname);
+        if(existingSubject == null) {
+            Subject subject = Subject.builder()
+                    .name(sname)
+                    .build();
+            subjectRepository.saveAndFlush(subject);
+        }
+    }
+    @Override
+    public void createDepartment(String dname) {
+        Department existingDepartment = departmentRepository.findByName(dname);
+        if(existingDepartment == null) {
+            Department department = Department.builder()
+                    .name(dname)
+                    .build();
+            departmentRepository.saveAndFlush(department);
+        }
     }
 }

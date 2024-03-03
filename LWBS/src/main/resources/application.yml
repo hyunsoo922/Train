@@ -47,6 +47,7 @@ kakao:
   redirect:
     url: http://16.170.97.165:8093/kakao/callback
 
+
 logging:
   level:
     org.hibernate.SQL: debug

@@ -2,17 +2,77 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>마일리지 내역 조회</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        th:nth-child(odd) {
+            background-color: #4caf50;
+        }
+
+        th:nth-child(even) {
+            background-color: #2196f3;
+        }
+
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+            border: 1px solid #ddd;
+            margin: 0 4px;
+        }
+
+        .pagination a.active {
+            background-color: #4caf50;
+            color: white;
+            border: 1px solid #4caf50;
+        }
+
+        .pagination a:hover:not(.active) {background-color: #ddd;}
+    </style>
 </head>
 <body>
+
 <table border="1">
     <tr>
         <th>날짜</th>
         <th>마일리지</th>
         <th>종류</th>
     </tr>
+    <!-- 임시 데이터로 20개의 히스토리를 생성합니다. -->
     <th:block th:each="history, iterStat : ${history}">
-        <tr>
+        <tr class="history-row">
             <td th:text="${#temporals.format(history.day, 'yyyy년 MM월 dd일 HH시 mm분')}">day</td>
             <td th:text="${history.point}">point</td>
             <td>
@@ -22,5 +82,95 @@
         </tr>
     </th:block>
 </table>
+
+<div class="pagination"></div>
+
+<script>
+    var rows = document.querySelectorAll('.history-row');
+    var rowsPerPage = 10;
+    var totalPages = Math.ceil(rows.length / rowsPerPage);
+    var currentPage = 1;
+
+    showPage(currentPage);
+
+    function showPage(page) {
+        var startIndex = (page - 1) * rowsPerPage;
+        var endIndex = startIndex + rowsPerPage;
+
+        rows.forEach(function(row, index) {
+            if (index >= startIndex && index < endIndex) {
+                row.style.display = 'table-row';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        renderPagination(page);
+    }
+
+    function renderPagination(currentPage) {
+        var pagination = document.querySelector('.pagination');
+        pagination.innerHTML = '';
+
+        // 페이지 링크 시작 번호 계산
+        var startPage;
+        if (currentPage <= 5) {
+            startPage = 1;
+        } else if (currentPage >= totalPages - 4) {
+            startPage = totalPages - 9;
+        } else {
+            startPage = currentPage - 4;
+        }
+
+        // 페이지 링크 끝 번호 계산
+        var endPage = Math.min(startPage + 9, totalPages);
+
+        // 이전 버튼
+        var prevLink = document.createElement('a');
+        prevLink.href = '#';
+        prevLink.textContent = '이전';
+        prevLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        });
+        pagination.appendChild(prevLink);
+
+        // 페이지 링크
+        for (var i = startPage; i <= endPage; i++) {
+            var link = document.createElement('a');
+            link.href = '#';
+            link.textContent = i;
+
+            if (i === currentPage) {
+                link.classList.add('active');
+            }
+
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                currentPage = parseInt(event.target.textContent);
+                showPage(currentPage);
+            });
+
+            pagination.appendChild(link);
+        }
+
+        // 다음 버튼
+        var nextLink = document.createElement('a');
+        nextLink.href = '#';
+        nextLink.textContent = '다음';
+        nextLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        });
+        pagination.appendChild(nextLink);
+    }
+</script>
+
 </body>
 </html>

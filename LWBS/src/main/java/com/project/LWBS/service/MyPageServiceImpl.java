@@ -7,8 +7,10 @@ import com.project.LWBS.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MyPageServiceImpl implements MyPageService{
@@ -63,6 +65,9 @@ public class MyPageServiceImpl implements MyPageService{
     public List<Mileage> history(Long user_id) {
         User user = userRepository.findById(user_id).orElse(null);
         List<Mileage> history = mileageRepository.findByUser(user);
+        history = history.stream()
+                .sorted(Comparator.comparing(Mileage::getDay).reversed())
+                .collect(Collectors.toList());
         return history;
     }
 }

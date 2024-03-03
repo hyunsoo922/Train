@@ -41,6 +41,7 @@
             max-width: 100%; /* 이미지의 최대 너비를 100%로 설정하여 브라우저 크기에 맞게 조절 */
             padding: 10px; /* 이미지 주위에 여백 추가 */
         }
+
         .info-box {
             border: 2px solid #333;
             border-radius: 5px;
@@ -58,6 +59,8 @@
 
         input {
             margin-bottom: 10px;
+            display: block;
+            margin: 0 auto; /* 입력창 가운데 정렬 */
         }
 
         button {
@@ -113,7 +116,8 @@
 <script>
     function 조회하기() {
         var xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
-        xhr.open("GET", "/webscraping/" + userID, true); // GET 방식으로 /api/scrape에 비동기 요청 설정
+        //xhr.open("GET", "/webscraping/" + userID, true); // GET 방식으로 /api/scrape에 비동기 요청 설정
+        xhr.open("GET", "/gatherInfo/" + userID, true);
         xhr.onreadystatechange = function () {
             // 요청 상태가 변경될 때마다 호출되는 콜백 함수
             if (xhr.readyState === 4 && xhr.status === 200) {

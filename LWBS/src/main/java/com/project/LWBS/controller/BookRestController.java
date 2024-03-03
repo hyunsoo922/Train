@@ -4,6 +4,7 @@ import com.project.LWBS.service.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -50,58 +51,30 @@ public class BookRestController {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
 
-        //System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
+//        System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
         System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
         WebDriver driver = new ChromeDriver(options);
 
         System.out.println("시작");
 
         String id = userService.findByUserId(user_id).getStudentId();
-        String ps = userService.findByUserId(user_id).getStudentPw();
+        String pw = userService.findByUserId(user_id).getStudentPw();
 
         driver.get("https://sso.nsu.ac.kr/login?redirect_url=https%3A%2F%2Fmypage.nsu.ac.kr%2Fmypage%2Fstudent%2F");
-
+        System.out.println("로그인 단계");
         WebElement elem = driver.findElement(By.id("id_input"));
         elem.sendKeys(id);
-        System.out.println(id);
 
         WebElement passwordInput = driver.findElement(By.id("password_input"));
-        passwordInput.sendKeys(ps);
-        System.out.println(ps);
+        passwordInput.sendKeys(pw);
         passwordInput.sendKeys(Keys.RETURN);
 
-        sleep(1000);
+        sleep(100);
         System.out.println("로그인 단계");
         driver.get("https://mypage.nsu.ac.kr/mypage/student/?m1=A00020%2FHSK511%25");
         System.out.println("수강신청확인 페이지 접속");
         /* 수강신청확인서 페이지가 2024년으로 갱신되어 추가적인 조작이 필요하여 추가한 코드 */
-        sleep(1000);
-        // 년도 입력창의 XPATH
-        String year = "//*[@id=\"wrapper\"]/div[1]/div/div/div[2]/div/table/tbody/tr/td[2]/input";
-        WebElement Year = driver.findElement(By.xpath(year));
-        Year.click();
-        sleep(1000);
-        System.out.println("year 버튼 클릭");
-        Year.clear();
-        sleep(1000);
-        System.out.println("year 버튼 초기화");
-        sleep(1000);
-        Year.sendKeys("2023");
-        System.out.println("year에 2023 입력");
-        sleep(1000);
-        // 드롭다운 메뉴의 2학기 옵션의 XPATH
-        String second = "//*[@id=\"wrapper\"]/div[1]/div/div/div[2]/div/table/tbody/tr/td[4]/div/select/option[3]";
-        WebElement Second = driver.findElement(By.xpath(second));
-        Second.click();
-        System.out.println("드롭다운 메뉴 2학기 클릭");
-        sleep(1000);
-        // 조회 버튼의 XPATH
-        String checkbutton = "//*[@id=\"wrapper\"]/div[1]/div/div/div[3]/div[2]/div";
-        WebElement Checkbutton = driver.findElement(By.xpath(checkbutton));
-        Checkbutton.click();
-        System.out.println("수강신청확인서 접속");
-        /* 새 학기가 시작되면 없앨것 */
-
+        sleep(100);
         sleep(1000);
         System.out.println("XPath 조합 시작");
         int professorButtonIndex = 2;
@@ -159,15 +132,12 @@ public class BookRestController {
                         String book = bookElement.getText();
                         sleep(1000);
 
-                        // 주교재명의 길이가 5 이상인 이름만 리스트에 저장
-                        if (book.length() >= 5) {
-                            bookNames.add(book);
-                            System.out.println(book);
-                            departments.add(department);
-                            System.out.println(departments);
-                            subjects.add(subject);
-                            System.out.println(subjects);
-                        }
+                        bookNames.add(book);
+                        System.out.println(bookNames);
+                        departments.add(department);
+                        System.out.println(departments);
+                        subjects.add(subject);
+                        System.out.println(subjects);
                         System.out.println("웹스크래핑 종료");
                         break;
                     } catch (org.openqa.selenium.NoSuchElementException e) {
@@ -193,22 +163,23 @@ public class BookRestController {
             }
         }
 
-        // 자바 교재 때문에 넣음.
-        bookNames.remove(2);
-        departments.remove(2);
-        subjects.remove(2);
-
         sleep(1000);
         driver.quit();
+        List<String> bookInfo = new ArrayList<>();
+
+        String filePath = "C:\\Users\\skrheem\\Desktop\\failList.txt";
         System.out.println("네이버 API 시작");
         String clientId = "GjB1T5WYEFrpN4KIf6Pb";
         String clientSecret = "U9jyF2ZCDa";
-        int index = 0;
-        for (String term : bookNames) {
-            index++;
+        List<String> failList = new ArrayList<>(); // 실패한 책 제목을 저장할 리스트 생성
+
+        for(int index = 0; index < bookInfo.size(); index += 3) {
+            int departmentIndex = index;
+            int bookNameIndex = index + 1;
+            int subjectIndex = index + 2;
             try {
                 // 도서명을 UTF-8로 인코딩
-                String encodedQuery = URLEncoder.encode(term, "UTF-8");
+                String encodedQuery = URLEncoder.encode(bookInfo.get(bookNameIndex), "UTF-8");
 
                 // Naver 도서 검색 API의 엔드포인트 URL 생성
                 String apiUrl = "https://openapi.naver.com/v1/search/book.json?query=" + encodedQuery + "&display=1";
@@ -221,6 +192,10 @@ public class BookRestController {
                 con.setRequestMethod("GET");
                 con.setRequestProperty("X-Naver-Client-Id", clientId);
                 con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+                System.out.println("departmentIndex : "+departmentIndex);
+                System.out.println("bookNameIndex : "+bookNameIndex);
+                System.out.println("subjectIndex : " + subjectIndex);
+                //System.out.println(bookNames.get(bookNameIndex) + "의 응답 코드 가져오는중");
 
                 System.out.println("응답 코드 가져오는중");
                 // HTTP 응답 코드 가져오기
@@ -238,7 +213,6 @@ public class BookRestController {
                         response.append(line);
                     }
                     br.close();
-
                     // 응답 내용을 JSON 객체로 파싱
                     String responseBody = response.toString();
                     JSONObject jsonResponse = new JSONObject(responseBody);
@@ -247,9 +221,15 @@ public class BookRestController {
                     JSONArray items = jsonResponse.getJSONArray("items");
                     int LEN = items.length();
                     System.out.println("교재 정보 개수 : " + LEN);
+                    if(LEN == 0) {
+                        System.out.println(bookInfo.get(bookNameIndex));
+                        failList.add(bookInfo.get(departmentIndex));
+                        failList.add(bookInfo.get(bookNameIndex));
+                        failList.add(bookInfo.get(subjectIndex));
+                        continue;
+                    }
                     for(int i = 0; i < LEN; i++) {
                         JSONObject item = items.getJSONObject(i);
-
                         // 교재 정보 추출
                         String title = item.getString("title");
                         System.out.println("교재 이름 : " + title);
@@ -259,10 +239,9 @@ public class BookRestController {
                         String imageUrl = item.getString("image");
                         String isbn = item.getString("isbn");
                         String description = item.getString("description");
-
                         // 해당 교재의 학과 및 과목 정보 가져오기
-                        String D = departments.get(index-1);
-                        String S = subjects.get(index-1);
+                        String D = bookInfo.get(departmentIndex);
+                        String S = bookInfo.get(subjectIndex);
 
                         // Book 객체에 교재 정보를 담아 Service에게 전달
                         bookService.createBook(title, author, publisher, discount, imageUrl, isbn, description, D, S);
@@ -270,11 +249,15 @@ public class BookRestController {
                         enrollmentService.createEnrollment(title, userService.findByUserId(user_id).getId());
                         System.out.println("데이터베이스에 값 전달 완료");
                     }
-                } else {
-                    // 에러 코드 출력
-                    System.out.println("에러 코드: " + responseCode);
+                    FileWriter fileWriter = new FileWriter(filePath);
+                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                    for (String fail : failList) {
+                        bufferedWriter.write(fail);
+                        bufferedWriter.newLine();
+                    }
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
                 }
-
             } catch (IOException e) {
                 // 예외 발생 시 스택 트레이스 출력
                 e.printStackTrace();
