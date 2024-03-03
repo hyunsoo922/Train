@@ -30,19 +30,21 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     }
     @Override
     // Enrollment 테이블에 정보를 저장하기 전, 중복 값을 체크하는 메서드
-    public Boolean isExistData(String enrollmentName, Long user_id) {
+    public Boolean isExistData(String enrollmentName, User user) {
         Enrollment enrollment1 = enrollmentRepository.findByEnrollmentName(enrollmentName);
-        Enrollment enrollment2 = enrollmentRepository.findById(user_id).orElse(null);
-        if(enrollment1 != null && enrollment2 != null) {
-            return false;
+        List<Enrollment> userEnrollment= enrollmentRepository.findByUser(user);
+        for (Enrollment e:userEnrollment) {
+            if(e.equals(enrollment1)) {
+                return false;
+            }
         }
         return true;
     }
     @Override
     // 책 검색 모듈로 수집한 책의 이름과 그 책을 등록한 user의 정보를 Enrollment 테이블에 저장하는 메서드
     public void createEnrollment(String enrollmentName, Long user_id) {
-        if(isExistData(enrollmentName, user_id)){
-            User user = userRepository.findById(user_id).orElse(null);
+        User user = userRepository.findById(user_id).orElse(null);
+        if(isExistData(enrollmentName, user)){
             Enrollment enrollment = Enrollment.builder()
                     .enrollmentName(enrollmentName)
                     .user(user)

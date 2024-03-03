@@ -4,7 +4,6 @@ import com.project.LWBS.service.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -51,7 +50,7 @@ public class BookRestController {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
 
-//        System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
         System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
         WebDriver driver = new ChromeDriver(options);
 
@@ -68,26 +67,18 @@ public class BookRestController {
         WebElement passwordInput = driver.findElement(By.id("password_input"));
         passwordInput.sendKeys(pw);
         passwordInput.sendKeys(Keys.RETURN);
-
-        sleep(100);
-        System.out.println("로그인 단계");
+        sleep(1000);
         driver.get("https://mypage.nsu.ac.kr/mypage/student/?m1=A00020%2FHSK511%25");
         System.out.println("수강신청확인 페이지 접속");
-        /* 수강신청확인서 페이지가 2024년으로 갱신되어 추가적인 조작이 필요하여 추가한 코드 */
-        sleep(100);
         sleep(1000);
         System.out.println("XPath 조합 시작");
         int professorButtonIndex = 2;
         String professorButton1 = "//*[@id=\"wrapper\"]/div[1]/div/div/div[6]/div[1]/div/table/tbody/tr[";
         String professorButton2 = "]/td[11]";
-
         int BookInfoIndex = 1;
         String BookInfo1 = "//*[@id=\"popup_layout_list\"]/div/div[2]/div[2]/div/div[2]/div/table/tbody/tr[";
         String BookInfo2 = "]/td[3]/span";
-
-        List<String> bookNames = new ArrayList<>();
-        List<String> departments = new ArrayList<>();
-        List<String> subjects = new ArrayList<>();
+        List<String> bookInfo = new ArrayList<>();
         System.out.println("XPath 조합 완료");
         sleep(1000);
         while (true) {
@@ -132,12 +123,9 @@ public class BookRestController {
                         String book = bookElement.getText();
                         sleep(1000);
 
-                        bookNames.add(book);
-                        System.out.println(bookNames);
-                        departments.add(department);
-                        System.out.println(departments);
-                        subjects.add(subject);
-                        System.out.println(subjects);
+                        bookInfo.add(department);
+                        bookInfo.add(book);
+                        bookInfo.add(subject);
                         System.out.println("웹스크래핑 종료");
                         break;
                     } catch (org.openqa.selenium.NoSuchElementException e) {
@@ -165,7 +153,7 @@ public class BookRestController {
 
         sleep(1000);
         driver.quit();
-        List<String> bookInfo = new ArrayList<>();
+
 
         //String filePath = "C:\\Users\\skrheem\\Desktop\\failList.txt";
         String filePath = "/home/ubuntu/failList";
@@ -264,6 +252,6 @@ public class BookRestController {
                 e.printStackTrace();
             }
         }
-        return "mypage/" + user_id;
+        return "redirect:/mypage/" + user_id;
     }
 }
