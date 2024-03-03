@@ -116,8 +116,7 @@
 <script>
     function 조회하기() {
         var xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
-        //xhr.open("GET", "/webscraping/" + userID, true); // GET 방식으로 /api/scrape에 비동기 요청 설정
-        xhr.open("GET", "/gatherInfo/" + userID, true);
+        xhr.open("GET", "/webscraping/" + userID, true); // GET 방식으로 /api/scrape에 비동기 요청 설정
         xhr.onreadystatechange = function () {
             // 요청 상태가 변경될 때마다 호출되는 콜백 함수
             if (xhr.readyState === 4 && xhr.status === 200) {
