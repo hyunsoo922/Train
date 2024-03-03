@@ -42,14 +42,14 @@
         margin-top: 30px;
     }
 
-        /* Title style (adjust font size as needed) */
+
     h2
     {
         font-size: 70px;
         margin-bottom: 20px;
     }
 
-        /* Refresh button style */
+
     .refresh-button
     {
         font-size: 16px;
@@ -57,7 +57,7 @@
         margin-bottom: 30px;
     }
 
-        /* Table style */
+
     table
      {
         border-collapse: collapse;
@@ -86,7 +86,6 @@
         }
 
 
-        /* Message style when books are empty */
         .empty-message {
             font-style: italic;
             color: #888;
@@ -163,20 +162,18 @@
     </table>
 </div>
 
-<div style="text-align: center;">
-
+<div class="pagination">
     <!-- 이전 버튼 -->
     <a th:if="${nowPage > 1}" th:href="@{/bookStore/list(page=${nowPage - 2})}">&lt; 이전</a>
 
     <!-- 페이지 목록 -->
     <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
         <a th:if="${page != nowPage}" th:href="@{/bookStore/list(page=${page - 1})}" th:text="${page}"></a>
-        <strong th:if="${page == nowPage}" th:text="${page}" style="color: red;"></strong>
+        <strong th:if="${page == nowPage}" th:text="${page}"></strong>
     </th:block>
 
     <!-- 다음 버튼 -->
     <a th:if="${nowPage < totalPages}" th:href="@{/bookStore/list(page=${nowPage})}">다음 &gt;</a>
-
 </div>
 
 
