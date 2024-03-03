@@ -28,9 +28,9 @@ public class PurchaseServiceImpl implements PurchaseService{
         paymentData.add("quantity",totalCnt);
         paymentData.add("total_amount",totalPrice);
         paymentData.add("tax_free_amount","0");
-        paymentData.add("approval_url","http://51.21.62.144:8093/purchase/success");
-        paymentData.add("cancel_url","http://51.21.62.144:8093/purchase/cancel");
-        paymentData.add("fail_url","http://51.21.62.144:8093/purchase/fail");
+        paymentData.add("approval_url","http://localhost:8093/purchase/success");
+        paymentData.add("cancel_url","http://localhost:8093/purchase/cancel");
+        paymentData.add("fail_url","http://localhost:8093/purchase/fail");
 
         // HTTP 통신을 위해서 header 와 body 를 하나로만들기위함
         HttpEntity<Map> request = new HttpEntity<Map>(paymentData,headers);
