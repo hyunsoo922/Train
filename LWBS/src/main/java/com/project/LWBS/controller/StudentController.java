@@ -40,7 +40,7 @@ public class StudentController {
 
             List<Book> bookList = studentService.findMyClass(user);
 
-            System.out.println(bookList);
+//            System.out.println(bookList);
 
             List<Receive> receiveList = studentService.findReceiveCheck();
 
@@ -58,8 +58,8 @@ public class StudentController {
 
         List<Book> bookLists = studentService.findByIds(bookList);
 
-        System.out.println("수령일: " + receiveDay);
-        System.out.println("교재: " + bookLists);
+//        System.out.println("수령일: " + receiveDay);
+//        System.out.println("교재: " + bookLists);
         session.setAttribute("bookLists",bookLists);
         session.setAttribute("receiveDay",receiveDay);
         session.setAttribute("mileagePoint",mileagePoint);
