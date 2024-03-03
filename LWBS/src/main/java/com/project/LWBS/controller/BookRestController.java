@@ -167,7 +167,8 @@ public class BookRestController {
         driver.quit();
         List<String> bookInfo = new ArrayList<>();
 
-        String filePath = "C:\\Users\\skrheem\\Desktop\\failList.txt";
+        //String filePath = "C:\\Users\\skrheem\\Desktop\\failList.txt";
+        String filePath = "/home/ubuntu/failList";
         System.out.println("네이버 API 시작");
         String clientId = "GjB1T5WYEFrpN4KIf6Pb";
         String clientSecret = "U9jyF2ZCDa";
