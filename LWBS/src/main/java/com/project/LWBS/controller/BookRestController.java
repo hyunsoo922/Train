@@ -235,6 +235,8 @@ public class BookRestController {
                         // Book 객체에 교재 정보를 담아 Service에게 전달
                         bookService.createBook(title, author, publisher, discount, imageUrl, isbn, description, D, S);
                         // Enrollment 객체에 교재명을 담아 Service에게 전달
+                        bookService.createSubject(S);
+                        bookService.createDepartment(D);
                         enrollmentService.createEnrollment(title, userService.findByUserId(user_id).getId());
                         System.out.println("데이터베이스에 값 전달 완료");
                     }
