@@ -66,7 +66,7 @@ public class KakaoController {
 
         if(user.getAuthority().getName().equals("ROLE_STUDENT"))
         {
-            if(!enrollmentService.isEmptyData(user.getId()))
+            if(!enrollmentService.isEmptyData(user))
             {
                 redirectUrl = "http://16.170.97.165:8093/home/student";
             }
