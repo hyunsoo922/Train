@@ -40,19 +40,7 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private EnrollmentRepository enrollmentRepository;
 
-    @Override
-    // Book 테이블에 중복되는 값이 있는지 검사하는 메서드
-    public Boolean isExistIsbn(String isbn) {
-        // 매개변수로 전달받은 isbn에 해당하는 Book 객체를 Book 테이블에서 가져옴
-        Book bookcheck = bookRepository.findByIsbn(isbn);
-        // isbn에 해당하는 Book 객체가 없다면
-        if(bookcheck == null){
-            // false를 반환하여 Book 테이블에 책 정보를 추가
-            return false;
-        }
-        // true를 반환하여 Book 테이블에 책 정보를 추가하지 않음
-        return true;
-    }
+
 
     @Override
     public Page<Book> getAllBooks() {
