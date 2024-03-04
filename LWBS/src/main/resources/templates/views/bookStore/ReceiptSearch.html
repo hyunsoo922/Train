@@ -6,6 +6,21 @@
     <meta charset="UTF-8"/>
     <title>검색 결과</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+        footer {
+            background-color: #f2f2f2;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <th:block th:insert="~{header::header}"></th:block>
@@ -29,22 +44,7 @@
             <th style="text-align: center;">수령여부</th>
             <th style="text-align: center;">수령여부변경</th>
             <th style="text-align: center;">수령날짜</th>
-            <style>
 
-                th, td {
-                    padding: 8px;
-                    text-align: center;
-                }
-                footer {
-                    background-color: #f2f2f2;
-                    padding: 10px;
-                    position: fixed;
-                    bottom: 0;
-                    width: 100%;
-                    margin: 40px;
-                    text-align: center;
-                }
-            </style>
         </tr>
         </thead>
         <tbody>
