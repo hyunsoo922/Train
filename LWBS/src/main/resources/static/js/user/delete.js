@@ -4,5 +4,8 @@ $(function(){
         {
             $("#deleteFrm").submit();
         }
+        else{
+            history.back();
+        }
 
 });
