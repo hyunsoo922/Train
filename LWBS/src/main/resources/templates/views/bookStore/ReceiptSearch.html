@@ -8,10 +8,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
 
-        th, td {
-            padding: 8px;
-            text-align: center;
-        }
         #wrapper {
             min-height: 10vh;
             position: relative;
@@ -26,12 +22,45 @@
             width: 100%;
             text-align: center;
         }
+
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    }
+
+    table {
+    border-collapse: collapse;
+    width: auto;
+    margin-top: 20px;
+    }
+
+    th, td {
+    border: 1px solid #333;
+    padding: 8px;
+    text-align: center;
+    }
+
+    th {
+    background-color: #333;
+    color: #fff;
+    }
+
+    th:nth-child(odd) {
+    background-color: #4caf50;
+    }
+
+    th:nth-child(even) {
+    background-color: #2196f3;
+    }
     </style>
 </head>
+
 <body>
 <th:block th:insert="~{header::header}"></th:block>
 <th:block th:insert="~{storenav::navfrag}"></th:block>
-<div class="container mt-5">
+<div class="container-fluid mt-5">
     <h1>검색 결과</h1>
     <button id="printButton" class="btn btn-secondary">인쇄</button>
     <table class="table">
