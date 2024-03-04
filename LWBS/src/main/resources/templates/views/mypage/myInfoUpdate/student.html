@@ -61,14 +61,14 @@
     <form th:action="@{/mypage/myInfoUpdate/student}" id=verification method="post">
         <div style="display: inline-block;">
             <h2>학생 정보 수정</h2>
-            <label for="LMSID">LMS ID: </label>
+            <label>LMS ID: </label>
             <div style="display: inline-block; margin-left: 9px">
-                <input class="infoInput" type="text" id="LMSID" name="LMSID" placeholder="LMS 아이디를 입력하세요.">
+                <input class="infoInput" type="text" id="studentId" name="studentId" placeholder="LMS 아이디를 입력하세요.">
             </div>
             <br>
             <div>
-                <label for="LMSPW">LMS PW:</label>
-                <input class="infoInput" type="password" id="LMSPW" name="LMSPW" placeholder="LMS 비밀번호를 입력하세요.">
+                <label>LMS PW:</label>
+                <input class="infoInput" type="password" id="studentPw" name="studentPw" placeholder="LMS 비밀번호를 입력하세요.">
             </div>
         </div>
         <input type="hidden" id="ver" value="">
