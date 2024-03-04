@@ -29,7 +29,8 @@ public class myInfoUpdateController {
     }
 
     @GetMapping("/bookStore")
-    public String showChangeBookStoreInfoForm() {
+    public String showChangeBookStoreInfoForm(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        model.addAttribute("user", principalDetails.getUser());
         return "mypage/myInfoUpdate/bookStore";
     }
 
