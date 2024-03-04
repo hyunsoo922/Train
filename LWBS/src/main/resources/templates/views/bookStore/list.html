@@ -118,11 +118,17 @@
 
         .pagination a:hover:not(.active) {background-color: #ddd;}
 
+        #wrapper{
+            min-height: 100%;
+	        position: relative;
+        }
+
         footer {
             background-color: #f2f2f2;
             padding: 10px;
             position: absolute;
             bottom: 0;
+            height: 10rem;
             width: 100%;
             text-align: center;
         }
@@ -187,6 +193,11 @@
     <!-- 다음 버튼 -->
     <a th:if="${nowPage < totalPages}" th:href="@{/bookStore/list(page=${nowPage})}">다음 &gt;</a>
 </div>
+<div id="wrapper">
+    <footer>
+        <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>
+    </footer>
+</div>
 
 
 <script>
@@ -195,8 +206,6 @@
     }
 </script>
 
+
 </body>
-<footer>
-    <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>
-</footer>
 </html>
