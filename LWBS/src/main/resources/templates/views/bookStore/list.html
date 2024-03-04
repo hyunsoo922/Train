@@ -167,10 +167,12 @@
     <a th:if="${nowPage > 1}" th:href="@{/bookStore/list(page=${nowPage - 2})}">&lt; 이전</a>
 
     <!-- 페이지 목록 -->
+    <!-- 페이지 목록 -->
     <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
         <a th:if="${page != nowPage}" th:href="@{/bookStore/list(page=${page - 1})}" th:text="${page}"></a>
-        <strong th:if="${page == nowPage}" th:text="${page}"></strong>
+        <a th:if="${page == nowPage}" th:href="@{/bookStore/list(page=${page - 1})}" th:text="${page}" class="active"></a>
     </th:block>
+
 
     <!-- 다음 버튼 -->
     <a th:if="${nowPage < totalPages}" th:href="@{/bookStore/list(page=${nowPage})}">다음 &gt;</a>
