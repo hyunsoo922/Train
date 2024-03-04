@@ -121,7 +121,7 @@
             <div class="useablemileage">
                 <strong>사용 가능 마일리지:</strong> <span th:text="${sumpoint}"></span>
             </div>
-            <input type="text" name="mileagePoint" id="mileagePoint" value="" placeholder="사용하실 마일리지를 입력하세요">
+            <input type="text" name="mileagePoint" id="mileagePoint" value="0" placeholder="사용하실 마일리지를 입력하세요">
             <select name="receiveDay" id="receiveDay" title="receiveDay">
                 <option>수령 날짜 선택</option>
                 <th:block th:each="receive:${receiveDays}">

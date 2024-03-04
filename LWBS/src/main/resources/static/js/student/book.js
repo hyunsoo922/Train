@@ -1,4 +1,4 @@
-$(function(){
+$(function () {
     $("#buyBtn").click(function () {
 
         var selectedBooks = [];
@@ -16,11 +16,10 @@ $(function(){
 
 
         // form 제출
-        if(mileage.val() !== null)
-        {
+        if (mileage.val().trim() !== "") {
             $("#bookFrm").submit();
         }
-        else{
+        else {
             alert("사용하실 마일리지를 입력해주세요");
             mileage.focus();
         }
