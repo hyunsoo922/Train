@@ -54,20 +54,20 @@
             <div style="text-align: center;">
                 <h2 style="font-size: 50px;">날짜 범위 선택</h2>
             </div>
+            <form th:action="@{/bookStore/DaySelect}" method="post">
+                <div class="container">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <label for="startDate"> 시작 날짜 </label>
+                        <br>
+                        <input type="date" name="startDate" id="startDate" th:value="${selectedStartDate}" />
+                    </div>
 
-            <div class="container">
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <label for="startDate"> 시작 날짜 </label>
-                    <br>
-                    <input type="date" name="startDate" id="startDate" th:value="${selectedStartDate}" />
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <label for="endDate"> 종료 날짜 </label>
+                        <br>
+                        <input type="date" name="endDate" id="endDate" th:value="${selectedEndDate}" />
+                    </div>
                 </div>
-
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <label for="endDate"> 종료 날짜 </label>
-                    <br>
-                    <input type="date" name="endDate" id="endDate" th:value="${selectedEndDate}" />
-                </div>
-            </div>
 
             <div style="text-align: center;">
                 <button type="submit">선택완료</button>
