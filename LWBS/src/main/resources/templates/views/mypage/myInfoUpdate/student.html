@@ -57,7 +57,7 @@
 <th:block th:insert="~{header::header}"></th:block>
 <br>
 <div style="border: 1px solid black; padding: 10px; width: 500px; margin: 0 auto; display: flex; justify-content: center; align-items: center;">
-    <form action="/mypage/myInfoUpdate/student" method="post">
+    <form th:action="@{/mypage/myInfoUpdate/student}" method="post">
         <div style="display: inline-block;">
             <h2>학생 정보 수정</h2>
             <label for="LMSID">LMS ID: </label>
