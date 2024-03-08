@@ -16,18 +16,14 @@ public interface BookService {
     Page<Book> getAllBooks(Pageable pageable);
 
     // Book 객체의 isbn이 Book 테이블에 있는지에 대한 여부를 파악 후 true/false 반환
-//    Boolean isExistIsbn(String isbn);
-//
-//    Boolean isExistSubjectName(String sname);
-//
-//    Boolean isExistDepartmentName(String dname);
+    Boolean isExistIsbn(String isbn);
 
 
     List<Book> findByBookName(Long user_id);
+
     Book findById(Long user_id);
 
     void createSubject(String sname);
 
     void createDepartment(String dname);
-
 }
