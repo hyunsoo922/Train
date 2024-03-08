@@ -19,4 +19,7 @@ public interface BookService {
 
     Book findById(Long user_id);
 
+    void createSubject(String sname);
+
+    void createDepartment(String dname);
 }

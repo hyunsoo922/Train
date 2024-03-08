@@ -89,4 +89,25 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findById(book_id).orElse(null);
         return book;
     }
+
+    @Override
+    public void createSubject(String sname) {
+        Subject existingSubject = subjectRepository.findByName(sname);
+        if(existingSubject == null) {
+            Subject subject = Subject.builder()
+                    .name(sname)
+                    .build();
+            subjectRepository.saveAndFlush(subject);
+        }
+    }
+    @Override
+    public void createDepartment(String dname) {
+        Department existingDepartment = departmentRepository.findByName(dname);
+        if(existingDepartment == null) {
+            Department department = Department.builder()
+                    .name(dname)
+                    .build();
+            departmentRepository.saveAndFlush(department);
+        }
+    }
 }
