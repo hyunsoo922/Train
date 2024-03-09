@@ -150,6 +150,23 @@
 <script th:inline="javascript">
     var userID = /*[[${ID}]]*/ null; // Thymeleaf를 통해 ID 값 가져오기
     var authority = /*[[${authority}]]*/ null;
+    $(document).ready(function() {
+        // 구매 버튼 초기 상태 : 비활성화
+        $('#buyBtn').prop('disabled', true);
+
+        // 체크 박스 및 receiveDay 변경 시 구매 버튼 활성화/비활성화
+        $('.bookCheckBox, #receiveDay').change(function() {
+            // 체크된 체크 박스의 개수가 0개 이상일 때
+            var anyChecked = $('.bookCheckBox:checked').length > 0;
+            // "수령 날짜 선택"이 아닐 때
+            var receiveDaySelected = $('#receiveDay').val() !== "수령 날짜 선택";
+            $('#buyBtn').prop('disabled', !(anyChecked && receiveDaySelected));
+        });
+
+        $('#buyBtn').click(function() {
+            $('#bookFrm').submit();
+        });
+    });
 </script>
 <div id="wrapper">
     <footer>

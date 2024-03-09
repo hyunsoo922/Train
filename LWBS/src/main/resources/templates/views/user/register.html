@@ -64,10 +64,13 @@
 
             <input type="hidden" id="ver" value="">
             <button type="button" id="regBtn">회원가입 하기</button>
+            <div id="loadingMessage" style="display: none;">입력하신 계정 정보를 확인 중입니다. <br>완료 메시지를 기다려주세요.</div>
         </form>
     </div>
     <script>
         function LMS계정확인() {
+            document.getElementById("loadingMessage").style.display = "block";
+            document.body.style.pointerEvents = "none";
             // 사용자가 입력한 ID와 PW 가져오기
             var lmsId = document.getElementById("LMSID").value;
             var lmsPw = document.getElementById("LMSPW").value;
@@ -85,12 +88,18 @@
                     if (result) {
                         alert("계정 확인 성공!");
                         v.value = "t"
+                        document.getElementById("loadingMessage").style.display = "none";
+                        document.body.style.pointerEvents = "auto";
                     } else {
                         alert("계정 확인 실패!");
+                        document.getElementById("loadingMessage").style.display = "none";
+                        document.body.style.pointerEvents = "auto";
                     }
                 },
                 error: function () {
                     alert("서버 오류 발생!");
+                    document.getElementById("loadingMessage").style.display = "none";
+                    document.body.style.pointerEvents = "auto";
                 }
             });
         }

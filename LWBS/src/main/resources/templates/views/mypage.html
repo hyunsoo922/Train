@@ -97,14 +97,16 @@
     </div>
     <br>
     <section>
+        <div id="loadingMessage" style="display: none;">수강 신청 정보를 수집 중 입니다. 완료 메시지를 기다려주세요.</div>
         <button onclick="조회하기()">수강신청 내역 조회</button>
         <button onclick="이동하기()">내 정보 수정</button>
         <button onclick="마일리지조회()">마일리지 내역 조회</button>
-        <div id="수강신청내역"></div>
+        <br>
         <br>
         <a th:href="@{/user/delete}" class="delete-btn" style="padding: 10px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 4px; margin: 5px;">회원탈퇴</a>
     </section>
 </div>
+
 <footer>
     <p>&copy; 2023 마이페이지</p>
 </footer>
@@ -114,13 +116,15 @@
 </script>
 <script>
     function 조회하기() {
-        var xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
-        xhr.open("GET", "/webscraping/" + userID, true); // GET 방식으로 /api/scrape에 비동기 요청 설정
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/webscraping/" + userID, true);
+        document.body.style.pointerEvents = "none";
+        document.getElementById("loadingMessage").style.display = "block";
         xhr.onreadystatechange = function () {
-            // 요청 상태가 변경될 때마다 호출되는 콜백 함수
             if (xhr.readyState === 4 && xhr.status === 200) {
-                var 수강신청내역 = JSON.parse(xhr.responseText).result;
-                document.getElementById("수강신청내역").innerHTML = "<p>" + 수강신청내역 + "</p>";
+                alert("수강 신청 정보 수집이 완료되었습니다!");
+                document.getElementById("loadingMessage").style.display = "none";
+                document.body.style.pointerEvents = "auto";
             }
         };
         xhr.send();

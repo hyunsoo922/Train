@@ -50,8 +50,8 @@ public class BookRestController {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
 
-        //System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
         WebDriver driver = new ChromeDriver(options);
 
         System.out.println("시작");
@@ -162,8 +162,8 @@ public class BookRestController {
         driver.quit();
 
 
-        //String filePath = "C:\\Users\\skrheem\\Desktop\\failList.txt";
-        String filePath = "/home/ubuntu/failList";
+        String filePath = "C:\\Users\\skrheem\\Desktop\\failList.txt";
+        //String filePath = "/home/ubuntu/failList";
         System.out.println("네이버 API 시작");
         String clientId = "GjB1T5WYEFrpN4KIf6Pb";
         String clientSecret = "U9jyF2ZCDa";
