@@ -50,8 +50,8 @@ public class BookRestController {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
 
-        System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
-        //System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
         WebDriver driver = new ChromeDriver(options);
 
         System.out.println("시작");
@@ -162,8 +162,8 @@ public class BookRestController {
         driver.quit();
 
 
-        String filePath = "C:\\Users\\skrheem\\Desktop\\failList.txt";
-        //String filePath = "/home/ubuntu/failList";
+        //String filePath = "C:\\Users\\skrheem\\Desktop\\failList.txt";
+        String filePath = "/home/ubuntu/failList";
         System.out.println("네이버 API 시작");
         String clientId = "GjB1T5WYEFrpN4KIf6Pb";
         String clientSecret = "U9jyF2ZCDa";
@@ -257,10 +257,17 @@ public class BookRestController {
         try {
             FileWriter fileWriter = new FileWriter(filePath);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write("학과명 - 교재명 - 과목명");
+            bufferedWriter.newLine();
             for (int failIndex = 0; failIndex < failList.size(); failIndex++) {
                 System.out.println(failList.get(failIndex));
                 bufferedWriter.write(failList.get(failIndex));
-                bufferedWriter.newLine();
+                if(failIndex % 3 == 2) {
+                    bufferedWriter.newLine();
+                }
+                else if(failIndex % 3 == 0 || failIndex % 3 == 1){
+                    bufferedWriter.write(" - ");
+                }
             }
             bufferedWriter.flush();
             bufferedWriter.close();
