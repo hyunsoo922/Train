@@ -6,7 +6,7 @@
     color: white; /* 글자 색상 */
     text-align: center;
     writing-mode: vertical-rl; /* 세로 쓰기 모드 */
-    font-size: 70px;
+    font-size: 50px;
 }
 .banner .right{
     border: 2px solid #000000; /* 테두리 스타일 및 색상 */
@@ -14,8 +14,9 @@
     position: fixed;
     right: 0;
     padding: 0px; /* 원하는 여백 설정 */
-    width: 120px;
-    height: 850px;
+    width: 80px;
+    height: 600px;
+    border: none;
 }
 .banner .left{
     border: 2px solid #000000; /* 테두리 스타일 및 색상 */
@@ -23,6 +24,7 @@
     position: fixed;
     left: 0;
     padding: 0px; /* 원하는 여백 설정 */
-    width: 120px;
-    height: 850px;
+    width: 80px;
+    height: 600px;
+    border: none;
 }

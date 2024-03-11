@@ -37,9 +37,7 @@
         }
         .textContainer {
             width: 250px;
-            height: 220px;
-            word-wrap: break-word;
-            overflow: hidden;
+            height: 150px;
         }
         #dayBtn {
             width: 250px;
@@ -85,12 +83,11 @@
                     <div id="bookContainer">
                         <img th:src="${book.imageUrl}" alt="">
                         <div class="textContainer">
-                            <div th:text="${book.name}"></div>
+                            <strong><div th:text="${book.name}"></div></strong>
                             <div th:text="${book.author}"></div>
                             <div th:text="${book.publisher}"></div>
                             <div th:text="${book.department.name}"></div>
                             <div th:text="${book.subject.name}"></div>
-                            <div th:text="${book.description}"></div>
                         </div>
                     </div>
                 </th:block>
