@@ -17,7 +17,6 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/purchase")
-@CrossOrigin(origins = "http://51.21.62.144:8093")
 public class PurchaseController {
 
     @Autowired
