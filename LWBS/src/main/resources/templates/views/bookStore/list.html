@@ -218,9 +218,10 @@
         location.reload(true);
     }
 
-     function searchBooks() {
+    function searchBooks() {
         var searchTerm = document.getElementById('searchInput').value.toLowerCase();
         var bookItems = document.querySelectorAll('.bookItem');
+        var pagination = document.querySelector('.pagination');
 
         // 모든 항목 숨기기
         bookItems.forEach(function (item) {
@@ -238,6 +239,13 @@
                 item.style.display = '';
             }
         });
+
+        // 검색 결과가 있을 때만 페이징 숨기기
+        if (document.getElementById('searchResults').hasChildNodes()) {
+            pagination.style.display = 'none';
+        } else {
+            pagination.style.display = 'block';
+        }
     }
 </script>
 
