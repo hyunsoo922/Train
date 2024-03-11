@@ -85,8 +85,8 @@
             <td th:text="${#temporals.format(history.day, 'yyyy년 MM월 dd일 HH시 mm분')}">day</td>
             <td th:text="${history.point}">point</td>
             <td>
-                <span th:if="${iterStat.odd}">적립</span>
-                <span th:if="${iterStat.even}">사용</span>
+                <span th:if="${iterStat.odd}">사용</span>
+                <span th:if="${iterStat.even}">적립</span>
             </td>
         </tr>
     </th:block>

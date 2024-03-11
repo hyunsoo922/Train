@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <title>내 정보 수정</title>
     <style>
         body {
@@ -56,27 +57,67 @@
 <body>
 <th:block th:insert="~{header::header}"></th:block>
 <br>
-<div style="border: 1px solid black; padding: 10px; width: 500px; margin: 0 auto; display: flex; justify-content: center; align-items: center;">
-    <form action="/mypage/myInfoUpdate/student" method="post">
-        <div style="display: inline-block;">
-            <h2>학생 정보 수정</h2>
-            <label for="studentId">LMS ID: </label>
-            <div style="display: inline-block; margin-left: 9px">
-
-                <input type="text" id="studentId" name="studentId" required>
+<div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="border: 1px solid black; padding: 10px; width: 500px; margin: 0 auto;">
+        <form th:action="@{/mypage/myInfoUpdate/student}" id=verification method="post">
+            <div style="display: inline-block;">
+                <h2>학생 정보 수정</h2>
+                <label>LMS ID: </label>
+                <div style="display: inline-block; margin-left: 9px">
+                    <input class="infoInput" type="text" id="studentId" name="studentId" placeholder="LMS 아이디를 입력하세요.">
+                </div>
+                <br>
+                <div>
+                    <label>LMS PW:</label>
+                    <input class="infoInput" type="password" id="studentPw" name="studentPw" placeholder="LMS 비밀번호를 입력하세요.">
+                </div>
             </div>
-            <br>
-            <div>
-                <label for="studentPw">LMS PW:</label>
-                <input type="password" id="studentPw" name="studentPw" required>
+            <input type="hidden" id="ver" value="">
+            <div style="display: inline-block;">
+                <button type="button" onclick="LMS계정확인()">완료</button>
             </div>
-        </div>
-        <div style="display: inline-block;">
-            <button type="submit">완료</button>
-        </div>
-    </form>
+        </form>
+    </div>
+    <div id="loadingMessage" style="display: none;">입력하신 계정 정보를 확인 중입니다. 완료 메시지를 기다려주세요.</div>
 </div>
-
+<script>
+    function LMS계정확인() {
+        document.getElementById("loadingMessage").style.display = "block";
+        document.body.style.pointerEvents = "none";
+        // 사용자가 입력한 ID와 PW 가져오기
+        var lmsId = document.getElementById("studentId").value;
+        var lmsPw = document.getElementById("studentPw").value;
+        var frm = document.getElementById("verification");
+        // AJAX를 통해 서버로 데이터 전송
+        $.ajax({
+            type: "GET",
+            url: "/verification", // 서버의 엔드포인트 경로
+            data: {
+                id: lmsId,
+                pw: lmsPw
+            },
+            success: function (result) {
+                console.log(result);
+                // 서버로부터의 응답을 처리하는 코드
+                if (result) {
+                    alert("LMS 계정 정보가 변경되었습니다.");
+                    document.getElementById("loadingMessage").style.display = "none";
+                    document.body.style.pointerEvents = "auto";
+                    frm.submit();
+                } else {
+                    alert("LMS계정 확인을 해주세요.");
+                    document.getElementById("loadingMessage").style.display = "none";
+                    document.body.style.pointerEvents = "auto";
+                }
+            },
+            error: function () {
+                alert("서버 오류 발생!");
+                document.getElementById("loadingMessage").style.display = "none";
+                document.body.style.pointerEvents = "auto";
+            }
+        });
+    }
+</script>
 </body>
 <footer>
     <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>

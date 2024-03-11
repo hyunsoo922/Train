@@ -50,8 +50,8 @@ public class BookRestController {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
 
-        //System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "C:/Users/skrheem/IdeaProjects/Train/chromedriver-win64/chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "/home/ubuntu/python/chromedriver");
         WebDriver driver = new ChromeDriver(options);
 
         System.out.println("시작");
@@ -100,21 +100,6 @@ public class BookRestController {
                     String departmentXPath = "//*[@id=\"popup_layout_list\"]/div/div[2]/div[2]/div/div[1]/div/div/table/tbody/tr[3]/td[4]/span";
                     System.out.println("주교재, 과목, 학과 XPath 확인");
                     try {
-                        System.out.println("과목 XPath 탐색 시작");
-                        // 과목 요소 XPath에 해당하는 웹 요소를 탐색
-                        WebElement subjectElement = driver.findElement(By.xpath(subjectXPath));
-                        // 수집한 웹 요소를 저장
-                        System.out.println("웹 요소 저장");
-                        String subject = subjectElement.getText();
-                        // 0.1초 대기
-                        sleep(1000);
-                        System.out.println("학과 XPath 탐색 시작");
-                        // 학과 요소 XPath에 해당하는 웹 요소를 탐색
-                        WebElement departmentElement = driver.findElement(By.xpath(departmentXPath));
-                        // 수집한 웹 요소를 저장
-                        System.out.println("웹 요소 저장");
-                        String department = departmentElement.getText();
-                        sleep(1000);
                         System.out.println("주교재명 XPath 탐색 시작");
                         // 주교재명 XPath에 해당하는 웹 요소를 탐색
                         WebElement bookElement = driver.findElement(By.xpath(menuButtonXPath2));
@@ -122,12 +107,34 @@ public class BookRestController {
                         System.out.println("웹 요소 저장");
                         String book = bookElement.getText();
                         sleep(1000);
-
-                        bookInfo.add(department);
-                        bookInfo.add(book);
-                        bookInfo.add(subject);
-                        System.out.println("웹스크래핑 종료");
-                        break;
+                        if(book.length() <= 5) {
+                            System.out.println("수집한 교재명의 길이가 5글자보다 짧습니다.");
+                            System.out.println("수집한 교재명 길이: " + book.length());
+                            System.out.println("다음 수강계획서 탐색");
+                            break;
+                        }
+                        else {
+                            System.out.println("과목 XPath 탐색 시작");
+                            // 과목 요소 XPath에 해당하는 웹 요소를 탐색
+                            WebElement subjectElement = driver.findElement(By.xpath(subjectXPath));
+                            // 수집한 웹 요소를 저장
+                            System.out.println("웹 요소 저장");
+                            String subject = subjectElement.getText();
+                            // 1초 대기
+                            sleep(1000);
+                            System.out.println("학과 XPath 탐색 시작");
+                            // 학과 요소 XPath에 해당하는 웹 요소를 탐색
+                            WebElement departmentElement = driver.findElement(By.xpath(departmentXPath));
+                            // 수집한 웹 요소를 저장
+                            System.out.println("웹 요소 저장");
+                            String department = departmentElement.getText();
+                            sleep(1000);
+                            bookInfo.add(department);
+                            bookInfo.add(book);
+                            bookInfo.add(subject);
+                            System.out.println("웹스크래핑 종료");
+                            break;
+                        }
                     } catch (org.openqa.selenium.NoSuchElementException e) {
                         // 교재명이 없는 경우 다음 교재명을 탐색
                         BookInfoIndex++;
@@ -155,8 +162,8 @@ public class BookRestController {
         driver.quit();
 
 
-        //String filePath = "C:\\Users\\skrheem\\Desktop\\failList.txt";
-        String filePath = "/home/ubuntu/failList";
+        String filePath = "C:\\Users\\skrheem\\Desktop\\failList.txt";
+        //String filePath = "/home/ubuntu/failList";
         System.out.println("네이버 API 시작");
         String clientId = "GjB1T5WYEFrpN4KIf6Pb";
         String clientSecret = "U9jyF2ZCDa";
@@ -215,6 +222,7 @@ public class BookRestController {
                         failList.add(bookInfo.get(departmentIndex));
                         failList.add(bookInfo.get(bookNameIndex));
                         failList.add(bookInfo.get(subjectIndex));
+                        System.out.println(failList);
                         continue;
                     }
                     for(int i = 0; i < LEN; i++) {
@@ -239,19 +247,25 @@ public class BookRestController {
                         enrollmentService.createEnrollment(title, userService.findByUserId(user_id).getId());
                         System.out.println("데이터베이스에 값 전달 완료");
                     }
-                    FileWriter fileWriter = new FileWriter(filePath);
-                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                    for (String fail : failList) {
-                        bufferedWriter.write(fail);
-                        bufferedWriter.newLine();
-                    }
-                    bufferedWriter.flush();
-                    bufferedWriter.close();
+
                 }
             } catch (IOException e) {
                 // 예외 발생 시 스택 트레이스 출력
                 e.printStackTrace();
             }
+        }
+        try {
+            FileWriter fileWriter = new FileWriter(filePath);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            for (int failIndex = 0; failIndex < failList.size(); failIndex++) {
+                System.out.println(failList.get(failIndex));
+                bufferedWriter.write(failList.get(failIndex));
+                bufferedWriter.newLine();
+            }
+            bufferedWriter.flush();
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return "redirect:/mypage/" + user_id;
     }
