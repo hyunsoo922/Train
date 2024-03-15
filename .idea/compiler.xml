@@ -11,5 +11,9 @@
         <module name="LWBS.LWBS.main" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="LWBS.LWBS.main~1" target="17" />
+      <module name="LWBS.LWBS.test~1" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
