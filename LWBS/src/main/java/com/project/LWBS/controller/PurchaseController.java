@@ -3,6 +3,7 @@ package com.project.LWBS.controller;
 
 import com.project.LWBS.config.PrincipalDetails;
 import com.project.LWBS.domain.Book;
+import com.project.LWBS.domain.DTO.Approve;
 import com.project.LWBS.domain.DTO.CancelDTO;
 import com.project.LWBS.domain.DTO.Purchase;
 import com.project.LWBS.domain.Receipt;
@@ -61,7 +62,8 @@ public class PurchaseController {
 //        System.out.println("bookLists"+bookLists);
 //        System.out.println("totalPrice"+totalPrice);
         List<Receipt> receiptList = receiptService.findReceiptsByBookAndUser(bookLists,user);
-//        System.out.println(receiptList);
+
+        System.out.println(receiptList);
         Set<String> tids = new HashSet<>();
 
         for(Receipt receipt : receiptList)
@@ -69,7 +71,7 @@ public class PurchaseController {
             tids.add(receipt.getTid());
         }
 
-//        System.out.println(tids);
+        System.out.println(tids);
         List<CancelDTO> cancelResponse = new ArrayList<>();
         for (String tid : tids)
         {
@@ -79,6 +81,7 @@ public class PurchaseController {
 
         for(Receipt receipt : receiptList)
         {
+
             receiptService.deleteReceipt(receipt);
         }
 
@@ -88,16 +91,22 @@ public class PurchaseController {
     }
 
     @GetMapping("/success")
-    public String success(HttpSession session)
+    public String success(@RequestParam("pg_token") String pgToken,HttpSession session)
     {
+//        System.out.println("토큰"+pgToken);
         List<Book> bookList = (List<Book>)session.getAttribute("books");
         User user = (User) session.getAttribute("users");
         String receiveDay =(String)session.getAttribute("receiveDate");
         int useMileage = Integer.parseInt((String)session.getAttribute("mileagePoint"));
         Purchase purchase = (Purchase) session.getAttribute("purchase");
 
-        studentService.createReceipt(bookList,user,receiveDay,useMileage,purchase.getTid());
+        Approve approve = purchaseService.approveKakaoPay(pgToken,purchase.getTid());
 
+        if(approve != null)
+        {
+            System.out.println("승인 요청 성공");
+            studentService.createReceipt(bookList,user,receiveDay,useMileage,purchase.getTid());
+        }
 
 
         return "purchase/success";

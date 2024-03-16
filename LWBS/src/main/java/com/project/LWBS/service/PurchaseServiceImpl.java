@@ -1,5 +1,6 @@
 package com.project.LWBS.service;
 
+import com.project.LWBS.domain.DTO.Approve;
 import com.project.LWBS.domain.DTO.CancelDTO;
 import com.project.LWBS.domain.DTO.Purchase;
 import org.json.JSONObject;
@@ -47,7 +48,7 @@ public class PurchaseServiceImpl implements PurchaseService{
         headers.set("Content-Type", "application/json");
 
         // 요청 본문을 JSON 형식으로 구성
-        String requestJson = "{\"cid\": \"TC0ONETIME\", \"tid\": \"" + tid + "\", \"cancel_amount\": " + totalPrice + ", \"cancel_tax_free_amount\": 500, \"cancel_available_amount\": " + totalPrice + ", \"payload\": \"환불합니다.\"}";
+        String requestJson = "{\"cid\": \"TC0ONETIME\", \"tid\": \"" + tid + "\", \"cancel_amount\": " + totalPrice + ", \"cancel_tax_free_amount\": 0, \"payload\": \"환불합니다.\"}";
 
         HttpEntity<String> request = new HttpEntity<>(requestJson, headers);
         RestTemplate restTemplate = new RestTemplate();
@@ -57,6 +58,27 @@ public class PurchaseServiceImpl implements PurchaseService{
 
         return cancelResponse;
     }
+
+    @Override
+    public Approve approveKakaoPay(String pgToken, String tid) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "SECRET_KEY " + "DEVA5BB01EBFA7F8A1129BF32EC7072B07638F9E");
+        headers.set("Content-Type", "application/json");
+
+        String requestJson = "{\"cid\":\"TC0ONETIME\",\"partner_order_id\":\"Kakao20230829\"," +
+                "\"partner_user_id\":\"KakaoPay\", \"tid\": \"" + tid + "\", \"pg_token\": \"" + pgToken + "\"}";
+
+
+        HttpEntity<String> request = new HttpEntity<>(requestJson, headers);
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://open-api.kakaopay.com/online/v1/payment/approve";
+
+        Approve approveResponse = restTemplate.postForObject(url, request, Approve.class);
+        System.out.println("Approve"+approveResponse);
+        return approveResponse;
+    }
+
+
 //    public CancelDTO kakaoCancel(String tid, int totalPrice) {
 //        HttpHeaders headers = new HttpHeaders();
 //        headers.set("Authorization","KakaoAK 74d0916631639e978afec5faf0540314");

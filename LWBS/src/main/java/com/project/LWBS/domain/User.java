@@ -38,7 +38,7 @@ public class User {
     @ToString.Exclude
     private Authority authority;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true,fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<Mileage> mileage;
 
@@ -46,7 +46,7 @@ public class User {
     @ToString.Exclude
     private List<Enrollment> enrollments;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE,orphanRemoval = true,fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<Receipt> receipts;
 }
