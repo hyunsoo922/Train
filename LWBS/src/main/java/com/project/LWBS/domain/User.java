@@ -49,4 +49,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE,orphanRemoval = true,fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<Receipt> receipts;
+
+    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER )
+    @ToString.Exclude
+    private List<Cart> carts;
+
 }

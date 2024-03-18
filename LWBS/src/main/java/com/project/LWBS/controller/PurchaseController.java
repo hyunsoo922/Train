@@ -105,6 +105,8 @@ public class PurchaseController {
         int useMileage = Integer.parseInt((String)session.getAttribute("mileagePoint"));
         Purchase purchase = (Purchase) session.getAttribute("purchase");
 
+
+
         Approve approve = purchaseService.approveKakaoPay(pgToken,purchase.getTid());
 
         if(approve != null)

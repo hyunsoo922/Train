@@ -47,11 +47,16 @@
             background-color: #4CAF50;
             color: white;
         }
-        #rightAligned {
-            position: absolute;
-            bottom: 0; /* 수정: bottom 위치 변경 */
-            right: 0; /* 수정: right 위치 변경 */
+
+        #cancleBtn {
+            width: 250px;
+            cursor: pointer;
+            border: none;
+            background-color: red;
+            color: white;
+            margin-right: 23px;
         }
+
         #noBooksMessage {
             font-size: 50px;
             text-align: center;
@@ -111,8 +116,8 @@
                 <div id="noBooksMessage" style="font-size: 32px; white-space: nowrap;">구매한 교재가 없습니다</div>
             </th:block>
             <input type="hidden" id="user" th:value="${user}">
-            <button id="cancleBtn" type="button">환불</button>
         </div>
+
 
 
     <div id="rightAligned">
@@ -129,6 +134,7 @@
             <button id="dayBtn" type="submit">날짜 변경하기</button>
         </form>
     </div>
+    <button id="cancleBtn" type="button">환불</button>
 </div>
 <div id="wrapper">
     <footer>
