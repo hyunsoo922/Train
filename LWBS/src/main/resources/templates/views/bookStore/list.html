@@ -149,6 +149,7 @@
         <tr>
             <th>이미지</th>
             <th>교재명</th>
+            <th>강의명</th>
             <th>가격</th>
             <th>출판사</th>
             <th>저자</th>
@@ -162,6 +163,7 @@
                 <img th:src="${book.imageUrl}" style="max-width: 100px; max-height: 150px;">
             </td>
             <td th:text="${book.name}"></td>
+            <td th:text="${book.subject.name}"></td>
             <td th:text="${book.price}"></td>
             <td th:text="${book.publisher}"></td>
             <td th:text="${book.author}"></td>
