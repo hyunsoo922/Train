@@ -37,6 +37,7 @@ dependencies {
    testImplementation 'org.springframework.security:spring-security-test'
    implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
    implementation 'org.json:json:20210307'
+   implementation 'org.webjars:bootstrap:5.3.0'
 }
 tasks.named('bootBuildImage') {
    builder = 'paketobuildpacks/builder-jammy-base:latest'

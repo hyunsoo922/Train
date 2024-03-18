@@ -48,6 +48,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<Book> getAllBook() {return bookRepository.findAll();}
+
+    @Override
     // Controller에서 책 정보를 담은 Book 객체를 생성하는 메서드
     public void createBook(String title, String author, String publisher, String price, String imageUrl, String isbn, String description, String dname, String sname) {
         if(bookRepository.findBookNamesByIsbnAndDepartmentAndSubject(isbn, dname, sname).isEmpty()) {

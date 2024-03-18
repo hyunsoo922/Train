@@ -9,101 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script th:src="@{/js/student/book.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/student/purchase/book.css}">
     <title>교재 구매사이트</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        #container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            margin-top: 20px;
-        }
-        .bookItem {
-            margin-right: auto;
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            margin: 5px;
-        }
-        .bookCheckBoxContainer {
-            margin-right: 10px;
-
-            margin-left: 120px;
-        }
-        .bookCheckBox {
-            transform: scale(2.5);
-        }
-        .textContainer {
-            margin-right: auto;
-            width: 250px;
-            height: 200px;
-            margin-left: 10px;
-        }
-        #mileageContainer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-        #mileageContainer > * {
-            margin-bottom: 10px;
-        }
-        #mileagePoint, #receiveDay {
-            width: 250px;
-        }
-        #buyBtn {
-            width: 250px;
-            height: 30px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .bookList table {
-            border-collapse: collapse;
-        }
-        .bookList th, .bookList td {
-            padding: 10px;
-            text-align: left;
-            vertical-align: top;
-        }
-        .descriptionContainer {
-            display: none;
-            margin-right: 120px;
-            width: 250px;
-            height: 193px;
-            word-wrap: break-word;
-            overflow: hidden;
-            margin-left: 10px;
-        }
-        .descriptionButton {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        #wrapper {
-            min-height: 10vh;
-            position: relative;
-            overflow-y: auto;
-        }
-
-        footer {
-            background-color: #f2f2f2;
-            padding: 10px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
 <th:block th:insert="~{header::header}"></th:block>
@@ -134,6 +41,14 @@
                                     <strong><div th:text="${book.name}" style="text-align: center; font-size: 24px; margin-bottom: 10px"></div></strong>
                                     <div th:text="${book.description}"></div>
                                 </div>
+                                <div>
+                                    <th:block th:each="cart : ${cartList}">
+                                        <div th:if="${cart.book.id eq book.id}">
+                                            <span th:text="${cart.id}" class="cartId" style="display: none;"></span>
+                                            <button type="button" class="removeBtn" th:id="'removeBtn' + ${cart.id}" th:text="'제거'" onclick="removeCartItem(this)"></button>
+                                        </div>
+                                    </th:block>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -156,40 +71,6 @@
         <input type="hidden" name="books" id="books" value="">
     </form>
 </div>
-<script th:inline="javascript">
-    var userID = /*[[${ID}]]*/ null;
-    var authority = /*[[${authority}]]*/ null;
-    function showDescription(button) {
-        console.log("함수 진입");
-        var bookItem = button.closest('.bookItem');
-        var imageUrl = bookItem.querySelector('.descriptionContainer');
-        var name = bookItem.querySelector('.descriptionContainer');
-        var description = bookItem.querySelector('.descriptionContainer');
-        var popupWidth = 800;
-        var popupHeight = 500;
-        var left = (window.innerWidth - popupWidth) / 2;
-        var top = (window.innerHeight - popupHeight) / 2;
-        var popup = window.open('', 'descriptionPopup', 'width=' + popupWidth + ',height=' + popupHeight + ',left=' + left + ',top=' + top + ',scrollbars=yes,resizable=no');
-        popup.document.body.innerHTML = description.innerHTML;
-    }
-    $(document).ready(function() {
-        // 구매 버튼 초기 상태 : 비활성화
-        $('#buyBtn').prop('disabled', true);
-
-        // 체크 박스 및 receiveDay 변경 시 구매 버튼 활성화/비활성화
-        $('.bookCheckBox, #receiveDay').change(function() {
-            // 체크된 체크 박스의 개수가 0개 이상일 때
-            var anyChecked = $('.bookCheckBox:checked').length > 0;
-            // "수령 날짜 선택"이 아닐 때
-            var receiveDaySelected = $('#receiveDay').val() !== "수령 날짜 선택";
-            $('#buyBtn').prop('disabled', !(anyChecked && receiveDaySelected));
-        });
-
-        $('#buyBtn').click(function() {
-            $('#bookFrm').submit();
-        });
-    });
-</script>
 <div id="wrapper">
     <footer>
         <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>

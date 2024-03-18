@@ -4,6 +4,7 @@ package com.project.LWBS.controller;
 import com.project.LWBS.domain.Book;
 import com.project.LWBS.domain.DTO.Purchase;
 import com.project.LWBS.domain.User;
+import com.project.LWBS.service.CartService;
 import com.project.LWBS.service.PurchaseService;
 import com.project.LWBS.service.StudentService;
 import jakarta.servlet.http.HttpSession;
@@ -24,6 +25,9 @@ public class PurchaseController {
 
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private CartService cartService;
 
     @PostMapping("/payment")
     public @ResponseBody Purchase payment(@RequestParam String item, @RequestParam String totalPrice, @RequestParam String totalCnt)
@@ -46,6 +50,7 @@ public class PurchaseController {
 
         studentService.createReceipt(bookList,user,receiveDay,useMileage);
 
+        cartService.deleteCart(user.getId());
 
         return "purchase/success";
     }
