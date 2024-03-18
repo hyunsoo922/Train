@@ -47,7 +47,7 @@ public class PurchaseController {
     }
 
     @PostMapping("/refund")
-    public ResponseEntity refund(@RequestParam String books, @AuthenticationPrincipal PrincipalDetails principalDetails)
+    public ResponseEntity refund(@RequestParam String books, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpSession session)
     {
         User user = principalDetails.getUser();
         List<String> bookList = Arrays.asList(books.split(","));
@@ -75,7 +75,8 @@ public class PurchaseController {
         List<CancelDTO> cancelResponse = new ArrayList<>();
         for (String tid : tids)
         {
-            CancelDTO cancel = purchaseService.kakaoCancel(tid,totalPrice);
+            int useMileage = Integer.parseInt((String)session.getAttribute("mileagePoint"));
+            CancelDTO cancel = purchaseService.kakaoCancel(tid,totalPrice-useMileage);
             cancelResponse.add(cancel);
         }
 
