@@ -12,46 +12,101 @@
     <script th:src="@{/js/user/register.js}"></script>
     <link rel="stylesheet" th:href="@{/css/user/register.css}">
     <title>Document</title>
+    <style>
+        footer {
+            background-color: #f2f2f2;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>회원가입 페이지</h1>
+    <div class="container">
+        <h1>회원가입 페이지</h1>
+        <form th:action="@{/user/register}" class="register" id="register" method="POST">
+            <div id="radio-wrap">
+                <label>
+                    <input type="radio" class="kind" name="kind" value="student" checked>
+                    학생
+                </label>
 
+                <label>
+                    <input type="radio" class="kind" name="kind" value="bookStore">
+                    서점
+                </label>
+            </div>
+            <div class="student-container ">
+                <div class="info">
+                    <label>LMS ID</label>
+                    <input class="infoInput" type="text" id="LMSID" name="LMSID" placeholder="LMS 아이디를 입력하세요."
+                        th:value="${LMSID}">
+                </div>
 
+                <div class="info">
+                    <label>LMS PW</label>
+                    <input class="infoInput" type="password" id="LMSPW" name="LMSPW" placeholder="LMS 비밀번호를 입력하세요.">
+                </div>
 
-    <form th:action="@{/user/register}" class="student" id="student" method="POST">
-        <label>
-            <input type="radio" name="kind" value="student" checked>
-            학생
-        </label>
+                <button type="button" class="" id="lmsCh" onclick="LMS계정확인()">LMS 계정 확인</button>
 
-        <label>
-            <input type="radio" name="kind" value="bookStore">
-            서점
-        </label>
-        <div class="student-container">
-            <div>
-                <label>LMS ID</label>
-                <input type="text" id="LMSID" name="LMSID" placeholder="LMS 아이디를 입력하세요." th:value="${LMSID}">
+            </div>
+            <div class="bookStore-container hidden">
+                <div class="info">
+                    <label>가맹점 ID</label>
+                    <input class="infoInput" type="text" id="publisherId" name="publisherId"
+                        placeholder="가맹점 아이디를 입력하세요.">
+                </div>
             </div>
 
-            <div>
-                <label>LMS PW</label>
-                <input type="password" id="LMSPW" name="LMSPW" placeholder="LMS 비밀번호를 입력하세요.">
-            </div>
-        </div>
-
-        <div class="bookStore-container hidden">
-            <div>
-                <label>가맹점 ID</label>
-                <input type="text" id="publisherId" name="publisherId" placeholder="가맹점 아이디를 입력하세요.">
-            </div>
-        </div>
-
-        <button type="submit">회원가입 하기</button>
-    </form>
-
+            <input type="hidden" id="ver" value="">
+            <button type="button" id="regBtn">회원가입 하기</button>
+            <div id="loadingMessage" style="display: none;">입력하신 계정 정보를 확인 중입니다. <br>완료 메시지를 기다려주세요.</div>
+        </form>
+    </div>
+    <script>
+        function LMS계정확인() {
+            document.getElementById("loadingMessage").style.display = "block";
+            document.body.style.pointerEvents = "none";
+            // 사용자가 입력한 ID와 PW 가져오기
+            var lmsId = document.getElementById("LMSID").value;
+            var lmsPw = document.getElementById("LMSPW").value;
+            var v = document.getElementById("ver");
+            // AJAX를 통해 서버로 데이터 전송
+            $.ajax({
+                type: "GET",
+                url: "/verification", // 서버의 엔드포인트 경로
+                data: {
+                    id: lmsId,
+                    pw: lmsPw
+                },
+                success: function (result) {
+                    // 서버로부터의 응답을 처리하는 코드
+                    if (result) {
+                        alert("계정 확인 성공!");
+                        v.value = "t"
+                        document.getElementById("loadingMessage").style.display = "none";
+                        document.body.style.pointerEvents = "auto";
+                    } else {
+                        alert("계정 확인 실패!");
+                        document.getElementById("loadingMessage").style.display = "none";
+                        document.body.style.pointerEvents = "auto";
+                    }
+                },
+                error: function () {
+                    alert("서버 오류 발생!");
+                    document.getElementById("loadingMessage").style.display = "none";
+                    document.body.style.pointerEvents = "auto";
+                }
+            });
+        }
+    </script>
 
 </body>
-
+<footer>
+    <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>
+</footer>
 </html>

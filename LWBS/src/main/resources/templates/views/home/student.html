@@ -2,31 +2,71 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Book List</title>
-    <link rel="stylesheet" th:href="@{/css/banner.css}">
+    <style>
+        table {
+            margin: auto;
+        }
+        td {
+            padding: 10px;
+        }
+        #wrapper {
+            min-height: 20vh;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        footer {
+            background-color: #f2f2f2;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        /*!* Hover 효과를 위한 CSS *!*/
+        /*img {*/
+        /*    transition: filter 0.5s ease;*/
+        /*}*/
+
+        img:hover {
+            filter: blur(1px); /* 호버할 때 흐려지는 효과 */
+        }
+    </style>
 </head>
 <body>
-    <th:block th:insert="~{/header::header}"></th:block>
-    <th:block th:insert="~{/nav::nav}"></th:block>
-    <th:block th:insert="~{/banner::banner}"></th:block>
-    <table>
-        <thead>
-        <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Author</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="book : ${bookList}">
-            <td>
-                <img th:src="${book.imageUrl}" alt="Book Image" width="100" height="150"/>
-            </td>
-            <td th:text="${book.name}">Name</td>
-            <td th:text="${book.price}">Price</td>
-            <td th:text="${book.author}">Author</td>
-        </tr>
-        </tbody>
-    </table>
+<th:block th:insert="~{header::header}"></th:block>
+<br><br>
+<!--<th:block th:insert="~{nav::nav}"></th:block>-->
+<br><br><br>
+<table>
+    <tr th:each="row : ${#numbers.sequence(0, ((bookList.size - 1) div 4))}">
+        <td th:each="index : ${#numbers.sequence(row*4, (row*4)+3)}" th:if="${index lt bookList.size}" style="padding: 30px; text-align: left; position: relative;">
+            <!-- 이미지에 클릭 이벤트와 호버 효과 적용 -->
+            <img class="bookImage" th:src="${bookList[index].imageUrl}" alt="Book Image" width="250" height="350" onclick="redirectToCart(this)"/>
+            <br>
+            <span th:text="${bookList[index].name}">교재명</span><br>
+            <span th:text="${bookList[index].author}">저자명</span><br>
+            <span th:text="${bookList[index].publisher}">출판사명</span><br>
+            <span th:text="${bookList[index].price}">가격</span><br>
+            <span class="bookID" th:text="${bookList[index].id}" style="display: none"></span>
+        </td>
+    </tr>
+</table>
+<div id="wrapper">
+    <footer>
+        <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>
+    </footer>
+</div>
+<script>
+    function redirectToCart(element) {
+        var bookID = element.parentNode.querySelector(".bookID").innerText;
+        var queryString = "?bookID=" + encodeURIComponent(bookID);
+        alert(bookID);
+        // /cart 엔드포인트로 리디렉션
+        window.location.href = "/cart" + queryString;
+    }
+</script>
+
 </body>
 </html>

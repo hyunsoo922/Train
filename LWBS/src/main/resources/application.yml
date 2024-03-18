@@ -5,6 +5,12 @@
 # 서버 포트 번호
 server:
   port: 8093
+  ssl:
+    enabled: false
+    key-store: file:///C:/Java/jdk-11.0.15/bin/keystore.p12
+    key-store-password: 990922
+    key-store-type: PKCS12
+    key-alias: tomcat
 
 spring:
   # 콘솔 ansi 색상
@@ -16,6 +22,7 @@ spring:
   thymeleaf:
     cache: false
     prefix: classpath:/templates/views/
+    suffix: .html
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
@@ -26,10 +33,10 @@ spring:
   jpa:
     show-sql: true
     properties:
-      hibernate.format_sql: true
-
-    hibernate:
-      ddl-auto: update
+      hibernate:
+        format_sql: true
+        ddl-auto: create
+        dialect: org.hibernate.dialect.MariaDBDialect
 
 # 페이징 관련 세팅값
 app:
@@ -45,3 +52,9 @@ kakao:
     secret: ZwJupmVkWPJM9UiAR1M5ICGAwih2fLd5
   redirect:
     url: http://localhost:8093/kakao/callback
+
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace

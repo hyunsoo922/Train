@@ -12,7 +12,7 @@ public interface StudentService {
 
     List<Book> findByIds(List<String> bookList);
 
-    void createReceipt(List<Book> bookList,User user,String receiveDay,int useMileage);
+    void createReceipt(List<Book> bookList,User user,String receiveDay,int useMileage,String tid);
 
     List<Receipt> findAllUser(User user);
 

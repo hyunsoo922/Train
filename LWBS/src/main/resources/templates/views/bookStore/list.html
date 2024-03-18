@@ -5,33 +5,222 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>교재 리스트</title>
+    <style>
+
+        .refresh-button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+
+.refresh-button:hover {
+    background-color: #45a049;
+}
+
+        html {
+            height: 100%;
+        }
+        body
+        {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+    .container
+    {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        margin-top: 30px;
+    }
+
+
+    h2
+    {
+        font-size: 70px;
+        margin-bottom: 20px;
+    }
+
+
+    .refresh-button
+    {
+        font-size: 16px;
+        margin-top: 10px;
+        margin-bottom: 30px;
+    }
+
+
+    table
+     {
+        border-collapse: collapse;
+        width: 80%;
+        margin-top: 20px;
+     }
+
+     th, td
+     {
+        border: 1px solid #333;
+        padding: 8px;
+        text-align: center;
+     }
+
+     th {
+         background-color: #333;
+            color: #fff;
+        }
+
+        th:nth-child(odd) {
+            background-color: #4caf50;
+        }
+
+        th:nth-child(even) {
+            background-color: #2196f3;
+        }
+
+
+        .empty-message {
+            font-style: italic;
+            color: #888;
+        }
+
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+            border: 1px solid #ddd;
+            margin: 0 4px;
+        }
+
+        .pagination a.active {
+            background-color: #4caf50;
+            color: white;
+            border: 1px solid #4caf50;
+        }
+
+        .pagination a:hover:not(.active) {background-color: #ddd;}
+
+        #wrapper {
+            min-height: 10vh;
+            position: relative;
+            overflow-y: auto;
+            margin-bottom: 10rem;
+        }
+
+        footer {
+            background-color: #f2f2f2;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+         #searchInput {
+            width: 250px; /* 원하는 너비로 조절 */
+            padding: 12px; /* 내용과 테두리 간격 설정 */
+        }
+    </style>
 </head>
 <body>
-<th:block th:insert="~{/header::header}"></th:block>
-<th:block th:insert="~{/storenav::navfrag}"></th:block>
-<h2>교재 리스트</h2>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Author</th>
-        <th>Publisher</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="book : ${books}">
-        <td th:text="${book.id}"></td>
-        <td th:text="${book.name}"></td>
-        <td th:text="${book.author}"></td>
-        <td th:text="${book.publisher}"></td>
-    </tr>
-    </tbody>
-    <tbody>
-    <tr th:if="${books.isEmpty()}">
-        <td colspan="4">항목이 없습니다.</td>
-    </tr>
-    </tbody>
-</table>
+<header>
+    <th:block th:insert="~{header::header}"></th:block>
+</header>
+
+<nav>
+    <th:block th:insert="~{storenav::navfrag}"></th:block>
+</nav>
+
+<div class="container">
+    <div>
+        <h2>전체 교재 리스트</h2>
+    </div>
+    <div style="margin-bottom: 10px;">
+        <form th:action="@{/bookStore/listSearch}" method="get">
+            <input type="text" id="searchInput" name="department" placeholder="학과명을 입력하세요">
+            <button type="submit" class="refresh-button">검색</button>
+        </form>
+        <button class="refresh-button" onclick="refreshPage()">새로 고침</button>
+    </div>
+
+
+    <table border="1">
+        <thead>
+        <tr>
+            <th>이미지</th>
+            <th>교재명</th>
+            <th>강의명</th>
+            <th>가격</th>
+            <th>출판사</th>
+            <th>저자</th>
+            <th>학과</th>
+        </tr>
+        </thead>
+        <tbody th:if="${not #lists.isEmpty(books)}" id="searchResults">
+        <!-- 검색 결과를 동적으로 추가할 위치로 id 추가 -->
+        <tr th:each="book : ${books}" class="bookItem">
+            <td>
+                <img th:src="${book.imageUrl}" style="max-width: 100px; max-height: 150px;">
+            </td>
+            <td th:text="${book.name}"></td>
+            <td th:text="${book.subject.name}"></td>
+            <td th:text="${book.price}"></td>
+            <td th:text="${book.publisher}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.department.name}"></td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+
+<div class="pagination">
+    <!-- 이전 버튼 -->
+    <a th:if="${nowPage > 1}" th:href="@{/bookStore/list(page=${nowPage - 2})}">&lt; 이전</a>
+
+    <!-- 페이지 목록 -->
+    <!-- 페이지 목록 -->
+    <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+        <a th:if="${page != nowPage}" th:href="@{/bookStore/list(page=${page - 1})}" th:text="${page}"></a>
+        <a th:if="${page == nowPage}" th:href="@{/bookStore/list(page=${page - 1})}" th:text="${page}" class="active"></a>
+    </th:block>
+
+
+    <!-- 다음 버튼 -->
+    <a th:if="${nowPage < totalPages}" th:href="@{/bookStore/list(page=${nowPage})}">다음 &gt;</a>
+</div>
+<div id="wrapper">
+    <footer>
+        <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>
+    </footer>
+</div>
+
+
+<script>
+    function refreshPage() {
+        location.reload(true);
+    }
+
+
+</script>
+
+
 </body>
 </html>

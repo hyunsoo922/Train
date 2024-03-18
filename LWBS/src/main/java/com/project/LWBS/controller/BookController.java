@@ -12,7 +12,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -36,7 +38,7 @@ public class BookController {
 
         int nowPage = books.getPageable().getPageNumber() + 1;
         int startPage = Math.max(nowPage - 4, 1);
-        int endPage = Math.min(nowPage + 5, books.getTotalPages());
+        int endPage = Math.min(nowPage + 7, books.getTotalPages());
 
         model.addAttribute("user", principalDetails.getUser());
         model.addAttribute("books", books);
@@ -46,6 +48,28 @@ public class BookController {
         model.addAttribute("sortProperty", pageable.getSort().toString());
 
         return "bookStore/list";
+    }
+
+    @GetMapping("/listSearch")
+    public String searchByDepartment(@RequestParam("department") String departmentName,
+                                     @PageableDefault(page = 0, size = 10, sort = "name", direction = Sort.Direction.ASC) Pageable pageable,
+                                     Model model) {
+
+        Page<Book> searchResults = bookService.findByDepartmentName(departmentName, pageable);
+
+
+        int nowPage = searchResults.getNumber() + 1; // 현재 페이지
+        int startPage = Math.max(nowPage - 2, 1); // 시작 페이지
+        int endPage = Math.min(nowPage + 3, searchResults.getTotalPages()); // 끝 페이지
+
+        // 모델에 데이터 추가
+        model.addAttribute("books", searchResults);
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("sortProperty", pageable.getSort().toString());
+
+        return "bookStore/listSearch";
     }
 
 

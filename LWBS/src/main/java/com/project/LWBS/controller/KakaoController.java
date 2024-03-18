@@ -4,6 +4,7 @@ import com.project.LWBS.common.MsgEntity;
 import com.project.LWBS.config.PrincipalDetailsService;
 import com.project.LWBS.domain.DTO.KakaoDTO;
 import com.project.LWBS.domain.User;
+import com.project.LWBS.service.EnrollmentService;
 import com.project.LWBS.service.KakaoService;
 import com.project.LWBS.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,24 +32,15 @@ public class KakaoController {
 
     private final PrincipalDetailsService principalDetailsService;
 
+    private EnrollmentService enrollmentService;
+
     @Autowired
-    public KakaoController(KakaoService kakaoService, UserService userService, PrincipalDetailsService principalDetailsService) {
+    public KakaoController(KakaoService kakaoService, UserService userService, PrincipalDetailsService principalDetailsService, EnrollmentService enrollmentService) {
         this.kakaoService = kakaoService;
         this.userService = userService;
         this.principalDetailsService = principalDetailsService;
+        this.enrollmentService = enrollmentService;
     }
-
-
-
-
-    //    @GetMapping("/callback")
-//    public ResponseEntity<MsgEntity> callback(HttpServletRequest request) throws Exception{
-//        KakaoDTO kakaoDTO = kakaoService.getKakaoInfo(request.getParameter("code"));
-//
-//
-//    }
-
-
     @GetMapping("/callback")
     public ResponseEntity<MsgEntity> callback(HttpServletRequest request) throws Exception {
         KakaoDTO kakaoDTO = kakaoService.getKakaoInfo(request.getParameter("code"));
@@ -59,25 +51,29 @@ public class KakaoController {
         {
             userService.setKakaoDTO(kakaoDTO);
             // 다음 페이지로의 URL을 클라이언트에게 전달
-            redirectUrl = "http://localhost:8093/user/register";  // 실제 다음 페이지의 URL로 대체해야 합니다.
+            redirectUrl = "http://localhost:8093/user/register";
             HttpHeaders headers = new HttpHeaders();
             headers.add("Location", redirectUrl);
 
-            // 302 Found 상태 코드와 함께 리디렉션 URL을 클라이언트에게 전달
             return new ResponseEntity<>(headers, HttpStatus.FOUND);
         }
 
         // 카카오 로그인 성공 시, PrincipalDetails를 사용하여 인증 정보를 설정
         UserDetails userDetails = principalDetailsService.loadUserByUsername(kakaoId);
-        System.out.println(userDetails+"유저디테일");
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println(SecurityContextHolder.getContext().getAuthentication()+"권한");
 
         if(user.getAuthority().getName().equals("ROLE_STUDENT"))
         {
-            redirectUrl = "http://localhost:8093/home/student";
+            if(!enrollmentService.isEmptyData(user))
+            {
+                redirectUrl = "http://localhost:8093/home/student";
+            }
+            else
+            {
+                redirectUrl = "http://localhost:8093/mypage/" + user.getId();
+            }
         }
         else if(user.getAuthority().getName().equals("ROLE_BOOKSTORE"))
         {

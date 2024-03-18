@@ -5,7 +5,6 @@ import com.project.LWBS.domain.DTO.KakaoDTO;
 import com.project.LWBS.domain.User;
 import com.project.LWBS.service.KakaoService;
 import com.project.LWBS.service.UserService;
-import com.project.LWBS.service.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
@@ -41,9 +40,8 @@ public class UserController {
     }
 
     @GetMapping("/register")
-    public void register(Model model)
+    public void register()
     {
-
     }
 
     @PostMapping("/register")
@@ -51,12 +49,7 @@ public class UserController {
                              @RequestParam(name = "LMSPW",required = false) String LMSPW,
                              @RequestParam(name = "publisherId",required = false) String publisherId){
 
-        System.out.println("종류"+kind);
-        System.out.println("lmsid"+LMSID);
-        System.out.println("lmspw"+LMSPW);
-        System.out.println("가맹점아이디"+publisherId);
         KakaoDTO kakaoDTO = userService.getKakaoDTO();
-        System.out.println("!!!!카카오아이디!!!!" + kakaoDTO);
         userService.registerUser(kind,LMSID,LMSPW,publisherId,kakaoDTO);
 
 
@@ -72,7 +65,6 @@ public class UserController {
     {
         User user = principalDetails.getUser();
         new SecurityContextLogoutHandler().logout(request,response,null);
-        System.out.println(user+"탈퇴할유저");
         userService.deleteUser(user);
 
         return  "redirect:/home";

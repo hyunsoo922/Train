@@ -3,14 +3,13 @@ package com.project.LWBS.service;
 import com.project.LWBS.domain.Authority;
 import com.project.LWBS.domain.DTO.KakaoDTO;
 import com.project.LWBS.domain.User;
-
 import java.util.List;
 
 public interface UserService {
 
     User findByKakaoId(String kakao_id);
 
-    void registerUser(String kind,String LMSID,String LMSPW,String publisherId,KakaoDTO kakaoDTO);
+    Long registerUser(String kind,String LMSID,String LMSPW,String publisherId,KakaoDTO kakaoDTO);
 
     KakaoDTO getKakaoDTO();
 
@@ -29,5 +28,8 @@ public interface UserService {
     void updateBookStoreInfo(String franchisee, Long user_id);
 
     void deleteUser(User user);
+
+    String findAuthority(Long user_id);
+
 }
 

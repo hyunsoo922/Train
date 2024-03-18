@@ -20,11 +20,11 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 
         if(authentication.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_STUDENT")))
         {
-            response.sendRedirect("http://localhost:8093/home/student");
+            response.sendRedirect("16.170.97.165:8093/home/student");
         }
         else if(authentication.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_BOOKSTORE")))
         {
-            response.sendRedirect("http://localhost:8093/home/bookStore");
+            response.sendRedirect("16.170.97.165:8093/home/bookStore");
         }
         else{
             // 만약 특정페이지에서 로그인 시도 후 성공시 로그인 직전 url 로 redirect

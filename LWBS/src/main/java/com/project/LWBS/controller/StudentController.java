@@ -1,10 +1,8 @@
 package com.project.LWBS.controller;
 
 import com.project.LWBS.config.PrincipalDetails;
-import com.project.LWBS.domain.Book;
-import com.project.LWBS.domain.Receipt;
-import com.project.LWBS.domain.Receive;
-import com.project.LWBS.domain.User;
+import com.project.LWBS.domain.*;
+import com.project.LWBS.service.CartService;
 import com.project.LWBS.service.MyPageService;
 import com.project.LWBS.service.StudentService;
 import jakarta.servlet.http.HttpSession;
@@ -24,11 +22,13 @@ public class StudentController {
 
     private StudentService studentService;
     private MyPageService myPageService;
+    private CartService cartService;
 
     @Autowired
-    public StudentController(StudentService studentService, MyPageService myPageService) {
+    public StudentController(StudentService studentService, MyPageService myPageService, CartService cartService) {
         this.studentService = studentService;
         this.myPageService = myPageService;
+        this.cartService = cartService;
     }
 
     @GetMapping("/purchase/book")
@@ -38,13 +38,16 @@ public class StudentController {
             model.addAttribute("user",user);
             int sum = myPageService.sumMileage(user.getId());
 
-            List<Book> bookList = studentService.findMyClass(user);
+            //List<Book> bookList = studentService.findMyClass(user);
+            List<Book> bookList = cartService.findById(user.getId());
 
-            System.out.println(bookList);
+            List<Cart> cartList = cartService.findByUserId(user.getId());
+//            System.out.println(bookList);
 
             List<Receive> receiveList = studentService.findReceiveCheck();
 
             model.addAttribute("bookList", bookList);
+            model.addAttribute("cartList", cartList);
             model.addAttribute("receiveDays",receiveList);
             model.addAttribute("sumpoint", sum);
 
@@ -58,8 +61,8 @@ public class StudentController {
 
         List<Book> bookLists = studentService.findByIds(bookList);
 
-        System.out.println("수령일: " + receiveDay);
-        System.out.println("교재: " + bookLists);
+//        System.out.println("수령일: " + receiveDay);
+//        System.out.println("교재: " + bookLists);
         session.setAttribute("bookLists",bookLists);
         session.setAttribute("receiveDay",receiveDay);
         session.setAttribute("mileagePoint",mileagePoint);
@@ -88,8 +91,6 @@ public class StudentController {
 
         String item = bookList.get(0).getName() + "외" + (bookList.size()-1) + "권";
 
-        System.out.println("교재"+bookList);
-        System.out.println("수령일"+receiveDay);
         model.addAttribute("user",principalDetails.getUser());
         model.addAttribute("bookList",bookList);
         model.addAttribute("receiveDay",receiveDay);

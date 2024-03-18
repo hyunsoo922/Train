@@ -2,79 +2,193 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>All Receipts</title>
+    <title>전체 구매 내역</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: auto;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        th:nth-child(odd) {
+            background-color: #4caf50;
+        }
+
+        th:nth-child(even) {
+            background-color: #2196f3;
+        }
+
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+            border: 1px solid #ddd;
+            margin: 0 4px;
+        }
+
+        .pagination a.active {
+            background-color: #4caf50;
+            color: white;
+            border: 1px solid #4caf50;
+        }
+
+        .pagination a:hover:not(.active) {background-color: #ddd;}
+
+        #wrapper {
+            min-height: 10vh;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        footer {
+            background-color: #f2f2f2;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<th:block th:insert="~{/header::header}"></th:block>
-<th:block th:insert="~{/storenav::navfrag}"></th:block>
-<div class="container mt-5">
-    <h1>All Receipts</h1>
-
-    <!-- 검색 폼 추가 -->
+<th:block th:insert="~{header::header}"></th:block>
+<th:block th:insert="~{storenav::navfrag}"></th:block>
+<div class="container-fluid mt-5">
+    <div style="text-align: center;">
+        <h2 style="font-size: 70px;">전체 구매 내역</h2>
+    </div>
     <form th:action="@{/bookStore/ReceiptSearch}" method="get">
         <div class="form-group">
             <label for="studentId">학생 번호:</label>
             <input type="text" class="form-control" id="studentId" name="studentId" required>
         </div>
         <button type="submit" class="btn btn-primary">검색</button>
+        <button id="printButton" class="btn btn-secondary">인쇄</button>
     </form>
-
-    <!-- 인쇄 버튼 추가 -->
-    <button id="printButton" class="btn btn-secondary">인쇄</button>
 
     <table class="table mt-3">
         <thead>
         <tr>
-            <th>체크</th>
-            <th>학생번호</th>
-            <th>이름</th>
-            <th>교재명</th>
-            <th>출판사명</th>
-            <th>저자명</th>
-            <th>구매일</th>
-            <th>수령예정일</th>
-            <th>수령여부</th>
-            <th>수령여부변경</th>
-            <th>수령날짜</th>
+            <th style="text-align: center;">
+                <input type="checkbox" id="selectAll" onclick="toggleAllCheckboxes(this)">
+                <label for="selectAll"></label>
+            </th>
+            <th style="text-align: center;">학생번호</th>
+            <th style="text-align: center;">이름</th>
+            <th style="text-align: center;">교재명</th>
+            <th style="text-align: center;">출판사명</th>
+            <th style="text-align: center;">저자명</th>
+            <th style="text-align: center;">구매일</th>
+            <th style="text-align: center;">수령여부</th>
+            <th style="text-align: center;">수령여부변경</th>
+            <th style="text-align: center;">수령날짜</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="receipt : ${receipts}">
-            <td>
+
+        <tr th:each="receipt, status : ${receipts}">
+            <td style="text-align: center;">
                 <input type="checkbox" th:id="${'check_' + receipt.id}" name="check" th:value="${receipt.id}">
             </td>
-            <td><span th:text="${receipt.user.studentId}"></span></td>
-            <td><span th:text="${receipt.user.name}"></span></td>
-            <td><span th:text="${receipt.book.name}"></span></td>
-            <td><span th:text="${receipt.book.publisher}"></span></td>
-            <td><span th:text="${receipt.book.author}"></span></td>
-            <td><span th:text="${receipt.createdAt}"></span></td>
-            <td><span th:text="${receipt.receive.day}"></span></td>
-            <td><span th:text="${receipt.receive.receiveCheck}"></span></td>
 
-        <td>
-            <form th:action ="@{/bookStore/Receipt}" method="post">
+            <!-- 학생번호 -->
+            <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}" style="text-align: center;">
+                <span th:text="${receipt.user.studentId}"></span>
+            </td>
+            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}"></td>
 
-                        <select name = "check">
-                            <option value="Check">Check</option>
-                            <option value="NonCheck">NonCheck</option>
-                        </select>
-                <input type="hidden" name="receiptId" th:value="${receipt.id}">
-                <input type="hidden" name="receiveDay" th:value="${receipt.receive.day}">
-                <button type="submit">변경</button>
+            <!-- 이름 -->
+            <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}" style="text-align: center;">
+                <span th:text="${receipt.user.name}"></span>
+            </td>
+            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}"></td>
 
-            </form>
-        </td>
+            <!-- 교재명, 출판사명, 저자명, 구매일, 수령여부, 수령여부 변경, 수령일 -->
+            <td style="text-align: center;"><span th:text="${receipt.book.name}"></span></td>
+            <td style="text-align: center;"><span th:text="${receipt.book.publisher}"></span></td>
+            <td style="text-align: center;"><span th:text="${receipt.book.author}"></span></td>
+            <td style="text-align: center;"><span th:text="${receipt.createdAt}"></span></td>
+            <td style="text-align: center;"><span th:text="${receipt.receive.receiveCheck}"></span></td>
 
-            <td><span th:text="${receipt.receive.day}"></span></td>
+            <!-- 수령여부 변경 -->
+            <td style="text-align: center;">
+                <form th:action="@{/bookStore/Receipt}" method="post">
+                    <select name="check">
+                        <option value="수령">수령</option>
+                        <option value="미수령">미수령</option>
+                    </select>
+                    <input type="hidden" name="receiptId" th:value="${receipt.id}">
+                    <input type="hidden" name="receiveDay" th:value="${receipt.receive.day}">
+                    <button type="submit">변경</button>
+                </form>
+            </td>
+
+            <!-- 수령일 -->
+            <td style="text-align: center;"><span th:text="${receipt.receive.day}"></span></td>
         </tr>
+
         </tbody>
     </table>
-</div>
 
-<!-- 인쇄 스크립트 추가 -->
+    <div class="pagination">
+
+        <!-- 이전 버튼 -->
+        <a th:if="${nowPage > 1}" th:href="@{/bookStore/Receipt(page=${nowPage - 2})}">&lt; 이전</a>
+
+        <!-- 페이지 목록 -->
+        <!-- 페이지 목록 -->
+        <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+            <a th:if="${page != nowPage}" th:href="@{/bookStore/Receipt(page=${page - 1})}" th:text="${page}"></a>
+            <a th:if="${page == nowPage}" th:href="@{/bookStore/Receipt(page=${page - 1})}" th:text="${page}" class="active"></a>
+        </th:block>
+
+
+        <!-- 다음 버튼 -->
+        <a th:if="${nowPage < totalPages}" th:href="@{/bookStore/Receipt(page=${nowPage})}">다음 &gt;</a>
+
+    </div>
+
+    <div id="printArea"></div>
+
+</div>
 <script>
+
+    // 전체 선택 체크박스 클릭 시 모든 체크박스 선택/해제 함수
+        function toggleAllCheckboxes(masterCheckbox) {
+            var checkboxes = document.querySelectorAll('input[name="check"]');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = masterCheckbox.checked;
+            });
+        }
+
     document.getElementById("printButton").addEventListener("click", function () {
         var selectedRows = document.querySelectorAll('input[name="check"]:checked');
         var selectedData = [];
@@ -82,23 +196,63 @@
         selectedRows.forEach(function (row) {
             var receiptId = row.value;
             var receiptData = {
-                studentId: "${receipt.user.studentId}",
-                name: "${receipt.user.name}",
-                bookName: "${receipt.book.name}",
-                publisher: "${receipt.book.publisher}",
-                author: "${receipt.book.author}",
-                purchaseDate: "${receipt.receive.day}",
-                receiveDate: "${receipt.receive.day}",
-                receiveCheck: "${receipt.receive.receiveCheck}"
+                user: {
+                    studentId: row.parentElement.nextElementSibling.textContent,
+                    name: row.parentElement.nextElementSibling.nextElementSibling.textContent,
+                },
+                book: {
+                    name: row.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.textContent,
+                    publisher: row.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent,
+                    author: row.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent,
+                },
+                createdAt: row.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent,
+                receiveDate: row.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent,
+                receiveCheck: row.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent
             };
             selectedData.push(receiptData);
         });
 
-        // 선택된 데이터를 서버로 보내거나, 다른 인쇄 동작을 수행할 수 있습니다.
-        // 여기에서는 브라우저의 인쇄 기능을 사용합니다.
-        window.print();
+       var printArea = document.getElementById('printArea');
+        printArea.innerHTML = '';
+
+        // 추가된 부분: HTML 표 헤더
+        var tableHTML = '<table border="1"><tr><th>학생 번호</th><th>이름</th><th>교재명</th><th>출판사명</th><th>저자명</th><th>구매일</th><th>수령일</th></tr>';
+
+        selectedData.forEach(function (data) {
+            // 수정된 부분: 각 행을 표로 만들어 추가
+            tableHTML += '<tr>';
+            tableHTML += '<td>' + data.user.studentId + '</td>';
+            tableHTML += '<td>' + data.user.name + '</td>';
+            tableHTML += '<td>' + data.book.name + '</td>';
+            tableHTML += '<td>' + data.book.publisher + '</td>';
+            tableHTML += '<td>' + data.book.author + '</td>';
+            tableHTML += '<td>' + data.createdAt + '</td>';
+            tableHTML += '<td>' + data.receiveCheck + '</td>';
+            tableHTML += '</tr>';
+        });
+
+        // 추가된 부분: 표 닫기
+        tableHTML += '</table>';
+        printArea.innerHTML = tableHTML;
+
+        var printWindow = window.open('', '_blank');
+        printWindow.document.write('<html><head><title>Print</title></head><body>');
+        printWindow.document.write(printArea.innerHTML);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+
+        // 인쇄 후에 페이지 새로고침
+        printWindow.onafterprint = function () {
+            location.reload();
+        };
+
+        printWindow.print();
     });
 </script>
-
+<div id="wrapper">
+    <footer>
+        <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>
+    </footer>
+</div>
 </body>
 </html>

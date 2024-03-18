@@ -19,6 +19,7 @@ import java.util.List;
 @Controller
 @RequestMapping()
 public class HomeStudentController {
+    //private static EnrollmentService enrollmentService;
     private static BookService bookService;
     private static StudentService studentService;
     @Autowired
@@ -27,7 +28,7 @@ public class HomeStudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/home/studentSample")
+    @GetMapping("/home/student")
     public String hello(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
         // 현재 로그인 중인 유저의 id값을 매개변수로 전달하여 유저가 수강신청한 강의의 교재명 검색 후
         // 교재명에 맞는 Book 객체들을 리스트로 전달 받음.
@@ -38,10 +39,10 @@ public class HomeStudentController {
         model.addAttribute("bookList", bookList);
         //model.addAttribute("user",principalDetails.getUser());
         // /home/student 경로를 반환
-        return "home/studentSample";
+        return "home/student";
     }
 
-    @GetMapping("/home/studentSample/{department}")
+    @GetMapping("/home/student/{department}")
     public String hello(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable String department) {
         // 현재 로그인 중인 유저의 id값을 매개변수로 전달하여 유저가 수강신청한 강의의 교재명 검색 후
         // 교재명에 맞는 Book 객체들을 리스트로 전달 받음.
@@ -52,7 +53,7 @@ public class HomeStudentController {
         model.addAttribute("bookList", bookList);
         //model.addAttribute("user",principalDetails.getUser());
         // /home/student 경로를 반환
-        return "home/studentSample";
+        return "home/student";
     }
     @GetMapping("/home/myEnrollment")
     public String bye(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -60,6 +61,6 @@ public class HomeStudentController {
         model.addAttribute("user",user);
         List<Book> bookList = bookService.findByBookName(user.getId());
         model.addAttribute("bookList", bookList);
-        return "home/studentSample";
+        return "home/student";
     }
 }

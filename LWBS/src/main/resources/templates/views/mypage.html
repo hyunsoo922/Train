@@ -22,20 +22,57 @@
 
         section {
             padding: 20px;
+            text-align: center;
         }
 
         footer {
-            background-color: #333;
-            color: #fff;
+            background-color: #f2f2f2;
             padding: 10px;
-            text-align: center;
-            position: fixed;
+            position: absolute;
             bottom: 0;
             width: 100%;
+            text-align: center;
+        }
+
+        .styled-image {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%; /* 이미지의 최대 너비를 100%로 설정하여 브라우저 크기에 맞게 조절 */
+            padding: 10px; /* 이미지 주위에 여백 추가 */
+        }
+
+        .info-box {
+            border: 2px solid #333;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 0 auto; /* 가운데 정렬 */
+            max-width: 300px; /* 적당한 크기로 설정 */
+            margin-bottom: 10px;
+        }
+
+        .info-box div {
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        input {
+            margin-bottom: 10px;
+            display: block;
+            margin: 0 auto; /* 입력창 가운데 정렬 */
         }
 
         button {
             padding: 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px; /* 조금의 마진 추가 */
+        }
+
+        .delBtn{
             background-color: #4caf50;
             color: white;
             border: none;
@@ -46,22 +83,30 @@
 </head>
 
 <body>
-<input type="text", th:value="${sumpoint}" disabled>
-<input type="text", th:value="${name}" disabled>
-<img th:src="${URL}" alt="이미지">
-
-<th:block th:insert="~{/header::header}"></th:block>
-
-<li th:each="entity : ${entities}"></li>
-<section>
-    <h2>수강신청 내역</h2>
-    <button onclick="조회하기()">수강신청 내역 조회</button>
-    <button onclick="이동하기()">내 정보 수정</button>
-    <div id="수강신청내역"></div>
-
-    <a th:href="@{/user/delete}">회원탈퇴</a>
-
-</section>
+<th:block th:insert="~{header::header}"></th:block>
+<br>
+<div class="user-info-container" style="border: 1px solid black; padding: 10px; width: 500px; margin: 0 auto;">
+    <img th:src="${URL}" alt="이미지" class="styled-image">
+    <br>
+    <div class="info-box">
+        <strong>회원 이름:</strong> <span th:text="${name}"></span>
+    </div>
+    <br>
+    <div class="info-box">
+        <strong>사용 가능 마일리지:</strong> <span th:text="${sumpoint}"></span>
+    </div>
+    <br>
+    <section>
+        <div id="loadingMessage" style="display: none;">수강 신청 정보를 수집 중 입니다. 완료 메시지를 기다려주세요.</div>
+        <button onclick="조회하기()">수강신청 내역 조회</button>
+        <button onclick="이동하기()">내 정보 수정</button>
+        <button onclick="마일리지조회()">마일리지 내역 조회</button>
+        <button onclick="receipt()">구매 내역 확인</button>
+        <br>
+        <br>
+        <a th:href="@{/user/delete}" class="delete-btn" style="padding: 10px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 4px; margin: 5px;">회원탈퇴</a>
+    </section>
+</div>
 
 <footer>
     <p>&copy; 2023 마이페이지</p>
@@ -71,25 +116,19 @@
     var authority = /*[[${authority}]]*/ null;
 </script>
 <script>
-    // JavaScript 코드 시작
     function 조회하기() {
-        // AJAX를 이용하여 서버에 요청을 보냅니다.
-        // 모델에서 전달된 ID 값을 가져오기
-        var xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
-        xhr.open("GET", "/webscraping/" + userID, true); // GET 방식으로 /api/scrape에 비동기 요청 설정
-
-
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/webscraping/" + userID, true);
+        document.body.style.pointerEvents = "none";
+        document.getElementById("loadingMessage").style.display = "block";
         xhr.onreadystatechange = function () {
-            // 요청 상태가 변경될 때마다 호출되는 콜백 함수
             if (xhr.readyState === 4 && xhr.status === 200) {
-                // 요청이 성공했을 때 (readyState 4, status 200)
-                // 결과를 화면에 출력합니다.
-                var 수강신청내역 = JSON.parse(xhr.responseText).result;
-                document.getElementById("수강신청내역").innerHTML = "<p>" + 수강신청내역 + "</p>";
+                alert("수강 신청 정보 수집이 완료되었습니다!");
+                document.getElementById("loadingMessage").style.display = "none";
+                document.body.style.pointerEvents = "auto";
             }
         };
-
-        xhr.send(); // 요청 전송
+        xhr.send();
     }
     function 이동하기() {
         // 내 정보 수정 페이지로 이동하는 로직 작성
@@ -99,7 +138,18 @@
             window.location.href = "/mypage/myInfoUpdate/bookStore";
         }
     }
+    function 마일리지조회() {
+        // "마일리지 내역 조회" 버튼 클릭 시 "/mypage/mileage"로 이동
+        window.location.href = "/mypage/mileage/" + userID;
+    }
+
+    function receipt() {
+        window.location.href = "/student/purchase/receipt";
+    }
 </script>
 
 </body>
+<footer>
+    <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>
+</footer>
 </html>

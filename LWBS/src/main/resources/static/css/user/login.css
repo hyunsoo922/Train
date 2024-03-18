@@ -1,0 +1,31 @@
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+}
+
+h1 {
+    position: absolute;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 0;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+#kakaoLogin {
+    width: 600px;
+    height: 90px;
+    background-image: url("https://developers.kakao.com/tool/resource/static/img/button/login/full/ko/kakao_login_large_wide.png");
+}

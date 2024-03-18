@@ -27,34 +27,45 @@
         footer {
             background-color: #f2f2f2;
             padding: 10px;
-            position: fixed;
+            position: absolute;
             bottom: 0;
             width: 100%;
+            text-align: center;
         }
 
-        .button {
-            padding: 10px;
-            margin: 5px;
-            cursor: pointer;
-            border: none;
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 5px;
+        table {
+            margin: auto;
         }
+
     </style>
 
 </head>
 <body>
-<th:block th:insert="~{/header::header}"></th:block>
-
-<main>
-    <h2>컨텐츠</h2>
-    <p>여기에 홈페이지의 내용을 작성하세요.</p>
-</main>
-
+<th:block th:insert="~{header::header}"></th:block>
+<br><br>
+<div style="text-align: left; font-size: 20px; margin-left: 150px;">
+    <h2>베스트</h2>
+</div>
+<br><br>
+<table>
+    <tr>
+        <th:block th:each="book, iterStat : ${bookList}">
+            <td style="padding: 50px; text-align: left; position: relative;">
+                <!-- 숫자 이미지 -->
+                <img th:src="@{/images/__${iterStat.index + 1}__.png}" alt="Number" style="position: absolute; top: -20px; left: 10px; width: 90px; height: 75px;"/>
+                <!-- Book 이미지 -->
+                <img th:src="${book.imageUrl}" alt="Book Image" width="280" height="350"/>
+                <br>
+                <span style="display: block;">서명: <span th:text="${book.name}"></span></span>
+                <span style="display: block;">가격: <span th:text="${book.price}"></span> 원</span>
+                <span style="display: block;">저자: <span th:text="${book.author}"></span></span>
+            </td>
+        </th:block>
+    </tr>
+</table>
+</body>
 <footer>
-    <p>&copy; 2023 나의 홈페이지. 모든 권리 보유.</p>
+    <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>
 </footer>
-
 </body>
 </html>

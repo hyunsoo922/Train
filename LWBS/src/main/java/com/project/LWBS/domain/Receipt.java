@@ -6,6 +6,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Builder
 @ToString(callSuper = true)
 @Entity
@@ -15,7 +16,10 @@ public class Receipt extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @Column(nullable = false)
+    private String tid;
+
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 

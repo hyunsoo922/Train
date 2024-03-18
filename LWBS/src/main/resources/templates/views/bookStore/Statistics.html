@@ -3,28 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookstore Statistics - Book Sales Count</title>
+    <title>전체 교재 구매 통계</title>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #333;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #333;
+        color: #fff;
+    }
+
+    th:nth-child(odd) {
+        background-color: #4caf50;
+    }
+
+    th:nth-child(even) {
+        background-color: #2196f3;
+    }
+          /* 추가된 부분: 컨테이너 스타일 */
+           #chartAndTableContainer {
+          display: flex;
+          justify-content: flex-end; /* 오른쪽 정렬로 변경 */
+          align-items: flex-start;
+      }
+
+      /* 추가된 부분: 파이차트 스타일 */
+      #myPieChart {
+          max-width: 70%; /* 파이차트 너비를 최대 50%로 설정 */
+          margin-left: auto; /* 자동으로 왼쪽 여백을 채우도록 설정 */
+      }
+
+          #departmentContainer {
+          text-align: center; /* 텍스트 정렬을 중앙으로 설정 */
+          margin-top: 20px; /* 필요에 따라 상단 여백을 조절하세요 */
+          margin-bottom: 20px; /* 필요에 따라 상단 여백을 조절하세요 */
+      }
+
+      #bookTable {
+    width: 500px; /* 원하는 크기로 조절, 예를 들면 70%로 설정했습니다. */
+    margin: auto;
+
+}
+        #wrapper {
+            min-height: 10vh;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        footer {
+            background-color: #f2f2f2;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<th:block th:insert="~{/header::header}"></th:block>
-<th:block th:insert="~{/storenav::navfrag}"></th:block>
-<h1>Bookstore Statistics - Book Sales Count</h1>
+<!-- 헤더와 내비게이션 -->
+<th:block th:insert="~{header::header}"></th:block>
+<br><br>
+<th:block th:insert="~{storenav::navfrag}"></th:block>
+<br><br><br>
+<div style="text-align: center;">
+    <h2 style="font-size: 80px;">교재 통계</h2>
+</div>
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>Book Name</th>
-        <th>Sales Count</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="name : ${nameList}">
-        <td th:text="${name}"></td>
-    </tr>
-    <tr th:each="count : ${countList}">
-        <td th:text="${count}"></td>
-    </tbody>
+<div id="departmentContainer">
+    <label for="departmentSelect">학과 선택: </label>
+    <select id="departmentSelect" onchange="updateChart()">
+        <option value="all">전체 학과</option>
+        <!-- Thymeleaf를 사용하여 bookList에서 학과 정보를 동적으로 추가 -->
+        <option th:each="book, status : ${bookList}" th:value="${book.department.name}" th:text="${book.department.name}"
+                th:if="${status.index == 0 || book.department.name != bookList[status.index - 1].department.name}">
+        </option>
+    </select>
+</div>
+
+<!-- 수정된 canvas 요소: 원하는 크기로 설정 -->
+<div id="chartAndTableContainer">
+     <!-- 수정된 canvas 요소: 원하는 크기로 설정 -->
+        <canvas id="myPieChart" width="700" height="700"></canvas>
+
+        <!-- 표에 hidden 클래스 추가 -->
+        <table border="1" id="bookTable" >
+            <tr th:each="book, iterStat : ${bookList}">
+                <td th:id="'department-' + ${book.department.name}">
+                   <!-- 추가된 부분: 학과 정보를 표시하는 span 엘리먼트에 클래스 추가 -->
+                    <span class="book-department" th:text="${book.department.name}" hidden></span>
+                    <span>학과명: <span th:text="${book.department.name}"></span></span>
+                    <br>
+                    <span>교재명: <span class="book-name" th:text="${book.name}"></span></span>
+                    <br>
+                    <span>판매량: <span class="book-count" th:text="${countList[iterStat.index]}"></span>권</span>
+                </td>
+            </tr>
+        </table>
+    </div>
 </table>
 
+<!-- JavaScript 스크립트 -->
+<script>
+    // Thymeleaf에서 생성된 데이터를 JavaScript로 가져와서 사용
+    var bookNames = document.querySelectorAll('.book-name');
+    var bookCounts = document.querySelectorAll('.book-count');
+
+    var labels = Array.from(bookNames).map(function(bookName) {
+        return bookName.innerText;
+    });
+
+    var data = Array.from(bookCounts).map(function(bookCount) {
+        return parseInt(bookCount.innerText);
+    });
+
+    var dynamicData = {
+        labels: labels,
+        datasets: [{
+            data: data,
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#FF9800', '#9C27B0']
+        }]
+    };
+
+    // 차트 생성
+    var ctx = document.getElementById('myPieChart').getContext('2d');
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: dynamicData,
+        options: {
+            responsive: false, // 크기를 동적으로 조절하지 않음
+            maintainAspectRatio: false
+            // 기타 옵션들을 필요에 따라 추가할 수 있습니다.
+        }
+    });
+
+    // 드롭다운 메뉴의 선택 변경 시 차트와 표 업데이트
+    function updateChart() {
+        var selectedDepartment = document.getElementById('departmentSelect').value;
+        var tableRows = document.querySelectorAll('#bookTable tr');
+
+        // 모든 행을 숨김
+        tableRows.forEach(function(row) {
+            row.style.display = 'none';
+        });
+
+        // 선택한 학과의 행만 표시
+        if (selectedDepartment === 'all') {
+            tableRows.forEach(function(row) {
+                row.style.display = 'table-row';
+            });
+        } else {
+            var selectedRows = document.querySelectorAll('#bookTable td[id^="department-' + selectedDepartment + '"]');
+            selectedRows.forEach(function(row) {
+                row.parentElement.style.display = 'table-row';
+            });
+        }
+
+        // 파이차트 업데이트
+        updatePieChart(selectedDepartment);
+    }
+
+    // 파이차트를 선택한 학과에 맞게 업데이트하는 함수
+    function updatePieChart(selectedDepartment) {
+        var bookNames = document.querySelectorAll('.book-name');
+        var bookCounts = document.querySelectorAll('.book-count');
+        var bookDepartments = document.querySelectorAll('.book-department');
+
+        var labels = [];
+        var data = [];
+
+        // 선택한 학과에 해당하는 데이터만 추출
+        bookNames.forEach(function(bookName, index) {
+            var departmentName = bookDepartments[index].innerText;
+            if (selectedDepartment === 'all' || departmentName === selectedDepartment) {
+                labels.push(bookName.innerText);
+                data.push(parseInt(bookCounts[index].innerText));
+            }
+        });
+
+        var dynamicData = {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'] // 각 항목의 색상
+            }]
+        };
+
+        // 파이차트 업데이트
+        myPieChart.data.labels = dynamicData.labels;
+        myPieChart.data.datasets[0].data = dynamicData.datasets[0].data;
+        myPieChart.update();
+    }
+</script>
+<div id="wrapper">
+    <footer>
+        <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>
+    </footer>
+</div>
 </body>
+
 </html>
+

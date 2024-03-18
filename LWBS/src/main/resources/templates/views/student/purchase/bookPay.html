@@ -85,11 +85,26 @@
         .midCellPrice {
             width: 110px;
         }
+        #wrapper {
+            min-height: 10vh;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        footer {
+            background-color: #f2f2f2;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-<th:block th:insert="~{/header::header}"></th:block>
-<th:block th:insert="~{/banner::banner}"></th:block>
+<th:block th:insert="~{header::header}"></th:block>
+<th:block th:insert="~{nav::navfrag}"></th:block>
+<th:block th:insert="~{banner::banner}"></th:block>
 <div class="container">
     <form th:action="@{/student/purchase/bookPay}" method="post" enctype="multipart/form-data">
         <div class="bookContainer headerRow">
@@ -123,5 +138,11 @@
     </form>
     <button type="button" id="purchaseBtn">카카오페이로 결제하기</button>
 </div>
+<div id="wrapper">
+    <footer>
+        <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>
+    </footer>
+</div>
 </body>
+
 </html>

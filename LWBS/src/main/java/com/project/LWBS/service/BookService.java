@@ -15,6 +15,10 @@ public interface BookService {
 
     Page<Book> getAllBooks(Pageable pageable);
 
+    // Book 객체의 isbn이 Book 테이블에 있는지에 대한 여부를 파악 후 true/false 반환
+
+
+
     List<Book> findByBookName(Long user_id);
 
     Book findById(Long user_id);
@@ -23,6 +27,8 @@ public interface BookService {
 
     void createDepartment(String dname);
 
-    List<Book> getAllBook();
+    Page<Book> findByDepartmentName(String departmentName, Pageable pageable);
 
+
+    List<Book> getAllBook();
 }
