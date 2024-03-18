@@ -101,6 +101,7 @@
         <button onclick="조회하기()">수강신청 내역 조회</button>
         <button onclick="이동하기()">내 정보 수정</button>
         <button onclick="마일리지조회()">마일리지 내역 조회</button>
+        <button onclick="receipt()">구매 내역 확인</button>
         <br>
         <br>
         <a th:href="@{/user/delete}" class="delete-btn" style="padding: 10px; background-color: #4caf50; color: white; text-decoration: none; border-radius: 4px; margin: 5px;">회원탈퇴</a>
@@ -140,6 +141,10 @@
     function 마일리지조회() {
         // "마일리지 내역 조회" 버튼 클릭 시 "/mypage/mileage"로 이동
         window.location.href = "/mypage/mileage/" + userID;
+    }
+
+    function receipt() {
+        window.location.href = "/student/purchase/receipt";
     }
 </script>
 

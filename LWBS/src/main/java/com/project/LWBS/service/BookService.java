@@ -22,4 +22,6 @@ public interface BookService {
     void createSubject(String sname);
 
     void createDepartment(String dname);
+
+    List<Book> getAllBook();
 }
