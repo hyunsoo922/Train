@@ -1,9 +1,6 @@
 package com.project.LWBS.service;
 
-import com.project.LWBS.domain.Book;
-import com.project.LWBS.domain.Receipt;
-import com.project.LWBS.domain.Receive;
-import com.project.LWBS.domain.User;
+import com.project.LWBS.domain.*;
 
 import java.util.List;
 
@@ -21,5 +18,7 @@ public interface StudentService {
 
     void updateDay(User user,String day);
 
+    Department findDepartmentByName(String departmentName);
 
+    List<Book> findByDepartment(Department department);
 }

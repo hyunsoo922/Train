@@ -15,7 +15,7 @@
     right: 0;
     padding: 0px; /* 원하는 여백 설정 */
     width: 80px;
-    height: 600px;
+    height: 720px;
     border: none;
 }
 .banner .left{
@@ -25,6 +25,6 @@
     left: 0;
     padding: 0px; /* 원하는 여백 설정 */
     width: 80px;
-    height: 600px;
+    height: 720px;
     border: none;
 }

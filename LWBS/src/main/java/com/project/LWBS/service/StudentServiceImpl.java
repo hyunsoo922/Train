@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -29,12 +27,17 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private MileageRepository mileageRepository;
 
+    @Autowired
+    private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public List<Book> findMyClass(User user) {
         List<Enrollment> enrollmentList = enrollmentRepository.findByUser(user);
         List<Book> bookList = new ArrayList<>();
-        for(int i = 0; i < enrollmentList.size(); i++)
-        {
+        for (int i = 0; i < enrollmentList.size(); i++) {
             bookList.add(bookRepository.findByName(enrollmentList.get(i).getEnrollmentName()));
         }
 
@@ -51,8 +54,7 @@ public class StudentServiceImpl implements StudentService {
     public List<Book> findByIds(List<String> bookList) {
         List<Book> books = new ArrayList<>();
 
-        for(int i = 0; i < bookList.size(); i++)
-        {
+        for (int i = 0; i < bookList.size(); i++) {
             long id = Long.parseLong(bookList.get(i));
             books.add(bookRepository.findById(id).orElse(null));
         }
@@ -60,21 +62,18 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void createReceipt(List<Book> bookList, User user, String receiveDay,int useMileage) {
+    public void createReceipt(List<Book> bookList, User user, String receiveDay, int useMileage) {
 
         List<Receive> receiveList = receiveRepository.findByDay(receiveDay);
         Receive receive = new Receive();
         int point = 0;
-        for(int x =0; x < receiveList.size(); x++)
-        {
-            if(receiveList.get(x).getReceiveCheck().equals("미수령"))
-            {
+        for (int x = 0; x < receiveList.size(); x++) {
+            if (receiveList.get(x).getReceiveCheck().equals("미수령")) {
                 receive = receiveList.get(x);
             }
         }
 
-        for(int i =0; i < bookList.size(); i++)
-        {
+        for (int i = 0; i < bookList.size(); i++) {
             point += Integer.parseInt(bookList.get(i).getPrice());
 
             Receipt receipt = Receipt.builder()
@@ -88,7 +87,7 @@ public class StudentServiceImpl implements StudentService {
         }
 
         point -= useMileage;
-        int mileagePoint = point/10;
+        int mileagePoint = point / 10;
         Mileage mileage = Mileage.builder()
                 .user(user)
                 .point(mileagePoint)
@@ -119,23 +118,26 @@ public class StudentServiceImpl implements StudentService {
         List<Receipt> receiptList = receiptRepository.findByUser(user);
         List<Receive> receiveList = receiveRepository.findByDay(day);
         Receive receive = new Receive();
-        for(int x = 0; x< receiveList.size(); x++)
-        {
-            if(receiveList.get(x).getReceiveCheck().equals("미수령"))
-            {
+        for (int x = 0; x < receiveList.size(); x++) {
+            if (receiveList.get(x).getReceiveCheck().equals("미수령")) {
                 receive = receiveList.get(x);
             }
         }
 
-        for(int i=0; i < receiptList.size(); i++)
-        {
+        for (int i = 0; i < receiptList.size(); i++) {
             receiptList.get(i).setReceive(receive);
             receiptRepository.flush();
         }
-
     }
 
-
-
+    @Override
+    public Department findDepartmentByName(String departmentName) {
+        System.out.println(departmentName);
+        return departmentRepository.findByName(departmentName);
+    }
+    @Override
+    public List<Book> findByDepartment(Department department) {
+        return bookRepository.findByDepartment(department);
+    }
 
 }
