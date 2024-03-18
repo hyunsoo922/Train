@@ -58,7 +58,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void createReceipt(List<Book> bookList, User user, String receiveDay,int useMileage) {
+    public void createReceipt(List<Book> bookList, User user, String receiveDay,int useMileage, String tid) {
 
         List<Receive> receiveList = receiveRepository.findByDay(receiveDay);
         Receive receive = new Receive();
@@ -79,6 +79,7 @@ public class StudentServiceImpl implements StudentService {
                     .book(bookList.get(i))
                     .receive(receive)
                     .user(user)
+                    .tid(tid)
                     .build();
 
             receiptRepository.saveAndFlush(receipt);

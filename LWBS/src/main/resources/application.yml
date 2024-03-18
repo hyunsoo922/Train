@@ -5,6 +5,12 @@
 # 서버 포트 번호
 server:
   port: 8093
+  ssl:
+    enabled: false
+    key-store: file:///C:/Java/jdk-11.0.15/bin/keystore.p12
+    key-store-password: 990922
+    key-store-type: PKCS12
+    key-alias: tomcat
 
 spring:
   # 콘솔 ansi 색상
@@ -20,7 +26,7 @@ spring:
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://16.170.97.165:3306/traindb?useSSL=false&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mariadb://localhost:3306/traindb?useSSL=false&useUnicode=true&characterEncoding=utf8
     username: train
     password: 1234
 
@@ -29,7 +35,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        ddl-auto: update
+        ddl-auto: create
         dialect: org.hibernate.dialect.MariaDBDialect
 
 # 페이징 관련 세팅값
@@ -45,7 +51,7 @@ kakao:
     id: b45dc756bf1f71d465dbf93f791be727
     secret: ZwJupmVkWPJM9UiAR1M5ICGAwih2fLd5
   redirect:
-    url: http://16.170.97.165:8093/kakao/callback
+    url: http://localhost:8093/kakao/callback
 
 
 logging:
