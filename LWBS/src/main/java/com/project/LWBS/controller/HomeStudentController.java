@@ -46,6 +46,8 @@ public class HomeStudentController {
     public String hello(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable String department) {
         // 현재 로그인 중인 유저의 id값을 매개변수로 전달하여 유저가 수강신청한 강의의 교재명 검색 후
         // 교재명에 맞는 Book 객체들을 리스트로 전달 받음.
+        User user = principalDetails.getUser();
+        model.addAttribute("user",user);
         Department department1 = studentService.findDepartmentByName(department);
         System.out.println(department1);
         // Model 객체에 Book 리스트와 User 객체를 담아 View에게 전달
