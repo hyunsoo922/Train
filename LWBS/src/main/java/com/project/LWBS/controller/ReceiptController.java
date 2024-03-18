@@ -91,7 +91,8 @@ public class ReceiptController {
     }
 
     @GetMapping("/ReceiptSearch")
-    public String searchReceipts(@RequestParam(name = "studentId", required = false) String studentId, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public String searchReceipts(@RequestParam(name = "studentId", required = false) String studentId,
+                                 Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         if (studentId == null) {
             // studentId가 없을 경우, 혹은 required=true로 설정하면 무조건 값이 필요할 경우 예외처리를 할 수 있습니다.
             // 여기서는 기본값으로 현재 사용자의 학생 번호를 사용하도록 했습니다.
