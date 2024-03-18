@@ -23,4 +23,7 @@ public interface BookService {
 
     Book findById(Long user_id);
 
+
+    Page<Book> findByDepartmentName(String departmentName, Pageable pageable);
+
 }

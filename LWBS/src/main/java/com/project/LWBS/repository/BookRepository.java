@@ -1,6 +1,8 @@
 package com.project.LWBS.repository;
 
 import com.project.LWBS.domain.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,4 +18,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query("SELECT b.name FROM Book b")
     List<String> findAllBookNames();
+
+    Page<Book> findByDepartmentName(String departmentName, Pageable pageable);
 }

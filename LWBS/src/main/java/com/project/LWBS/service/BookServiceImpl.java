@@ -97,4 +97,9 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findById(book_id).orElse(null);
         return book;
     }
+
+    @Override
+    public Page<Book> findByDepartmentName(String departmentName, Pageable pageable) {
+        return bookRepository.findByDepartmentName(departmentName, pageable);
+    }
 }
