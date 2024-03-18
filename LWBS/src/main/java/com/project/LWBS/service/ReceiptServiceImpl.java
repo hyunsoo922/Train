@@ -1,20 +1,25 @@
 package com.project.LWBS.service;
 
+import com.project.LWBS.domain.Book;
 import com.project.LWBS.domain.Receipt;
 import com.project.LWBS.domain.Receive;
+import com.project.LWBS.domain.User;
 import com.project.LWBS.repository.BookRepository;
 import com.project.LWBS.repository.ReceiptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
 
 @Service
 public  class ReceiptServiceImpl implements  ReceiptService{
+
 
     private final ReceiptRepository receiptRepository;
 
@@ -80,6 +85,24 @@ public  class ReceiptServiceImpl implements  ReceiptService{
     public List<Map<String, Object>> statistics() {
         List<Map<String, Object>> statisticsList = receiptRepository.findBookIds();
         return statisticsList;
+    }
+
+    @Override
+    public List<Receipt> findReceiptsByBookAndUser(List<Book> bookList, User user) {
+        List<Receipt> receiptList = new ArrayList<>();
+        for(Book book : bookList)
+        {
+            receiptList.add(receiptRepository.findByBookAndUser(book,user));
+        }
+        return receiptList;
+    }
+
+    @Override
+    @Transactional
+    public void deleteReceipt(Receipt receipt) {
+        receiptRepository.delete(receipt);
+
+        receiptRepository.flush();
     }
 
 }
