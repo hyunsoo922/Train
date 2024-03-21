@@ -70,6 +70,7 @@ $(document).ready(function () {
 });
 
 function removeCartItem(element) {
+    console.log("삭제진입")
     var cartId = element.parentNode.querySelector('.cartId').innerText;
     var queryString = "?cartId=" + encodeURIComponent(cartId);
     window.location.href = "/student/purchase/delete" + queryString;

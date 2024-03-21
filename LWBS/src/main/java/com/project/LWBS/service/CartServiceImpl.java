@@ -8,6 +8,7 @@ import com.project.LWBS.repository.CartRepository;
 import com.project.LWBS.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,9 +58,20 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public void delete(Long id) {
-        cartRepository.deleteById(id);
+    @Transactional
+    public void deleteByCart(Long cart_id) {
+        Cart cart = cartRepository.findById(cart_id).orElse(null);
+
+
+            cartRepository.deleteById(cart_id);
+
     }
+
+
+//    @Override
+//    public void delete(Long id) {
+//        cartRepository.deleteById(id);
+//    }
 
     @Override
     public void deleteCart(Long user_id) {
