@@ -37,6 +37,7 @@ body {
 }
 
 .descriptionContainer {
+    display: none;
     margin-right: 120px;
     width: 250px;
     height: 193px;
@@ -44,7 +45,13 @@ body {
     overflow: hidden;
     margin-left: 10px;
 }
-
+.descriptionButton {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 .textContainer > div {
     margin-bottom: 5px;
 }

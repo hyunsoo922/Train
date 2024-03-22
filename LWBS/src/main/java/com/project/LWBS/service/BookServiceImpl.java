@@ -5,16 +5,17 @@ import com.project.LWBS.repository.BookRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import java.util.List;
 import com.project.LWBS.domain.Department;
 import com.project.LWBS.domain.Subject;
 import com.project.LWBS.repository.DepartmentRepository;
 import com.project.LWBS.repository.EnrollmentRepository;
 import com.project.LWBS.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
-import java.util.ArrayList;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -109,5 +110,10 @@ public class BookServiceImpl implements BookService {
                     .build();
             departmentRepository.saveAndFlush(department);
         }
+    }
+
+    @Override
+    public Page<Book> findByDepartmentName(String departmentName, Pageable pageable) {
+        return bookRepository.findByDepartmentName(departmentName, pageable);
     }
 }

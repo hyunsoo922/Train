@@ -14,7 +14,9 @@ public interface CartService {
 
     List<Cart> findByUserId(Long user_id);
 
-    void delete(Long id);
+//    void delete(Long id);
+
+    void deleteByCart(Long cart_id);
 
     @Transactional
     void deleteCart(Long user_id);

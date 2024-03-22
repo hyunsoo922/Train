@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -28,22 +29,26 @@
                                 </div>
                                 <img th:src="${book.imageUrl}" alt="Book Image" style="height: 200px; width: 150px;">
                                 <div class="textContainer">
-                                    <div th:text="${book.name}"></div>
+                                    <strong><div th:text="${book.name}" style="margin-top: 10px"></div></strong>
                                     <div th:text="${book.author}"></div>
                                     <div th:text="${book.publisher}"></div>
                                     <div th:text="${book.department.name}"></div>
                                     <div th:text="${book.subject.name}"></div>
                                 </div>
+                                <button type="button" class="descriptionButton" onclick="showDescription(this)" style="font-size: 30px; margin: 30px">설명</button>
                                 <div class="descriptionContainer">
+                                    <img th:src="${book.imageUrl}" alt="Book Image" style="display: block; margin: 0 auto; height: 200px; width: 150px;">
+                                    <strong><div th:text="${book.name}" style="text-align: center; font-size: 24px; margin-bottom: 10px"></div></strong>
                                     <div th:text="${book.description}"></div>
                                 </div>
                                 <div>
                                     <th:block th:each="cart : ${cartList}">
                                         <div th:if="${cart.book.id eq book.id}">
                                             <span th:text="${cart.id}" class="cartId" style="display: none;"></span>
-                                            <button type="button" class="removeBtn" th:id="'removeBtn' + ${cart.id}" th:text="'제거'" onclick="removeCartItem(this)"></button>
+                                            <button type="button" class="removeBtn" th:id="'removeBtn' + ${cart.id}" th:text="'제거'" onclick="removeCartItem(this)" style = "font-size: 30px; background-color: red; border-radius: 5px; color: white; border: none;"></button>
                                         </div>
                                     </th:block>
+
                                 </div>
                             </div>
                         </td>
@@ -72,6 +77,23 @@
         <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>
     </footer>
 </div>
+<script th:inline="javascript">
+    var userID = /*[[${ID}]]*/ null;
+    var authority = /*[[${authority}]]*/ null;
+    function showDescription(button) {
+        console.log("함수 진입");
+        var bookItem = button.closest('.bookItem');
+        var imageUrl = bookItem.querySelector('.descriptionContainer');
+        var name = bookItem.querySelector('.descriptionContainer');
+        var description = bookItem.querySelector('.descriptionContainer');
+        var popupWidth = 800;
+        var popupHeight = 500;
+        var left = (window.innerWidth - popupWidth) / 2;
+        var top = (window.innerHeight - popupHeight) / 2;
+        var popup = window.open('', 'descriptionPopup', 'width=' + popupWidth + ',height=' + popupHeight + ',left=' + left + ',top=' + top + ',scrollbars=yes,resizable=no');
+        popup.document.body.innerHTML = description.innerHTML;
+    }
+</script>
 </body>
 
 </html>

@@ -68,7 +68,7 @@ public class KakaoController {
         {
             if(!enrollmentService.isEmptyData(user))
             {
-                redirectUrl = "http://16.170.97.165:8093/home/student";
+                redirectUrl = "http://localhost:8093/home/student";
             }
             else
             {

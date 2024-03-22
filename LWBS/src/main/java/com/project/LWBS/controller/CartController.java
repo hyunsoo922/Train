@@ -44,7 +44,7 @@ public class CartController {
 
         Long cart_id = Long.valueOf(cartId);
 
-        cartService.delete(cart_id);
+        cartService.deleteByCart(cart_id);
 
         return "redirect:/student/purchase/book";
     }
