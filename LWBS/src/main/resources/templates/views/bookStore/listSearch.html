@@ -1,0 +1,169 @@
+<div class="container">
+    <div>
+        <h2>전체 교재 리스트</h2>
+
+        <style>
+
+            .refresh-button {
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        margin-top: 10px;
+        margin-bottom: 30px;
+        cursor: pointer;
+    }
+
+    .refresh-button:hover {
+        background-color: #45a049;
+    }
+
+            body
+            {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+
+            }
+
+        .container
+        {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+
+        h2
+        {
+            font-size: 70px;
+            margin-bottom: 20px;
+        }
+
+
+        .refresh-button
+        {
+            font-size: 16px;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+
+
+        table
+         {
+            border-collapse: collapse;
+            width: 80%;
+            margin-top: 20px;
+         }
+
+         th, td
+         {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: center;
+         }
+
+         th {
+             background-color: #333;
+                color: #fff;
+            }
+
+            th:nth-child(odd) {
+                background-color: #4caf50;
+            }
+
+            th:nth-child(even) {
+                background-color: #2196f3;
+            }
+
+
+            .empty-message {
+                font-style: italic;
+                color: #888;
+            }
+
+            .pagination {
+                margin-top: 20px;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+            }
+
+            .pagination a {
+                color: black;
+                float: left;
+                padding: 8px 16px;
+                text-decoration: none;
+                transition: background-color .3s;
+                border: 1px solid #ddd;
+                margin: 0 4px;
+            }
+
+            .pagination a.active {
+                background-color: #4caf50;
+                color: white;
+                border: 1px solid #4caf50;
+            }
+
+            .pagination a:hover:not(.active) {background-color: #ddd;}
+        </style>
+    </div>
+    <div style="margin-bottom: 10px;">
+        <button class="refresh-button" onclick="refreshPage()">새로 고침</button>
+    </div>
+
+    <table border="1">
+        <thead>
+        <tr>
+            <th>이미지</th>
+            <th>교재명</th>
+            <th>강의명</th>
+            <th>가격</th>
+            <th>출판사</th>
+            <th>저자</th>
+            <th>학과</th>
+        </tr>
+        </thead>
+        <tbody th:if="${not #lists.isEmpty(books)}" id="searchResults">
+        <tr th:each="book : ${books}" class="bookItem">
+            <td>
+                <img th:src="${book.imageUrl}" style="max-width: 100px; max-height: 150px;">
+            </td>
+            <td th:text="${book.name}"></td>
+            <td th:text="${book.subject.name}"></td>
+            <td th:text="${book.price}"></td>
+            <td th:text="${book.publisher}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.department.name}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination">
+    <!-- 이전 버튼 -->
+    <a th:if="${nowPage > 1}" th:href="@{/bookStore/listSearch(page=${nowPage - 2})}">&lt; 이전</a>
+
+    <!-- 페이지 목록 -->
+    <!-- 페이지 목록 -->
+    <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+        <a th:if="${page != nowPage}" th:href="@{/bookStore/listSearch(page=${page - 1})}" th:text="${page}"></a>
+        <a th:if="${page == nowPage}" th:href="@{/bookStore/listSearch(page=${page - 1})}" th:text="${page}" class="active"></a>
+    </th:block>
+
+
+    <!-- 다음 버튼 -->
+    <a th:if="${nowPage < totalPages}" th:href="@{/bookStore/listSearch(page=${nowPage})}">다음 &gt;</a>
+</div>
+
+<script>
+    function refreshPage() {
+        location.reload(true);
+    }
+</script>
