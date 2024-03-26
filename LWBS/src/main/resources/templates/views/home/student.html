@@ -1,51 +1,427 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Book List</title>
+    <meta http-equiv="Expires" content="-1">
+    <meta http-equiv="Pragma" content="No-Cache">
+    <meta http-equiv="Cache-Control" content="No-Cache">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0;">
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" th:href="@{/css/banner.css}">
     <style>
-        table {
-            margin: auto;
+        pre {
+            white-space: pre-wrap;
         }
-        td {
-            padding: 10px;
-        }
-        #wrapper {
-            min-height: 20vh;
-            position: relative;
-            overflow-y: auto;
+        .box {
+            font-weight: normal;
+            -webkit-font-smoothing: antialiased;
+
+            font-size: 13px;
+            color: #5d5d5d;
+            border-left: 1px solid #e1e1e1;
+            border-right: 1px solid #e1e1e1;
+            border-bottom: 1px solid #e1e1e1;
+            border-top: 2px solid #0086d3;
+            height: 270px;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        footer {
-            background-color: #f2f2f2;
-            padding: 10px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
+        .box_b {
+            float: left;
+            width: 33.3%;
+            height: 100%;
+            padding-right: 20px;
+            border-right: 1px solid #e4e4e4;
+            box-sizing: border-box;
             text-align: center;
         }
+
+        .box_s.border_b.border_r {
+            font-weight: normal;
+            -webkit-font-smoothing: antialiased;
+
+            font-size: 13px;
+            color: #5d5d5d;
+            float: left;
+            width: 31.1%;
+            height: 49.9%;
+            text-align: center;
+            box-sizing: border-box;
+            border-bottom: 1px solid #e4e4e4;
+            margin-left: 4%;
+            border-right: 1px solid #e4e4e4;
+        }
+
+        .box_s.border_b.haggi_cnt {
+            font-weight: normal;
+            -webkit-font-smoothing: antialiased;
+
+            font-size: 13px;
+            color: #5d5d5d;
+            float: left;
+            width: 31.1%;
+            height: 49.9%;
+            text-align: center;
+            box-sizing: border-box;
+            border-bottom: 1px solid #e4e4e4;
+        }
+
+        .box_s.border_r {
+            font-weight: normal;
+            -webkit-font-smoothing: antialiased;
+
+            font-size: 13px;
+            color: #5d5d5d;
+            float: left;
+            width: 31.1%;
+            height: 49.9%;
+            text-align: center;
+            box-sizing: border-box;
+            margin-left: 4%;
+            border-right: 1px solid #e4e4e4;
+        }
+
+        .box_s {
+            font-weight: normal;
+            -webkit-font-smoothing: antialiased;
+
+            font-size: 13px;
+            color: #5d5d5d;
+            float: left;
+            width: 31.1%;
+            height: 49.9%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .thumbnail {
+            width: 100px;
+            /* Adjust this according to your design */
+            height: 100px;
+            /* Adjust this according to your design */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .content.border {
+            font-weight: normal;
+            -webkit-font-smoothing: antialiased;
+
+            font-size: 13px;
+            color: #5d5d5d;
+            border-left: 1px solid #e1e1e1;
+            border-right: 1px solid #e1e1e1;
+            border-bottom: 1px solid #e1e1e1;
+            border-top: 2px solid #0086d3;
+            height: 270px;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .tit_content {
+            font-weight: normal;
+            -webkit-font-smoothing: antialiased;
+            color: #5d5d5d;
+            position: relative;
+            height: 20px;
+            margin-bottom: 40px;
+            font-size: 20px;
+
+        }
+
+        #student_info {
+            font-weight: normal;
+            -webkit-font-smoothing: antialiased;
+
+            font-size: 13px;
+            color: #5d5d5d;
+            margin-bottom: 30px;
+            float: left;
+            width: 100%;
+            padding-right: 15px;
+            box-sizing: border-box;
+        }
+        .grid {
+            display: flex;
+            flex-wrap: wrap; /* 요소들을 여러 행에 걸쳐 표시합니다 */
+            justify-content: flex-start; /* 컨테이너의 시작 부분에 요소들을 정렬합니다 */
+        }
+
+        .p-4 {
+            width: 25%; /* 각 요소가 컨테이너의 1/4 크기를 가지도록 설정합니다 */
+            box-sizing: border-box; /* 요소의 내부 여백과 테두리를 포함하여 요소의 전체 너비를 설정합니다 */
+            border: 1px solid #ccc; /* 경계선 스타일 및 색상을 여러분이 원하는 대로 변경하세요 */
+            padding: 10px; /* 필요한 경우 내용과 경계선 사이의 여백을 조절하세요 */
+            /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); !* 그림자 효과 설정 *!*/
+        }
+        .bookImage {
+            border: 1px solid #000; /* 테두리 스타일 및 색상을 원하는 대로 변경하세요 */
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            /* Adjust spacing between page1 and page2 */
+            flex-direction: column;
+        }
+
+
+        .popup-button {
+            background-color: #008CBA;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+
+        .popup-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
     </style>
+    <title th:text="${user.name} + '님 환영합니다.'"></title>
 </head>
+
 <body>
-<th:block th:insert="~{header::header}"></th:block>
-<br><br>
-<th:block th:insert="~{nav::nav}"></th:block>
-<br><br><br>
-<table>
-    <tr th:each="row : ${#numbers.sequence(0, ((bookList.size - 1) div 4))}">
-        <td th:each="index : ${#numbers.sequence(row*4, (row*4)+3)}" th:if="${index lt bookList.size}" style="padding: 30px; text-align: left; position: relative;">
-            <img th:src="${bookList[index].imageUrl}" alt="Book Image" width="280" height="350"/><br>
-            <span th:text="${bookList[index].name}">교재명</span><br>
-            <span th:text="${bookList[index].author}">저자명</span><br>
-            <span th:text="${bookList[index].publisher}">출판사명</span><br>
-            <span th:text="${bookList[index].price}">가격</span><br>
-        </td>
-    </tr>
-</table>
-<div id="wrapper">
-    <footer>
-        <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>
-    </footer>
+<th:block th:replace="header :: header(pageTitle='학생 홈 페이지')"></th:block>
+<div class="container">
+    <div class="page1" style="position: absolute; top: 154px; left: 221px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 60%; display: flex; flex-direction: column; justify-content: space-around">
+        <strong style="padding-left: 10px; font-weight: bold;">*구매 전 수강 교재 가져오기 먼저 완료 해주세요!</strong>
+        <div id="student_info" style="margin-bottom: 30px" class="container">
+            <div class="tit_content">
+                <img src="/images/bar.jpg" alt="bar" class="bar" style="width: 4px; height:20px;">
+                <strong style="padding-left: 10px; font-weight: bold;">개인정보</strong>
+            </div>
+            <div class="content border">
+                <div class="box_b" style="display: inline-block; text-align: center;">
+                    <div style="padding-top: 15%;">
+                        <img th:src="${user.profileImgUrl}" alt="이미지" class="styled-image" style="border-radius: 50%; width: 100px; height: 100px;">
+                    </div>
+                    <br><br>
+                    <strong th:text="${user.studentId}" style="font-size: 18px"></strong>
+                </div>
+                <div class="box_s border_b border_r" style="display: inline-block;">
+                    <div style="padding-top: 13%"><strong style="font-size: 18px; font-weight: bold;">이름</strong></div>
+                </div>
+                <div class="box_s border_b haggi_cnt" style="display: inline-block;">
+                    <div style="padding-top: 13%"><strong style="font-size: 18px; font-weight: bold;">사용 가능 마일리지</strong></div>
+
+                </div>
+                <div class="box_s border_r" style="display: inline-block;">
+                    <div style="padding-top: 16%"><span th:text="${user.name}" style="font-size: 18px"></span></div>
+
+                </div>
+                <div class="box_s" style="display: inline-block;">
+                    <div style="padding-top: 16%"><span th:text="${mileage}" style="font-size: 18px"></span></div>
+
+                </div>
+            </div>
+        </div>
+        <div></div>
+        <div id="bboks">
+            <div class="tit_content">
+                <img src="/images/bar.jpg" alt="bar" class="bar" style="width: 4px; height:20px;">
+                <strong style="padding-left: 10px; font-weight: 800;">수강 강의 교재</strong>
+                <p style="font-size: smaller; margin-top: 3px;">-수강 신청한 강의의 교재 목록입니다</p>
+            </div>
+            <div class="grid grid-cols-4 gap-4">
+                <div th:each="book, index : ${enrollBookList}" class="p-4">
+                    <strong th:text="${book.subject.name}" style="font-size: 20px; color: rgb(128,128,128)"></strong>
+                    <br>
+                    <strong th:text="${book.department.name}" style="color: rgb(128,128,128)"></strong>
+                    <img class="bookImage" th:src="${book.imageUrl}" alt="Book Image" width="220" height="320" onclick="redirectToCart(this)"/><br>
+                    <strong>가격 : </strong>
+                    <strong th:text="${book.price}">가격</strong><strong> 원</strong><br>
+                    <strong>제목 : </strong>
+                    <strong th:text="${#strings.length(book.name) gt 15} ? ${#strings.substring(book.name, 0, 15) + '...'} : ${book.name}">교재명</strong><br>
+                    <span>저자 : </span>
+                    <span th:text="${book.author}">저자명</span><br>
+                    <span>출판사 : </span>
+                    <span th:text="${book.publisher}">출판사명</span><br>
+
+                    <span class="bookID" th:text="${book.id}" style="display: none"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page2" style="position: absolute; top: 154px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 20%; display: flex; flex-direction: column; justify-content: space-around">
+        <th:block th:insert="~{banner::banner}"></th:block>
+    </div>
+</div>
+<div id="side_drop_down_menu">
+    <div style="position:relative;">
+        <!-- 헤더 -->
+
+        <div class="side_drop_down_menu_panel_background"
+             style="position: fixed; z-index: 100; top: 110px; bottom: 0px; border-right: 1px solid rgb(230, 230, 230); width: 220px; left: 0;">
+        </div>
+        <div class="side_drop_down_menu_panel"
+             style="z-index: 100; position: absolute; border-right: 1px solid rgb(230, 230, 230); border-top: 1px solid rgb(230, 230, 230); width: 211px; background-color: rgb(255, 255, 255); min-height: 45px; left: 0px; top: 101px;">
+            <!-- 사이드 네비 -->
+            <!--                대시보드-->
+            <div class="side_drop_down_menu_panel_button_container">
+                <div class="side_drop_down_menu_panel_button button inited pressed" style="position: relative; overflow: auto; padding-left: 15px; padding-right: 20px; height: 50px; color: rgb(255, 255, 255); font-family: notokr-medium, NanumGothicBold; font-size: 15px; border-bottom: 1px solid #ccc; background: rgb(0, 54, 121);">
+                    <div style="padding-top: 14px; float: left; width: 16px; height: 22px; text-align: center; vertical-align: middle; line-height: 22px; padding-right: 12px; display: block;" class="side_drop_down_menu_icon">
+                        <img src="/svg/house.svg" style="vertical-align:middle;width:16px; color: #ffffff" alt="top drop down menu text">
+                    </div>
+                    <a style="float: left; line-height: 50px; font-size: 12px; color: rgb(255, 255, 255);" class="side_drop_down_menu_text">홈</a>
+                </div>
+                <div class="side_drop_down_menu_panel_button_sub" style="background-color:#f2f6fa;display:none;"></div>
+            </div>
+            <!--                전체 교재 조회-->
+            <div class="side_drop_down_menu_panel_button_container">
+                <div class="side_drop_down_menu_panel_button button inited"
+                     style=" position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                    <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
+                         class="side_drop_down_menu_icon">
+                        <img src="/images/books.png" style="vertical-align:middle;width:16px; padding-top: 16px" alt="top drop down menu text">
+                    </div>
+                    <a style="padding-top: 9px; float:left;line-height:32px; font-size:14px;" class="side_drop_down_menu_text">전체 교재</a>
+                </div>
+                <div class="side_drop_down_menu_panel_button_sub"
+                     style="background-color:#f2f6fa;display:none;"></div>
+            </div>
+            <!--                수강신청 내역 조회-->
+            <div class="side_drop_down_menu_panel_button_container">
+                <div class="side_drop_down_menu_panel_button button inited"
+                     style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                    <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;" class="side_drop_down_menu_icon"><img src="/svg/laptop.svg" style="vertical-align:middle;width:16px; padding-top: 15px;" alt="top drop down menu text"></div>
+                    <a style="float:left;line-height:50px; font-size:14px;" class="side_drop_down_menu_text">수강 교재 가져오기</a>
+                </div>
+                <div class="side_drop_down_menu_panel_button_sub"
+                     style="background-color:#f2f6fa;display:block;"></div>
+            </div>
+            <!--                마일리지 내역 조회-->
+            <div class="side_drop_down_menu_panel_button_container">
+                <div class="side_drop_down_menu_panel_button button inited"
+                     style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                    <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
+                         class="side_drop_down_menu_icon"><img
+                            src="/images/mileage.png"
+                            style="vertical-align:middle;width:16px; padding-top: 15px" alt="top drop down menu text">
+                    </div>
+                    <a style="float:left;line-height:50px; font-size:14px;" class="side_drop_down_menu_text">마일리지 내역 조회</a>
+                </div>
+                <div class="side_drop_down_menu_panel_button_sub"
+                     style="background-color:#f2f6fa;display:none;"></div>
+            </div>
+            <!--                구매 내역 조회-->
+            <div class="side_drop_down_menu_panel_button_container">
+                <div class="side_drop_down_menu_panel_button button inited"
+                     style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                    <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
+                         class="side_drop_down_menu_icon"><img
+                            src="/svg/receipt.svg"
+                            style="vertical-align:middle;width:16px; padding-top: 15px" alt="top drop down menu text"></div><a
+                        style="float:left;line-height:50px; font-size:14px;"
+                        class="side_drop_down_menu_text">구매 내역 조회</a>
+                </div>
+                <div class="side_drop_down_menu_panel_button_sub"
+                     style="background-color:#f2f6fa;display:none;"></div>
+            </div>
+            <!--                내 정보 수정-->
+            <div class="side_drop_down_menu_panel_button_container">
+                <div class="side_drop_down_menu_panel_button button inited"
+                     style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                    <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
+                         class="side_drop_down_menu_icon"><img
+                            src="/images/myinfo.png"
+                            style="vertical-align:middle;width:16px; padding-top: 15px" alt="top drop down menu text"></div><a
+                        style="float:left;line-height:50px; font-size:14px;"
+                        class="side_drop_down_menu_text">내 정보 수정</a>
+                </div>
+                <div class="side_drop_down_menu_panel_button_sub"
+                     style="background-color:#f2f6fa;display:none;"></div>
+            </div>
+
+            <div class="side_drop_down_menu_panel_button_sub" style="background-color:#f2f6fa;display:none;">
+            </div>
+        </div>
+        <!--            로그아웃-->
+        <div class="side_drop_down_menu_panel_button_container">
+            <div class="side_drop_down_menu_panel_button button inited"
+                 style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px;">
+                <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
+                     class="side_drop_down_menu_icon"><img src="/res/lia/triton/img/menu_sidedropdown/ico15.png"
+                                                           style="vertical-align:middle;width:16px;" alt="top drop down menu text"></div><a
+                    style="float:left;line-height:50px; font-size:14px;"
+                    class="side_drop_down_menu_text">로그아웃</a><img class="side_drop_down_menu_arrow"
+                                                                  style="position:absolute;right:20px;top:21px;display:none;"
+                                                                  src="/res/lia/triton/img/menu_sidedropdown/arr_menu_down.png" alt="Menu Button Arrow Image">
+            </div>
+            <div class="side_drop_down_menu_panel_button_sub" style="background-color:#f2f6fa;display:none;">
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 
+
+<body onload="checkPopupStatus()">
+
+<div id="popup" class="popup-overlay">
+    <div class="popup-content">
+        <span onclick="closePopup()" style="float:right; cursor:pointer;">&times;</span>
+        <h2>남서울대학교 대학서점</h2>
+        <div id="popupContent"></div> <!-- 문구를 출력할 영역 -->
+        <label><input type="checkbox" id="hidePopupCheckbox"> 오늘 하루 동안 이 창을 닫기</label>
+        <button onclick="closePopup()">닫기</button>
+    </div>
+</div>
+</body>
+
+<script>
+    function openPopup() {
+        var popupContent = "수강 신청 완료 or 수강 정정 하셨으면 수강 교재 가져오기 한번 눌러주세요"; //
+        document.getElementById('popupContent').textContent = popupContent;
+        document.getElementById('popup').style.display = 'block';
+    }
+
+    function closePopup() {
+        document.getElementById('popup').style.display = 'none';
+        if (document.getElementById('hidePopupCheckbox').checked) {
+            // 만약 체크박스가 체크되어 있다면, 쿠키를 사용하여 팝업을 하루 동안 표시하지 않도록 설정
+            var date = new Date();
+            date.setTime(date.getTime() + (24 * 60 * 60 * 1000)); // 하루 동안 유지
+            document.cookie = "hidePopup=true; expires=" + date.toUTCString() + "; path=/";
+        }
+    }
+
+    function checkPopupStatus() {
+        // 페이지 로드 시 팝업 상태를 확인하여 필요에 따라 팝업을 열거나 닫습니다.
+        if (getCookie("hidePopup") !== "true") {
+            openPopup();
+        }
+    }
+
+    function getCookie(name) {
+        var cookieArr = document.cookie.split(";");
+        for (var i = 0; i < cookieArr.length; i++) {
+            var cookiePair = cookieArr[i].split("=");
+            if (name === cookiePair[0].trim()) {
+                return decodeURIComponent(cookiePair[1]);
+            }
+        }
+        return null;
+    }
+</script>
+
 </html>
+
