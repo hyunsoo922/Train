@@ -1,7 +1,9 @@
 package com.project.LWBS.service;
 
+import com.project.LWBS.domain.Book;
 import com.project.LWBS.domain.Receipt;
 import com.project.LWBS.domain.Receive;
+import com.project.LWBS.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -25,4 +27,8 @@ public interface ReceiptService {
     List<Map<String, Object>> ranking();
 
     List<Map<String, Object>> statistics();
+
+    List<Receipt> findReceiptsByBookAndUser(List<Book> bookList, User user);
+
+    void deleteReceipt(Receipt receipt);
 }

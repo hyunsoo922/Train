@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    color: white; /* 글자 색상 */
+    color: white;
     text-align: center;
     writing-mode: vertical-rl; /* 세로 쓰기 모드 */
     font-size: 50px;

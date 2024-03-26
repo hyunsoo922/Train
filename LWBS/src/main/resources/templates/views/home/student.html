@@ -1,15 +1,7 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <meta http-equiv="Expires" content="-1">
-    <meta http-equiv="Pragma" content="No-Cache">
-    <meta http-equiv="Cache-Control" content="No-Cache">
-
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0;">
-    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" th:href="@{/css/banner.css}">
+    <title>Book List</title>
     <style>
         pre {
             white-space: pre-wrap;
@@ -128,7 +120,7 @@
             color: #5d5d5d;
             position: relative;
             height: 20px;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             font-size: 20px;
 
         }
@@ -167,43 +159,12 @@
             /* Adjust spacing between page1 and page2 */
             flex-direction: column;
         }
-
-
-        .popup-button {
-            background-color: #008CBA;
-            color: white;
-            padding: 15px 20px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .popup-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 9999;
-        }
-
-        .popup-content {
-            background-color: #fefefe;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
     </style>
-    <title th:text="${user.name} + '님 환영합니다.'"></title>
 </head>
-
 <body>
 <th:block th:replace="header :: header(pageTitle='학생 홈 페이지')"></th:block>
 <div class="container">
     <div class="page1" style="position: absolute; top: 154px; left: 221px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 60%; display: flex; flex-direction: column; justify-content: space-around">
-        <strong style="padding-left: 10px; font-weight: bold;">*구매 전 수강 교재 가져오기 먼저 완료 해주세요!</strong>
         <div id="student_info" style="margin-bottom: 30px" class="container">
             <div class="tit_content">
                 <img src="/images/bar.jpg" alt="bar" class="bar" style="width: 4px; height:20px;">
@@ -238,14 +199,13 @@
         <div id="bboks">
             <div class="tit_content">
                 <img src="/images/bar.jpg" alt="bar" class="bar" style="width: 4px; height:20px;">
-                <strong style="padding-left: 10px; font-weight: 800;">수강 강의 교재</strong>
-                <p style="font-size: smaller; margin-top: 3px;">-수강 신청한 강의의 교재 목록입니다</p>
+                <strong style="padding-left: 10px; font-weight: 800;">수강신청한 교재</strong>
             </div>
             <div class="grid grid-cols-4 gap-4">
                 <div th:each="book, index : ${enrollBookList}" class="p-4">
-                    <strong th:text="${book.subject.name}" style="font-size: 20px; color: rgb(128,128,128)"></strong>
+                    <strong th:text="${book.department.name}" style="font-size: 20px; color: rgb(128,128,128)"></strong>
                     <br>
-                    <strong th:text="${book.department.name}" style="color: rgb(128,128,128)"></strong>
+                    <strong th:text="${book.subject.name}" style="color: rgb(128,128,128)"></strong>
                     <img class="bookImage" th:src="${book.imageUrl}" alt="Book Image" width="220" height="320" onclick="redirectToCart(this)"/><br>
                     <strong>가격 : </strong>
                     <strong th:text="${book.price}">가격</strong><strong> 원</strong><br>
@@ -293,7 +253,7 @@
                          class="side_drop_down_menu_icon">
                         <img src="/images/books.png" style="vertical-align:middle;width:16px; padding-top: 16px" alt="top drop down menu text">
                     </div>
-                    <a style="padding-top: 9px; float:left;line-height:32px; font-size:14px;" class="side_drop_down_menu_text">전체 교재</a>
+                    <a style="padding-top: 9px; float:left;line-height:32px; font-size:14px;" class="side_drop_down_menu_text">전체 교재 조회</a>
                 </div>
                 <div class="side_drop_down_menu_panel_button_sub"
                      style="background-color:#f2f6fa;display:none;"></div>
@@ -303,7 +263,7 @@
                 <div class="side_drop_down_menu_panel_button button inited"
                      style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
                     <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;" class="side_drop_down_menu_icon"><img src="/svg/laptop.svg" style="vertical-align:middle;width:16px; padding-top: 15px;" alt="top drop down menu text"></div>
-                    <a style="float:left;line-height:50px; font-size:14px;" class="side_drop_down_menu_text">수강 교재 가져오기</a>
+                    <a style="float:left;line-height:50px; font-size:14px;" class="side_drop_down_menu_text">수강신청 내역 조회</a>
                 </div>
                 <div class="side_drop_down_menu_panel_button_sub"
                      style="background-color:#f2f6fa;display:block;"></div>
@@ -372,56 +332,4 @@
     </div>
 </div>
 </body>
-
-
-<body onload="checkPopupStatus()">
-
-<div id="popup" class="popup-overlay">
-    <div class="popup-content">
-        <span onclick="closePopup()" style="float:right; cursor:pointer;">&times;</span>
-        <h2>남서울대학교 대학서점</h2>
-        <div id="popupContent"></div> <!-- 문구를 출력할 영역 -->
-        <label><input type="checkbox" id="hidePopupCheckbox"> 오늘 하루 동안 이 창을 닫기</label>
-        <button onclick="closePopup()">닫기</button>
-    </div>
-</div>
-</body>
-
-<script>
-    function openPopup() {
-        var popupContent = "수강 신청 완료 or 수강 정정 하셨으면 수강 교재 가져오기 한번 눌러주세요"; //
-        document.getElementById('popupContent').textContent = popupContent;
-        document.getElementById('popup').style.display = 'block';
-    }
-
-    function closePopup() {
-        document.getElementById('popup').style.display = 'none';
-        if (document.getElementById('hidePopupCheckbox').checked) {
-            // 만약 체크박스가 체크되어 있다면, 쿠키를 사용하여 팝업을 하루 동안 표시하지 않도록 설정
-            var date = new Date();
-            date.setTime(date.getTime() + (24 * 60 * 60 * 1000)); // 하루 동안 유지
-            document.cookie = "hidePopup=true; expires=" + date.toUTCString() + "; path=/";
-        }
-    }
-
-    function checkPopupStatus() {
-        // 페이지 로드 시 팝업 상태를 확인하여 필요에 따라 팝업을 열거나 닫습니다.
-        if (getCookie("hidePopup") !== "true") {
-            openPopup();
-        }
-    }
-
-    function getCookie(name) {
-        var cookieArr = document.cookie.split(";");
-        for (var i = 0; i < cookieArr.length; i++) {
-            var cookiePair = cookieArr[i].split("=");
-            if (name === cookiePair[0].trim()) {
-                return decodeURIComponent(cookiePair[1]);
-            }
-        }
-        return null;
-    }
-</script>
-
 </html>
-

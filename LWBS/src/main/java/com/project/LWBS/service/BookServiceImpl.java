@@ -12,9 +12,10 @@ import com.project.LWBS.repository.DepartmentRepository;
 import com.project.LWBS.repository.EnrollmentRepository;
 import com.project.LWBS.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
-import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -46,6 +47,9 @@ public class BookServiceImpl implements BookService {
     public Page<Book> getAllBooks() {
         return null;
     }
+
+    @Override
+    public List<Book> getAllBook() {return bookRepository.findAll();}
 
     @Override
     // Controller에서 책 정보를 담은 Book 객체를 생성하는 메서드

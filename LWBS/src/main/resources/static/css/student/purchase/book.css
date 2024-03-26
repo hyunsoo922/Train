@@ -1,0 +1,107 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.bookItem {
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin: 5px;
+}
+
+.bookCheckBoxContainer {
+    margin-right: 10px;
+    margin-left: 120px;
+}
+
+.bookCheckBox {
+    transform: scale(2.5);
+}
+
+.textContainer {
+    margin-right: auto;
+    width: 250px;
+    height: 200px;
+    margin-left: 10px;
+}
+
+.descriptionContainer {
+    display: none;
+    margin-right: 120px;
+    width: 250px;
+    height: 193px;
+    word-wrap: break-word;
+    overflow: hidden;
+    margin-left: 10px;
+}
+.descriptionButton {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.textContainer > div {
+    margin-bottom: 5px;
+}
+
+#mileageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#mileageContainer > * {
+    margin-bottom: 10px;
+}
+
+#mileagePoint, #receiveDay {
+    width: 250px;
+}
+
+#buyBtn {
+    width: 250px;
+    height: 30px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.bookList table {
+    border-collapse: collapse;
+}
+
+.bookList th, .bookList td {
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+}
+
+#wrapper {
+    min-height: 10vh;
+    position: relative;
+    overflow-y: auto;
+}
+
+footer {
+    background-color: #f2f2f2;
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}

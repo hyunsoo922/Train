@@ -3,6 +3,8 @@ package com.project.LWBS.repository;
 import com.project.LWBS.domain.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import com.project.LWBS.domain.Department;
+import com.project.LWBS.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -15,6 +17,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findAll();
 
     Book findByName(String name);
+
+    List<Book> findByDepartment(Department department);
 
     @Query("SELECT b.name FROM Book b")
     List<String> findAllBookNames();

@@ -29,4 +29,6 @@ public interface BookService {
 
     Page<Book> findByDepartmentName(String departmentName, Pageable pageable);
 
+
+    List<Book> getAllBook();
 }
