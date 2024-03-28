@@ -3,6 +3,7 @@ package com.project.LWBS.controller;
 import com.project.LWBS.config.PrincipalDetails;
 import com.project.LWBS.domain.Receipt;
 import com.project.LWBS.domain.Receive;
+import com.project.LWBS.domain.User;
 import com.project.LWBS.service.ReceiptService;
 import com.project.LWBS.service.ReceiveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/bookStore")
@@ -50,8 +53,6 @@ public class ReceiptController {
 
         // 현재 페이지의 Receipt 목록
         List<Receipt> receipts = receiptPage.getContent();
-
-
 
         model.addAttribute("receipts", receipts);
         model.addAttribute("user", principalDetails.getUser());

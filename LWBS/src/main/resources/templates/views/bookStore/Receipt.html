@@ -115,14 +115,17 @@
         <tbody>
 
         <tr th:each="receipt, status : ${receipts}">
+
             <td style="text-align: center;">
                 <input type="checkbox" th:id="${'check_' + receipt.id}" name="check" th:value="${receipt.id}">
             </td>
+<!--            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}" name="checkSibling" th:value="${receipt.id}"></td>-->
 
             <!-- 학생번호 -->
             <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}" style="text-align: center;">
                 <span th:text="${receipt.user.studentId}"></span>
             </td>
+
             <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}"></td>
 
             <!-- 이름 -->
@@ -139,7 +142,7 @@
             <td style="text-align: center;"><span th:text="${receipt.receive.receiveCheck}"></span></td>
 
             <!-- 수령여부 변경 -->
-            <td style="text-align: center;">
+            <td style="text-align: center;" th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
                 <form th:action="@{/bookStore/Receipt}" method="post">
                     <select name="check">
                         <option value="수령">수령</option>
@@ -150,6 +153,7 @@
                     <button type="submit">변경</button>
                 </form>
             </td>
+            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}"></td>
 
             <!-- 수령일 -->
             <td style="text-align: center;"><span th:text="${receipt.receive.day}"></span></td>
@@ -191,9 +195,15 @@
 
     document.getElementById("printButton").addEventListener("click", function () {
         var selectedRows = document.querySelectorAll('input[name="check"]:checked');
+
+
         var selectedData = [];
+        var hiddenInputData = [];
+
+
 
         selectedRows.forEach(function (row) {
+
             var receiptId = row.value;
             var receiptData = {
                 user: {
@@ -243,7 +253,7 @@
 
         // 인쇄 후에 페이지 새로고침
         printWindow.onafterprint = function () {
-            location.reload();
+<!--            location.reload();-->
         };
 
         printWindow.print();
