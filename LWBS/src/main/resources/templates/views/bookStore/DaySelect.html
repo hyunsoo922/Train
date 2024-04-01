@@ -73,6 +73,18 @@
             </form>
         </div>
     </div>
+</body>
+<body>
+<th:block th:insert="~{header::header}"></th:block>
+<th:block th:insert="~{storenav::navfrag}"></th:block>
+<div>
+    <div style="text-align: center;">
+        <h2 style="font-size: 50px;">선택된 날짜 범위</h2>
+        <p>시작 날짜: <span th:text="${selectedStartDate}"></span></p>
+        <p>종료 날짜: <span th:text="${selectedEndDate}"></span></p>
+        <p>총 기간: <span th:text="${numberOfDays}"></span></p>
+    </div>
+</div>
 
 </body>
 <footer>
