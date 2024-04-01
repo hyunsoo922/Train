@@ -103,14 +103,10 @@
                                                 <div th:if="${cart.book.id eq book.id}">
                                                     <span th:text="${cart.id}" class="cartId" style="display: none;"></span>
                                                     <button type="button" class="removeBtn" th:id="'removeBtn' + ${cart.id}" th:text="'제거'" onclick="removeCartItem(this)" style = "font-size: 30px; background-color: red; border-radius: 5px; color: white; border: none; margin: 10px; width: 80px"></button>
+                                                    <span th:text="'- ' + ${cart.count}" style="font-size:25px; font-weight:bold;"></span>
+                                                    <span style="font-size:25px; font-weight:bold;">권 -</span>
                                                 </div>
                                             </th:block>
-                                        </div>
-                                        <div>
-                                            <th:block th:each="cart : ${cartList}">
-                                                &nbsp;&nbsp;<span th:text="'- ' + ${cart.count}" style="font-size:25px; font-weight:bold;"></span>
-                                            </th:block>
-                                            <span style="font-size:25px; font-weight:bold;">권 -</span>
                                         </div>
                                     </div>
                                 </div>
