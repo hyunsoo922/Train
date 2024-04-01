@@ -106,6 +106,12 @@
                                                 </div>
                                             </th:block>
                                         </div>
+                                        <div>
+                                            <th:block th:each="cart : ${cartList}">
+                                                &nbsp;&nbsp;<span th:text="'- ' + ${cart.count}" style="font-size:25px; font-weight:bold;"></span>
+                                            </th:block>
+                                            <span style="font-size:25px; font-weight:bold;">권 -</span>
+                                        </div>
                                     </div>
                                 </div>
                             </td>
