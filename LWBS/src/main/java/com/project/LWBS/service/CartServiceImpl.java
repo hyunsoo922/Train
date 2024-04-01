@@ -32,10 +32,16 @@ public class CartServiceImpl implements CartService{
     public void createCart(Long user_id, Long book_id) {
         User user = userRepository.findById(user_id).orElse(null);
         Book book = bookRepository.findById(book_id).orElse(null);
-        Cart cart = Cart.builder()
-                .user(user)
-                .book(book)
-                .build();
+        Cart cart = cartRepository.findByUserIdAndBookId(user_id, book_id);
+        if (cart == null) {
+            cart = Cart.builder()
+                    .user(user)
+                    .book(book)
+                    .count(1)
+                    .build();
+        } else {
+            cart.setCount(cart.getCount() + 1);
+        }
         cartRepository.saveAndFlush(cart);
     }
 
@@ -61,10 +67,10 @@ public class CartServiceImpl implements CartService{
     @Transactional
     public void deleteByCart(Long cart_id) {
         Cart cart = cartRepository.findById(cart_id).orElse(null);
-
-
+        if(cart.getCount() > 1)
+            cart.setCount(cart.getCount() - 1);
+        else if(cart.getCount() == 1)
             cartRepository.deleteById(cart_id);
-
     }
 
 

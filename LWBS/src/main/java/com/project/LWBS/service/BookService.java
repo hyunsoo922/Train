@@ -1,10 +1,12 @@
 package com.project.LWBS.service;
 
 import com.project.LWBS.domain.Book;
+import com.project.LWBS.domain.Department;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Set;
 
 public interface BookService {
     Page<Book> getAllBooks();
@@ -14,10 +16,6 @@ public interface BookService {
     void createBook(String title, String author, String publisher, String price, String imageUrl, String isbn, String description, String dname, String sname);
 
     Page<Book> getAllBooks(Pageable pageable);
-
-    // Book 객체의 isbn이 Book 테이블에 있는지에 대한 여부를 파악 후 true/false 반환
-
-
 
     List<Book> findByBookName(Long user_id);
 
@@ -29,6 +27,7 @@ public interface BookService {
 
     Page<Book> findByDepartmentName(String departmentName, Pageable pageable);
 
-
     List<Book> getAllBook();
+
+    List<Department> getAllDepartments();
 }

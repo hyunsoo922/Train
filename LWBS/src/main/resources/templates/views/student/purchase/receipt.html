@@ -121,8 +121,8 @@
 
 
     <div id="rightAligned">
-        <form th:action="@{/student/purchase/receipt}" method="POST" enctype="multipart/form-data">
-            <select name="day" id="day" title="day">
+        <form id="dateForm" th:action="@{/student/purchase/receipt}" method="POST" enctype="multipart/form-data">
+            <select name="day" id="day" title="day" onchange="submitForm()">
                 <option>수령 날짜 변경</option>
                 <th:block th:each="receive:${daySelect}">
                     <option th:value="${receive.day}" th:utext="${receive.day}"></option>
@@ -142,5 +142,9 @@
     </footer>
 </div>
 </body>
-
+<script>
+    function submitForm() {
+        document.getElementById("dateForm").submit();
+    }
+</script>
 </html>

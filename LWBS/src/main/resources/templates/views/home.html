@@ -1,71 +1,76 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>나의 홈페이지</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            text-align: center;
-        }
-
-        header {
-            background-color: #f2f2f2;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        main {
-            padding: 20px;
-        }
-
-        footer {
-            background-color: #f2f2f2;
-            padding: 10px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-        }
-
-        table {
-            margin: auto;
-        }
-
-    </style>
-
-</head>
 <body>
-<th:block th:insert="~{header::header}"></th:block>
-<br><br>
-<div style="text-align: left; font-size: 20px; margin-left: 150px;">
-    <h2>베스트</h2>
-</div>
-<br><br>
-<table>
-    <tr>
-        <th:block th:each="book, iterStat : ${bookList}">
-            <td style="padding: 50px; text-align: left; position: relative;">
-                <!-- 숫자 이미지 -->
-                <img th:src="@{/images/__${iterStat.index + 1}__.png}" alt="Number" style="position: absolute; top: -20px; left: 10px; width: 90px; height: 75px;"/>
-                <!-- Book 이미지 -->
-                <img th:src="${book.imageUrl}" alt="Book Image" width="280" height="350"/>
-                <br>
-                <span style="display: block;">서명: <span th:text="${book.name}"></span></span>
-                <span style="display: block;">가격: <span th:text="${book.price}"></span> 원</span>
-                <span style="display: block;">저자: <span th:text="${book.author}"></span></span>
-            </td>
-        </th:block>
-    </tr>
-</table>
+<a href="/user/login">
+    <img src="/images/NSUhome.PNG" alt="NSUhome">
+</a>
 </body>
-<footer>
-    <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>
-</footer>
-</body>
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>나의 홈페이지</title>-->
+
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            margin: 40px;-->
+<!--            text-align: center;-->
+<!--        }-->
+
+<!--        header {-->
+<!--            background-color: #f2f2f2;-->
+<!--            padding: 20px;-->
+<!--            display: flex;-->
+<!--            justify-content: space-between;-->
+<!--            align-items: center;-->
+<!--        }-->
+
+<!--        main {-->
+<!--            padding: 20px;-->
+<!--        }-->
+
+<!--        footer {-->
+<!--            background-color: #f2f2f2;-->
+<!--            padding: 10px;-->
+<!--            position: absolute;-->
+<!--            bottom: 0;-->
+<!--            width: 100%;-->
+<!--            text-align: center;-->
+<!--        }-->
+
+<!--        table {-->
+<!--            margin: auto;-->
+<!--        }-->
+
+<!--    </style>-->
+
+<!--</head>-->
+<!--<body>-->
+<!--<th:block th:insert="~{header::header}"></th:block>-->
+<!--<br><br>-->
+<!--<div style="text-align: left; font-size: 20px; margin-left: 150px;">-->
+<!--    <h2>베스트</h2>-->
+<!--</div>-->
+<!--<br><br>-->
+<!--<table>-->
+<!--    <tr>-->
+<!--        <th:block th:each="book, iterStat : ${bookList}">-->
+<!--            <td style="padding: 50px; text-align: left; position: relative;">-->
+<!--                &lt;!&ndash; 숫자 이미지 &ndash;&gt;-->
+<!--                <img th:src="@{/images/__${iterStat.index + 1}__.png}" alt="Number" style="position: absolute; top: -20px; left: 10px; width: 90px; height: 75px;"/>-->
+<!--                &lt;!&ndash; Book 이미지 &ndash;&gt;-->
+<!--                <img th:src="${book.imageUrl}" alt="Book Image" width="280" height="350"/>-->
+<!--                <br>-->
+<!--                <span style="display: block;">서명: <span th:text="${book.name}"></span></span>-->
+<!--                <span style="display: block;">가격: <span th:text="${book.price}"></span> 원</span>-->
+<!--                <span style="display: block;">저자: <span th:text="${book.author}"></span></span>-->
+<!--            </td>-->
+<!--        </th:block>-->
+<!--    </tr>-->
+<!--</table>-->
+<!--</body>-->
+<!--<footer>-->
+<!--    <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>-->
+<!--</footer>-->
+<!--</body>-->
 </html>

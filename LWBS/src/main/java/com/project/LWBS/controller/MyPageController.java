@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping
@@ -92,17 +91,62 @@ public class MyPageController {
         }
         return "mypage";
     }
-    @GetMapping("/mypage/mileage/{user_id}")
-    public String mileage(@PathVariable Long user_id, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
-        List<Mileage> history = mypageService.history(user_id);
-        try{
-            // view에게 마일리지 내역 조회 페이지에 필요한 정보를 전달
-            model.addAttribute("user",principalDetails.getUser());
-            model.addAttribute("history", history);
-        } catch (Exception e){
-            System.out.println("마일리지 조회 실패");
-            model.addAttribute("logged_id", null);
+//    @GetMapping("/mypage/mileage/{user_id}")
+//    public String mileage(@PathVariable Long user_id, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
+//        List<Mileage> history = mypageService.history(user_id);
+//        int sumMileage = mypageService.sumMileage(user_id);
+//        try{
+//            // view에게 마일리지 내역 조회 페이지에 필요한 정보를 전달
+//            model.addAttribute("user",principalDetails.getUser());
+//            model.addAttribute("history", history);
+//            model.addAttribute("mileage", sumMileage);
+//        } catch (Exception e){
+//            System.out.println("마일리지 조회 실패");
+//            model.addAttribute("logged_id", null);
+//        }
+//        return "mypage/mileage";
+//    }
+@GetMapping("/mypage/mileage/{user_id}")
+public String mileage(@PathVariable Long user_id, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    List<Mileage> history = mypageService.history(user_id);
+    int sumMileage = mypageService.sumMileage(user_id);
+
+    List<Mileage> accumulate = new ArrayList<>();
+    List<Mileage> use = new ArrayList<>();
+
+    for (Mileage mileage : history) {
+        if (mileage.getId() % 2 != 0) {
+            accumulate.add(mileage);
+        } else if (mileage.getId() % 2 == 0) {
+            if(mileage.getPoint() != 0)
+                use.add(mileage);
         }
-        return "mypage/mileage";
+    }
+
+    history.clear();
+
+    history.addAll(accumulate);
+    history.addAll(use);
+
+    // history 리스트를 mileage.getDate()를 기준으로 정렬하는 Comparator를 사용하여 정렬
+    Collections.sort(history, new MileageDateComparator());
+
+    try {
+        // view에게 마일리지 내역 조회 페이지에 필요한 정보를 전달
+        model.addAttribute("user", principalDetails.getUser());
+        model.addAttribute("history", history);
+        model.addAttribute("mileage", sumMileage);
+    } catch (Exception e) {
+        System.out.println("마일리지 조회 실패");
+        model.addAttribute("logged_id", null);
+    }
+    return "mypage/mileage";
+}
+    private static class MileageDateComparator implements Comparator<Mileage> {
+        @Override
+        public int compare(Mileage m1, Mileage m2) {
+            // 내림차순으로 정렬되도록 최신 날짜가 더 큰 것으로 간주합니다.
+            return m2.getDay().compareTo(m1.getDay());
+        }
     }
 }
