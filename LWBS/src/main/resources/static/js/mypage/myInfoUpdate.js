@@ -38,6 +38,9 @@ function submitForm() {
 function reload() {
     window.location.href = '/home/student';
 }
+function receipt() {
+    window.location.href = "/student/purchase/receipt";
+}
 
 window.onload = function() {
     var buttons = document.querySelectorAll('.side_drop_down_menu_panel_button');

@@ -24,7 +24,7 @@
              style="float:right;overflow:auto;"></div>
       </div>
       <div class="side_drop_down_menu_header_status_bar"
-           style="overflow: auto;  line-height: 35px; font-size: 13px; background-color: rgb(232, 232, 232); border-bottom: 1px solid rgb(206, 206, 206);">
+           style="overflow: auto;  line-height: 34px; font-size: 13px; background-color: rgb(232, 232, 232); border-bottom: 1px solid rgb(206, 206, 206);">
         <div style="float:left;height:35px;"><img
                 class="side_drop_down_menu_header_status_bar_profile_img"
                 src="/images/ico_profile.png"
@@ -67,7 +67,7 @@
         <div class="side_drop_down_menu_header_element_right_layout" style="position:absolute;right:0;top:0;height:73px;line-height:73px;">
           <div class="side_drop_down_menu_header_element_item image_button_container hover inited image_button_container_inited" style="float: left; text-align: center; width: 73px; height: 73px; line-height: 73px; border-left: 1px solid rgb(230, 230, 230);">
 
-            <a class="btn btn-light" th:href="@{/home}" style="padding: 0; background-color: transparent; text-decoration: none;">
+            <a  th:href="@{/home}" style="padding: 0; background-color: transparent; text-decoration: none;">
 
               <img src="/images/홈.png" alt="홈 아이콘" style="width: 73px; height: 73px; cursor: pointer;">
             </a>
@@ -79,7 +79,7 @@
             </a>
           </div>
           <div class="side_drop_down_menu_header_element_item image_button_container hover inited image_button_container_inited" style="float: left; text-align: center; width: 73px; height: 73px; line-height: 73px; border-left: 1px solid rgb(230, 230, 230);">
-            <a class="btn btn-light" th:href="@{/student/purchase/book}" style="padding: 0; background-color: transparent; text-decoration: none;">
+            <a  th:href="@{/student/purchase/book}" style="padding: 0; background-color: transparent; text-decoration: none;">
               <img src="/images/카트.png" alt="교재 구매 아이콘" style="width: 73px; height: 73px; cursor: pointer;">
             </a>
           </div>
@@ -89,13 +89,12 @@
             </a>
           </div>
           <div class="side_drop_down_menu_header_element_item image_button_container hover inited image_button_container_inited" style="float: left; text-align: center; width: 73px; height: 73px; line-height: 73px; border-left: 1px solid rgb(230, 230, 230);">
-            <a class="btn btn-light" sec:authorize="isAnonymous()" th:href="@{/user/login}" method="post" style="text-decoration: none; padding: 0; background-color: transparent;">
+            <a sec:authorize="isAnonymous()" th:href="@{/user/login}" method="post" style="text-decoration: none; padding: 0; background-color: transparent;">
               <img src="/images/로그인.png" alt="로그인 아이콘" style="width: 73px; height: 73px; cursor: pointer;">
             </a>
 
             <form th:action="@{/user/logout}" method="POST" sec:authorize="Authenticated" th:with="user=${user}">
-              <span class="text-light p-2"></span>
-              <a class="btn btn-light" href="/user/logout" method="post" style="text-decoration: none;">
+              <a  href="/user/logout" method="post" style="text-decoration: none;">
                 <img src="/images/로그아웃.png" alt="로그아웃 아이콘" style="width: 73px; height: 73px; cursor: pointer;">
               </a>
             </form>

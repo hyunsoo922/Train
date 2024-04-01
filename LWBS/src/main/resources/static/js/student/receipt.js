@@ -29,3 +29,6 @@ $(function(){
 
 
 })
+ function receipt() {
+        window.location.href = "/student/purchase/receipt";
+    }

@@ -83,6 +83,9 @@ pre {
     text-align: center;
     box-sizing: border-box;
 }
+a::hover{
+    color: white;
+}
 
 .thumbnail {
     width: 100px;
