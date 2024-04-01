@@ -34,7 +34,8 @@ public class CartController {
     public String shopping(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestParam("bookID") String bookid) {
         Long user_id = principalDetails.getUser().getId();
         Long book_id = Long.valueOf(bookid);
-
+        System.out.println(principalDetails.getUser().getName());
+        System.out.println(book_id);
         cartService.createCart(user_id, book_id);
 
         return "redirect:/home/student";

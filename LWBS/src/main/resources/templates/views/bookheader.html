@@ -7,7 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <title th:text="${pageTitle}">Default Title</title>
 </head>
-<th:block th:fragment="header">
+<th:block th:fragment="bookheader">
   <div class="side_drop_down_menu_header_container"
        style="position:absolute;top:0;left:0;right:0;overflow-x:hidden;">
     <div class="side_drop_down_menu_header_top" style="position:relative;z-index:200;">
@@ -61,31 +61,13 @@
       <div class="side_drop_down_menu_header"
            style="position:relative;height:73px;background-color:#ffffff;border-bottom:1px solid #cecece;">
         <div class="side_drop_down_menu_header_element_logo"
-             style="position:absolute;top:0;width:100%;height:72px;line-height:73px;text-align:center;display:none;">
+             style="position:absolute;top:0;width:100%;height:73px;line-height:73px;text-align:center;display:none;">
           <img title="Logo" style="vertical-align:middle;" alt="Logo">
         </div>
         <div class="side_drop_down_menu_header_element_right_layout" style="position:absolute;right:0;top:0;height:73px;line-height:73px;">
           <div class="side_drop_down_menu_header_element_item image_button_container hover inited image_button_container_inited" style="float: left; text-align: center; width: 73px; height: 73px; line-height: 73px; border-left: 1px solid rgb(230, 230, 230);">
-
             <a class="btn btn-light" th:href="@{/home}" style="padding: 0; background-color: transparent; text-decoration: none;">
-
               <img src="/images/홈.png" alt="홈 아이콘" style="width: 73px; height: 73px; cursor: pointer;">
-            </a>
-          </div>
-          <div class="side_drop_down_menu_header_element_item image_button_container hover inited image_button_container_inited" style="float: left; text-align: center; width: 73px; height: 73px; line-height: 73px; border-left: 1px solid rgb(230, 230, 230);">
-
-            <a href="https://sugang.nsu.ac.kr/" style="text-decoration: none; color: inherit;">
-              <img src="/images/수강신청.png" alt="수강신청 페이지 아이콘" style="width: 73px; height: 73px; cursor: pointer;">
-            </a>
-          </div>
-          <div class="side_drop_down_menu_header_element_item image_button_container hover inited image_button_container_inited" style="float: left; text-align: center; width: 73px; height: 73px; line-height: 73px; border-left: 1px solid rgb(230, 230, 230);">
-            <a class="btn btn-light" th:href="@{/student/purchase/book}" style="padding: 0; background-color: transparent; text-decoration: none;">
-              <img src="/images/카트.png" alt="교재 구매 아이콘" style="width: 73px; height: 73px; cursor: pointer;">
-            </a>
-          </div>
-          <div class="side_drop_down_menu_header_element_item image_button_container hover inited image_button_container_inited" style="float: left; text-align: center; width: 73px; height: 73px; line-height: 73px; border-left: 1px solid rgb(230, 230, 230);">
-            <a href="https://mypage.nsu.ac.kr/mypage/student" style="text-decoration: none; color: inherit;">
-              <img src="/images/LMS.png" alt="LMS 이동 아이콘" style="width: 73px; height: 73px; cursor: pointer;">
             </a>
           </div>
           <div class="side_drop_down_menu_header_element_item image_button_container hover inited image_button_container_inited" style="float: left; text-align: center; width: 73px; height: 73px; line-height: 73px; border-left: 1px solid rgb(230, 230, 230);">
@@ -118,6 +100,28 @@
         <div class="side_drop_down_menu_header_element_logo_mobile"
              style="position:absolute;top:0;width:100%;height:50px;line-height:50px;text-align:center;display:none;">
           <img title="Logo" style="vertical-align:middle;width:auto;" alt="Logo"></div>
+        <div class="side_drop_down_menu_header_element_right_layout_mobile"
+             style="position:absolute;top:0;right:0;">
+          <div class="side_drop_down_menu_header_element_more image_button_container hover inline_block inited image_button_container_inited"
+               style="border-left:1px solid #e6e6e6;width:50px;text-align:center;height:50px;line-height:50px;"
+               data-lia-src="/res/lia/triton/img/menu_topdropdown/btn_header_more.png"
+               src="/res/lia/triton/img/menu_topdropdown/btn_header_more.png"><img
+                  src="/res/lia/triton/img/menu_topdropdown/btn_header_more.png"
+                  style="vertical-align:middle;"
+                  alt="top drop down menu header element more image button container"
+                  data-lia-src="/res/lia/triton/img/menu_topdropdown/btn_header_more.png"></div>
+        </div>
+        <div class="side_drop_down_menu_header_element_left_layout_mobile"
+             style="position:absolute;left:0;top:0;">
+          <div class="side_drop_down_menu_header_element_item image_button_container hover side_drop_down_menu_button side_drop_down_menu_header_button inited image_button_container_inited pressed"
+               style="float: left; text-align: center; width: 50px; height: 50px; line-height: 50px; border-right: 1px solid rgb(230, 230, 230); background-color: rgb(255, 255, 255);"
+               data-lia-src="/res/lia/triton/img/menu_sidedropdown/btn_menu.png"
+               src="/res/lia/triton/img/menu_sidedropdown/btn_menu.png"><img
+                  class="side_drop_down_menu_header_element_item_image"
+                  style="vertical-align: middle; max-width: 18px;"
+                  src="/res/lia/triton/img/menu_sidedropdown/btn_menu_pressed.png"
+                  data-lia-src="/res/lia/triton/img/menu_sidedropdown/btn_menu.png"></div>
+        </div>
       </div>
     </div>
     <div class="side_drop_down_menu_tab_container"

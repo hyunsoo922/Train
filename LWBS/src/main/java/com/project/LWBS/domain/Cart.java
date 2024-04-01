@@ -20,4 +20,7 @@ public class Cart {
     @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
+
+    @Column
+    private int count;
 }

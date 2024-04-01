@@ -127,6 +127,7 @@
         return bookName.innerText;
     });
 
+
     var data = Array.from(bookCounts).map(function(bookCount) {
         return parseInt(bookCount.innerText);
     });
@@ -196,7 +197,7 @@
         });
 
         var dynamicData = {
-            labels: labels,
+            labels: [],
             datasets: [{
                 data: data,
                 backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'] // 각 항목의 색상

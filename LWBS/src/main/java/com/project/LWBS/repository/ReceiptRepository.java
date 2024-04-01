@@ -29,7 +29,7 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
             "FROM Receipt r " +
             "GROUP BY r.book.id " +
             "ORDER BY count DESC " +
-            "LIMIT 4")
+            "LIMIT 5")
     List<Map<String, Object>> findTopBookIds();
 
     default List<Long> findTopBookIdsList() {

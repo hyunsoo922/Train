@@ -40,7 +40,7 @@ public class myInfoUpdateController {
                                Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         userService.updateUserInfo(studentId, studentPw, principalDetails.getUser().getId());
         model.addAttribute("user", principalDetails.getUser());
-        return "redirect:/mypage/" + principalDetails.getUser().getId();
+        return "/mypage/myInfoUpdate/student";
     }
 
     @PostMapping("/bookStore")

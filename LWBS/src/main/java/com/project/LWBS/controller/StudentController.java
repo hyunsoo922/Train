@@ -154,6 +154,7 @@ public class StudentController {
         }
 
         // 구매 내역이 있는 경우 해당 페이지로 리다이렉트
-        return "redirect:/student/purchase/receipt";
+//        return "redirect:/student/purchase/receipt";
+        return "redirect:/home/student";
     }
 }
