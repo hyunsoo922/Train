@@ -4,206 +4,20 @@
     <meta http-equiv="Expires" content="-1">
     <meta http-equiv="Pragma" content="No-Cache">
     <meta http-equiv="Cache-Control" content="No-Cache">
-
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+<!--    <script th:src="@{/js/home/student.js}"></script>-->
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0;">
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" th:href="@{/css/banner.css}">
-    <style>
-        pre {
-            white-space: pre-wrap;
-        }
-        .box {
-            font-weight: normal;
-            -webkit-font-smoothing: antialiased;
-
-            font-size: 13px;
-            color: #5d5d5d;
-            border-left: 1px solid #e1e1e1;
-            border-right: 1px solid #e1e1e1;
-            border-bottom: 1px solid #e1e1e1;
-            border-top: 2px solid #0086d3;
-            height: 270px;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .box_b {
-            float: left;
-            width: 33.3%;
-            height: 100%;
-            padding-right: 20px;
-            border-right: 1px solid #e4e4e4;
-            box-sizing: border-box;
-            text-align: center;
-        }
-
-        .box_s.border_b.border_r {
-            font-weight: normal;
-            -webkit-font-smoothing: antialiased;
-
-            font-size: 13px;
-            color: #5d5d5d;
-            float: left;
-            width: 31.1%;
-            height: 49.9%;
-            text-align: center;
-            box-sizing: border-box;
-            border-bottom: 1px solid #e4e4e4;
-            margin-left: 4%;
-            border-right: 1px solid #e4e4e4;
-        }
-
-        .box_s.border_b.haggi_cnt {
-            font-weight: normal;
-            -webkit-font-smoothing: antialiased;
-
-            font-size: 13px;
-            color: #5d5d5d;
-            float: left;
-            width: 31.1%;
-            height: 49.9%;
-            text-align: center;
-            box-sizing: border-box;
-            border-bottom: 1px solid #e4e4e4;
-        }
-
-        .box_s.border_r {
-            font-weight: normal;
-            -webkit-font-smoothing: antialiased;
-
-            font-size: 13px;
-            color: #5d5d5d;
-            float: left;
-            width: 31.1%;
-            height: 49.9%;
-            text-align: center;
-            box-sizing: border-box;
-            margin-left: 4%;
-            border-right: 1px solid #e4e4e4;
-        }
-
-        .box_s {
-            font-weight: normal;
-            -webkit-font-smoothing: antialiased;
-
-            font-size: 13px;
-            color: #5d5d5d;
-            float: left;
-            width: 31.1%;
-            height: 49.9%;
-            text-align: center;
-            box-sizing: border-box;
-        }
-
-        .thumbnail {
-            width: 100px;
-            /* Adjust this according to your design */
-            height: 100px;
-            /* Adjust this according to your design */
-            background-size: cover;
-            background-position: center;
-        }
-
-        .content.border {
-            font-weight: normal;
-            -webkit-font-smoothing: antialiased;
-
-            font-size: 13px;
-            color: #5d5d5d;
-            border-left: 1px solid #e1e1e1;
-            border-right: 1px solid #e1e1e1;
-            border-bottom: 1px solid #e1e1e1;
-            border-top: 2px solid #0086d3;
-            height: 270px;
-            width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .tit_content {
-            font-weight: normal;
-            -webkit-font-smoothing: antialiased;
-            color: #5d5d5d;
-            position: relative;
-            height: 20px;
-            margin-bottom: 40px;
-            font-size: 20px;
-
-        }
-
-        #student_info {
-            font-weight: normal;
-            -webkit-font-smoothing: antialiased;
-
-            font-size: 13px;
-            color: #5d5d5d;
-            margin-bottom: 30px;
-            float: left;
-            width: 100%;
-            padding-right: 15px;
-            box-sizing: border-box;
-        }
-        .grid {
-            display: flex;
-            flex-wrap: wrap; /* 요소들을 여러 행에 걸쳐 표시합니다 */
-            justify-content: flex-start; /* 컨테이너의 시작 부분에 요소들을 정렬합니다 */
-        }
-
-        .p-4 {
-            width: 25%; /* 각 요소가 컨테이너의 1/4 크기를 가지도록 설정합니다 */
-            box-sizing: border-box; /* 요소의 내부 여백과 테두리를 포함하여 요소의 전체 너비를 설정합니다 */
-            border: 1px solid #ccc; /* 경계선 스타일 및 색상을 여러분이 원하는 대로 변경하세요 */
-            padding: 10px; /* 필요한 경우 내용과 경계선 사이의 여백을 조절하세요 */
-            /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); !* 그림자 효과 설정 *!*/
-        }
-        .bookImage {
-            border: 1px solid #000; /* 테두리 스타일 및 색상을 원하는 대로 변경하세요 */
-        }
-        .container {
-            display: flex;
-            justify-content: space-between;
-            /* Adjust spacing between page1 and page2 */
-            flex-direction: column;
-        }
-
-
-        .popup-button {
-            background-color: #008CBA;
-            color: white;
-            padding: 15px 20px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .popup-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 9999;
-        }
-
-        .popup-content {
-            background-color: #fefefe;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/home/student.css">
     <title th:text="${user.name} + '님 환영합니다.'"></title>
 </head>
 
 <body>
-<th:block th:replace="header :: header(pageTitle='학생 홈 페이지')"></th:block>
+<th:block th:replace="~{header :: header(pageTitle='학생 홈 페이지')}"></th:block>
 <div class="container">
     <div class="page1" style="position: absolute; top: 154px; left: 221px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 60%; display: flex; flex-direction: column; justify-content: space-around">
-        <strong style="padding-left: 10px; font-weight: bold;">*수강 신청 내역이 변경되었다면 수강 교재 가져오기를 한번 눌러주세요</strong>
+        <strong id="notification" style="padding-left: 10px; font-weight: bold;">*수강 신청 내역이 변경되었다면 수강 교재 가져오기를 한번 눌러주세요</strong><span id="userID" th:text="${user.id}" style="display: none"></span>
         <div id="student_info" style="margin-bottom: 30px" class="container">
             <div class="tit_content">
                 <img src="/images/bar.jpg" alt="bar" class="bar" style="width: 4px; height:20px;">
@@ -215,18 +29,33 @@
                         <img th:src="${user.profileImgUrl}" alt="이미지" class="styled-image" style="border-radius: 50%; width: 100px; height: 100px;">
                     </div>
                     <br><br>
-                    <strong th:text="${user.studentId}" style="font-size: 18px"></strong>
+                    <strong th:text="${user.name}" style="font-size: 18px"></strong>
                 </div>
                 <div class="box_s border_b border_r" style="display: inline-block;">
-                    <div style="padding-top: 13%"><strong style="font-size: 18px; font-weight: bold;">이름</strong></div>
+                    <div style="padding-top: 13%"><strong style="font-size: 18px; font-weight: bold;">구매한 교재 수령 날짜</strong></div>
                 </div>
                 <div class="box_s border_b haggi_cnt" style="display: inline-block;">
                     <div style="padding-top: 13%"><strong style="font-size: 18px; font-weight: bold;">사용 가능 마일리지</strong></div>
 
                 </div>
-                <div class="box_s border_r" style="display: inline-block;">
-                    <div style="padding-top: 16%"><span th:text="${user.name}" style="font-size: 18px"></span></div>
-
+                <div class="box_s border_r" style="display: inline-block; position: relative; text-align: center;">
+                    <div style="display: flex; align-items: center; justify-content: center; padding-top: 16%">
+                        <img id="myinfoImg" src="/images/myinfo.png" alt="pen.png" style="width:16px; cursor: pointer;">
+                        <div style="margin-left: 10px;">
+                            <div id="formContainer" style="display: none;">
+                                <form id="dateForm" th:action="@{/student/purchase/receipt}" method="POST" enctype="multipart/form-data">
+                                    <select name="day" id="day" title="day" onchange="submitForm()">
+                                        <option>수령 날짜 변경</option>
+                                        <th:block th:each="receive:${daySelect}">
+                                            <option th:value="${receive.day}" th:utext="${receive.day}"></option>
+                                        </th:block>
+                                    </select>
+                                    <br>
+                                </form>
+                            </div>
+                            <span id="receiveDay" th:text="${receiveDay}" style="display: block;"></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="box_s" style="display: inline-block;">
                     <div style="padding-top: 16%"><span th:text="${mileage}" style="font-size: 18px"></span></div>
@@ -234,19 +63,23 @@
                 </div>
             </div>
         </div>
-        <div></div>
-        <div id="bboks">
+        <div id="enrollBooks">
             <div class="tit_content">
                 <img src="/images/bar.jpg" alt="bar" class="bar" style="width: 4px; height:20px;">
                 <strong style="padding-left: 10px; font-weight: 800;">수강 강의 교재</strong>
-                <p style="font-size: smaller; margin-top: 3px;">-수강 신청한 강의의 교재 목록입니다</p>
+                <p style="font-size: smaller; margin-top: 3px;">-수강 신청한 강의의 교재 목록입니다. 구매하실 교재 이미지를 클릭하시면 장바구니에 추가 됩니다.</p>
             </div>
             <div class="grid grid-cols-4 gap-4">
                 <div th:each="book, index : ${enrollBookList}" class="p-4">
                     <strong th:text="${book.subject.name}" style="font-size: 20px; color: rgb(128,128,128)"></strong>
                     <br>
                     <strong th:text="${book.department.name}" style="color: rgb(128,128,128)"></strong>
-                    <img class="bookImage" th:src="${book.imageUrl}" alt="Book Image" width="220" height="320" onclick="redirectToCart(this)"/><br>
+                    <div class="bookImageContainer" onclick="redirectToCart(this)">
+                        <img class="bookImage" th:src="${book.imageUrl}" alt="Book Image" width="220" height="320" >
+                        <img class="overlayImage" src="/images/cartplus.png" alt="cartPlus">
+                        <div class="addToCartText">장바구니에 추가</div>
+                    </div>
+                    <br>
                     <strong>가격 : </strong>
                     <strong th:text="${book.price}">가격</strong><strong> 원</strong><br>
                     <strong>제목 : </strong>
@@ -255,10 +88,52 @@
                     <span th:text="${book.author}">저자명</span><br>
                     <span>출판사 : </span>
                     <span th:text="${book.publisher}">출판사명</span><br>
-
                     <span class="bookID" th:text="${book.id}" style="display: none"></span>
                 </div>
             </div>
+        </div>
+        <div id="allBooks" style="display: none">
+            <div class="tit_content">
+                <img src="/images/bar.jpg" alt="bar" class="bar" style="width: 4px; height:20px;">
+                <strong style="padding-left: 10px; font-weight: 800;">전체 교재</strong>
+                <p style="font-size: smaller; margin-top: 3px;">-모든 교재 목록입니다.</p>
+            </div>
+
+            <!-- 드롭 다운 메뉴 -->
+            <div>
+                <label for="department">학과 선택: </label>
+                <select id="department" onchange="filterBooks()">
+                    <option value="all">전체</option>
+                    <!-- 서버 측에서 전달받은 학과 목록을 옵션으로 추가 -->
+                    <th:block th:each="department : ${departmentList}">
+                        <option th:value="${department.name}" th:text="${department.name}"></option>
+                    </th:block>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-4 gap-4">
+                <div th:each="book, index : ${bookList}" class="p-4 book">
+                    <strong th:text="${book.subject.name}" style="font-size: 20px; color: rgb(128,128,128)"></strong>
+                    <br>
+                    <strong th:text="${book.department.name}" style="color: rgb(128,128,128)"></strong>
+                    <div class="bookImageContainer" onclick="redirectToCart(this)">
+                        <img class="bookImage" th:src="${book.imageUrl}" alt="Book Image" width="220" height="320">
+                        <img class="overlayImage" src="/images/cartplus.png" alt="cartPlus">
+                        <div class="addToCartText">장바구니에 추가</div>
+                    </div>
+                    <br>
+                    <strong>가격 : </strong>
+                    <strong th:text="${book.price}">가격</strong><strong> 원</strong><br>
+                    <strong>제목 : </strong>
+                    <strong th:text="${#strings.length(book.name) gt 15} ? ${#strings.substring(book.name, 0, 15) + '...'} : ${book.name}">교재명</strong><br>
+                    <span>저자 : </span>
+                    <span th:text="${book.author}">저자명</span><br>
+                    <span>출판사 : </span>
+                    <span th:text="${book.publisher}">출판사명</span><br>
+                    <span class="bookID" th:text="${book.id}" style="display: none"></span>
+                </div>
+            </div>
+            <span class="authority" th:text="${user.authority.id}" style="display: none"></span>
         </div>
     </div>
     <div class="page2" style="position: absolute; top: 154px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 20%; display: flex; flex-direction: column; justify-content: space-around">
@@ -268,7 +143,6 @@
 <div id="side_drop_down_menu">
     <div style="position:relative;">
         <!-- 헤더 -->
-
         <div class="side_drop_down_menu_panel_background"
              style="position: fixed; z-index: 100; top: 110px; bottom: 0px; border-right: 1px solid rgb(230, 230, 230); width: 220px; left: 0;">
         </div>
@@ -276,22 +150,21 @@
              style="z-index: 100; position: absolute; border-right: 1px solid rgb(230, 230, 230); border-top: 1px solid rgb(230, 230, 230); width: 211px; background-color: rgb(255, 255, 255); min-height: 45px; left: 0px; top: 101px;">
             <!-- 사이드 네비 -->
             <!--                대시보드-->
-            <div class="side_drop_down_menu_panel_button_container">
-                <div class="side_drop_down_menu_panel_button button inited pressed" style="position: relative; overflow: auto; padding-left: 15px; padding-right: 20px; height: 50px; color: rgb(255, 255, 255); font-family: notokr-medium, NanumGothicBold; font-size: 15px; border-bottom: 1px solid #ccc; background: rgb(0, 54, 121);">
+            <div class="side_drop_down_menu_panel_button_container" onclick="reload()">
+                <div class="side_drop_down_menu_panel_button button inited" style="position: relative; overflow: auto; padding-left: 15px; padding-right: 20px; height: 50px; font-family: notokr-medium, NanumGothicBold; font-size: 15px; border-bottom: 1px solid #ccc;">
                     <div style="padding-top: 14px; float: left; width: 16px; height: 22px; text-align: center; vertical-align: middle; line-height: 22px; padding-right: 12px; display: block;" class="side_drop_down_menu_icon">
-                        <img src="/svg/house.svg" style="vertical-align:middle;width:16px; color: #ffffff" alt="top drop down menu text">
+                        <img src="/images/house.png" style="vertical-align:middle;width:16px; color: #ffffff" alt="top drop down menu text">
                     </div>
-                    <a style="float: left; line-height: 50px; font-size: 12px; color: rgb(255, 255, 255);" class="side_drop_down_menu_text">홈</a>
+                    <a style="float: left; line-height: 50px; font-size: 12px;" class="side_drop_down_menu_text">홈</a>
                 </div>
                 <div class="side_drop_down_menu_panel_button_sub" style="background-color:#f2f6fa;display:none;"></div>
             </div>
             <!--                전체 교재 조회-->
-            <div class="side_drop_down_menu_panel_button_container">
+            <div class="side_drop_down_menu_panel_button_container" onclick="viewAllBooks()">
                 <div class="side_drop_down_menu_panel_button button inited"
                      style=" position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
-                    <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
-                         class="side_drop_down_menu_icon">
-                        <img src="/images/books.png" style="vertical-align:middle;width:16px; padding-top: 16px" alt="top drop down menu text">
+                    <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;" class="side_drop_down_menu_icon">
+                        <img src="/images/books.png" style="vertical-align:middle; width:16px; padding-top: 16px" alt="top drop down menu text">
                     </div>
                     <a style="padding-top: 9px; float:left;line-height:32px; font-size:14px;" class="side_drop_down_menu_text">전체 교재</a>
                 </div>
@@ -302,20 +175,22 @@
             <div class="side_drop_down_menu_panel_button_container">
                 <div class="side_drop_down_menu_panel_button button inited"
                      style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
-                    <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;" class="side_drop_down_menu_icon"><img src="/svg/laptop.svg" style="vertical-align:middle;width:16px; padding-top: 15px;" alt="top drop down menu text"></div>
-                    <a style="float:left;line-height:50px; font-size:14px;" class="side_drop_down_menu_text">수강 교재 가져오기</a>
+                    <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;" class="side_drop_down_menu_icon">
+                        <img src="/images/laptop.png" style="vertical-align:middle;width:16px; padding-top: 15px;" alt="top drop down menu text">
+                    </div>
+                    <a onclick="webscraping()" style="float:left;line-height:50px; font-size:14px;" class="side_drop_down_menu_text">수강 교재 가져오기</a>
                 </div>
                 <div class="side_drop_down_menu_panel_button_sub"
                      style="background-color:#f2f6fa;display:block;"></div>
             </div>
             <!--                마일리지 내역 조회-->
-            <div class="side_drop_down_menu_panel_button_container">
+            <div class="side_drop_down_menu_panel_button_container" onclick="mileage()">
                 <div class="side_drop_down_menu_panel_button button inited"
                      style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
                     <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
                          class="side_drop_down_menu_icon"><img
                             src="/images/mileage.png"
-                            style="vertical-align:middle;width:16px; padding-top: 15px" alt="top drop down menu text">
+                            style="vertical-align:middle;width:16px; padding-top: 15px; color: rgb(0,0,0)" alt="top drop down menu text">
                     </div>
                     <a style="float:left;line-height:50px; font-size:14px;" class="side_drop_down_menu_text">마일리지 내역</a>
                 </div>
@@ -328,7 +203,7 @@
                      style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
                     <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
                          class="side_drop_down_menu_icon"><img
-                            src="/svg/receipt.svg"
+                            src="/images/receipt.png"
                             style="vertical-align:middle;width:16px; padding-top: 15px" alt="top drop down menu text"></div><a
                         style="float:left;line-height:50px; font-size:14px;"
                         class="side_drop_down_menu_text">구매 내역</a>
@@ -337,7 +212,7 @@
                      style="background-color:#f2f6fa;display:none;"></div>
             </div>
             <!--                내 정보 수정-->
-            <div class="side_drop_down_menu_panel_button_container">
+            <div class="side_drop_down_menu_panel_button_container" onclick="myInfoUpdate()">
                 <div class="side_drop_down_menu_panel_button button inited"
                      style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
                     <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
@@ -349,22 +224,6 @@
                 </div>
                 <div class="side_drop_down_menu_panel_button_sub"
                      style="background-color:#f2f6fa;display:none;"></div>
-            </div>
-
-            <div class="side_drop_down_menu_panel_button_sub" style="background-color:#f2f6fa;display:none;">
-            </div>
-        </div>
-        <!--            로그아웃-->
-        <div class="side_drop_down_menu_panel_button_container">
-            <div class="side_drop_down_menu_panel_button button inited"
-                 style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px;">
-                <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
-                     class="side_drop_down_menu_icon"><img src="/res/lia/triton/img/menu_sidedropdown/ico15.png"
-                                                           style="vertical-align:middle;width:16px;" alt="top drop down menu text"></div><a
-                    style="float:left;line-height:50px; font-size:14px;"
-                    class="side_drop_down_menu_text">로그아웃</a><img class="side_drop_down_menu_arrow"
-                                                                  style="position:absolute;right:20px;top:21px;display:none;"
-                                                                  src="/res/lia/triton/img/menu_sidedropdown/arr_menu_down.png" alt="Menu Button Arrow Image">
             </div>
             <div class="side_drop_down_menu_panel_button_sub" style="background-color:#f2f6fa;display:none;">
             </div>
@@ -380,7 +239,7 @@
     <div class="popup-content">
         <span onclick="closePopup()" style="float:right; cursor:pointer;">&times;</span>
         <h2>남서울대학교 대학서점</h2>
-        <div id="popupContent"></div> <!-- 문구를 출력할 영역 -->
+        <div id="popupContent">수강 신청 내역이 변경되었다면 수강 교재 가져오기를 한번 눌러주세요.</div>
         <label><input type="checkbox" id="hidePopupCheckbox"> 오늘 하루 동안 이 창을 닫기</label>
         <button onclick="closePopup()">닫기</button>
     </div>
@@ -388,20 +247,18 @@
 </body>
 
 <script>
+    var userIDElement = document.getElementById("userID");
+    var userID = userIDElement.textContent.trim();
     function openPopup() {
-        var popupContent = "수강 신청 내역이 변경되었다면 수강 교재 가져오기를 한번 눌러주세요"; //
-        document.getElementById('popupContent').textContent = popupContent;
+        // 팝업과 배경 레이어 표시
         document.getElementById('popup').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
     }
 
     function closePopup() {
+        // 팝업과 배경 레이어 숨김
         document.getElementById('popup').style.display = 'none';
-        if (document.getElementById('hidePopupCheckbox').checked) {
-            // 만약 체크박스가 체크되어 있다면, 쿠키를 사용하여 팝업을 하루 동안 표시하지 않도록 설정
-            var date = new Date();
-            date.setTime(date.getTime() + (24 * 60 * 60 * 1000)); // 하루 동안 유지
-            document.cookie = "hidePopup=true; expires=" + date.toUTCString() + "; path=/";
-        }
+        document.getElementById('overlay').style.display = 'none';
     }
 
     function checkPopupStatus() {
@@ -420,6 +277,167 @@
             }
         }
         return null;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // 이미지에 hover하면 덧씌울 이미지와 장바구니 추가 문자열을 보여줍니다.
+        var bookImageContainers = document.querySelectorAll('.bookImageContainer');
+        bookImageContainers.forEach(function (container) {
+            var overlayImage = container.querySelector('.overlayImage');
+            var addToCartText = container.querySelector('.addToCartText');
+            container.addEventListener('mouseenter', function () {
+                overlayImage.style.display = 'block';
+                addToCartText.style.display = 'block';
+            });
+            container.addEventListener('mouseleave', function () {
+                overlayImage.style.display = 'none';
+                addToCartText.style.display = 'none';
+            });
+        });
+    });
+    function redirectToCart(element) {
+        var bookID = element.parentNode.querySelector(".bookID").textContent;
+        var queryString = "?bookID=" + encodeURIComponent(bookID);
+        // /cart 엔드포인트로 리디렉션
+        window.location.href = "/cart" + queryString;
+    }
+    function submitForm() {
+        document.getElementById("dateForm").submit();
+    }
+
+    const formContainer = document.getElementById('formContainer');
+    const receiveDaySpan = document.getElementById('receiveDay');
+    const myinfoImg = document.getElementById('myinfoImg');
+
+    myinfoImg.addEventListener('click', function() {
+        if (formContainer.style.display === 'none') {
+            formContainer.style.display = 'block';
+            receiveDaySpan.style.display = 'none';
+            myinfoImg.style.display = 'none';
+        } else {
+            formContainer.style.display = 'none';
+            receiveDaySpan.style.display = 'block';
+            myinfoImg.style.display = 'inline-block';
+        }
+    });
+    window.onload = function() {
+        var receiveDayValue = document.getElementById('receiveDay').innerText;
+        var myinfoImg = document.getElementById('myinfoImg');
+        if (receiveDayValue === "구매하신 교재가 없습니다.") {
+            myinfoImg.style.display = 'none';
+        }
+    };
+    function webscraping() {
+        // 추가된 alert 메시지
+        alert("수강 교재 정보를 가져오겠습니다.\n웹페이지를 닫지 말고 완료 메시지를 기다려주세요.\n확인을 누르시면 시작합니다.");
+
+        // AJAX 요청 보내기
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/webscraping/" + userID, true);
+        document.body.style.pointerEvents = "none";
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                alert("수강 신청 정보 수집이 완료되었습니다!");
+                document.body.style.pointerEvents = "auto";
+                location.reload();
+            }
+        };
+        xhr.send();
+    }
+    // 필터링 함수
+    function filterBooks() {
+        var selectedDepartment = document.getElementById('department').value;
+        var books = document.getElementsByClassName('book');
+
+        // 전체를 선택했을 경우 모든 책을 보여줌
+        if (selectedDepartment === 'all') {
+            for (var i = 0; i < books.length; i++) {
+                books[i].style.display = 'block';
+            }
+            return;
+        }
+
+        // 선택된 학과에 해당하는 책만 보여줌
+        for (var i = 0; i < books.length; i++) {
+            var bookDepartment = books[i].querySelector('strong:nth-of-type(2)').innerText;
+            if (bookDepartment.trim() === selectedDepartment.trim()) {
+                books[i].style.display = 'block';
+            } else {
+                books[i].style.display = 'none';
+            }
+        }
+    }
+    function viewAllBooks() {
+        // enrollBooks를 display:none으로 변경
+        document.getElementById('enrollBooks').style.display = 'none';
+        // allBooks를 display:block으로 변경
+        document.getElementById('allBooks').style.display = 'block';
+        // info를 display:none으로 변경
+        document.getElementById('student_info').style.display = 'none';
+        // 공지를 display:none으로 변경
+        document.getElementById('notification').style.display = 'none';
+
+        // page1 클래스를 가진 요소들의 display를 none으로 변경
+        var page1Elements = document.querySelectorAll('.page1');
+        page1Elements.forEach(function(element) {
+            element.style.display = 'block';
+        });
+    }
+
+    window.onload = function() {
+        var buttons = document.querySelectorAll('.side_drop_down_menu_panel_button');
+        var homeButton = null;
+
+        buttons.forEach(function(button) {
+            var text = button.querySelector('.side_drop_down_menu_text');
+            var icon = button.querySelector('.side_drop_down_menu_icon img');
+
+            if (text.textContent.trim() === '홈') {
+                homeButton = button;
+                button.style.backgroundColor = 'rgb(0, 54, 121)';
+                text.style.color = '#ffffff';
+                icon.style.filter = 'brightness(0) invert(1)';
+            }
+
+            button.addEventListener('click', function() {
+                buttons.forEach(function(btn) {
+                    btn.style.backgroundColor = '';
+                    btn.querySelector('.side_drop_down_menu_text').style.color = '';
+                    btn.querySelector('.side_drop_down_menu_icon img').style.filter = '';
+                });
+
+                this.style.backgroundColor = 'rgb(0, 54, 121)';
+
+                this.classList.add('selected');
+
+                this.querySelector('.side_drop_down_menu_text').style.color = '#ffffff';
+
+                this.querySelector('.side_drop_down_menu_icon img').style.filter = 'brightness(0) invert(1)';
+            });
+        });
+    };
+
+    function reload() {
+        location.reload();
+    }
+
+    function myInfoUpdate() {
+        var authorityElement = document.querySelector('.authority');
+        console.log(authorityElement);
+        if (authorityElement) {
+            var authority = parseInt(authorityElement.textContent); // 요소의 내용을 정수형으로 변환하여 가져옴
+            console.log(authority);
+            // 내 정보 수정 페이지로 이동하는 로직 작성
+            if (authority === 1) {
+                window.location.href = "/mypage/myInfoUpdate/student";
+            } else if (authority === 2) {
+                window.location.href = "/mypage/myInfoUpdate/bookStore";
+            }
+        }
+    }
+    function mileage() {
+        // "마일리지 내역 조회" 버튼 클릭 시 "/mypage/mileage"로 이동
+        window.location.href = "/mypage/mileage/" + userID;
     }
 </script>
 
