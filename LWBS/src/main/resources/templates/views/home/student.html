@@ -205,7 +205,6 @@
                 </div>
             </div>
         </div>
-        <div></div>
         <div id="bboks">
             <div class="tit_content">
                 <img src="/images/bar.jpg" alt="bar" class="bar" style="width: 4px; height:20px;">
@@ -225,7 +224,6 @@
                     <span th:text="${book.author}">저자명</span><br>
                     <span>출판사 : </span>
                     <span th:text="${book.publisher}">출판사명</span><br>
-
                     <span class="bookID" th:text="${book.id}" style="display: none"></span>
                 </div>
             </div>
@@ -238,7 +236,6 @@
 <div id="side_drop_down_menu">
     <div style="position:relative;">
         <!-- 헤더 -->
-
         <div class="side_drop_down_menu_panel_background"
              style="position: fixed; z-index: 100; top: 110px; bottom: 0px; border-right: 1px solid rgb(230, 230, 230); width: 220px; left: 0;">
         </div>
@@ -296,15 +293,15 @@
             <div class="side_drop_down_menu_panel_button_container">
                 <div class="side_drop_down_menu_panel_button button inited"
                      style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
-                    <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
-                         class="side_drop_down_menu_icon"><img
-                            src="/svg/receipt.svg"
-                            style="vertical-align:middle;width:16px; padding-top: 15px" alt="top drop down menu text"></div><a
-                        style="float:left;line-height:50px; font-size:14px;"
-                        class="side_drop_down_menu_text">구매 내역 조회</a>
+                    <div style="float: left; width: 100%; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
+                         class="side_drop_down_menu_icon">
+                        <a th:href="@{/student/purchase/receipt}">
+                            <img src="/svg/receipt.svg" style="vertical-align:middle;width:16px; padding-top: 15px; float: left; margin-right: 10px;" alt="top drop down menu text">
+                            <div style="float:left;line-height:50px; font-size:14px;" class="side_drop_down_menu_text">구매 내역 조회</div>
+                        </a>
+                    </div>
                 </div>
-                <div class="side_drop_down_menu_panel_button_sub"
-                     style="background-color:#f2f6fa;display:none;"></div>
+                <div class="side_drop_down_menu_panel_button_sub" style="background-color:#f2f6fa;display:none;"></div>
             </div>
             <!--                내 정보 수정-->
             <div class="side_drop_down_menu_panel_button_container">

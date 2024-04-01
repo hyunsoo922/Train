@@ -61,7 +61,7 @@ body {
     color: #215F9A;
     font-size: 20px;
     border: 2px solid #215F9A;
-    border-radius: 20px;
+    border-radius: 5px;
     cursor: pointer;
 }
 .bookList table {
@@ -95,6 +95,7 @@ body {
     margin-bottom: 20px;
     display: flex;
     align-items: center;
+    box-sizing: border-box;
 }
 .bookList {
     width: 1600px;

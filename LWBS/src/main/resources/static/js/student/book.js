@@ -25,9 +25,9 @@
 //         }
 //     });
 // });
-$(document).ready(function () {
+$(function () {
     $("#buyBtn").click(function () {
-
+        console.log("버튼이 눌림");
         var selectedBooks = [];
         $(".bookCheckBox:checked").each(function () {
             selectedBooks.push($(this).val());
@@ -64,9 +64,9 @@ $(document).ready(function () {
         $('#buyBtn').prop('disabled', !(anyChecked && receiveDaySelected));
     });
 
-    $('#buyBtn').click(function () {
-        $('#bookFrm').submit();
-    });
+//    $('#buyBtn').click(function () {
+//        $('#bookFrm').submit();
+//    });
 });
 
 function removeCartItem(element) {

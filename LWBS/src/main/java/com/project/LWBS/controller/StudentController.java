@@ -40,6 +40,7 @@ public class StudentController {
 
             //List<Book> bookList = studentService.findMyClass(user);
             List<Book> bookList = cartService.findById(user.getId());
+            System.out.println(bookList);
 
             List<Cart> cartList = cartService.findByUserId(user.getId());
 //            System.out.println(bookList);

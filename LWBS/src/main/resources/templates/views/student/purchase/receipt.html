@@ -1,15 +1,29 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" th:href="@{/css/banner.css}">
+    <meta http-equiv="Expires" content="-1">
+    <meta http-equiv="Pragma" content="No-Cache">
+    <meta http-equiv="Cache-Control" content="No-Cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0;">
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/banner.css}">
     <script th:src="@{/js/student/receipt.js}"></script>
-    <title>구매 내역 사이트</title>
     <style>
+        pre {
+            white-space: pre-wrap;
+        }
+        .thumbnail {
+            width: 100px;
+            /* Adjust this according to your design */
+            height: 100px;
+            /* Adjust this according to your design */
+            background-size: cover;
+            background-position: center;
+        }
         #container {
             position: relative; /* 수정: relative로 변경 */
             display: flex;
@@ -41,22 +55,25 @@
             height: 150px;
         }
         #dayBtn {
-            width: 250px;
             cursor: pointer;
-            border: none;
-            background-color: #4CAF50;
-            color: white;
+            width: 250px;
+            height: 40px;
+            background-color: #FFFFFF;
+            color: #215F9A;
+            font-size: 20px;
+            border: 2px solid #215F9A;
+            border-radius: 20px;
         }
-
         #cancleBtn {
-            width: 250px;
             cursor: pointer;
-            border: none;
-            background-color: red;
-            color: white;
-            margin-right: 31px;
+            width: 250px;
+            height: 40px;
+            background-color: #FFFFFF;
+            color: red;
+            font-size: 20px;
+            border: 2px solid red;
+            border-radius: 20px;
         }
-
         #noBooksMessage {
             font-size: 50px;
             text-align: center;
@@ -65,12 +82,12 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
-        @media (max-width: 1321px) {
+        @media (max-width: 1830px) {
             #bookGrid {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
-        @media (max-width: 992px) {
+        @media (max-width: 1390px) {
             #bookGrid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -80,67 +97,151 @@
             position: relative;
             overflow-y: auto;
         }
-
-        footer {
-            background-color: #f2f2f2;
-            padding: 10px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
+         .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_panel_button {
+            background: rgb(0, 54, 121);
+        }
+        .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_text
+        {
+            color: #ffffff; /* 텍스트의 색상을 하얀색으로 변경 */
+        }
+        .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_icon img {
+            filter: brightness(0) invert(1);
+        }
+        *{
+            box-sizing: content-box;
+        }
+        a {
+            text-decoration: none;
         }
     </style>
+    <title th:text="${user.name} + '님 환영합니다.'"></title>
 </head>
 <body>
-<th:block th:insert="~{header::header}"></th:block>
-<th:block th:insert="~{nav::nav}"></th:block>
-<th:block th:insert="~{banner::banner}"></th:block>
-<div id="container">
-        <div id="bookGrid">
-            <th:block th:if="${not #lists.isEmpty(bookList)}">
-                <th:block th:each="book:${bookList}">
-                    <div id="bookContainer">
-                        <input type="checkbox" class="bookCheckBox" th:id="'option' + ${book.id}" th:value="${book.id}">
-                        <img th:src="${book.imageUrl}" alt="">
-                        <div class="textContainer">
-                            <strong><div th:text="${book.name}"></div></strong>d
-                            <div th:text="${book.author}"></div>
-                            <div th:text="${book.publisher}"></div>
-                            <div th:text="${book.department.name}"></div>
-                            <div th:text="${book.subject.name}"></div>
+<th:block th:replace="~{header :: header(pageTitle='구매 내역')}"></th:block>
+<div class="container">
+    <div class="page1" style="position: absolute; top: 154px; left: 221px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 60%; display: flex; flex-direction: column; justify-content: space-around">
+        <div id="student_info" style="margin-bottom: 30px" class="">
+            <div class="tit_content">
+                <img src="/images/bar.jpg" alt="bar" class="bar" style="width: 4px; height:20px;">
+                <strong style="padding-left: 10px; font-weight: bold;">내가 구매한 교재 - 체크박스로 선택 후 날짜 변경, 환불 가능</strong>
+            </div>
+            <div id="bookGrid">
+                <th:block th:if="${not #lists.isEmpty(bookList)}">
+                    <th:block th:each="book:${bookList}">
+                        <div id="bookContainer" style="padding-top: 40px;">
+                            <input type="checkbox" class="bookCheckBox" style="transform: scale(2.5);" th:id="'option' + ${book.id}" th:value="${book.id}">
+                            <img th:src="${book.imageUrl}" alt="">
+                            <div class="textContainer">
+                                <strong><div th:text="${book.name}"></div></strong>d
+                                <div th:text="${book.author}"></div>
+                                <div th:text="${book.publisher}"></div>
+                                <div th:text="${book.department.name}"></div>
+                                <div th:text="${book.subject.name}"></div>
+                            </div>
                         </div>
-                    </div>
+                    </th:block>
                 </th:block>
-            </th:block>
-            <th:block th:unless="${not #lists.isEmpty(bookList)}">
-                <div id="noBooksMessage" style="font-size: 32px; white-space: nowrap;">구매한 교재가 없습니다</div>
-            </th:block>
-            <input type="hidden" id="user" th:value="${user}">
+                <th:block th:unless="${not #lists.isEmpty(bookList)}">
+                    <div id="noBooksMessage" style="font-size: 32px; white-space: nowrap;">구매한 교재가 없습니다</div>
+                </th:block>
+                <input type="hidden" id="user" th:value="${user}">
+            </div>
+            <button id="cancleBtn" type="button">환불</button>
         </div>
-
-
-
-    <div id="rightAligned">
-        <form th:action="@{/student/purchase/receipt}" method="POST" enctype="multipart/form-data">
-            <select name="day" id="day" title="day">
-                <option>수령 날짜 변경</option>
-                <th:block th:each="receive:${daySelect}">
-                    <option th:value="${receive.day}" th:utext="${receive.day}"></option>
-                </th:block>
-            </select>
-            <span th:text="${receiveCheck}"></span>
-            <span th:text="${receiveDay}"></span>
-            <br>
-            <button id="dayBtn" type="submit">날짜 변경하기</button>
-        </form>
     </div>
-    <button id="cancleBtn" type="button">환불</button>
+    <div class="page2" style="position: absolute; top: 154px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 20%; display: flex; flex-direction: column; justify-content: space-around">
+        <th:block th:insert="~{banner::banner}"></th:block>
+    </div>
 </div>
-<div id="wrapper">
-    <footer>
-        <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>
-    </footer>
+<div id="side_drop_down_menu">
+    <div style="position:relative;">
+        <!-- 헤더 -->
+        <div class="side_drop_down_menu_panel_background"
+             style="position: fixed; z-index: 100; top: 110px; bottom: 0px; border-right: 1px solid rgb(230, 230, 230); width: 220px; left: 0;">
+        </div>
+        <div class="side_drop_down_menu_panel"
+             style="z-index: 100; position: absolute; border-right: 1px solid rgb(230, 230, 230); border-top: 1px solid rgb(230, 230, 230); width: 211px; background-color: rgb(255, 255, 255); min-height: 45px; left: 0px; top: 101px;">
+            <!-- 사이드 네비 -->
+            <!--                대시보드-->
+            <div class="side_drop_down_menu_panel_button_container" onclick="reload()">
+                <div class="side_drop_down_menu_panel_button button inited" style="position: relative; overflow: auto; padding-left: 15px; padding-right: 20px; height: 50px; font-family: notokr-medium, NanumGothicBold; font-size: 15px; border-bottom: 1px solid #ccc;">
+                    <div style="padding-top: 14px; float: left; width: 16px; height: 22px; text-align: center; vertical-align: middle; line-height: 22px; padding-right: 12px; display: block;" class="side_drop_down_menu_icon">
+                        <img src="/images/house.png" style="vertical-align:middle;width:16px; color: #ffffff" alt="top drop down menu text">
+                    </div>
+                    <a style="float: left; line-height:50px; font-size: 12px;" class="side_drop_down_menu_text">홈</a>
+                </div>
+                <div class="side_drop_down_menu_panel_button_sub" style="background-color:#f2f6fa;display:none;"></div>
+            </div>
+            <!--                전체 교재 조회-->
+            <div class="side_drop_down_menu_panel_button_container" onclick="viewAllBooks()">
+                <div class="side_drop_down_menu_panel_button button inited"
+                     style=" position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                    <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle;  padding-right: 12px; display: block;" class="side_drop_down_menu_icon">
+                        <img src="/images/books.png" style="vertical-align:middle; width:16px; padding-top: 16px" alt="top drop down menu text">
+                    </div>
+                    <a style="padding-top: 9px; float:left;line-height:32px; font-size:14px;" class="side_drop_down_menu_text">전체 교재</a>
+                </div>
+                <div class="side_drop_down_menu_panel_button_sub"
+                     style="background-color:#f2f6fa;display:none;"></div>
+            </div>
+            <!--                수강신청 내역 조회-->
+            <div class="side_drop_down_menu_panel_button_container">
+                <div class="side_drop_down_menu_panel_button button inited"
+                     style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                    <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle;  padding-right: 12px; display: block;" class="side_drop_down_menu_icon">
+                        <img src="/images/laptop.png" style="vertical-align:middle;width:16px; padding-top: 15px;" alt="top drop down menu text">
+                    </div>
+                    <a onclick="webscraping()" style="float:left;line-height:50px; font-size:14px;" class="side_drop_down_menu_text">수강 교재 가져오기</a>
+                </div>
+                <div class="side_drop_down_menu_panel_button_sub"
+                     style="background-color:#f2f6fa;display:block;"></div>
+            </div>
+            <!--                마일리지 내역 조회-->
+            <div class="side_drop_down_menu_panel_button_container" onclick="mileage()">
+                <div class="side_drop_down_menu_panel_button button inited"
+                     style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                    <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle;  padding-right: 12px; display: block;"
+                         class="side_drop_down_menu_icon"><img
+                            src="/images/mileage.png"
+                            style="vertical-align:middle;width:16px; padding-top: 15px; color: rgb(0,0,0)" alt="top drop down menu text">
+                    </div>
+                    <a style="float:left;line-height:50px; font-size:14px;" class="side_drop_down_menu_text">마일리지 내역</a>
+                </div>
+                <div class="side_drop_down_menu_panel_button_sub"
+                     style="background-color:#f2f6fa;display:none;"></div>
+            </div>
+            <!--                구매 내역 조회-->
+            <div class="side_drop_down_menu_panel_button_container">
+                <div class="side_drop_down_menu_panel_button button inited"
+                     style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                    <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle;  padding-right: 12px; display: block;"
+                         class="side_drop_down_menu_icon"><img
+                            src="/images/receipt.png"
+                            style="vertical-align:middle;width:16px; padding-top: 15px" alt="top drop down menu text"></div><a
+                        style="float:left;line-height:50px; font-size:14px;"
+                        class="side_drop_down_menu_text">구매 내역</a>
+                </div>
+                <div class="side_drop_down_menu_panel_button_sub"
+                     style="background-color:#f2f6fa;display:none;"></div>
+            </div>
+            <!--                내 정보 수정-->
+            <div class="side_drop_down_menu_panel_button_container" onclick="myInfoUpdate()">
+                <div class="side_drop_down_menu_panel_button button inited"
+                     style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                    <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle;  padding-right: 12px; display: block;"
+                         class="side_drop_down_menu_icon"><img
+                            src="/images/myinfo.png"
+                            style="vertical-align:middle;width:16px; padding-top: 15px" alt="top drop down menu text"></div><a
+                        style="float:left;line-height:50px; font-size:14px;"
+                        class="side_drop_down_menu_text">내 정보 수정</a>
+                </div>
+                <div class="side_drop_down_menu_panel_button_sub"
+                     style="background-color:#f2f6fa;display:none;"></div>
+            </div>
+            <div class="side_drop_down_menu_panel_button_sub" style="background-color:#f2f6fa;display:none;">
+            </div>
+        </div>
+    </div>
 </div>
 </body>
-
 </html>
