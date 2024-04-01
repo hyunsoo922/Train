@@ -95,7 +95,7 @@
 
             <form th:action="@{/user/logout}" method="POST" sec:authorize="Authenticated" th:with="user=${user}">
               <a  href="/user/logout" method="post" style="text-decoration: none;">
-                <img src="/images/로그아웃.png" alt="로그아웃 아이콘" style="width: 73px; height: 73px; cursor: pointer;">
+                <img src="/images/logout_hovering.png" alt="로그아웃 아이콘" style="width: 73px; height: 73px; cursor: pointer;">
               </a>
             </form>
           </div>
