@@ -25,6 +25,8 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
 
     Receipt findByBookAndUser(Book book,User user);
 
+    List<Receipt> findByTid(String tid);
+
     @Query("SELECT r.book.id as book_id, COUNT(r.book.id) as count " +
             "FROM Receipt r " +
             "GROUP BY r.book.id " +

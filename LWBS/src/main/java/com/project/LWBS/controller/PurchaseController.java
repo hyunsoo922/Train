@@ -12,6 +12,9 @@ import com.project.LWBS.service.CartService;
 import com.project.LWBS.service.PurchaseService;
 import com.project.LWBS.service.ReceiptService;
 import com.project.LWBS.service.StudentService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,44 +54,54 @@ public class PurchaseController {
     }
 
     @PostMapping("/refund")
-    public ResponseEntity refund(@RequestParam String books, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpSession session)
+    public ResponseEntity refund(@RequestParam String book, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpServletRequest request, HttpServletResponse response)
     {
         User user = principalDetails.getUser();
-        List<String> bookList = Arrays.asList(books.split(","));
-        List<Book> bookLists = studentService.findByIds(bookList);
-        int totalPrice = 0;
-        for(Book book : bookLists)
-        {
-            int price = Integer.parseInt(book.getPrice());
-            totalPrice += price;
-        }
+        Long id = Long.parseLong(book);
+        Book item = studentService.findById(id);
+        int price = Integer.parseInt(item.getPrice());
 
-//        System.out.println("bookLists"+bookLists);
-//        System.out.println("totalPrice"+totalPrice);
-        List<Receipt> receiptList = receiptService.findReceiptsByBookAndUser(bookLists,user);
+        Receipt receipt = receiptService.findReceiptByBookAndUser(item,user);
 
-        System.out.println(receiptList);
-        Set<String> tids = new HashSet<>();
-
-        for(Receipt receipt : receiptList)
-        {
-            tids.add(receipt.getTid());
-        }
-
-        System.out.println(tids);
+        String tid = receipt.getTid();
+        List<Receipt> refundList = receiptService.findByTid(tid);
         List<CancelDTO> cancelResponse = new ArrayList<>();
-        for (String tid : tids)
+
+        Cookie[] cookies = request.getCookies();
+        String mileagePoint = null;
+        if(cookies != null)
         {
-            int useMileage = Integer.parseInt((String)session.getAttribute("mileagePoint"));
-            CancelDTO cancel = purchaseService.kakaoCancel(tid,totalPrice-useMileage);
-            cancelResponse.add(cancel);
+            for(Cookie cookie : cookies)
+            {
+                if(cookie.getName().equals("mileagePoint"))
+                {
+                    mileagePoint = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        int useMileage = Integer.parseInt(mileagePoint) / refundList.size();
+        String cookiePoint = String.valueOf(Integer.parseInt(mileagePoint) - useMileage);
+        if(cookies != null)
+        {
+            for(Cookie cookie : cookies)
+            {
+                if(cookie.getName().equals("mileagePoint"))
+                {
+                    cookie.setValue(cookiePoint);
+                    response.addCookie(cookie);
+                    break;
+                }
+            }
         }
 
-        for(Receipt receipt : receiptList)
-        {
+        int totalPrice = price - useMileage;
+        CancelDTO cancel = purchaseService.kakaoCancel(tid,totalPrice);
+        System.out.println(cancel);
+        cancelResponse.add(cancel);
 
-            receiptService.deleteReceipt(receipt);
-        }
+        receiptService.deleteReceipt(receipt);
+
 
         return new ResponseEntity<>(cancelResponse, HttpStatus.OK);
 
@@ -98,7 +111,7 @@ public class PurchaseController {
     @GetMapping("/success")
     public String success(@RequestParam("pg_token") String pgToken,HttpSession session)
     {
-//        System.out.println("토큰"+pgToken);
+
         List<Book> bookList = (List<Book>)session.getAttribute("books");
         User user = (User) session.getAttribute("users");
         String receiveDay =(String)session.getAttribute("receiveDate");

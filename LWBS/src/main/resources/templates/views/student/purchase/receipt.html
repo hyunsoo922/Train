@@ -135,7 +135,6 @@
                 <th:block th:if="${not #lists.isEmpty(bookList)}">
                     <th:block th:each="book:${bookList}">
                         <div id="bookContainer" style="padding-top: 40px;">
-                            <input type="checkbox" class="bookCheckBox" style="transform: scale(2.5);" th:id="'option' + ${book.id}" th:value="${book.id}">
                             <img th:src="${book.imageUrl}" alt="">
                             <div class="textContainer">
                                 <strong><div th:text="${book.name}"></div></strong>
@@ -144,6 +143,7 @@
                                 <div th:text="${book.department.name}"></div>
                                 <div th:text="${book.subject.name}"></div>
                             </div>
+                            <button id="cancleBtn" type="button" th:value="${book.id}">환불</button>
                         </div>
                     </th:block>
                 </th:block>
@@ -152,7 +152,6 @@
                 </th:block>
                 <input type="hidden" id="user" th:value="${user}">
             </div>
-            <button id="cancleBtn" type="button">환불</button>
         </div>
     </div>
     <div class="page2" style="position: absolute; top: 154px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 20%; display: flex; flex-direction: column; justify-content: space-around">

@@ -88,13 +88,9 @@ public  class ReceiptServiceImpl implements  ReceiptService{
     }
 
     @Override
-    public List<Receipt> findReceiptsByBookAndUser(List<Book> bookList, User user) {
-        List<Receipt> receiptList = new ArrayList<>();
-        for(Book book : bookList)
-        {
-            receiptList.add(receiptRepository.findByBookAndUser(book,user));
-        }
-        return receiptList;
+    public Receipt findReceiptByBookAndUser(Book book, User user) {
+
+        return receiptRepository.findByBookAndUser(book,user);
     }
 
     @Override
@@ -103,6 +99,12 @@ public  class ReceiptServiceImpl implements  ReceiptService{
         receiptRepository.delete(receipt);
 
         receiptRepository.flush();
+    }
+
+    @Override
+    public List<Receipt> findByTid(String tid) {
+
+        return receiptRepository.findByTid(tid);
     }
 
 }
