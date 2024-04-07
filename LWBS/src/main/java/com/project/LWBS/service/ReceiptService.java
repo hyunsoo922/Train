@@ -28,7 +28,7 @@ public interface ReceiptService {
 
     List<Map<String, Object>> statistics();
 
-    Receipt findReceiptByBookAndUser(Book book, User user);
+    List<Receipt> findReceiptByBookAndUser(Book book, User user);
 
     void deleteReceipt(Receipt receipt);
 

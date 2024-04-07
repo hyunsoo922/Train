@@ -88,7 +88,7 @@ public  class ReceiptServiceImpl implements  ReceiptService{
     }
 
     @Override
-    public Receipt findReceiptByBookAndUser(Book book, User user) {
+    public List<Receipt> findReceiptByBookAndUser(Book book, User user) {
 
         return receiptRepository.findByBookAndUser(book,user);
     }

@@ -61,7 +61,9 @@ public class PurchaseController {
         Book item = studentService.findById(id);
         int price = Integer.parseInt(item.getPrice());
 
-        Receipt receipt = receiptService.findReceiptByBookAndUser(item,user);
+        List<Receipt> receiptList = receiptService.findReceiptByBookAndUser(item,user);
+
+        Receipt receipt = receiptList.get(0);
 
         String tid = receipt.getTid();
         List<Receipt> refundList = receiptService.findByTid(tid);

@@ -23,7 +23,7 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
 
     List<Receipt> findByUserStudentId(String studentId);
 
-    Receipt findByBookAndUser(Book book,User user);
+    List<Receipt> findByBookAndUser(Book book,User user);
 
     List<Receipt> findByTid(String tid);
 
