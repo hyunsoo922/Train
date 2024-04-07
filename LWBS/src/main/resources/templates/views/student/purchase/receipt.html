@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
 <head>
     <meta http-equiv="Expires" content="-1">
     <meta http-equiv="Pragma" content="No-Cache">
@@ -13,9 +14,6 @@
     <link rel="stylesheet" th:href="@{/css/banner.css}">
     <script th:src="@{/js/student/receipt.js}"></script>
     <style>
-        body {
-            margin: 8px;
-        }
         pre {
             white-space: pre-wrap;
         }
@@ -27,80 +25,19 @@
             background-size: cover;
             background-position: center;
         }
-        #container {
-            position: relative; /* 수정: relative로 변경 */
+        .tit_content{
+            width: 1600px;
+        }
+        .bookImage {
+            border: 1px solid #000;
+        }
+        .container {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: space-between;
+            /* Adjust spacing between page1 and page2 */
             flex-direction: column;
         }
-        #bookGrid {
-            position: relative; /* 수정: relative로 변경 */
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            min-height: 90vh; /* 수정: height를 min-height로 변경 */
-            padding-bottom: 100px; /* 수정: padding-bottom 추가 */
-        }
-        #bookContainer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: left;
-        }
-        #bookContainer img {
-            width: 250px;
-            height: 300px;
-            margin-bottom: 10px;
-        }
-        .textContainer {
-            width: 250px;
-            height: 150px;
-        }
-        #dayBtn {
-            cursor: pointer;
-            width: 250px;
-            height: 40px;
-            background-color: #FFFFFF;
-            color: #215F9A;
-            font-size: 20px;
-            border: 2px solid #215F9A;
-            border-radius: 20px;
-        }
-        #cancleBtn {
-            cursor: pointer;
-            width: 250px;
-            height: 40px;
-            background-color: #FFFFFF;
-            color: red;
-            font-size: 20px;
-            border: 2px solid red;
-            border-radius: 20px;
-        }
-        #noBooksMessage {
-            font-size: 50px;
-            text-align: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        @media (max-width: 1830px) {
-            #bookGrid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        @media (max-width: 1390px) {
-            #bookGrid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        #wrapper {
-            min-height: 20vh;
-            position: relative;
-            overflow-y: auto;
-        }
-         .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_panel_button {
+        .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_panel_button {
             background: rgb(0, 54, 121);
         }
         .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_text
@@ -114,45 +51,92 @@
             box-sizing: content-box;
         }
         a {
-            color: #696969;
             text-decoration: none;
         }
+        #myinfoImg {
+            width: 130px;
+            height: 30px;
+            background-color: rgb(0, 54, 121);
+            color: #FFFFFF;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        #cancelBtn {
+            width: 80px;
+            height: 40px;
+            background-color: red;
+            color: white;
+            font-size: 24px;
+            border-radius: 10px;
+            border: 2px solid red;
+            cursor: pointer;
+        }
+
     </style>
     <title th:text="${user.name} + '님 환영합니다.'"></title>
 </head>
 <body>
 <th:block th:replace="~{header :: header(pageTitle='구매 내역')}"></th:block>
-<span id="userID" th:text="${user.id}" style="display: none"></span>
-<span class="authority" th:text="${user.authority.id}" style="display: none"></span>
 <div class="container">
-    <div class="page1" style="position: absolute; top: 154px; left: 221px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 60%; display: flex; flex-direction: column; justify-content: space-around">
+    <div class="page1">
         <div id="student_info" style="margin-bottom: 30px" class="">
             <div class="tit_content">
                 <img src="/images/bar.jpg" alt="bar" class="bar" style="width: 4px; height:20px;">
-                <strong style="padding-left: 10px; font-weight: bold;">내가 구매한 교재 - 체크박스로 선택 후 날짜 변경, 환불 가능</strong>
+                <strong style="padding-left: 10px; font-weight: bold;">구매 내역</strong>
             </div>
-            <div id="bookGrid">
-                <th:block th:if="${not #lists.isEmpty(bookList)}">
-                    <th:block th:each="book:${bookList}">
-                        <div id="bookContainer" style="padding-top: 40px;">
-                            <input type="checkbox" class="bookCheckBox" style="transform: scale(2.5);" th:id="'option' + ${book.id}" th:value="${book.id}">
-                            <img th:src="${book.imageUrl}" alt="">
-                            <div class="textContainer">
-                                <strong><div th:text="${book.name}"></div></strong>
-                                <div th:text="${book.author}"></div>
-                                <div th:text="${book.publisher}"></div>
-                                <div th:text="${book.department.name}"></div>
-                                <div th:text="${book.subject.name}"></div>
-                            </div>
+            <div class="box_s border_r" style="display: inline-block; position: relative; text-align: center;">
+                <div style="display: flex; align-items: center; justify-content: center; padding-top: 3%; padding-bottom: 3%">
+                    <button id="myinfoImg" type="submit">날짜 변경하기</button>
+                    <div style="margin-left: 10px;">
+                        <div id="formContainer" style="display: none;">
+                            <form id="dateForm" th:action="@{/student/purchase/receipt}" method="POST" enctype="multipart/form-data">
+                                <select name="day" id="day" title="day" onchange="submitForm()" style=" width: 132px; height: 32px; margin-top: 6px; margin-bottom: 6px">
+                                    <option>수령 날짜 변경</option>
+                                    <th:block th:each="receive:${daySelect}">
+                                        <option th:value="${receive.day}" th:utext="${receive.day}"></option>
+                                    </th:block>
+                                </select>
+                                <br>
+                            </form>
                         </div>
-                    </th:block>
-                </th:block>
-                <th:block th:unless="${not #lists.isEmpty(bookList)}">
-                    <div id="noBooksMessage" style="font-size: 32px; white-space: nowrap;">구매한 교재가 없습니다</div>
-                </th:block>
-                <input type="hidden" id="user" th:value="${user}">
+                        <span id="receive" th:text="'수령일 : ' + ${receiveDay}" style="display: block; width: 160px"></span>
+                    </div>
+                </div>
             </div>
-            <button id="cancleBtn" type="button">환불</button>
+            <form th:action="@{/student/purchase/book}" id="bookFrm" method="POST" enctype="multipart/form-data">
+                <div class="bookList">
+                    <table>
+                        <th:block th:each="book : ${bookList}">
+                            <tr style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                                <td style="width: calc(50%-10px); margin-bottom: 20px">
+                                    <div class="grid-container" >
+                                        <div class="bookItem">
+                                            <img th:src="${book.imageUrl}" alt="Book Image" style="height: 200px; width: 150px;">
+                                            <div class="textContainer">
+                                                <strong><div th:text="${book.name}" style="margin-top: 10px"></div></strong>
+                                                <strong><h2><div class="bookPrice" th:text="${book.price}"></div></h2></strong>
+                                                <div th:text="${book.author}" style="color: light gray;"></div>
+                                                <div th:text="${book.publisher}" style="color: light gray;"></div>
+                                                <div th:text="${book.department.name}" style="color: light gray;"></div>
+                                                <div th:text="${book.subject.name}" style="color: light gray;"></div>
+                                            </div>
+                                            <div class="buttonContainer">
+                                                <form th:action="@{/student/purchase/receipt}" method="POST" enctype="multipart/form-data">
+                                                    <div th:text="${receiveCheck}"></div>
+                                                    <div th:text="${receiveDay}"></div>
+                                                    <div style="margin-top: 5px"><button id="cancelBtn" type="button" th:value="${book.id}">환불</button></div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </th:block>
+                    </table>
+                </div>
+                <input type="hidden" name="books" id="books" value="">
+            </form>
         </div>
     </div>
     <div class="page2" style="position: absolute; top: 154px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 20%; display: flex; flex-direction: column; justify-content: space-around">
@@ -250,6 +234,46 @@
         </div>
     </div>
 </div>
+<script>
+    var price = document.querySelectorAll('.bookPrice');
+    const formatter = new Intl.NumberFormat('ko-KR', {
+        style: 'decimal',
+        currency: 'KRW',
+        currencyDisplay: 'symbol' // currencyDisplay 속성을 사용하여 통화 기호 대신에 "원"을 사용합니다.
+    });
+    price.forEach(price => {
+        const formattedValue = formatter.format(price.innerText);
+        price.innerText = formattedValue + '원';
+    })
+
+    function submitForm() {
+        document.getElementById("dateForm").submit();
+    }
+
+    const formContainer = document.getElementById('formContainer');
+    const receiveDaySpan = document.getElementById('receive');
+    const myinfoImg = document.getElementById('myinfoImg');
+
+    myinfoImg.addEventListener('click', function() {
+        if (formContainer.style.display === 'none') {
+            formContainer.style.display = 'block';
+            receiveDaySpan.style.display = 'none';
+            myinfoImg.style.display = 'none';
+        } else {
+            formContainer.style.display = 'none';
+            receiveDaySpan.style.display = 'block';
+            myinfoImg.style.display = 'inline-block'; // 이미지를 다시 보이게 하려면 inline-block으로 설정해야 합니다.
+        }
+    });
+
+    window.onload = function() {
+        var receiveDayValue = document.getElementById('receiveDay').innerText;
+        var myinfoImg = document.getElementById('myinfoImg');
+        if (receiveDayValue === "구매하신 교재가 없습니다.") {
+            myinfoImg.style.display = 'none';
+        }
+    };
+</script>
 </body>
 <script>
     var userIDElement = document.getElementById("userID");
