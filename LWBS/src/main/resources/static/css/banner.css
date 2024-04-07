@@ -1,6 +1,6 @@
 
 .banner {
-    /*position: fixed;*/
+    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -8,11 +8,13 @@
     text-align: center;
     writing-mode: vertical-rl; /* 세로 쓰기 모드 */
     font-size: 50px;
+    right: 0;
+    top: 200px;
 }
 .banner .right{
     border: 2px solid #000000; /* 테두리 스타일 및 색상 */
-    background-color: #4CAF50;  /*배너 배경색 */
-    /*position: fixed;*/
+    background-color: rgb(0, 54, 121);  /*배너 배경색 */
+    position: absolute;
     right: 0;
     padding: 0px; /* 원하는 여백 설정 */
     width: 80px;
@@ -21,8 +23,8 @@
 }
 .banner .left{
     border: 2px solid #000000; /* 테두리 스타일 및 색상 */
-    background-color: #4CAF50;  /*배너 배경색 */
-    position: fixed;
+    background-color: rgb(0, 54, 121);  /*배너 배경색 */
+    position: absolute;
     left: 0;
     padding: 0px; /* 원하는 여백 설정 */
     width: 80px;

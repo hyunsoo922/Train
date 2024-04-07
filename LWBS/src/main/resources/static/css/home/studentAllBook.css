@@ -115,17 +115,16 @@ a::hover{
 .tit_content {
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
-    color: #5d5d5d;
     position: relative;
     height: 20px;
     margin-bottom: 40px;
     font-size: 20px;
-
 }
 
 #student_info {
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
+
     font-size: 13px;
     color: #5d5d5d;
     margin-bottom: 30px;
