@@ -1,3 +1,65 @@
+pre {
+    white-space: pre-wrap;
+}
+.thumbnail {
+    width: 100px;
+    /* Adjust this according to your design */
+    height: 100px;
+    /* Adjust this according to your design */
+    background-size: cover;
+    background-position: center;
+}
+.tit_content{
+    width: 1600px;
+}
+.bookImage {
+    border: 1px solid #000;
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+    /* Adjust spacing between page1 and page2 */
+    flex-direction: column;
+}
+.side_drop_down_menu_panel {
+    padding-left: 10px;
+    padding-top: 8px;
+}
+.side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_panel_button {
+    background: rgb(0, 54, 121);
+}
+.side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_text
+{
+    color: #ffffff; /* 텍스트의 색상을 하얀색으로 변경 */
+}
+.side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_icon img {
+    filter: brightness(0) invert(1);
+}
+*{
+    box-sizing: content-box;
+}
+a {
+    text-decoration: none;
+}
+#myinfoImg {
+    width: 130px;
+    height: 30px;
+    background-color: rgb(0, 54, 121);
+    color: #FFFFFF;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+#cancelBtn {
+    width: 80px;
+    height: 40px;
+    background-color: red;
+    color: white;
+    font-size: 24px;
+    border-radius: 10px;
+    border: 2px solid red;
+    cursor: pointer;
+}
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -61,7 +123,7 @@ body {
     color: #215F9A;
     font-size: 20px;
     border: 2px solid #215F9A;
-    border-radius: 5px;
+    border-radius: 20px;
     cursor: pointer;
 }
 .bookList table {
@@ -95,13 +157,12 @@ body {
     margin-bottom: 20px;
     display: flex;
     align-items: center;
-    box-sizing: border-box;
 }
 .bookList {
     width: 1600px;
     display: flex;
     justify-content: space-between; / 요소들을 양쪽 끝으로 분산 배치합니다. /
-    margin: 0 auto; / 중앙 정렬을 위해 자동 마진을 사용합니다. */
+margin: 0 auto; / 중앙 정렬을 위해 자동 마진을 사용합니다. */
 }
 td {
     border-top: 1px solid lightgray;
@@ -114,7 +175,9 @@ a {
     color: #696969;
     text-decoration: none;
 }
-.side_drop_down_menu_panel {
-    padding-left: 10px;
-    padding-top: 8px;
+.side_drop_down_menu_header_element_right_layout {
+    margin-top: -2px;
+}
+.logoImg {
+    margin-top: -1px;
 }
