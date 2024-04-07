@@ -5,6 +5,8 @@ import com.project.LWBS.domain.*;
 import com.project.LWBS.service.CartService;
 import com.project.LWBS.service.MyPageService;
 import com.project.LWBS.service.StudentService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -53,7 +55,7 @@ public class StudentController {
     }
 
     @PostMapping("/purchase/book")
-    public String postBook(@RequestParam String receiveDay, @RequestParam String books,@RequestParam String mileagePoint,@AuthenticationPrincipal PrincipalDetails principalDetails,HttpSession session) {
+    public String postBook(@RequestParam String receiveDay, @RequestParam String books, @RequestParam String mileagePoint, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpSession session, HttpServletResponse response) {
         // 문자열을 다시 배열로 변환
         System.out.println("책들 : " + books);
         session.setAttribute("user",principalDetails.getUser());
@@ -61,13 +63,13 @@ public class StudentController {
 
         List<Book> bookLists = studentService.findByIds(bookList);
 
-//        System.out.println("수령일: " + receiveDay);
-//        System.out.println("교재: " + bookLists);
+
         session.setAttribute("bookLists",bookLists);
         session.setAttribute("receiveDay",receiveDay);
         session.setAttribute("mileagePoint",mileagePoint);
-//        model.addAttribute("bookLists",bookLists);
-//        model.addAttribute("receiveDay",receiveDay);
+        Cookie cookie = new Cookie("mileagePoint", mileagePoint);
+        cookie.setPath("/");
+        response.addCookie(cookie);
 
         return "redirect:/student/purchase/bookPay";
 
