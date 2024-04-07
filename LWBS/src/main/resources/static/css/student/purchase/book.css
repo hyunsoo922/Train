@@ -1,14 +1,8 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
+    margin: 8px;
     padding: 0;
-}
-#container {
-    display: flex;
-    justify-content: center;
-    align-items:top;
-    flex-direction: column;
-    margin-top: 20px;
+
 }
 .bookCheckBoxContainer {
     margin-right: 10px;
@@ -42,36 +36,6 @@ body {
 .textContainer > div {
     margin-bottom: 5px;
 }
-#mileageContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-}
-#mileageContainer > * {
-    margin-bottom: 10px;
-}
-#mileagePoint, #receiveDay {
-    width: 250px;
-}
-#buyBtn {
-    width: 250px;
-    height: 40px;
-    background-color: #FFFFFF;
-    color: #215F9A;
-    font-size: 20px;
-    border: 2px solid #215F9A;
-    border-radius: 20px;
-    cursor: pointer;
-}
-.bookList table {
-    border-collapse: collapse;
-}
-.bookList th, .bookList td {
-    padding: 10px;
-    text-align: left;
-    vertical-align: top;
-}
 #wrapper {
     min-height: 10vh;
     position: relative;
@@ -81,14 +45,32 @@ body {
     position: absolute;
     top: 154px;
     left: 221px;
-    right: 0;
-    width: 1800px;
+    width: 60%;
     padding: 25px 20px;
     overflow: hidden;
-    min-height: 800px;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.bookList table {
+    border-collapse: collapse;
+}
+.bookList th, .bookList td {
+    padding: 10px;
+    text-align: left;
+}
+.bookList {
+    min-width: 100%;
+    margin: 0 auto; / 중앙 정렬을 위해 자동 마진을 사용합니다. */
+}
+.page2 {
+    position: absolute;
+    padding: 25px 20px;
+    overflow: hidden;
+    /*min-height: 800px;*/
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 .bookItem {
     width: 100%;
@@ -96,13 +78,303 @@ body {
     display: flex;
     align-items: center;
 }
-.bookList {
-    width: 1600px;
-    display: flex;
-    justify-content: space-between; / 요소들을 양쪽 끝으로 분산 배치합니다. /
-    margin: 0 auto; / 중앙 정렬을 위해 자동 마진을 사용합니다. */
+
+.spinner {
+    list-style: none;
+    border-spacing: 0;
+    border-collapse: collapse;
+    word-break: break-all;
+    word-wrap: break-word;
+    text-align: center;
+    overflow: hidden;
+    vertical-align: middle;
+    position: relative;
+    display: block;
+    background-color: #fff;
+    box-sizing: border-box;
+    width: 80px;
+    padding: 0 26px;
 }
-td {
+
+.spinner .minus, .plus {
+    list-style: none;
+    border-spacing: 0;
+    border-collapse: collapse;
+    line-height: normal;
+    vertical-align: middle;
+    user-select: none;
+    text-decoration: none;
+    margin: 0;
+    text-align: center;
+    position: absolute;
+    overflow: hidden;
+    display: block;
+    top: 0;
+    padding-top: 4px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    cursor: pointer;
+    width: 27px;
+    height: 30px;
+}
+
+.spinner .minus {
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    left: 0;
+}
+
+.spinner .plus {
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+    right: 0;
+}
+.spinner input[type="number"] {
+    list-style: none;
+    border-spacing: 0;
+    border-collapse: collapse;
+    border-radius: 0;
+    border: 0;
+    background: 0 0;
+    width: 100%;
+    margin: 0;
+    padding: 0 1px 0 0;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    color: #000;
+    line-height: 22px;
+    letter-spacing: -0.01em;
+    outline: 0;
+    text-align: center;
+    box-sizing: border-box;
+    vertical-align: top;
+    height: 30px;
+    font-size: 12px;
+}
+.spinner input[type="number"]::-webkit-inner-spin-button,
+.spinner input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.book_price {
+    list-style: none;
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin: 0;
+    border-left: 1px solid lightgray;
+    align-items: center; /* 가운데 정렬을 위한 속성 추가 */
+    justify-content: center;
+    height: 100%;
+    width: 10%;
+}
+.book_price .price {
+    text-align: center;
+}
+.price_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 12px;
+    text-align: center;
+}
+.book_wrap{
     border-top: 1px solid lightgray;
+}
+.book_prod {
     border-bottom: 1px solid lightgray;
+}
+.check {
+    width: 5%;
+    vertical-align: top;
+}
+
+.prod_area {
+    display: flex;
+    padding-right: 5px;
+}
+.prod_info1 {
+    padding-left: 10px;
+}
+.prod_info2 {
+    width: 12%;
+    height: 100%;
+    border-left: 1px solid lightgray;
+    position: relative;
+}
+.prod_info2_div {
+    height: 100%;
+}
+.delete {
+    position: absolute;
+    z-index: 1; /* delete를 다른 요소 위에 표시하기 위해 필요한 경우 z-index 설정 */
+    width: 20px;
+    height: 20px;
+    top: 0;
+    right: 0;
+}
+.description {
+    font-size: 12px
+}
+.descriptionButton {
+    width: 80px;
+    height: 40px;
+    background-color: rgb(0, 54, 121);
+    font-size: 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    margin: 10px;
+}
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+    /*border: 2px solid #000;*/
+    z-index: 9999;
+    width: 320px;
+    height: 143px;
+    border-radius: 16px;
+}
+.popup .dialog_contents {
+    text-align: center;
+    margin-top: 20px;
+}
+.btn_confirm {
+    width: 80px;
+    height: 40px;
+    background-color: rgb(0, 54, 121);
+    font-size: 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    margin: 10px;
+    border: none;
+}
+.btn_cancel {
+    width: 80px;
+    height: 40px;
+    background-color: rgb(128, 128, 128);
+    font-size: 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    margin: 10px;
+    border: none;
+}
+.popup .dialog_footer {
+    display: flex;
+    margin-top: 14px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Styles for the overlay */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+.itemBox {
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    padding-right: 30px;
+}
+.mileageContainer {
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    width: 15%;
+    margin-top: 20px;
+    height: 340px;
+
+    position: fixed;
+    top: 180px;
+    right: 350px;
+    transition: top 0.1s ease;
+    z-index: 999;
+}
+.inputMileagePoint {
+    width: 130px;
+    text-align: right;
+}
+.selectReceiveDay {
+    width: 136px;
+}
+.innerMileageContainer0 {
+    padding: 20px;
+}
+.innerMileageContainer1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.InfoBox {
+    padding-bottom: 20px;
+}
+.payInfoBox {
+    display: flex;
+    flex-direction: column;
+}
+.innerMileageContainer2 {
+    border-top: 1px solid lightgray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+.inputBox {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.inputMileagePointBox {
+    padding-bottom: 10px;
+}
+.innerMileageContainer3 {
+    border-top: 1px solid lightgray;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-top: 20px;
+}
+.calculateBox {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.explanation {
+    display: flex;
+    flex-direction: column;
+}
+.real-value {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+#buyBtn {
+    width: 130px;
+    height: 40px;
+    background-color: rgb(0, 54, 121);
+    color: white;
+    font-size: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.buyBtn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }

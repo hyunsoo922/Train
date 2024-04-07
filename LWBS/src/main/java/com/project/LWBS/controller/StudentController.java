@@ -12,9 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/student")
@@ -57,6 +55,7 @@ public class StudentController {
     @PostMapping("/purchase/book")
     public String postBook(@RequestParam String receiveDay, @RequestParam String books,@RequestParam String mileagePoint,@AuthenticationPrincipal PrincipalDetails principalDetails,HttpSession session) {
         // 문자열을 다시 배열로 변환
+        System.out.println("책들 : " + books);
         session.setAttribute("user",principalDetails.getUser());
         List<String> bookList = Arrays.asList(books.split(","));
 
@@ -73,39 +72,49 @@ public class StudentController {
         return "redirect:/student/purchase/bookPay";
 
     }
-
     @GetMapping("/purchase/bookPay")
-    public String bookPay(Model model, HttpSession session, @AuthenticationPrincipal PrincipalDetails principalDetails)
-    {
-        List<Book> bookList = (List<Book>)session.getAttribute("bookLists");
+    public String bookPay(Model model, HttpSession session, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        List<Book> bookList = (List<Book>) session.getAttribute("bookLists");
         int totalPrice = 0;
         int totalCnt = bookList.size();
 
-        for(int i = 0; i < bookList.size(); i++)
-        {
-            int price = Integer.parseInt(bookList.get(i).getPrice());
-            totalPrice+=price;
+        Map<Book, Integer> bookCountMap = new HashMap<>();
+
+        for (Book book : bookList) {
+            int price = Integer.parseInt(book.getPrice());
+            totalPrice += price;
+
+            if (bookCountMap.containsKey(book)) {
+                int count = bookCountMap.get(book);
+                bookCountMap.put(book, count + 1);
+            } else {
+                bookCountMap.put(book, 1);
+            }
         }
-        int point = Integer.parseInt((String)session.getAttribute("mileagePoint"));
-        totalPrice-=point;
-        String receiveDay = (String)session.getAttribute("receiveDay");
 
-        String item = bookList.get(0).getName() + "외" + (bookList.size()-1) + "권";
+        int point = Integer.parseInt((String) session.getAttribute("mileagePoint"));
+        totalPrice -= point;
+        String receiveDay = (String) session.getAttribute("receiveDay");
 
-        model.addAttribute("user",principalDetails.getUser());
-        model.addAttribute("bookList",bookList);
-        model.addAttribute("receiveDay",receiveDay);
-        model.addAttribute("totalPrice",totalPrice);
-        model.addAttribute("totalCnt",totalCnt);
-        model.addAttribute("item",item);
-        model.addAttribute("point",point);
-        session.setAttribute("books",bookList);
-        session.setAttribute("receiveDate",receiveDay);
-        session.setAttribute("users",principalDetails.getUser());
+        String item = bookList.get(0).getName() + "외" + (bookList.size() - 1) + "권";
+
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println(bookCountMap);
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+        model.addAttribute("user", principalDetails.getUser());
+        model.addAttribute("bookCountMap", bookCountMap);
+        model.addAttribute("receiveDay", receiveDay);
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("totalCnt", totalCnt);
+        model.addAttribute("item", item);
+        model.addAttribute("point", point);
+        session.setAttribute("books", bookList);
+        session.setAttribute("receiveDate", receiveDay);
+        session.setAttribute("users", principalDetails.getUser());
 
         return "student/purchase/bookPay";
     }
-
     @GetMapping("/purchase/receipt")
     public String receipt(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         // 현재 사용자 정보를 모델에 추가

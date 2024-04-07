@@ -86,19 +86,20 @@
             <form th:action="@{/student/purchase/book}" id="bookFrm" method="POST" enctype="multipart/form-data">
                 <div class="bookList">
                     <table>
-                        <th:block th:each="book : ${bookList}">
+                        <th:block th:each="entry : ${bookCountMap}">
                             <tr style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                                <td style="width: calc(50%-10px); margin-bottom: 20px">
-                                    <div class="grid-container" >
+                                <td style="width: calc(50% - 10px); margin-bottom: 20px">
+                                    <div class="grid-container">
                                         <div class="bookItem">
-                                            <img th:src="${book.imageUrl}" alt="Book Image" style="height: 200px; width: 150px;">
+                                            <img th:src="${entry.key.imageUrl}" alt="Book Image" style="height: 200px; width: 150px;">
                                             <div class="textContainer">
-                                                <strong><div th:text="${book.name}" style="margin-top: 10px"></div></strong>
-                                                <strong><h2><div th:text="${book.price}+ '원'"></div></h2></strong>
-                                                <div th:text="${book.author}" style="color: light gray;"></div>
-                                                <div th:text="${book.publisher}" style="color: light gray;"></div>
-                                                <div th:text="${book.department.name}" style="color: light gray;"></div>
-                                                <div th:text="${book.subject.name}" style="color: light gray;"></div>
+                                                <strong><div th:text="${entry.key.name}" style="margin-top: 10px"></div></strong>
+                                                <strong><h2><div th:text="${entry.key.price} + '원'"></div></h2></strong>
+                                                <div th:text="${entry.key.author}" style="color: light gray;"></div>
+                                                <div th:text="${entry.key.publisher}" style="color: light gray;"></div>
+                                                <div th:text="${entry.key.department.name}" style="color: light gray;"></div>
+                                                <div th:text="${entry.key.subject.name}" style="color: light gray;"></div>
+                                                <div>개수 : <span th:text="${entry.value} + '권'"></span></div>
                                             </div>
                                         </div>
                                     </div>

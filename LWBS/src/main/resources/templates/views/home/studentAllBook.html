@@ -9,109 +9,69 @@
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0;">
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" th:href="@{/css/banner.css}">
-    <link rel="stylesheet" href="/css/home/student.css">
+    <link rel="stylesheet" href="/css/home/studentAllBook.css">
     <title th:text="${user.name} + '님 환영합니다.'"></title>
 </head>
 <body>
 <th:block th:insert="~{sidedropdownmenu::sidedropdownmenu}"></th:block>
-<th:block th:replace="~{header :: header(pageTitle='학생 홈 페이지')}"></th:block>
+<th:block th:replace="~{header :: header(pageTitle='전체 교재 목록')}"></th:block>
 <div class="container">
     <div class="page1" style="position: absolute; top: 154px; left: 221px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 60%; display: flex; flex-direction: column;">
-        <strong id="notification" style="padding-left: 10px; font-weight: bold;">*수강 신청 내역이 변경되었다면 수강 교재 가져오기를 한번 눌러주세요</strong><span id="userID" th:text="${user.id}" style="display: none"></span>
-        <div id="student_info" style="margin-bottom: 30px" class="container">
+        <span id="userID" th:text="${user.id}" style="display: none"></span>
+        <div id="allBooks">
             <div class="tit_content">
                 <img src="/images/bar.jpg" alt="bar" class="bar" style="width: 4px; height:20px;">
-                <strong style="padding-left: 10px; font-weight: bold;">개인정보</strong>
+                <strong style="padding-left: 10px; font-weight: 800;">전체 교재</strong>
+                <p style="font-size: smaller; margin-top: 3px; color: #5d5d5d;">-모든 교재 목록입니다.</p>
             </div>
-            <div class="content border">
-                <div class="box_b" style="display: inline-block; text-align: center;">
-                    <div style="padding-top: 15%;">
-                        <img th:src="${user.profileImgUrl}" alt="이미지" class="styled-image" style="border-radius: 50%; width: 100px; height: 100px;">
-                    </div>
-                    <br><br>
-                    <strong th:text="${user.name}" style="font-size: 18px"></strong>
-                </div>
-                <div class="box_s border_b border_r" style="display: inline-block;">
-                    <div style="padding-top: 13%"><strong style="font-size: 18px; font-weight: bold;">구매한 교재 수령 날짜</strong></div>
-                </div>
-                <div class="box_s border_b haggi_cnt" style="display: inline-block;">
-                    <div style="padding-top: 13%"><strong style="font-size: 18px; font-weight: bold;">사용 가능 마일리지</strong></div>
 
-                </div>
-                <div class="box_s border_r" style="display: inline-block; position: relative; text-align: center;">
-                    <div style="display: flex; align-items: center; justify-content: center; padding-top: 16%">
-                        <img id="myinfoImg" src="/images/myinfo.png" alt="pen.png" style="width:16px; cursor: pointer;">
-                        <div style="margin-left: 10px;">
-                            <div id="formContainer" style="display: none;">
-                                <form id="dateForm" th:action="@{/student/purchase/receipt}" method="POST" enctype="multipart/form-data">
-                                    <select name="day" id="day" title="day" onchange="submitForm()">
-                                        <option>수령 날짜 변경</option>
-                                        <th:block th:each="receive:${daySelect}">
-                                            <option th:value="${receive.day}" th:utext="${receive.day}"></option>
-                                        </th:block>
-                                    </select>
-                                    <br>
-                                </form>
-                            </div>
-                            <span id="receiveDay" th:text="${receiveDay}" style="display: block;"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="box_s" style="display: inline-block;">
-                    <div style="padding-top: 16%"><span th:text="${mileage} + 'P'" style="font-size: 18px"></span></div>
+            <!-- 드롭 다운 메뉴 -->
+            <div>
+                <label for="department">학과 선택: </label>
+                <select id="department" onchange="filterBooks()">
+                    <option value="all">전체</option>
+                    <!-- 서버 측에서 전달받은 학과 목록을 옵션으로 추가 -->
+                    <th:block th:each="department : ${departmentList}">
+                        <option th:value="${department.name}" th:text="${department.name}"></option>
+                    </th:block>
+                </select>
+            </div>
+            <br>
 
-                </div>
-            </div>
-        </div>
-        <div id="enrollBooks">
-            <div class="tit_content">
-                <img src="/images/bar.jpg" alt="bar" class="bar" style="width: 4px; height:20px;">
-                <strong style="padding-left: 10px; font-weight: 800;">수강 강의 교재</strong>
-                <p style="font-size: smaller; margin-top: 3px;">-수강 신청한 강의의 교재 목록입니다. 구매하실 교재 이미지를 클릭하시면 장바구니에 추가 됩니다.</p>
-            </div>
             <div class="grid grid-cols-4 gap-4">
-                <div th:each="book, index : ${enrollBookList}" class="p-4">
+                <div th:each="book, index : ${bookList}" class="p-4 book">
                     <div class="bookContainer">
                         <strong th:text="${book.subject.name}" style="font-size: 20px;"></strong>
                         <br>
                         <strong th:text="${book.department.name}"></strong>
                         <div class="bookImageContainer" onclick="redirectToCart(this)">
-                            <img class="bookImage" th:src="${book.imageUrl}" alt="Book Image" width="220" height="320" >
+                            <img class="bookImage" th:src="${book.imageUrl}" alt="Book Image" width="220" height="320">
                             <img class="overlayImage" src="/images/cartplus.png" alt="cartPlus">
                             <div class="addToCartText">장바구니에 추가</div>
                         </div>
                         <br>
-                        <div class="priceContainer">
-                            <strong>가격 : </strong>
-                            <strong class="bookPrice" th:text="${book.price}">가격</strong><strong> 원</strong>
-                        </div>
-                        <div class="titleContainer">
-                            <strong>제목 : </strong>
-                            <strong th:text="${#strings.length(book.name) gt 15} ? ${#strings.substring(book.name, 0, 15) + '...'} : ${book.name}">교재명</strong>
-                        </div>
-                        <div class="authorContainer">
-                            <span>저자 : </span>
-                            <span class="author" th:text="${book.author}">저자명</span>
-                        </div>
-                        <div class="publisherContainer">
-                            <span>출판사 : </span>
-                            <span th:text="${book.publisher}">출판사명</span>
-                        </div>
+                        <strong>가격 : </strong>
+                        <strong class="bookPrice" th:text="${book.price}">가격</strong><strong> 원</strong><br>
+                        <strong>제목 : </strong>
+                        <strong th:text="${#strings.length(book.name) gt 15} ? ${#strings.substring(book.name, 0, 15) + '...'} : ${book.name}">교재명</strong><br>
+                        <span>저자 : </span>
+                        <span class="author" th:text="${book.author}">저자명</span><br>
+                        <span>출판사 : </span>
+                        <span th:text="${book.publisher}">출판사명</span><br>
                         <span class="bookID" th:text="${book.id}" style="display: none"></span>
                     </div>
                 </div>
             </div>
+            <span class="authority" th:text="${user.authority.id}" style="display: none"></span>
         </div>
     </div>
 </div>
 <th:block th:insert="~{banner::banner}"></th:block>
 </body>
-
-
 <body onload="checkPopupStatus()">
 
-<div id="popup" class="popup-overlay">
-    <div class="popup-content">
+<div id="overlay" class="popup-overlay">
+    <div id="popup" class="popup-content">
         <span onclick="closePopup()" style="float:right; cursor:pointer;">&times;</span>
         <h2>남서울대학교 대학서점</h2>
         <div id="popupContent">수강 신청 내역이 변경되었다면 수강 교재 가져오기를 한번 눌러주세요.</div>
@@ -134,6 +94,11 @@
         // 팝업과 배경 레이어 숨김
         document.getElementById('popup').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
+
+        // 체크박스의 상태를 확인하여 쿠키를 설정합니다.
+        if (document.getElementById('hidePopupCheckbox').checked) {
+            setCookie("hidePopup", "true", 1); // 이 경우 1일 동안 쿠키가 유지됩니다.
+        }
     }
 
     function checkPopupStatus() {
@@ -152,6 +117,15 @@
             }
         }
         return null;
+    }
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
     }
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -188,21 +162,6 @@
         document.getElementById("dateForm").submit();
     }
 
-    const formContainer = document.getElementById('formContainer');
-    const receiveDaySpan = document.getElementById('receiveDay');
-    const myinfoImg = document.getElementById('myinfoImg');
-
-    myinfoImg.addEventListener('click', function() {
-        if (formContainer.style.display === 'none') {
-            formContainer.style.display = 'block';
-            receiveDaySpan.style.display = 'none';
-            myinfoImg.style.display = 'none';
-        } else {
-            formContainer.style.display = 'none';
-            receiveDaySpan.style.display = 'block';
-            myinfoImg.style.display = 'inline-block';
-        }
-    });
     window.onload = function() {
         var receiveDayValue = document.getElementById('receiveDay').innerText;
         var myinfoImg = document.getElementById('myinfoImg');
@@ -262,7 +221,7 @@
             var text = button.querySelector('.side_drop_down_menu_text');
             var icon = button.querySelector('.side_drop_down_menu_icon img');
 
-            if (text.textContent.trim() === '홈') {
+            if (text.textContent.trim() === '전체 교재') {
                 homeButton = button;
                 button.style.backgroundColor = 'rgb(0, 54, 121)';
                 text.style.color = '#ffffff';
@@ -340,8 +299,6 @@
         const formattedValue = formatter.format(price.innerText);
         price.innerText = formattedValue;
     })
-
-
 </script>
 
 </html>
