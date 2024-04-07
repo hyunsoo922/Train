@@ -30,7 +30,7 @@
             </div>
             <div class="box_s border_r" style="display: inline-block; position: relative; text-align: center;">
                 <div style="display: flex; align-items: center; justify-content: center; padding-top: 3%; padding-bottom: 3%">
-                    <button id="myinfoImg" type="submit">날짜 변경하기</button>
+                    <button id="myinfoImg" type="button" display="inline-block">날짜 변경하기</button>
                     <div style="margin-left: 10px;">
                         <div id="formContainer" style="display: none;">
                             <form id="dateForm" th:action="@{/student/purchase/receipt}" method="POST" enctype="multipart/form-data">
@@ -156,10 +156,11 @@
     }
 
     const formContainer = document.getElementById('formContainer');
-    const receiveDaySpan = document.getElementById('receiveDay');
+    const receiveDaySpan = document.getElementById('receive');
     const myinfoImg = document.getElementById('myinfoImg');
 
     myinfoImg.addEventListener('click', function() {
+        console.log("클릭");
         if (formContainer.style.display === 'none') {
             formContainer.style.display = 'block';
             receiveDaySpan.style.display = 'none';
