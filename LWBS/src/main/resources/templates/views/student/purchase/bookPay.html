@@ -12,7 +12,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/banner.css}">
     <link rel="stylesheet" th:href="@{/css/student/purchase/bookPay.css}">
-    <script th:src="@{/js/student/book.js}"></script>
+    <script th:src="@{/js/student/bookPay.js}"></script>
     <style>
         pre {
             white-space: pre-wrap;
@@ -31,18 +31,7 @@
         .bookImage {
             border: 1px solid #000;
         }
-        #purchaseBtn {
-            cursor: pointer;
-            width: 250px;
-            height: 40px;
-            background-color: #FFFFFF;
-            color: #215F9A;
-            font-size: 20px;
-            border: 2px solid #215F9A;
-            border-radius: 20px;
-            padding: revert-layer;
-        }
-         .bottomSection {
+        .bottomSection {
             width: 880px;
             display: flex;
             text-align: center;
@@ -71,6 +60,16 @@
         a {
             text-decoration: none;
         }
+        #purchaseBtn {
+            border: none;
+            outline: none;
+            background: none;
+            background-image: url('/images/kakaopay.png');
+            width: 109px;
+            height: 48px;
+            cursor: pointer;
+            margin: 10px;
+        }
     </style>
     <title th:text="${user.name} + '님 환영합니다.'"></title>
 </head>
@@ -94,7 +93,7 @@
                                             <img th:src="${book.imageUrl}" alt="Book Image" style="height: 200px; width: 150px;">
                                             <div class="textContainer">
                                                 <strong><div th:text="${book.name}" style="margin-top: 10px"></div></strong>
-                                                <strong><h2><div th:text="${book.price}+ '원'"></div></h2></strong>
+                                                <strong><h2><div class="bookPrice" th:text="${book.price}"></div></h2></strong>
                                                 <div th:text="${book.author}" style="color: light gray;"></div>
                                                 <div th:text="${book.publisher}" style="color: light gray;"></div>
                                                 <div th:text="${book.department.name}" style="color: light gray;"></div>
@@ -116,9 +115,9 @@
             </div>
             <div>
                 <div><strong><span>총 결제금액 </span></strong></div>
-                <div><span th:text="${totalPrice}"></span></div>
+                <div><span class="totalPrice" th:text="${totalPrice}"></span></div>
             </div>
-                <button type="button" id="purchaseBtn">카카오페이로 결제하기</button>
+            <button type="button" id="purchaseBtn"></button>
         </div>
         <input type="hidden" th:value="${totalPrice}" id="totalPrice">
         <input type="hidden" th:value="${item}" id="item">
@@ -218,5 +217,20 @@
         </div>
     </div>
 </div>
+<script>
+    var price = document.querySelectorAll('.bookPrice');
+    var totalPrice = document.querySelector('.totalPrice');
+    const formatter = new Intl.NumberFormat('ko-KR', {
+        style: 'decimal',
+        currency: 'KRW',
+        currencyDisplay: 'symbol' // currencyDisplay 속성을 사용하여 통화 기호 대신에 "원"을 사용합니다.
+    });
+    price.forEach(price => {
+        const formattedValue = formatter.format(price.innerText);
+        price.innerText = formattedValue + '원';
+    })
+        const totalFormattedValue = formatter.format(totalPrice.innerText);
+        totalPrice.innerText = totalFormattedValue + '원';
+</script>
 </body>
 </html>
