@@ -100,10 +100,6 @@ public class StudentController {
 
         String item = bookList.get(0).getName() + "외" + (bookList.size() - 1) + "권";
 
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println(bookCountMap);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
         model.addAttribute("user", principalDetails.getUser());
         model.addAttribute("bookCountMap", bookCountMap);
         model.addAttribute("receiveDay", receiveDay);
@@ -150,7 +146,7 @@ public class StudentController {
     }
 
     @PostMapping("/purchase/receipt")
-    public String postReceipt(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, @RequestParam String day) {
+    public void postReceipt(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, @RequestParam String day) {
         // 현재 사용자 정보를 모델에 추가
         model.addAttribute("user", principalDetails.getUser());
 
@@ -161,11 +157,6 @@ public class StudentController {
         List<Receipt> updatedReceiptList = studentService.findAllUser(principalDetails.getUser());
         if (updatedReceiptList.isEmpty()) {
             model.addAttribute("noReceipt", "구매 내역이 없습니다.");
-            return "student/purchase/receipt";
         }
-
-        // 구매 내역이 있는 경우 해당 페이지로 리다이렉트
-//        return "redirect:/student/purchase/receipt";
-        return "redirect:/home/student";
     }
 }

@@ -58,7 +58,6 @@
                 </div>
                 <div class="box_s" style="display: inline-block;">
                     <div style="padding-top: 16%"><span th:text="${mileage} + 'P'" style="font-size: 18px"></span></div>
-
                 </div>
             </div>
         </div>
@@ -102,6 +101,7 @@
             </div>
         </div>
     </div>
+    <span class="authority" th:text="${user.authority.id}" style="display: none"></span>
 </div>
 <th:block th:insert="~{banner::banner}"></th:block>
 </body>
@@ -182,10 +182,33 @@
         };
         xhr.send();
     }
+    // function submitForm() {
+    //     document.getElementById("dateForm").submit();
+    // }
     function submitForm() {
-        document.getElementById("dateForm").submit();
-    }
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/student/purchase/receipt", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    window.location.reload(); // 페이지 새로고침
+                } else {
+                    // 오류 처리
+                    console.error('Error:', xhr.status);
+                }
+            }
+        };
 
+        var formData = new FormData(document.getElementById("dateForm"));
+        var serializedData = [];
+        for (var pair of formData.entries()) {
+            serializedData.push(encodeURIComponent(pair[0]) + "=" + encodeURIComponent(pair[1]));
+        }
+        serializedData = serializedData.join("&");
+
+        xhr.send(serializedData);
+    }
     const formContainer = document.getElementById('formContainer');
     const receiveDaySpan = document.getElementById('receiveDay');
     const myinfoImg = document.getElementById('myinfoImg');
