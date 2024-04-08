@@ -68,7 +68,7 @@
                                                 <form th:action="@{/student/purchase/receipt}" method="POST" enctype="multipart/form-data">
                                                     <div th:text="${receiveCheck}"></div>
                                                     <div th:text="${receiveDay}"></div>
-                                                    <div style="margin-top: 5px"><button id="cancelBtn" type="button" th:value="${book.id}">환불</button></div>
+                                                    <div style="margin-top: 5px"><button class="cancelBtn" type="button" th:value="${book.id}">환불</button></div>
                                                 </form>
                                             </div>
                                         </div>
