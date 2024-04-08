@@ -1,7 +1,6 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+    display: block;
+    margin: 8px;
 }
 #container {
     display: flex;
@@ -54,15 +53,10 @@ body {
 #mileagePoint, #receiveDay {
     width: 250px;
 }
-#buyBtn {
-    width: 250px;
-    height: 40px;
-    background-color: #FFFFFF;
-    color: #215F9A;
-    font-size: 20px;
-    border: 2px solid #215F9A;
-    border-radius: 5px;
+.buyBtn {
     cursor: pointer;
+    display: flex;
+    justify-content: center;
 }
 .bookList table {
     border-collapse: collapse;
@@ -114,7 +108,151 @@ a {
     color: #696969;
     text-decoration: none;
 }
-.side_drop_down_menu_panel {
-    padding-left: 10px;
-    padding-top: 8px;
+.side_drop_down_menu_header_element_right_layout {
+    margin-top: -1px;
+}
+.logoImg {
+    margin-top: -1px;
+}
+pre {
+    white-space: pre-wrap;
+}
+.thumbnail {
+    width: 100px;
+    /* Adjust this according to your design */
+    height: 100px;
+    /* Adjust this according to your design */
+    background-size: cover;
+    background-position: center;
+}
+.tit_content{
+    width: 1600px;
+}
+.bookImage {
+    border: 1px solid #000;
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+    /* Adjust spacing between page1 and page2 */
+    flex-direction: column;
+}
+.side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_panel_button {
+    background: rgb(0, 54, 121);
+}
+.side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_text
+{
+    color: #ffffff; /* 텍스트의 색상을 하얀색으로 변경 */
+}
+.side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_icon img {
+    filter: brightness(0) invert(1);
+}
+*{
+    box-sizing: content-box;
+}
+a {
+    text-decoration: none;
+}
+#purchaseBtn {
+    border: none;
+    outline: none;
+    background: none;
+    background-image: url('/images/kakaopay.png');
+    width: 109px;
+    height: 48px;
+    cursor: pointer;
+    margin: 10px;
+}
+.payContainer {
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    width: 14%;
+    margin-top: 20px;
+    /*height: 340px;*/
+
+    position: fixed;
+    top: 180px;
+    right: 350px;
+    transition: top 0.1s ease;
+    z-index: 999;
+}
+.inputMileagePoint {
+    width: 130px;
+    text-align: right;
+}
+.selectReceiveDay {
+    width: 136px;
+}
+.innerMileageContainer0 {
+    padding: 20px;
+}
+.innerMileageContainer1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.InfoBox {
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+.payInfoBox {
+    display: flex;
+    flex-direction: column;
+}
+.innerMileageContainer2 {
+    border-top: 1px solid lightgray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+.inputBox {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.inputMileagePointBox {
+    padding-bottom: 10px;
+}
+.innerMileageContainer3 {
+    border-top: 1px solid lightgray;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-top: 20px;
+}
+.calculateBox {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.explanation {
+    display: flex;
+    flex-direction: column;
+}
+.real-value {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+.minusPrice {
+    color: #5055b1;
+    font-weight: 800;
+}
+.sumPrice {
+    font-weight: 800;
+}
+.totalPrice {
+    font-weight: 800;
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+    font-family: "Pretendard-Regular", serif;
+}
+.WebTitle {
+    margin-bottom: -4px;
 }

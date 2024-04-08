@@ -1,4 +1,6 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta http-equiv="Expires" content="-1">
@@ -13,64 +15,7 @@
     <link rel="stylesheet" th:href="@{/css/banner.css}">
     <link rel="stylesheet" th:href="@{/css/student/purchase/bookPay.css}">
     <script th:src="@{/js/student/bookPay.js}"></script>
-    <style>
-        pre {
-            white-space: pre-wrap;
-        }
-        .thumbnail {
-            width: 100px;
-            /* Adjust this according to your design */
-            height: 100px;
-            /* Adjust this according to your design */
-            background-size: cover;
-            background-position: center;
-        }
-        .tit_content{
-            width: 1600px;
-        }
-        .bookImage {
-            border: 1px solid #000;
-        }
-        .bottomSection {
-            width: 880px;
-            display: flex;
-            text-align: center;
-            justify-content: space-around;
-            margin-top: 10px;
-        }
-        .container {
-            display: flex;
-            justify-content: space-between;
-            /* Adjust spacing between page1 and page2 */
-            flex-direction: column;
-        }
-         .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_panel_button {
-            background: rgb(0, 54, 121);
-        }
-        .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_text
-        {
-            color: #ffffff; /* 텍스트의 색상을 하얀색으로 변경 */
-        }
-        .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_icon img {
-            filter: brightness(0) invert(1);
-        }
-        *{
-            box-sizing: content-box;
-        }
-        a {
-            text-decoration: none;
-        }
-        #purchaseBtn {
-            border: none;
-            outline: none;
-            background: none;
-            background-image: url('/images/kakaopay.png');
-            width: 109px;
-            height: 48px;
-            cursor: pointer;
-            margin: 10px;
-        }
-    </style>
+
     <title th:text="${user.name} + '님 환영합니다.'"></title>
 </head>
 <body>
@@ -101,7 +46,7 @@
                                                 <div th:text="${entry.key.publisher}" style="color: light gray;"></div>
                                                 <div th:text="${entry.key.department.name}" style="color: light gray;"></div>
                                                 <div th:text="${entry.key.subject.name}" style="color: light gray;"></div>
-                                                <div>개수 : <span th:text="${entry.value} + '권'"></span></div>
+                                                <div>개수 : <span th:text="${entry.value} + '권'" class="quantity"></span></div>
                                             </div>
                                         </div>
                                     </div>
@@ -112,24 +57,46 @@
                 </div>
             </form>
         </div>
-        <div class="bottomSection">
-            <div>
-                <div><strong><span> 사용하신 마일리지 </span></strong></div>
-                <div><span th:text="${point}"></span></div>
+        <div id="payContainer" class="payContainer">
+            <div class="innerMileageContainer0">
+                <div class="InfoBox">
+                    <div class="innerMileageContainer1">
+                        <div class="payInfoBox">
+                            <strong>상품 금액</strong>
+                            <span>마일리지 사용</span>
+                            <span>상품 할인</span>
+                        </div>
+                        <div class="real-value">
+                            <span class="sumPrice">0원</span>
+                            <span th:text="${point} + 'P'" class="myMileage"></span>
+                            <span class="minusPrice"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="calculateBox">
+                    <div class="innerMileageContainer3">
+                        <div class="explanation">
+                            <strong>최종 결제 금액</strong>
+                            <span>적립 예정 마일리지</span>
+                        </div>
+                        <div class="real-value">
+                            <div>
+                                <span class="totalPrice" th:text="${totalPrice}"></span>
+                            </div>
+                            <span class="earnMileage">P</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="buyBtn">
+                    <button type="button" id="purchaseBtn"></button>
+                </div>
             </div>
-            <div>
-                <div><strong><span>총 결제금액 </span></strong></div>
-                <div><span class="totalPrice" th:text="${totalPrice}"></span></div>
-            </div>
-            <button type="button" id="purchaseBtn"></button>
         </div>
         <input type="hidden" th:value="${totalPrice}" id="totalPrice">
         <input type="hidden" th:value="${item}" id="item">
         <input type="hidden" th:value="${totalCnt}" id="totalCnt">
     </div>
-    <div class="page2" style="position: absolute; top: 154px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 20%; display: flex; flex-direction: column; justify-content: space-around">
-        <th:block th:insert="~{banner::banner}"></th:block>
-    </div>
+    <th:block th:insert="~{banner::banner}"></th:block>
 </div>
 <script>
     var price = document.querySelectorAll('.bookPrice');
@@ -146,6 +113,33 @@
     const totalFormattedValue = formatter.format(totalPrice.innerText);
     totalPrice.innerText = totalFormattedValue + '원';
 
+    document.addEventListener("DOMContentLoaded", function() {
+        // "myMileage" 클래스의 요소를 가져옵니다.
+        var myMileageElement = document.querySelector('.myMileage');
+
+        // "minusPrice" 클래스의 요소를 가져옵니다.
+        var minusPriceElement = document.querySelector('.minusPrice');
+
+        // 만약 "myMileage" 요소와 "minusPrice" 요소가 존재한다면
+        if (myMileageElement && minusPriceElement) {
+            // "myMileage" 요소의 텍스트 콘텐츠를 가져와서 "minusPrice" 요소의 텍스트로 설정합니다.
+            minusPriceElement.textContent = myMileageElement.textContent;
+        }
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+        var myMileageElement = document.querySelector('.minusPrice');
+        var formatter = new Intl.NumberFormat('ko-KR', {
+            style: 'decimal',
+            currency: 'KRW',
+            currencyDisplay: 'symbol'
+        });
+
+        if (myMileageElement) {
+            var mileageValue = parseFloat(myMileageElement.innerText.replace('원', '').replace(/,/g, '')); // "원" 기호와 쉼표를 제거하고 숫자로 변환합니다.
+            var formattedMileage = formatter.format(mileageValue); // 형식화된 값을 가져옵니다.
+            myMileageElement.innerText = '- ' + formattedMileage + '원'; // 쉼표와 "원" 기호를 추가하여 다시 설정합니다.
+        }
+    });
     function viewAllBooks() {
         window.location.href = "/home/studentAllBook";
     }

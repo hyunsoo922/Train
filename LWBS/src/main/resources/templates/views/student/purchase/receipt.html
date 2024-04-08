@@ -30,7 +30,7 @@
             </div>
             <div class="box_s border_r" style="display: inline-block; position: relative; text-align: center;">
                 <div style="display: flex; align-items: center; justify-content: center; padding-top: 3%; padding-bottom: 3%">
-                    <button id="myinfoImg" type="button" display="inline-block">날짜 변경하기</button>
+                    <button id="myinfoImg" type="button" th:if="${not #lists.isEmpty(bookList)}">날짜 변경하기</button>
                     <div style="margin-left: 10px;">
                         <div id="formContainer" style="display: none;">
                             <form id="dateForm" th:action="@{/student/purchase/receipt}" method="POST" enctype="multipart/form-data">
@@ -43,7 +43,7 @@
                                 <br>
                             </form>
                         </div>
-                        <span id="receive" th:text="'수령일 : ' + ${receiveDay}" style="display: block; width: 160px"></span>
+                        <span id="receiveDay" th:text="'수령일 : ' + ${receiveDay}" style="display: block; width: 160px" th:if="${not #lists.isEmpty(bookList)}"></span>
                     </div>
                 </div>
             </div>
@@ -75,6 +75,9 @@
                                     </div>
                                 </td>
                             </tr>
+                        </th:block>
+                        <th:block th:unless="${not #lists.isEmpty(bookList)}">
+                            <div id="noBooksMessage" style="font-size: 32px; white-space: nowrap;">구매하신 교재가 없습니다.</div>
                         </th:block>
                     </table>
                 </div>
@@ -152,11 +155,32 @@
         window.location.href = "/cart" + queryString;
     }
     function submitForm() {
-        document.getElementById("dateForm").submit();
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/student/purchase/receipt", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    window.location.reload(); // 페이지 새로고침
+                } else {
+                    // 오류 처리
+                    console.error('Error:', xhr.status);
+                }
+            }
+        };
+
+        var formData = new FormData(document.getElementById("dateForm"));
+        var serializedData = [];
+        for (var pair of formData.entries()) {
+            serializedData.push(encodeURIComponent(pair[0]) + "=" + encodeURIComponent(pair[1]));
+        }
+        serializedData = serializedData.join("&");
+
+        xhr.send(serializedData);
     }
 
     const formContainer = document.getElementById('formContainer');
-    const receiveDaySpan = document.getElementById('receive');
+    const receiveDaySpan = document.getElementById('receiveDay');
     const myinfoImg = document.getElementById('myinfoImg');
 
     myinfoImg.addEventListener('click', function() {

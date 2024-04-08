@@ -49,7 +49,7 @@ body {
     padding: 25px 20px;
     overflow: hidden;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 .bookList table {
     border-collapse: collapse;
@@ -61,16 +61,6 @@ body {
 .bookList {
     min-width: 100%;
     margin: 0 auto; / 중앙 정렬을 위해 자동 마진을 사용합니다. */
-}
-.page2 {
-    position: absolute;
-    padding: 25px 20px;
-    overflow: hidden;
-    /*min-height: 800px;*/
-    width: 20%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
 }
 .bookItem {
     width: 100%;
@@ -377,4 +367,23 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
+}
+.side_drop_down_menu_header_element_right_layout {
+    margin-top: -1px;
+}
+.logoImg {
+    margin-top: -1px;
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+    font-family: "Pretendard-Regular", serif;
+}
+.WebTitle {
+    margin-bottom: -4px;
 }

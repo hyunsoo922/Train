@@ -21,10 +21,10 @@ pre {
     /* Adjust spacing between page1 and page2 */
     flex-direction: column;
 }
-.side_drop_down_menu_panel {
-    padding-left: 10px;
-    padding-top: 8px;
-}
+/*.side_drop_down_menu_panel {*/
+/*    padding-left: 8px;*/
+/*    padding-top: 8px;*/
+/*}*/
 .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_panel_button {
     background: rgb(0, 54, 121);
 }
@@ -61,9 +61,8 @@ a {
     cursor: pointer;
 }
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+    display: block;
+    margin: 8px;
 }
 #container {
     display: flex;
@@ -176,8 +175,21 @@ a {
     text-decoration: none;
 }
 .side_drop_down_menu_header_element_right_layout {
-    margin-top: -2px;
+    margin-top: -1px;
 }
 .logoImg {
     margin-top: -1px;
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+    font-family: "Pretendard-Regular", serif;
+}
+.WebTitle {
+    margin-bottom: -4px;
 }
