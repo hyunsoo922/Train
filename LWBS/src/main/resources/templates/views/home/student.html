@@ -13,7 +13,7 @@
     <title th:text="${user.name} + '님 환영합니다.'"></title>
 </head>
 <body>
-<th:block th:insert="~{sidedropdownmenu::sidedropdownmenu}"></th:block>
+<th:block th:insert="~{sideDropdownMenu::sidedropdownmenu}"></th:block>
 <th:block th:replace="~{header :: header(pageTitle='학생 홈 페이지')}"></th:block>
 <div class="container">
     <div class="page1" style="position: absolute; top: 154px; left: 221px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 60%; display: flex; flex-direction: column;">

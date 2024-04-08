@@ -19,7 +19,7 @@
     <title th:text="${user.name} + '님 환영합니다.'"></title>
 </head>
 <body>
-<th:block th:insert="~{sidedropdownmenu::sidedropdownmenu}"></th:block>
+<th:block th:insert="~{sideDropdownMenu::sidedropdownmenu}"></th:block>
 <th:block th:replace="~{header :: header(pageTitle='결제')}"></th:block>
 <span id="userID" th:text="${user.id}" style="display: none"></span>
 <span class="authority" th:text="${user.authority.id}" style="display: none"></span>

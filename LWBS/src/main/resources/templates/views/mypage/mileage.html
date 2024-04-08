@@ -12,7 +12,7 @@
     <title th:text="${user.name} + '님 환영합니다.'"></title>
 </head>
 <body style="margin: 8px;">
-<th:block th:insert="~{sidedropdownmenu::sidedropdownmenu}"></th:block>
+<th:block th:insert="~{sideDropdownMenu::sidedropdownmenu}"></th:block>
 <th:block th:replace="~{header :: header(pageTitle='마일리지 내역 조회')}"></th:block>
 <span id="userID" th:text="${user.id}" style="display: none"></span>
 <span class="authority" th:text="${user.authority.id}" style="display: none"></span>
