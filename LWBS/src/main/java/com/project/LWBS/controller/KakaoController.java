@@ -51,8 +51,8 @@ public class KakaoController {
         {
             userService.setKakaoDTO(kakaoDTO);
             // 다음 페이지로의 URL을 클라이언트에게 전달
-//            redirectUrl = "http://13.53.50.7:8093/user/register";
-            redirectUrl = "http://localhost:8093/user/register";
+            redirectUrl = "http://13.53.50.7:8093/user/register";
+//            redirectUrl = "http://localhost:8093/user/register";
             HttpHeaders headers = new HttpHeaders();
             headers.add("Location", redirectUrl);
 
