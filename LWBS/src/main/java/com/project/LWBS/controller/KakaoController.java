@@ -69,17 +69,19 @@ public class KakaoController {
         {
             if(!enrollmentService.isEmptyData(user))
             {
-//                redirectUrl = "http://13.53.50.7:8093/home/student";
-                redirectUrl = "http://localhost:8093/home/student";
+                redirectUrl = "http://13.53.50.7:8093/home/student";
+                //redirectUrl = "http://localhost:8093/home/student";
             }
             else
             {
-                redirectUrl = "http://localhost:8093/mypage/" + user.getId();
+                redirectUrl = "http://13.53.50.7:8093/mypage/" + user.getId();
+                //redirectUrl = "http://localhost:8093/mypage/" + user.getId();
             }
         }
         else if(user.getAuthority().getName().equals("ROLE_BOOKSTORE"))
         {
-            redirectUrl = "http://localhost:8093/home/bookStore";
+            redirectUrl = "http://13.53.50.7:8093/home/bookStore";
+            //redirectUrl = "http://localhost:8093/home/bookStore";
         }
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", redirectUrl);
