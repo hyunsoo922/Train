@@ -1,49 +1,59 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <title>전체 구매 내역</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>서점 메인 페이지</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+        pre {
+            white-space: pre-wrap;
         }
-
-        table {
-            border-collapse: collapse;
-            width: auto;
-            margin-top: 20px;
+        .box {
+            font-weight: normal;
+            -webkit-font-smoothing: antialiased;
+            font-size: 13px;
+            color: #5d5d5d;
+            border-left: 1px solid #e1e1e1;
+            border-right: 1px solid #e1e1e1;
+            border-bottom: 1px solid #e1e1e1;
+            border-top: 2px solid #0086d3;
+            height: 270px;
+            padding: 20px;
+            box-sizing: border-box;
         }
-
-        th, td {
-            border: 1px solid #333;
-            padding: 8px;
-            text-align: center;
+        .content.border {
+            font-weight: normal;
+            -webkit-font-smoothing: antialiased;
+            font-size: 13px;
+            color: #5d5d5d;
+            border-left: 1px solid #e1e1e1;
+            border-right: 1px solid #e1e1e1;
+            border-bottom: 1px solid #e1e1e1;
+            border-top: 2px solid #0086d3;
+            height: 270px;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
         }
-
-        th {
-            background-color: #333;
-            color: #fff;
+        .container {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
         }
-
-        th:nth-child(odd) {
-            background-color: #4caf50;
+        .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_panel_button {
+            background: rgb(0, 54, 121);
         }
-
-        th:nth-child(even) {
-            background-color: #2196f3;
+        .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_text {
+            color: #ffffff;
         }
-
+        .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_icon img {
+            filter: brightness(0) invert(1);
+        }
         .pagination {
             margin-top: 20px;
             text-align: center;
             display: flex;
             justify-content: center;
         }
-
         .pagination a {
             color: black;
             float: left;
@@ -53,136 +63,189 @@
             border: 1px solid #ddd;
             margin: 0 4px;
         }
-
         .pagination a.active {
             background-color: #4caf50;
             color: white;
             border: 1px solid #4caf50;
         }
-
-        .pagination a:hover:not(.active) {background-color: #ddd;}
-
-        #wrapper {
-            min-height: 10vh;
-            position: relative;
-            overflow-y: auto;
-        }
-
-        footer {
-            background-color: #f2f2f2;
-            padding: 10px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-        }
     </style>
+
+
 </head>
 <body>
-<th:block th:insert="~{header::header}"></th:block>
-<th:block th:insert="~{storenav::navfrag}"></th:block>
-<div class="container-fluid mt-5">
-    <div style="text-align: center;">
-        <h2 style="font-size: 70px;">전체 구매 내역</h2>
-    </div>
-    <form th:action="@{/bookStore/ReceiptSearch}" method="get">
-        <div class="form-group">
-            <label for="studentId">학생 번호:</label>
-            <input type="text" class="form-control" id="studentId" name="studentId" required>
+<th:block th:replace="~{bookheader :: bookheader(pageTitle='전체 구매 내역')}"></th:block>
+
+
+<div class="container">
+    <div class="page1" style="position: absolute; top: 154px; left: 221px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 80%; display: flex; flex-direction: column; justify-content: space-around">
+
+        <form th:action="@{/bookStore/ReceiptSearch}" method="get">
+            <div class="form-group">
+                <label for="studentId">학생 번호:</label>
+                <input type="text" class="form-control" id="studentId" name="studentId" required>
+            </div>
+            <button type="submit" class="btn btn-primary">검색</button>
+            <button id="printButton" class="btn btn-secondary">인쇄</button>
+        </form>
+
+
+        <table border="1">
+            <tr>
+                <th style="text-align: center;">
+                    <input type="checkbox" id="selectAll" onclick="toggleAllCheckboxes(this)">
+                    <label for="selectAll"></label>
+                </th>
+                <th style="text-align: center;">학생번호</th>
+                <th style="text-align: center;">이름</th>
+                <th style="text-align: center;">교재명</th>
+                <th style="text-align: center;">출판사명</th>
+                <th style="text-align: center;">저자명</th>
+                <th style="text-align: center;">구매일</th>
+                <th style="text-align: center;">수령여부</th>
+                <th style="text-align: center;">수령여부변경</th>
+                <th style="text-align: center;">수령날짜</th>
+            </tr>
+            <tr th:each="receipt, status : ${receipts}">
+                <td style="text-align: center;">
+                    <input type="checkbox" th:id="${'check_' + receipt.id}" name="check" th:value="${receipt.id}">
+                </td>
+                <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}" style="text-align: center;">
+                    <span th:text="${receipt.user.studentId}"></span>
+                </td>
+                <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}"></td>
+                <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}" style="text-align: center;">
+                    <span th:text="${receipt.user.name}"></span>
+                </td>
+                <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}"></td>
+                <td style="text-align: center;"><span th:text="${receipt.book.name}"></span></td>
+                <td style="text-align: center;"><span th:text="${receipt.book.publisher}"></span></td>
+                <td style="text-align: center;"><span th:text="${receipt.book.author}"></span></td>
+                <td style="text-align: center;"><span th:text="${receipt.createdAt}"></span></td>
+                <td style="text-align: center;"><span th:text="${receipt.receive.receiveCheck}"></span></td>
+                <td style="text-align: center;" th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
+                    <form th:action="@{/bookStore/Receipt}" method="post">
+                        <select name="check">
+                            <option value="수령">수령</option>
+                            <option value="미수령">미수령</option>
+                        </select>
+                        <input type="hidden" name="receiptId" th:value="${receipt.id}">
+                        <input type="hidden" name="receiveDay" th:value="${receipt.receive.day}">
+                        <button type="submit">변경</button>
+                    </form>
+                </td>
+                <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}"></td>
+                <td style="text-align: center;"><span th:text="${receipt.receive.day}"></span></td>
+            </tr>
+        </table>
+
+
+        <div class="pagination">
+
+            <!-- 이전 버튼 -->
+            <a th:if="${nowPage > 1}" th:href="@{/bookStore/Receipt(page=${nowPage - 2})}">&lt; 이전</a>
+
+            <!-- 페이지 목록 -->
+            <!-- 페이지 목록 -->
+            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                <a th:if="${page != nowPage}" th:href="@{/bookStore/Receipt(page=${page - 1})}" th:text="${page}"></a>
+                <a th:if="${page == nowPage}" th:href="@{/bookStore/Receipt(page=${page - 1})}" th:text="${page}" class="active"></a>
+            </th:block>
+
+
+            <!-- 다음 버튼 -->
+            <a th:if="${nowPage < totalPages}" th:href="@{/bookStore/Receipt(page=${nowPage})}">다음 &gt;</a>
+
         </div>
-        <button type="submit" class="btn btn-primary">검색</button>
-        <button id="printButton" class="btn btn-secondary">인쇄</button>
-    </form>
+    </div>
 
-    <table class="table mt-3">
-        <thead>
+    <table>
         <tr>
-            <th style="text-align: center;">
-                <input type="checkbox" id="selectAll" onclick="toggleAllCheckboxes(this)">
-                <label for="selectAll"></label>
-            </th>
-            <th style="text-align: center;">학생번호</th>
-            <th style="text-align: center;">이름</th>
-            <th style="text-align: center;">교재명</th>
-            <th style="text-align: center;">출판사명</th>
-            <th style="text-align: center;">저자명</th>
-            <th style="text-align: center;">구매일</th>
-            <th style="text-align: center;">수령여부</th>
-            <th style="text-align: center;">수령여부변경</th>
-            <th style="text-align: center;">수령날짜</th>
+            <div id="side_drop_down_menu">
+                <div style="position:relative;">
+                    <!-- 헤더 -->
+                    <div class="side_drop_down_menu_panel_background"
+                         style="position: fixed; z-index: 100; top: 110px; bottom: 0px; border-right: 1px solid rgb(230, 230, 230); width: 220px; left: 0;">
+                    </div>
+                    <div class="side_drop_down_menu_panel"
+                         style="z-index: 100; position: absolute; border-right: 1px solid rgb(230, 230, 230); border-top: 1px solid rgb(230, 230, 230); width: 211px; background-color: rgb(255, 255, 255); min-height: 45px; left: 0px; top: 101px;">
+                        <!-- 사이드 네비 -->
+                        <!--대시보드-->
+                        <div class="side_drop_down_menu_panel_button_container">
+                            <div class="side_drop_down_menu_panel_button button inited pressed" style="position: relative; overflow: auto; padding-left: 15px; padding-right: 20px; height: 50px; color: rgb(255, 255, 255); font-family: notokr-medium, NanumGothicBold; font-size: 15px; border-bottom: 1px solid #ccc; background: rgb(0, 54, 121);">
+                                <div style="padding-top: 14px; float: left; width: 16px; height: 22px; text-align: center; vertical-align: middle; line-height: 22px; padding-right: 12px; display: block;" class="side_drop_down_menu_icon">
+                                    <img src="/svg/house.svg" style="vertical-align:middle;width:16px; color: #ffffff" alt="top drop down menu text">
+                                </div>
+                                <a style="float: left; line-height: 50px; font-size: 12px; color: rgb(255, 255, 255);" href="http://localhost:8093/home/bookStore" class="side_drop_down_menu_text">홈</a>
+                            </div>
+                            <div class="side_drop_down_menu_panel_button_sub" style="background-color:#f2f6fa;display:none;"></div>
+                        </div>
+                        <!--                전체 교재-->
+                        <div class="side_drop_down_menu_panel_button_container">
+                            <div class="side_drop_down_menu_panel_button button inited"
+                                 style=" position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                                <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
+                                     class="side_drop_down_menu_icon">
+                                    <img src="/images/books.png" style="vertical-align:middle;width:16px; padding-top: 16px" alt="top drop down menu text">
+                                </div>
+                                <!--                            <a style="padding-top: 9px; float:left;line-height:32px; font-size:14px;" class="side_drop_down_menu_text">전체 교재</a>-->
+                                <a style="padding-top: 9px; float:left;line-height:32px; font-size:14px;" href="http://localhost:8093/bookStore/list" class="side_drop_down_menu_text">전체 교재</a>
+                            </div>
+                            <div class="side_drop_down_menu_panel_button_sub"
+                                 style="background-color:#f2f6fa;display:none;"></div>
+                        </div>
+                        <!--                판매량 통계-->
+                        <div class="side_drop_down_menu_panel_button_container">
+                            <div class="side_drop_down_menu_panel_button button inited"
+                                 style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                                <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;" class="side_drop_down_menu_icon"><img src="/svg/laptop.svg" style="vertical-align:middle;width:16px; padding-top: 15px;" alt="top drop down menu text"></div>
+                                <a style="float:left;line-height:50px; font-size:14px;" href ="http://localhost:8093/bookStore/Statistics" class="side_drop_down_menu_text">판매량 통계</a>
+                            </div>
+                            <div class="side_drop_down_menu_panel_button_sub"
+                                 style="background-color:#f2f6fa;display:block;"></div>
+                        </div>
+                        <!--                구매 내역-->
+                        <div class="side_drop_down_menu_panel_button_container">
+                            <div class="side_drop_down_menu_panel_button button inited"
+                                 style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                                <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
+                                     class="side_drop_down_menu_icon"><img
+                                        src="/images/mileage.png"
+                                        style="vertical-align:middle;width:16px; padding-top: 15px" alt="top drop down menu text">
+                                </div>
+                                <a style="float:left;line-height:50px;  font-size:14px;" href = "http://localhost:8093/bookStore/Receipt" class="side_drop_down_menu_text">구매 내역</a>
+                            </div>
+                            <div class="side_drop_down_menu_panel_button_sub"
+                                 style="background-color:#f2f6fa;display:none;"></div>
+                        </div>
+                        <!--                내 정보 수정-->
+                        <div class="side_drop_down_menu_panel_button_container">
+                            <div class="side_drop_down_menu_panel_button button inited"
+                                 style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                                <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
+                                     class="side_drop_down_menu_icon"><img
+                                        src="/svg/receipt.svg"
+                                        style="vertical-align:middle;width:16px; padding-top: 15px" alt="top drop down menu text"></div><a
+                                    style="float:left;line-height:50px; font-size:14px;" href = "http://localhost:8093/mypage/myInfoUpdate/bookStore"
+                                    class="side_drop_down_menu_text">내 정보 수정</a>
+                            </div>
+                            <div class="side_drop_down_menu_panel_button_sub"
+                                 style="background-color:#f2f6fa;display:none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </tr>
-        </thead>
-        <tbody>
 
-        <tr th:each="receipt, status : ${receipts}">
-
-            <td style="text-align: center;">
-                <input type="checkbox" th:id="${'check_' + receipt.id}" name="check" th:value="${receipt.id}">
-            </td>
-<!--            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}" name="checkSibling" th:value="${receipt.id}"></td>-->
-
-            <!-- 학생번호 -->
-            <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}" style="text-align: center;">
-                <span th:text="${receipt.user.studentId}"></span>
-            </td>
-
-            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}"></td>
-
-            <!-- 이름 -->
-            <td th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}" style="text-align: center;">
-                <span th:text="${receipt.user.name}"></span>
-            </td>
-            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}"></td>
-
-            <!-- 교재명, 출판사명, 저자명, 구매일, 수령여부, 수령여부 변경, 수령일 -->
-            <td style="text-align: center;"><span th:text="${receipt.book.name}"></span></td>
-            <td style="text-align: center;"><span th:text="${receipt.book.publisher}"></span></td>
-            <td style="text-align: center;"><span th:text="${receipt.book.author}"></span></td>
-            <td style="text-align: center;"><span th:text="${receipt.createdAt}"></span></td>
-            <td style="text-align: center;"><span th:text="${receipt.receive.receiveCheck}"></span></td>
-
-            <!-- 수령여부 변경 -->
-            <td style="text-align: center;" th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
-                <form th:action="@{/bookStore/Receipt}" method="post">
-                    <select name="check">
-                        <option value="수령">수령</option>
-                        <option value="미수령">미수령</option>
-                    </select>
-                    <input type="hidden" name="receiptId" th:value="${receipt.id}">
-                    <input type="hidden" name="receiveDay" th:value="${receipt.receive.day}">
-                    <button type="submit">변경</button>
-                </form>
-            </td>
-            <td th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}"></td>
-
-            <!-- 수령일 -->
-            <td style="text-align: center;"><span th:text="${receipt.receive.day}"></span></td>
-        </tr>
-
-        </tbody>
     </table>
 
-    <div class="pagination">
-
-        <!-- 이전 버튼 -->
-        <a th:if="${nowPage > 1}" th:href="@{/bookStore/Receipt(page=${nowPage - 2})}">&lt; 이전</a>
-
-        <!-- 페이지 목록 -->
-        <!-- 페이지 목록 -->
-        <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-            <a th:if="${page != nowPage}" th:href="@{/bookStore/Receipt(page=${page - 1})}" th:text="${page}"></a>
-            <a th:if="${page == nowPage}" th:href="@{/bookStore/Receipt(page=${page - 1})}" th:text="${page}" class="active"></a>
-        </th:block>
-
-
-        <!-- 다음 버튼 -->
-        <a th:if="${nowPage < totalPages}" th:href="@{/bookStore/Receipt(page=${nowPage})}">다음 &gt;</a>
-
-    </div>
-
-    <div id="printArea"></div>
-
 </div>
+</body>
+
+
+<div id="printArea"></div>
+
+
+
 <script>
 
     // 전체 선택 체크박스 클릭 시 모든 체크박스 선택/해제 함수
@@ -259,10 +322,6 @@
         printWindow.print();
     });
 </script>
-<div id="wrapper">
-    <footer>
-        <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>
-    </footer>
-</div>
-</body>
+
+
 </html>

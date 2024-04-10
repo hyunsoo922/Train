@@ -71,51 +71,140 @@
             width: 100%;
             text-align: center;
         }
+
+         .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_panel_button {
+            background: rgb(0, 54, 121);
+        }
+        .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_text
+        {
+            color: #ffffff; /* 텍스트의 색상을 하얀색으로 변경 */
+        }
+        .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_icon img {
+            filter: brightness(0) invert(1);
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <!-- 헤더와 내비게이션 -->
-<th:block th:insert="~{header::header}"></th:block>
-<br><br>
-<th:block th:insert="~{storenav::navfrag}"></th:block>
-<br><br><br>
-<div style="text-align: center;">
-    <h2 style="font-size: 80px;">교재 통계</h2>
-</div>
+<th:block th:replace="~{bookheader :: bookheader(pageTitle='서점 홈 페이지')}"></th:block>
+<div class="container">
+    <div class="page1" style="position: absolute; top: 154px; left: 221px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 60%; display: flex; flex-direction: column; justify-content: space-around">
+        <div id="departmentContainer">
+            <label for="departmentSelect">학과 선택: </label>
+            <select id="departmentSelect" onchange="updateChart()">
+                <option value="all">전체 학과</option>
+                <!-- Thymeleaf를 사용하여 bookList에서 학과 정보를 동적으로 추가 -->
+                <option th:each="book, status : ${bookList}" th:value="${book.department.name}" th:text="${book.department.name}"
+                        th:if="${status.index == 0 || book.department.name != bookList[status.index - 1].department.name}">
+                </option>
+            </select>
+        </div>
 
-<div id="departmentContainer">
-    <label for="departmentSelect">학과 선택: </label>
-    <select id="departmentSelect" onchange="updateChart()">
-        <option value="all">전체 학과</option>
-        <!-- Thymeleaf를 사용하여 bookList에서 학과 정보를 동적으로 추가 -->
-        <option th:each="book, status : ${bookList}" th:value="${book.department.name}" th:text="${book.department.name}"
-                th:if="${status.index == 0 || book.department.name != bookList[status.index - 1].department.name}">
-        </option>
-    </select>
-</div>
+        <!-- 수정된 canvas 요소: 원하는 크기로 설정 -->
+        <div id="chartAndTableContainer">
+             <!-- 수정된 canvas 요소: 원하는 크기로 설정 -->
+                <canvas id="myPieChart" width="700" height="700"></canvas>
 
-<!-- 수정된 canvas 요소: 원하는 크기로 설정 -->
-<div id="chartAndTableContainer">
-     <!-- 수정된 canvas 요소: 원하는 크기로 설정 -->
-        <canvas id="myPieChart" width="700" height="700"></canvas>
-
-        <!-- 표에 hidden 클래스 추가 -->
-        <table border="1" id="bookTable" >
-            <tr th:each="book, iterStat : ${bookList}">
-                <td th:id="'department-' + ${book.department.name}">
-                   <!-- 추가된 부분: 학과 정보를 표시하는 span 엘리먼트에 클래스 추가 -->
-                    <span class="book-department" th:text="${book.department.name}" hidden></span>
-                    <span>학과명: <span th:text="${book.department.name}"></span></span>
-                    <br>
-                    <span>교재명: <span class="book-name" th:text="${book.name}"></span></span>
-                    <br>
-                    <span>판매량: <span class="book-count" th:text="${countList[iterStat.index]}"></span>권</span>
-                </td>
-            </tr>
+                <!-- 표에 hidden 클래스 추가 -->
+                <table border="1" id="bookTable" >
+                    <tr th:each="book, iterStat : ${bookList}">
+                        <td th:id="'department-' + ${book.department.name}">
+                           <!-- 추가된 부분: 학과 정보를 표시하는 span 엘리먼트에 클래스 추가 -->
+                            <span class="book-department" th:text="${book.department.name}" hidden></span>
+                            <span>학과명: <span th:text="${book.department.name}"></span></span>
+                            <br>
+                            <span>교재명: <span class="book-name" th:text="${book.name}"></span></span>
+                            <br>
+                            <span>판매량: <span class="book-count" th:text="${countList[iterStat.index]}"></span>권</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </table>
     </div>
-</table>
+
+    <table>
+        <tr>
+            <div id="side_drop_down_menu">
+                <div style="position:relative;">
+                    <!-- 헤더 -->
+                    <div class="side_drop_down_menu_panel_background"
+                         style="position: fixed; z-index: 100; top: 110px; bottom: 0px; border-right: 1px solid rgb(230, 230, 230); width: 220px; left: 0;">
+                    </div>
+                    <div class="side_drop_down_menu_panel"
+                         style="z-index: 100; position: absolute; border-right: 1px solid rgb(230, 230, 230); border-top: 1px solid rgb(230, 230, 230); width: 211px; background-color: rgb(255, 255, 255); min-height: 45px; left: 0px; top: 101px;">
+                        <!-- 사이드 네비 -->
+                        <!--대시보드-->
+                        <div class="side_drop_down_menu_panel_button_container">
+                            <div class="side_drop_down_menu_panel_button button inited pressed" style="position: relative; overflow: auto; padding-left: 15px; padding-right: 20px; height: 50px; color: rgb(255, 255, 255); font-family: notokr-medium, NanumGothicBold; font-size: 15px; border-bottom: 1px solid #ccc; background: rgb(0, 54, 121);">
+                                <div style="padding-top: 14px; float: left; width: 16px; height: 22px; text-align: center; vertical-align: middle; line-height: 22px; padding-right: 12px; display: block;" class="side_drop_down_menu_icon">
+                                    <img src="/svg/house.svg" style="vertical-align:middle;width:16px; color: #ffffff" alt="top drop down menu text">
+                                </div>
+                                <a style="float: left; line-height: 50px; font-size: 12px; color: rgb(255, 255, 255);" href="http://localhost:8093/home/bookStore" class="side_drop_down_menu_text">홈</a>
+                            </div>
+                            <div class="side_drop_down_menu_panel_button_sub" style="background-color:#f2f6fa;display:none;"></div>
+                        </div>
+                        <!--                전체 교재-->
+                        <div class="side_drop_down_menu_panel_button_container">
+                            <div class="side_drop_down_menu_panel_button button inited"
+                                 style=" position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                                <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
+                                     class="side_drop_down_menu_icon">
+                                    <img src="/images/books.png" style="vertical-align:middle;width:16px; padding-top: 16px" alt="top drop down menu text">
+                                </div>
+                                <!--                            <a style="padding-top: 9px; float:left;line-height:32px; font-size:14px;" class="side_drop_down_menu_text">전체 교재</a>-->
+                                <a style="padding-top: 9px; float:left;line-height:32px; font-size:14px;" href="http://localhost:8093/bookStore/list" class="side_drop_down_menu_text">전체 교재</a>
+                            </div>
+                            <div class="side_drop_down_menu_panel_button_sub"
+                                 style="background-color:#f2f6fa;display:none;"></div>
+                        </div>
+                        <!--                판매량 통계-->
+                        <div class="side_drop_down_menu_panel_button_container">
+                            <div class="side_drop_down_menu_panel_button button inited"
+                                 style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                                <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;" class="side_drop_down_menu_icon"><img src="/svg/laptop.svg" style="vertical-align:middle;width:16px; padding-top: 15px;" alt="top drop down menu text"></div>
+                                <a style="float:left;line-height:50px; font-size:14px;" href ="http://localhost:8093/bookStore/Statistics" class="side_drop_down_menu_text">판매량 통계</a>
+                            </div>
+                            <div class="side_drop_down_menu_panel_button_sub"
+                                 style="background-color:#f2f6fa;display:block;"></div>
+                        </div>
+                        <!--                구매 내역-->
+                        <div class="side_drop_down_menu_panel_button_container">
+                            <div class="side_drop_down_menu_panel_button button inited"
+                                 style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                                <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
+                                     class="side_drop_down_menu_icon"><img
+                                        src="/images/mileage.png"
+                                        style="vertical-align:middle;width:16px; padding-top: 15px" alt="top drop down menu text">
+                                </div>
+                                <a style="float:left;line-height:50px;  font-size:14px;" href = "http://localhost:8093/bookStore/Receipt" class="side_drop_down_menu_text">구매 내역</a>
+                            </div>
+                            <div class="side_drop_down_menu_panel_button_sub"
+                                 style="background-color:#f2f6fa;display:none;"></div>
+                        </div>
+                        <!--                내 정보 수정-->
+                        <div class="side_drop_down_menu_panel_button_container">
+                            <div class="side_drop_down_menu_panel_button button inited"
+                                 style="position:relative;overflow:auto;padding-left:15px;padding-right:20px;height:50px;color:#696969;font-family: notokr-medium, NanumGothicBold;font-size:15px; border-bottom: 1px solid #ccc;">
+                                <div style="float: left; width: 16px; height: 50px; text-align: center; vertical-align: middle; line-height: 50px; padding-right: 12px; display: block;"
+                                     class="side_drop_down_menu_icon"><img
+                                        src="/svg/receipt.svg"
+                                        style="vertical-align:middle;width:16px; padding-top: 15px" alt="top drop down menu text"></div><a
+                                    style="float:left;line-height:50px; font-size:14px;" href = "http://localhost:8093/mypage/myInfoUpdate/bookStore"
+                                    class="side_drop_down_menu_text">내 정보 수정</a>
+                            </div>
+                            <div class="side_drop_down_menu_panel_button_sub"
+                                 style="background-color:#f2f6fa;display:none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </tr>
+
+    </table>
+</div>
+</body>
 
 <!-- JavaScript 스크립트 -->
 <script>

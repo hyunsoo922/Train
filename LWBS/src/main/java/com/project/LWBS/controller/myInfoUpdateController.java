@@ -47,7 +47,7 @@ public class myInfoUpdateController {
     public String handleSubmit(@RequestParam("franchisee") String franchisee,
                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
         userService.updateBookStoreInfo(franchisee, principalDetails.getUser().getId());
-        return "redirect:/mypage/" + principalDetails.getUser().getId();
+        return "mypage/myInfoUpdate/bookStore";
     }
 
     private static void sleep(int milliseconds) {
