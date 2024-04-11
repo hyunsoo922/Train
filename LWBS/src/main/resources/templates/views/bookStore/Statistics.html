@@ -95,8 +95,10 @@
             <select id="departmentSelect" onchange="updateChart()">
                 <option value="all">전체 학과</option>
                 <!-- Thymeleaf를 사용하여 bookList에서 학과 정보를 동적으로 추가 -->
-                <option th:each="book, status : ${bookList}" th:value="${book.department.name}" th:text="${book.department.name}"
-                        th:if="${status.index == 0 || book.department.name != bookList[status.index - 1].department.name}">
+                <option th:each="book, status : ${bookList}"
+                        th:value="${book.department.name}"
+                        th:text="${book.department.name}"
+                        th:unless="${bookList.![department.name].contains(book.department.name) && bookList.![department.name].indexOf(book.department.name) != status.index}">
                 </option>
             </select>
         </div>
@@ -208,97 +210,107 @@
 
 <!-- JavaScript 스크립트 -->
 <script>
-    // Thymeleaf에서 생성된 데이터를 JavaScript로 가져와서 사용
-    var bookNames = document.querySelectorAll('.book-name');
-    var bookCounts = document.querySelectorAll('.book-count');
-
-    var labels = Array.from(bookNames).map(function(bookName) {
-        return bookName.innerText;
-    });
-
-
-    var data = Array.from(bookCounts).map(function(bookCount) {
-        return parseInt(bookCount.innerText);
-    });
-
-    var dynamicData = {
-        labels: labels,
-        datasets: [{
-            data: data,
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#FF9800', '#9C27B0']
-        }]
-    };
-
-    // 차트 생성
-    var ctx = document.getElementById('myPieChart').getContext('2d');
-    var myPieChart = new Chart(ctx, {
-        type: 'pie',
-        data: dynamicData,
-        options: {
-            responsive: false, // 크기를 동적으로 조절하지 않음
-            maintainAspectRatio: false
-            // 기타 옵션들을 필요에 따라 추가할 수 있습니다.
-        }
-    });
-
-    // 드롭다운 메뉴의 선택 변경 시 차트와 표 업데이트
-    function updateChart() {
-        var selectedDepartment = document.getElementById('departmentSelect').value;
-        var tableRows = document.querySelectorAll('#bookTable tr');
-
-        // 모든 행을 숨김
-        tableRows.forEach(function(row) {
-            row.style.display = 'none';
-        });
-
-        // 선택한 학과의 행만 표시
-        if (selectedDepartment === 'all') {
-            tableRows.forEach(function(row) {
-                row.style.display = 'table-row';
-            });
-        } else {
-            var selectedRows = document.querySelectorAll('#bookTable td[id^="department-' + selectedDepartment + '"]');
-            selectedRows.forEach(function(row) {
-                row.parentElement.style.display = 'table-row';
-            });
-        }
-
-        // 파이차트 업데이트
-        updatePieChart(selectedDepartment);
-    }
-
-    // 파이차트를 선택한 학과에 맞게 업데이트하는 함수
-    function updatePieChart(selectedDepartment) {
-        var bookNames = document.querySelectorAll('.book-name');
+        // Thymeleaf에서 생성된 데이터를 JavaScript로 가져와서 사용
+        var departmentNames = document.querySelectorAll('.book-department');
         var bookCounts = document.querySelectorAll('.book-count');
-        var bookDepartments = document.querySelectorAll('.book-department');
 
-        var labels = [];
-        var data = [];
+        // 중복된 학과를 제거하고, 각 학과별로 교재 판매량을 합칩니다.
+        var departmentSalesMap = {};
+        departmentNames.forEach(function(departmentName, index) {
+            var name = departmentName.innerText;
+            var count = parseInt(bookCounts[index].innerText);
 
-        // 선택한 학과에 해당하는 데이터만 추출
-        bookNames.forEach(function(bookName, index) {
-            var departmentName = bookDepartments[index].innerText;
-            if (selectedDepartment === 'all' || departmentName === selectedDepartment) {
-                labels.push(bookName.innerText);
-                data.push(parseInt(bookCounts[index].innerText));
+            if (!departmentSalesMap[name]) {
+                departmentSalesMap[name] = count;
+            } else {
+                departmentSalesMap[name] += count;
             }
         });
 
+        // 합쳐진 데이터를 기반으로 레이블과 데이터를 생성합니다.
+        var labels = Object.keys(departmentSalesMap);
+        var data = Object.values(departmentSalesMap);
+
         var dynamicData = {
-            labels: [],
+            labels: labels,
             datasets: [{
                 data: data,
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'] // 각 항목의 색상
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#FF9800', '#9C27B0']
             }]
         };
 
-        // 파이차트 업데이트
-        myPieChart.data.labels = dynamicData.labels;
-        myPieChart.data.datasets[0].data = dynamicData.datasets[0].data;
-        myPieChart.update();
-    }
+
+        // 차트 생성
+        var ctx = document.getElementById('myPieChart').getContext('2d');
+        var myPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: dynamicData,
+            options: {
+                responsive: false, // 크기를 동적으로 조절하지 않음
+                maintainAspectRatio: false
+                // 기타 옵션들을 필요에 따라 추가할 수 있습니다.
+            }
+        });
+
+        // 드롭다운 메뉴의 선택 변경 시 차트와 표 업데이트
+        function updateChart() {
+            var selectedDepartment = document.getElementById('departmentSelect').value;
+            var tableRows = document.querySelectorAll('#bookTable tr');
+
+            // 모든 행을 숨김
+            tableRows.forEach(function(row) {
+                row.style.display = 'none';
+            });
+
+            // 선택한 학과의 행만 표시
+            if (selectedDepartment === 'all') {
+                tableRows.forEach(function(row) {
+                    row.style.display = 'table-row';
+                });
+            } else {
+                var selectedRows = document.querySelectorAll('#bookTable td[id^="department-' + selectedDepartment + '"]');
+                selectedRows.forEach(function(row) {
+                    row.parentElement.style.display = 'table-row';
+                });
+            }
+
+            // 파이차트 업데이트
+            updatePieChart(selectedDepartment);
+        }
+
+        // 파이차트를 선택한 학과에 맞게 업데이트하는 함수
+        function updatePieChart(selectedDepartment) {
+            var bookNames = document.querySelectorAll('.book-name');
+            var bookCounts = document.querySelectorAll('.book-count');
+            var bookDepartments = document.querySelectorAll('.book-department');
+
+            var labels = [];
+            var data = [];
+
+            // 선택한 학과에 해당하는 데이터만 추출
+            bookNames.forEach(function(bookName, index) {
+                var departmentName = bookDepartments[index].innerText;
+                if (selectedDepartment === 'all' || departmentName === selectedDepartment) {
+                    labels.push(bookName.innerText);
+                    data.push(parseInt(bookCounts[index].innerText));
+                }
+            });
+
+            var dynamicData = {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'] // 각 항목의 색상
+                }]
+            };
+
+            // 파이차트 업데이트
+            myPieChart.data.labels = dynamicData.labels;
+            myPieChart.data.datasets[0].data = dynamicData.datasets[0].data;
+            myPieChart.update();
+        }
 </script>
+
 <div id="wrapper">
     <footer>
         <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>
