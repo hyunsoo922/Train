@@ -41,16 +41,7 @@ body {
     position: relative;
     overflow-y: auto;
 }
-.page1 {
-    position: absolute;
-    top: 154px;
-    left: 221px;
-    width: 60%;
-    padding: 25px 20px;
-    overflow: hidden;
-    display: flex;
-    justify-content: space-between;
-}
+
 .bookList table {
     border-collapse: collapse;
 }
@@ -278,12 +269,16 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 999;
 }
-.itemBox {
-    margin-bottom: 30px;
+
+.page1 {
+    position: absolute;
+    top: 154px;
+    left: 221px;
+    width: 60%;
+    padding: 25px 20px;
+    overflow: hidden;
     display: flex;
-    flex-direction: column;
-    width: 75%;
-    padding-right: 30px;
+    justify-content: space-between;
 }
 .mileageContainer {
     border: 1px solid lightgray;
@@ -291,13 +286,49 @@ body {
     width: 15%;
     margin-top: 20px;
     height: 340px;
-
     position: fixed;
     top: 180px;
     right: 350px;
     transition: top 0.1s ease;
     z-index: 999;
 }
+.itemBox {
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    padding-right: 30px;
+}
+@media(min-width: 768px) and (max-width: 1280px) {
+    .page1 {
+        position: absolute;
+        top: 154px;
+        left: 221px;
+        width: 1200px;
+        padding: 25px 20px;
+        overflow: hidden;
+    }
+    .mileageContainer {
+        border: 1px solid lightgray;
+        border-radius: 10px;
+        width: 250px;
+        margin-top: 20px;
+        height: 340px;
+        position: fixed;
+        top: 180px;
+        right: 100px;
+        transition: top 0.1s ease;
+        z-index: 999;
+    }
+    .itemBox {
+        margin-bottom: 30px;
+        display: flex;
+        flex-direction: column;
+        width: 660px;
+        padding-right: 30px;
+    }
+}
+
 .inputMileagePoint {
     width: 130px;
     text-align: right;
@@ -348,11 +379,16 @@ body {
 .explanation {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
 }
 .real-value {
     display: flex;
     flex-direction: column;
     text-align: right;
+    flex-shrink: 0;
+}
+.payInfoBox {
+    flex-shrink: 0;
 }
 #buyBtn {
     width: 130px;

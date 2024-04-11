@@ -46,3 +46,13 @@ function calculateSumPrice() {
     var mileage = Math.floor(sum / 10); // 소수점 이하 버림
     earnMileageElement.textContent = mileage + 'P';
 }
+function formatAuthors() {
+    var elements = document.querySelectorAll(".author"); // 모든 author 클래스 요소 선택
+    elements.forEach(function(element) { // 각 요소에 대해 처리
+        var authors = element.innerText.split("^"); // ^을 기준으로 저자들을 분리
+        if (authors.length > 1) { // 저자가 여러 명인 경우
+            var additionalAuthorsCount = authors.length - 1; // 추가 저자 수 계산
+            element.innerText = authors[0] + " 외 " + additionalAuthorsCount + "명"; // 형식에 맞게 변경
+        }
+    });
+}

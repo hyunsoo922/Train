@@ -23,10 +23,11 @@ pre {
 .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_panel_button {
     background: rgb(0, 54, 121);
 }
-.side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_text
-{
+
+.side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_text {
     color: #ffffff; /* 텍스트의 색상을 하얀색으로 변경 */
 }
+
 .side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_icon img {
     filter: brightness(0) invert(1);
 }
@@ -54,7 +55,10 @@ pre {
     border: 1px solid rgb(0, 54, 121);
 }
 
-.pagination a:hover:not(.active) {background-color: #ddd;}
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
+
 @font-face {
     font-family: 'Pretendard-Regular';
     src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
@@ -64,4 +68,194 @@ pre {
 
 * {
     font-family: "Pretendard-Regular", serif;
+}
+
+.page1 {
+    position: absolute;
+    top: 154px;
+    left: 221px;
+    right: 0;
+    padding: 25px 20px;
+    overflow: hidden;
+    min-height: 800px;
+    width: 800px;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.triton_panel triton_responsive {
+    margin-top: 10px;
+    border-top: 2px solid rgb(8, 72, 151);
+    position: relative;
+    overflow-x: auto;
+}
+@media(min-width: 768px) and (max-width: 1280px) {
+    .triton_content {
+        width: 768px;
+        min-height: 495px;
+    }
+
+    .mileageBox {
+        width: 768px;
+        border-collapse: separate;
+        vertical-align: middle;
+        border-left: 1px solid rgb(225, 225, 225);
+        border-right: 1px solid rgb(225, 225, 225);
+        border-bottom: 1px solid rgb(225, 225, 225);
+    }
+
+    .mileageList {
+        vertical-align: middle;
+        text-align: center;
+        line-height: 18px;
+        background-color: rgb(255, 255, 255);
+        color: rgb(8, 72, 151);
+        font-size: 13px;
+        height: 40px;
+    }
+
+    .mileageDay {
+        width: 400px;
+        vertical-align: middle;
+        height: 40px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        border-bottom: 1px solid rgb(225, 225, 225);
+        background-color: rgb(255, 255, 255);
+    }
+
+    .mileageDay_content {
+        text-align: center;
+        vertical-align: middle;
+        height: 40px;
+        max-height: 45px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        border-bottom: 1px solid rgb(225, 225, 225);
+        border-right: 1px solid rgb(225, 225, 225);
+    }
+
+    .mileagePoint {
+        width: 200px;
+        vertical-align: middle;
+        height: 40px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        border-bottom: 1px solid rgb(225, 225, 225);
+        background-color: rgb(255, 255, 255);
+    }
+
+    .mileagePoint_content {
+        text-align: center;
+        vertical-align: middle;
+        height: 40px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        border-bottom: 1px solid rgb(225, 225, 225);
+        border-right: 1px solid rgb(225, 225, 225);
+    }
+
+    .kind {
+        width: 100px;
+        vertical-align: middle;
+        height: 40px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        border-bottom: 1px solid rgb(225, 225, 225);
+        background-color: rgb(255, 255, 255);
+    }
+
+    .kind_content {
+        text-align: center;
+        vertical-align: middle;
+        height: 40px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        border-bottom: 1px solid rgb(225, 225, 225);
+        border-right: 1px solid rgb(225, 225, 225);
+    }
+}
+.triton_content {
+    width: 100%;
+    min-height: 495px;
+}
+
+.mileageBox {
+    width: 100%;
+    border-collapse: separate;
+    vertical-align: middle;
+    border-left: 1px solid rgb(225, 225, 225);
+    border-right: 1px solid rgb(225, 225, 225);
+    border-bottom: 1px solid rgb(225, 225, 225);
+}
+
+.mileageList {
+    vertical-align: middle;
+    text-align: center;
+    line-height: 18px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(8, 72, 151);
+    font-size: 13px;
+    height: 40px;
+}
+
+.mileageDay {
+    width: 400px;
+    vertical-align: middle;
+    height: 40px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgb(225, 225, 225);
+    background-color: rgb(255, 255, 255);
+}
+
+.mileageDay_content {
+    text-align: center;
+    vertical-align: middle;
+    height: 40px;
+    max-height: 45px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgb(225, 225, 225);
+    border-right: 1px solid rgb(225, 225, 225);
+}
+
+.mileagePoint {
+    width: 200px;
+    vertical-align: middle;
+    height: 40px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgb(225, 225, 225);
+    background-color: rgb(255, 255, 255);
+}
+
+.mileagePoint_content {
+    text-align: center;
+    vertical-align: middle;
+    height: 40px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgb(225, 225, 225);
+    border-right: 1px solid rgb(225, 225, 225);
+}
+
+.kind {
+    width: 100px;
+    vertical-align: middle;
+    height: 40px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgb(225, 225, 225);
+    background-color: rgb(255, 255, 255);
+}
+
+.kind_content {
+    text-align: center;
+    vertical-align: middle;
+    height: 40px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgb(225, 225, 225);
+    border-right: 1px solid rgb(225, 225, 225);
 }

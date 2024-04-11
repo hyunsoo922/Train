@@ -294,3 +294,34 @@ function prepareFormData() {
 function receipt() {
     window.location.href = "/student/purchase/receipt";
 }
+function truncateText() {
+    var maxWidth = 1280; // 최소 가로 길이
+    if (window.innerWidth <= maxWidth) { // 현재 가로 길이가 최소 가로 길이보다 큰 경우에만 작동
+        var maxLength = 10; // 최대 글자 수
+        var elements = document.querySelectorAll(".bookName"); // 모든 bookName 클래스 요소 선택
+        elements.forEach(function(element) { // 각 요소에 대해 처리
+            var text = element.innerText;
+            if (text.length > maxLength) {
+                text = text.substring(0, maxLength) + "...";
+            }
+            element.innerText = text;
+        });
+    }
+}
+function formatAuthors() {
+    var elements = document.querySelectorAll(".author"); // 모든 author 클래스 요소 선택
+    elements.forEach(function(element) { // 각 요소에 대해 처리
+        var authors = element.innerText.split("^"); // ^을 기준으로 저자들을 분리
+        if (authors.length > 1) { // 저자가 여러 명인 경우
+            var additionalAuthorsCount = authors.length - 1; // 추가 저자 수 계산
+            element.innerText = authors[0] + " 외 " + additionalAuthorsCount + "명"; // 형식에 맞게 변경
+        }
+    });
+}
+function formatPrice() {
+    var priceElements = document.querySelectorAll(".prodPrice"); // 모든 price 클래스 요소 선택
+    priceElements.forEach(function(element) { // 각 요소에 대해 처리
+        var price = parseInt(element.innerText); // 텍스트를 숫자로 변환
+        element.innerText = new Intl.NumberFormat('ko-KR').format(price) + "원"; // 한국 통화 형식으로 변환하여 설정
+    });
+}

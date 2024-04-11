@@ -18,7 +18,7 @@
 
     <title th:text="${user.name} + '님 환영합니다.'"></title>
 </head>
-<body>
+<body onload="formatAuthors();">
 <th:block th:insert="~{sideDropdownMenu::sidedropdownmenu}"></th:block>
 <th:block th:replace="~{header :: header(pageTitle='결제')}"></th:block>
 <span id="userID" th:text="${user.id}" style="display: none"></span>
@@ -34,15 +34,15 @@
                 <div class="bookList">
                     <table>
                         <th:block th:each="entry : ${bookCountMap}">
-                            <tr style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                                <td style="width: 880px; margin-bottom: 20px">
+                            <tr>
+                                <td>
                                     <div class="grid-container">
                                         <div class="bookItem">
                                             <img th:src="${entry.key.imageUrl}" alt="Book Image" style="height: 200px; width: 150px;">
                                             <div class="textContainer">
                                                 <strong><div th:text="${entry.key.name}" style="margin-top: 10px"></div></strong>
                                                 <strong><h2><div class="bookPrice" th:text="${entry.key.price}"></div></h2></strong>
-                                                <div th:text="${entry.key.author}" style="color: light gray;"></div>
+                                                <div class="author" th:text="${entry.key.author}" style="color: light gray;"></div>
                                                 <div th:text="${entry.key.publisher}" style="color: light gray;"></div>
                                                 <div th:text="${entry.key.department.name}" style="color: light gray;"></div>
                                                 <div th:text="${entry.key.subject.name}" style="color: light gray;"></div>

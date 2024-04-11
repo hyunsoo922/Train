@@ -25,8 +25,11 @@ public class PurchaseServiceImpl implements PurchaseService{
 
         MultiValueMap<String,String> paymentData = new LinkedMultiValueMap<>();
 
+        // 13.53.50.7:8093
+//        String requestJson = "{\"cid\":\"TC0ONETIME\",\"partner_order_id\":\"Kakao20230829\",\"partner_user_id\":\"KakaoPay\",\"item_name\":\"" + item + "\",\"quantity\":\"" + totalCnt + "\",\"total_amount\":\"" + totalPrice + "\",\"tax_free_amount\":\"0\",\"approval_url\":\"http://13.53.50.7:8093/purchase/success\",\"cancel_url\":\"http://13.53.50.7:8093/purchase/cancel\",\"fail_url\":\"http://13.53.50.7:8093/purchase/fail\"}";
 
-        String requestJson = "{\"cid\":\"TC0ONETIME\",\"partner_order_id\":\"Kakao20230829\",\"partner_user_id\":\"KakaoPay\",\"item_name\":\"" + item + "\",\"quantity\":\"" + totalCnt + "\",\"total_amount\":\"" + totalPrice + "\",\"tax_free_amount\":\"0\",\"approval_url\":\"http://13.53.50.7:8093/purchase/success\",\"cancel_url\":\"http://13.53.50.7:8093/purchase/cancel\",\"fail_url\":\"http://13.53.50.7:8093/purchase/fail\"}";
+        // localhost:8093
+        String requestJson = "{\"cid\":\"TC0ONETIME\",\"partner_order_id\":\"Kakao20230829\",\"partner_user_id\":\"KakaoPay\",\"item_name\":\"" + item + "\",\"quantity\":\"" + totalCnt + "\",\"total_amount\":\"" + totalPrice + "\",\"tax_free_amount\":\"0\",\"approval_url\":\"http://localhost:8093/purchase/success\",\"cancel_url\":\"http://localhost:8093/purchase/cancel\",\"fail_url\":\"http://localhost:8093/purchase/fail\"}";
 
         // HTTP 통신을 위해서 header 와 body 를 하나로만들기위함
 

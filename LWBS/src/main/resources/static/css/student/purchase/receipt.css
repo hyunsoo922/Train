@@ -84,6 +84,14 @@ body {
     height: 200px;
     margin-left: 10px;
 }
+@media(min-width: 768px) and (max-width: 1280px) {
+    .textContainer {
+        margin-right: auto;
+        width: 600px;
+        height: 200px;
+        margin-left: 10px;
+    }
+}
 .descriptionContainer {
     display: none;
     margin-right: 120px;

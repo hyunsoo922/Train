@@ -58,7 +58,7 @@
     </style>
     <title th:text="${user.name} + '님 환영합니다.'"></title>
 </head>
-<body>
+<body onload="truncateText(); formatAuthors(); formatPrice();">
 <span id="userID" th:text="${user.id}" style="display: none"></span>
 <span class="authority" th:text="${user.authority.id}" style="display: none"></span>
 <th:block th:insert="~{sideDropdownMenu::sidedropdownmenu}"></th:block>
@@ -89,9 +89,9 @@
                                                     <img th:src="${book.imageUrl}" alt="Book Image" style="height: 200px; width: 150px;">
                                                 </div>
                                                 <div class="prod_info1">
-                                                    <strong><div th:text="${book.name}" style="margin-top: 10px"></div></strong>
-                                                    <strong><h2><div th:text="${book.price}+ '원'"></div></h2></strong>
-                                                    <div th:text="${book.author}" style="color: rgb(128,128,128);"></div>
+                                                    <strong><h2><div class="bookName" th:text="${book.name}" style="margin-top: 10px"></div></h2></strong>
+                                                    <strong><div class="prodPrice" th:text="${book.price}"></div></strong>
+                                                    <div class="author" th:text="${book.author}" style="color: rgb(128,128,128);"></div>
                                                     <div th:text="${book.publisher}" style="color: rgb(128,128,128);"></div>
                                                     <div th:text="${book.department.name}" style="color: rgb(128,128,128);"></div>
                                                     <div th:text="${book.subject.name}" style="color: rgb(128,128,128);"></div>
