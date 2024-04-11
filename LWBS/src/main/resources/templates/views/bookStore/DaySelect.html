@@ -1,93 +1,93 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
 
-<head>
-    <meta charset="UTF-8">
-    <title>교재 구매 날짜 범위 선택</title>
-    <script th:src="@{/js/bookStore/daySelect.js}"></script>
-    <style>
-        h2 {
-            font-size: 100px;
-            /* 원하는 크기로 조정하세요 */
-        }
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>교재 구매 날짜 범위 선택</title>-->
+<!--    <script th:src="@{/js/bookStore/daySelect.js}"></script>-->
+<!--    <style>-->
+<!--        h2 {-->
+<!--            font-size: 100px;-->
+<!--            /* 원하는 크기로 조정하세요 */-->
+<!--        }-->
 
-        .container {
-            display: flex;
-            justify-content: space-evenly;
-            font-size: 30px;
-            margin-top: 10%;
-        }
+<!--        .container {-->
+<!--            display: flex;-->
+<!--            justify-content: space-evenly;-->
+<!--            font-size: 30px;-->
+<!--            margin-top: 10%;-->
+<!--        }-->
 
-        .container input {
-            width: 150px;
-            height: 30px;
-            font-size: 20px;
-            margin-top: -30px;
-        }
+<!--        .container input {-->
+<!--            width: 150px;-->
+<!--            height: 30px;-->
+<!--            font-size: 20px;-->
+<!--            margin-top: -30px;-->
+<!--        }-->
 
-        button {
-            width: 150px;
-            padding: 10px;
-            margin-top: 100px;
-            cursor: pointer;
-            border: none;
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 5px;
-        }
-        footer {
-            background-color: #f2f2f2;
-            padding: 10px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-        }
-    </style>
-</head>
+<!--        button {-->
+<!--            width: 150px;-->
+<!--            padding: 10px;-->
+<!--            margin-top: 100px;-->
+<!--            cursor: pointer;-->
+<!--            border: none;-->
+<!--            background-color: #4CAF50;-->
+<!--            color: white;-->
+<!--            border-radius: 5px;-->
+<!--        }-->
+<!--        footer {-->
+<!--            background-color: #f2f2f2;-->
+<!--            padding: 10px;-->
+<!--            position: absolute;-->
+<!--            bottom: 0;-->
+<!--            width: 100%;-->
+<!--            text-align: center;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
 
-<body>
-<th:block th:insert="~{header::header}"></th:block>
-<th:block th:insert="~{storenav::navfrag}"></th:block>
-<div>
-    <div>
-        <form action="/bookStore/DaySelect" method="post">
-        <div style="text-align: center;">
-            <h2 style="font-size: 50px;">날짜 범위 선택</h2>
-        </div>
-                <div class="container">
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <label for="startDate"> 시작 날짜 :      </label>
-                        <input type="date" name="startDate" id="startDate" th:value="${selectedStartDate}" />
-                    </div>
+<!--<body>-->
+<!--<th:block th:insert="~{header::header}"></th:block>-->
+<!--<th:block th:insert="~{storenav::navfrag}"></th:block>-->
+<!--<div>-->
+<!--    <div>-->
+<!--        <form action="/bookStore/DaySelect" method="post">-->
+<!--        <div style="text-align: center;">-->
+<!--            <h2 style="font-size: 50px;">날짜 범위 선택</h2>-->
+<!--        </div>-->
+<!--                <div class="container">-->
+<!--                    <div style="text-align: center; margin-bottom: 20px;">-->
+<!--                        <label for="startDate"> 시작 날짜 :      </label>-->
+<!--                        <input type="date" name="startDate" id="startDate" th:value="${selectedStartDate}" />-->
+<!--                    </div>-->
 
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <label for="endDate"> 종료 날짜 :        </label>
-                        <input type="date" name="endDate" id="endDate" th:value="${selectedEndDate}" />
-                    </div>
-                </div>
+<!--                    <div style="text-align: center; margin-bottom: 20px;">-->
+<!--                        <label for="endDate"> 종료 날짜 :        </label>-->
+<!--                        <input type="date" name="endDate" id="endDate" th:value="${selectedEndDate}" />-->
+<!--                    </div>-->
+<!--                </div>-->
 
-            <div style="text-align: center;">
-                <button type="submit">선택완료</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</body>
-<body>
-<th:block th:insert="~{header::header}"></th:block>
-<th:block th:insert="~{storenav::navfrag}"></th:block>
-<div>
-    <div style="text-align: center;">
-        <h2 style="font-size: 50px;">선택된 날짜 범위</h2>
-        <p>시작 날짜: <span th:text="${selectedStartDate}"></span></p>
-        <p>종료 날짜: <span th:text="${selectedEndDate}"></span></p>
-        <p>총 기간: <span th:text="${numberOfDays}"></span></p>
-    </div>
-</div>
+<!--            <div style="text-align: center;">-->
+<!--                <button type="submit">선택완료</button>-->
+<!--            </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</body>-->
+<!--<body>-->
+<!--<th:block th:insert="~{header::header}"></th:block>-->
+<!--<th:block th:insert="~{storenav::navfrag}"></th:block>-->
+<!--<div>-->
+<!--    <div style="text-align: center;">-->
+<!--        <h2 style="font-size: 50px;">선택된 날짜 범위</h2>-->
+<!--        <p>시작 날짜: <span th:text="${selectedStartDate}"></span></p>-->
+<!--        <p>종료 날짜: <span th:text="${selectedEndDate}"></span></p>-->
+<!--        <p>총 기간: <span th:text="${numberOfDays}"></span></p>-->
+<!--    </div>-->
+<!--</div>-->
 
-</body>
-<footer>
-    <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>
-</footer>
-</html>
+<!--</body>-->
+<!--<footer>-->
+<!--    <p>&copy; 남서울 대학교 캡스톤디자인 트레인팀</p>-->
+<!--</footer>-->
+<!--</html>-->
