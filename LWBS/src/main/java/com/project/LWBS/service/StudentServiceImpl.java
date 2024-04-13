@@ -141,4 +141,9 @@ public class StudentServiceImpl implements StudentService {
         return bookRepository.findByDepartment(department);
     }
 
+    @Override
+    public Book findById(Long id) {
+        return bookRepository.findById(id).orElse(null);
+    }
+
 }

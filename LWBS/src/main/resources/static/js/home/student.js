@@ -254,4 +254,10 @@ $(document).ready(function () {
         // "마일리지 내역 조회" 버튼 클릭 시 "/mypage/mileage"로 이동
         window.location.href = "/mypage/mileage/" + userID;
     }
+
+    function receipt() {
+        window.location.href = "/student/purchase/receipt";
+    }
+
+
 });

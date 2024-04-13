@@ -5,6 +5,8 @@ import com.project.LWBS.domain.*;
 import com.project.LWBS.service.CartService;
 import com.project.LWBS.service.MyPageService;
 import com.project.LWBS.service.StudentService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,9 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/student")
@@ -55,57 +55,64 @@ public class StudentController {
     }
 
     @PostMapping("/purchase/book")
-    public String postBook(@RequestParam String receiveDay, @RequestParam String books,@RequestParam String mileagePoint,@AuthenticationPrincipal PrincipalDetails principalDetails,HttpSession session) {
+    public String postBook(@RequestParam String receiveDay, @RequestParam String books, @RequestParam String mileagePoint, @AuthenticationPrincipal PrincipalDetails principalDetails, HttpSession session, HttpServletResponse response) {
         // 문자열을 다시 배열로 변환
+        System.out.println("책들 : " + books);
         session.setAttribute("user",principalDetails.getUser());
         List<String> bookList = Arrays.asList(books.split(","));
 
         List<Book> bookLists = studentService.findByIds(bookList);
 
-//        System.out.println("수령일: " + receiveDay);
-//        System.out.println("교재: " + bookLists);
+
         session.setAttribute("bookLists",bookLists);
         session.setAttribute("receiveDay",receiveDay);
         session.setAttribute("mileagePoint",mileagePoint);
-//        model.addAttribute("bookLists",bookLists);
-//        model.addAttribute("receiveDay",receiveDay);
+        Cookie cookie = new Cookie("mileagePoint", mileagePoint);
+        cookie.setPath("/");
+        response.addCookie(cookie);
 
         return "redirect:/student/purchase/bookPay";
 
     }
-
     @GetMapping("/purchase/bookPay")
-    public String bookPay(Model model, HttpSession session, @AuthenticationPrincipal PrincipalDetails principalDetails)
-    {
-        List<Book> bookList = (List<Book>)session.getAttribute("bookLists");
+    public String bookPay(Model model, HttpSession session, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        List<Book> bookList = (List<Book>) session.getAttribute("bookLists");
         int totalPrice = 0;
         int totalCnt = bookList.size();
 
-        for(int i = 0; i < bookList.size(); i++)
-        {
-            int price = Integer.parseInt(bookList.get(i).getPrice());
-            totalPrice+=price;
+        Map<Book, Integer> bookCountMap = new HashMap<>();
+
+        for (Book book : bookList) {
+            int price = Integer.parseInt(book.getPrice());
+            totalPrice += price;
+
+            if (bookCountMap.containsKey(book)) {
+                int count = bookCountMap.get(book);
+                bookCountMap.put(book, count + 1);
+            } else {
+                bookCountMap.put(book, 1);
+            }
         }
-        int point = Integer.parseInt((String)session.getAttribute("mileagePoint"));
-        totalPrice-=point;
-        String receiveDay = (String)session.getAttribute("receiveDay");
 
-        String item = bookList.get(0).getName() + "외" + (bookList.size()-1) + "권";
+        int point = Integer.parseInt((String) session.getAttribute("mileagePoint"));
+        totalPrice -= point;
+        String receiveDay = (String) session.getAttribute("receiveDay");
 
-        model.addAttribute("user",principalDetails.getUser());
-        model.addAttribute("bookList",bookList);
-        model.addAttribute("receiveDay",receiveDay);
-        model.addAttribute("totalPrice",totalPrice);
-        model.addAttribute("totalCnt",totalCnt);
-        model.addAttribute("item",item);
-        model.addAttribute("point",point);
-        session.setAttribute("books",bookList);
-        session.setAttribute("receiveDate",receiveDay);
-        session.setAttribute("users",principalDetails.getUser());
+        String item = bookList.get(0).getName() + "외" + (bookList.size() - 1) + "권";
+
+        model.addAttribute("user", principalDetails.getUser());
+        model.addAttribute("bookCountMap", bookCountMap);
+        model.addAttribute("receiveDay", receiveDay);
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("totalCnt", totalCnt);
+        model.addAttribute("item", item);
+        model.addAttribute("point", point);
+        session.setAttribute("books", bookList);
+        session.setAttribute("receiveDate", receiveDay);
+        session.setAttribute("users", principalDetails.getUser());
 
         return "student/purchase/bookPay";
     }
-
     @GetMapping("/purchase/receipt")
     public String receipt(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         // 현재 사용자 정보를 모델에 추가
@@ -139,7 +146,7 @@ public class StudentController {
     }
 
     @PostMapping("/purchase/receipt")
-    public String postReceipt(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, @RequestParam String day) {
+    public void postReceipt(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model, @RequestParam String day) {
         // 현재 사용자 정보를 모델에 추가
         model.addAttribute("user", principalDetails.getUser());
 
@@ -150,11 +157,6 @@ public class StudentController {
         List<Receipt> updatedReceiptList = studentService.findAllUser(principalDetails.getUser());
         if (updatedReceiptList.isEmpty()) {
             model.addAttribute("noReceipt", "구매 내역이 없습니다.");
-            return "student/purchase/receipt";
         }
-
-        // 구매 내역이 있는 경우 해당 페이지로 리다이렉트
-//        return "redirect:/student/purchase/receipt";
-        return "redirect:/home/student";
     }
 }

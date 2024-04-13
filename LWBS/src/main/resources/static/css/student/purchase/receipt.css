@@ -1,0 +1,203 @@
+pre {
+    white-space: pre-wrap;
+}
+.thumbnail {
+    width: 100px;
+    /* Adjust this according to your design */
+    height: 100px;
+    /* Adjust this according to your design */
+    background-size: cover;
+    background-position: center;
+}
+.tit_content{
+    width: 1600px;
+}
+.bookImage {
+    border: 1px solid #000;
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+    /* Adjust spacing between page1 and page2 */
+    flex-direction: column;
+}
+/*.side_drop_down_menu_panel {*/
+/*    padding-left: 8px;*/
+/*    padding-top: 8px;*/
+/*}*/
+.side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_panel_button {
+    background: rgb(0, 54, 121);
+}
+.side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_text
+{
+    color: #ffffff; /* 텍스트의 색상을 하얀색으로 변경 */
+}
+.side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_icon img {
+    filter: brightness(0) invert(1);
+}
+*{
+    box-sizing: content-box;
+}
+a {
+    text-decoration: none;
+}
+#myinfoImg {
+    width: 130px;
+    height: 30px;
+    background-color: rgb(0, 54, 121);
+    color: #FFFFFF;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.cancelBtn {
+    width: 80px;
+    height: 40px;
+    background-color: red;
+    color: white;
+    font-size: 24px;
+    border-radius: 10px;
+    border: 2px solid red;
+    cursor: pointer;
+}
+body {
+    display: block;
+    margin: 8px;
+}
+#container {
+    display: flex;
+    justify-content: center;
+    align-items:top;
+    flex-direction: column;
+    margin-top: 20px;
+}
+.bookCheckBoxContainer {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.bookCheckBox {
+    transform: scale(2.5);
+}
+.textContainer {
+    margin-right: auto;
+    width: 700px;
+    height: 200px;
+    margin-left: 10px;
+}
+@media(min-width: 768px) and (max-width: 1280px) {
+    .textContainer {
+        margin-right: auto;
+        width: 600px;
+        height: 200px;
+        margin-left: 10px;
+    }
+}
+.descriptionContainer {
+    display: none;
+    margin-right: 120px;
+    width: 250px;
+    height: 193px;
+    word-wrap: break-word;
+    overflow: hidden;
+    margin-left: 10px;
+}
+.descriptionButton {
+    background-color: #215F9A;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.textContainer > div {
+    margin-bottom: 5px;
+}
+#mileageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+#mileageContainer > * {
+    margin-bottom: 10px;
+}
+#mileagePoint, #receiveDay {
+    width: 250px;
+}
+#buyBtn {
+    width: 250px;
+    height: 40px;
+    background-color: #FFFFFF;
+    color: #215F9A;
+    font-size: 20px;
+    border: 2px solid #215F9A;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.bookList table {
+    border-collapse: collapse;
+}
+.bookList th, .bookList td {
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+}
+#wrapper {
+    min-height: 10vh;
+    position: relative;
+    overflow-y: auto;
+}
+.page1 {
+    position: absolute;
+    top: 154px;
+    left: 221px;
+    right: 0;
+    width: 1800px;
+    padding: 25px 20px;
+    overflow: hidden;
+    min-height: 800px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.bookItem {
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+.bookList {
+    width: 1600px;
+    display: flex;
+    justify-content: space-between; / 요소들을 양쪽 끝으로 분산 배치합니다. /
+margin: 0 auto; / 중앙 정렬을 위해 자동 마진을 사용합니다. */
+}
+td {
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+}
+*{
+    box-sizing: content-box;
+}
+a {
+    color: #696969;
+    text-decoration: none;
+}
+.side_drop_down_menu_header_element_right_layout {
+    margin-top: -1px;
+}
+.logoImg {
+    margin-top: -1px;
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+    font-family: "Pretendard-Regular", serif;
+}
+.WebTitle {
+    margin-bottom: -4px;
+}

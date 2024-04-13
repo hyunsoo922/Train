@@ -21,4 +21,6 @@ public interface StudentService {
     Department findDepartmentByName(String departmentName);
 
     List<Book> findByDepartment(Department department);
+
+    Book findById(Long id);
 }

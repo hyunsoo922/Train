@@ -31,14 +31,23 @@ public class CartController {
         this.userService = userService;
     }
     @GetMapping("/cart")
-    public String shopping(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestParam("bookID") String bookid) {
+    public void shopping(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestParam("bookID") String bookid) {
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println(bookid);
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         Long user_id = principalDetails.getUser().getId();
         Long book_id = Long.valueOf(bookid);
         System.out.println(principalDetails.getUser().getName());
         System.out.println(book_id);
         cartService.createCart(user_id, book_id);
-
-        return "redirect:/home/student";
     }
     @GetMapping("/student/purchase/delete")
     public String delete(@RequestParam("cartId") String cartId) {

@@ -1,0 +1,36 @@
+.side_drop_down_menu_header_container {
+    position:absolute;top:0;left:0;right:0;overflow-x:hidden;
+}
+.side_drop_down_menu_header_top {
+    position:relative;z-index:200;
+}
+.side_drop_down_menu_header_progress_bar {
+    display:none;position:absolute;height:3px;left:0;top:0;left:0;right:0;width:100%;
+}
+.side_drop_down_menu_header_element_left_layout {
+    position:absolute;
+    left:0;
+    top:0;
+    display: flex;
+    align-items: flex-end;
+}
+.side_drop_down_menu_header_element_right_layout {
+    position:absolute;
+    right:0;top:0;
+    height:73px;
+    line-height:73px;
+}
+.side_drop_down_menu_header_home {
+    float: left; text-align: center; width: 73px; height: 73px; line-height: 73px; border-left: 1px solid rgb(230, 230, 230);
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+    font-family: "Pretendard-Regular", serif;
+}
+

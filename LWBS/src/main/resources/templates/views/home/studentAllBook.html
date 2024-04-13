@@ -1,105 +1,87 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Expires" content="-1">
     <meta http-equiv="Pragma" content="No-Cache">
     <meta http-equiv="Cache-Control" content="No-Cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0;">
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/banner.css}">
-    <link rel="stylesheet" th:href="@{/css/student/purchase/receipt.css}">
-    <script th:src="@{/js/student/receipt.js}"></script>
+    <link rel="stylesheet" href="/css/home/studentAllBook.css">
     <title th:text="${user.name} + '님 환영합니다.'"></title>
 </head>
 <body>
 <th:block th:insert="~{sideDropdownMenu::sidedropdownmenu}"></th:block>
-<th:block th:replace="~{header :: header(pageTitle='구매 내역')}"></th:block>
-<span id="userID" th:text="${user.id}" style="display: none"></span>
-<span class="authority" th:text="${user.authority.id}" style="display: none"></span>
+<th:block th:replace="~{header :: header(pageTitle='전체 교재 목록')}"></th:block>
 <div class="container">
-    <div class="page1">
-        <div id="student_info" style="margin-bottom: 30px" class="">
+    <div class="page1" style="position: absolute; top: 154px; left: 221px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 60%; display: flex; flex-direction: column;">
+        <span id="userID" th:text="${user.id}" style="display: none"></span>
+        <div id="allBooks">
             <div class="tit_content">
                 <img src="/images/bar.jpg" alt="bar" class="bar" style="width: 4px; height:20px;">
-                <strong style="padding-left: 10px; font-weight: bold;">구매 내역</strong>
+                <strong style="padding-left: 10px; font-weight: 800;">전체 교재</strong>
+                <p style="font-size: smaller; margin-top: 3px; color: #5d5d5d;">-모든 교재 목록입니다.</p>
             </div>
-            <div class="box_s border_r" style="display: inline-block; position: relative; text-align: center;">
-                <div style="display: flex; align-items: center; justify-content: center; padding-top: 3%; padding-bottom: 3%">
-                    <button id="myinfoImg" type="button" th:if="${not #lists.isEmpty(bookList)}">날짜 변경하기</button>
-                    <div style="margin-left: 10px;">
-                        <div id="formContainer" style="display: none;">
-                            <form id="dateForm" th:action="@{/student/purchase/receipt}" method="POST" enctype="multipart/form-data">
-                                <select name="day" id="day" title="day" onchange="submitForm()" style=" width: 132px; height: 32px; margin-top: 6px; margin-bottom: 6px">
-                                    <option>수령 날짜 변경</option>
-                                    <th:block th:each="receive:${daySelect}">
-                                        <option th:value="${receive.day}" th:utext="${receive.day}"></option>
-                                    </th:block>
-                                </select>
-                                <br>
-                            </form>
+
+            <!-- 드롭 다운 메뉴 -->
+            <div>
+                <label for="department">학과 선택: </label>
+                <select id="department" onchange="filterBooks()">
+                    <option value="all">전체</option>
+                    <!-- 서버 측에서 전달받은 학과 목록을 옵션으로 추가 -->
+                    <th:block th:each="department : ${departmentList}">
+                        <option th:value="${department.name}" th:text="${department.name}"></option>
+                    </th:block>
+                </select>
+            </div>
+            <br>
+
+            <div class="grid grid-cols-4 gap-4">
+                <div th:each="book, index : ${bookList}" class="p-4 book">
+                    <div class="bookContainer">
+                        <strong th:text="${book.subject.name}" style="font-size: 20px;"></strong>
+                        <br>
+                        <strong th:text="${book.department.name}"></strong>
+                        <div class="bookImageContainer" onclick="redirectToCart(this)">
+                            <img class="bookImage" th:src="${book.imageUrl}" alt="Book Image" width="220" height="320">
+                            <img class="overlayImage" src="/images/cartplus.png" alt="cartPlus">
+                            <div class="addToCartText">장바구니에 추가</div>
                         </div>
-                        <span id="receiveDay" th:text="'수령일 : ' + ${receiveDay}" style="display: block; width: 160px" th:if="${not #lists.isEmpty(bookList)}"></span>
+                        <br>
+                        <strong>가격 : </strong>
+                        <strong class="bookPrice" th:text="${book.price}">가격</strong><strong> 원</strong><br>
+                        <strong>제목 : </strong>
+                        <strong th:text="${#strings.length(book.name) gt 15} ? ${#strings.substring(book.name, 0, 15) + '...'} : ${book.name}">교재명</strong><br>
+                        <span>저자 : </span>
+                        <span class="author" th:text="${book.author}">저자명</span><br>
+                        <span>출판사 : </span>
+                        <span th:text="${book.publisher}">출판사명</span><br>
+                        <span class="bookID" th:text="${book.id}" style="display: none"></span>
                     </div>
                 </div>
             </div>
-            <form th:action="@{/student/purchase/book}" id="bookFrm" method="POST" enctype="multipart/form-data">
-                <div class="bookList">
-                    <table>
-                        <th:block th:each="book : ${bookList}">
-                            <tr style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                                <td style="width: calc(50%-10px); margin-bottom: 20px">
-                                    <div class="grid-container" >
-                                        <div class="bookItem">
-                                            <img th:src="${book.imageUrl}" alt="Book Image" style="height: 200px; width: 150px;">
-                                            <div class="textContainer">
-                                                <strong><div th:text="${book.name}" style="margin-top: 10px"></div></strong>
-                                                <strong><h2><div class="bookPrice" th:text="${book.price}"></div></h2></strong>
-                                                <div th:text="${book.author}" style="color: light gray;"></div>
-                                                <div th:text="${book.publisher}" style="color: light gray;"></div>
-                                                <div th:text="${book.department.name}" style="color: light gray;"></div>
-                                                <div th:text="${book.subject.name}" style="color: light gray;"></div>
-                                            </div>
-                                            <div class="buttonContainer">
-                                                <form th:action="@{/student/purchase/receipt}" method="POST" enctype="multipart/form-data">
-                                                    <div th:text="${receiveCheck}"></div>
-                                                    <div th:text="${receiveDay}"></div>
-                                                    <div style="margin-top: 5px"><button class="cancelBtn" type="button" th:value="${book.id}">환불</button></div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </th:block>
-                        <th:block th:unless="${not #lists.isEmpty(bookList)}">
-                            <div id="noBooksMessage" style="font-size: 32px; white-space: nowrap;">구매하신 교재가 없습니다.</div>
-                        </th:block>
-                    </table>
-                </div>
-                <input type="hidden" name="books" id="books" value="">
-            </form>
+            <span class="authority" th:text="${user.authority.id}" style="display: none"></span>
         </div>
     </div>
 </div>
 <th:block th:insert="~{banner::banner}"></th:block>
 </body>
-<script>
-    var price = document.querySelectorAll('.bookPrice');
-    const formatter = new Intl.NumberFormat('ko-KR', {
-        style: 'decimal',
-        currency: 'KRW',
-        currencyDisplay: 'symbol' // currencyDisplay 속성을 사용하여 통화 기호 대신에 "원"을 사용합니다.
-    });
-    price.forEach(price => {
-        const formattedValue = formatter.format(price.innerText);
-        price.innerText = formattedValue + '원';
-    })
+<body onload="checkPopupStatus()">
 
+<div id="overlay" class="popup-overlay">
+    <div id="popup" class="popup-content">
+        <span onclick="closePopup()" style="float:right; cursor:pointer;">&times;</span>
+        <h2>남서울대학교 대학서점</h2>
+        <div id="popupContent">수강 신청 내역이 변경되었다면 수강 교재 가져오기를 한번 눌러주세요.</div>
+        <label><input type="checkbox" id="hidePopupCheckbox"> 오늘 하루 동안 이 창을 닫기</label>
+        <button onclick="closePopup()">닫기</button>
+    </div>
+</div>
+</body>
+
+<script>
     var userIDElement = document.getElementById("userID");
     var userID = userIDElement.textContent.trim();
     function openPopup() {
@@ -112,6 +94,11 @@
         // 팝업과 배경 레이어 숨김
         document.getElementById('popup').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
+
+        // 체크박스의 상태를 확인하여 쿠키를 설정합니다.
+        if (document.getElementById('hidePopupCheckbox').checked) {
+            setCookie("hidePopup", "true", 1); // 이 경우 1일 동안 쿠키가 유지됩니다.
+        }
     }
 
     function checkPopupStatus() {
@@ -130,6 +117,15 @@
             }
         }
         return null;
+    }
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
     }
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -151,50 +147,20 @@
     function redirectToCart(element) {
         var bookID = element.parentNode.querySelector(".bookID").textContent;
         var queryString = "?bookID=" + encodeURIComponent(bookID);
-        // /cart 엔드포인트로 리디렉션
-        window.location.href = "/cart" + queryString;
-    }
-    function submitForm() {
+
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/student/purchase/receipt", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.open("GET", "/cart" + queryString, true);
         xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    window.location.reload(); // 페이지 새로고침
-                } else {
-                    // 오류 처리
-                    console.error('Error:', xhr.status);
-                }
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                location.reload();
             }
         };
-
-        var formData = new FormData(document.getElementById("dateForm"));
-        var serializedData = [];
-        for (var pair of formData.entries()) {
-            serializedData.push(encodeURIComponent(pair[0]) + "=" + encodeURIComponent(pair[1]));
-        }
-        serializedData = serializedData.join("&");
-
-        xhr.send(serializedData);
+        xhr.send();
+    }
+    function submitForm() {
+        document.getElementById("dateForm").submit();
     }
 
-    const formContainer = document.getElementById('formContainer');
-    const receiveDaySpan = document.getElementById('receiveDay');
-    const myinfoImg = document.getElementById('myinfoImg');
-
-    myinfoImg.addEventListener('click', function() {
-        console.log("클릭");
-        if (formContainer.style.display === 'none') {
-            formContainer.style.display = 'block';
-            receiveDaySpan.style.display = 'none';
-            myinfoImg.style.display = 'none';
-        } else {
-            formContainer.style.display = 'none';
-            receiveDaySpan.style.display = 'block';
-            myinfoImg.style.display = 'inline-block';
-        }
-    });
     window.onload = function() {
         var receiveDayValue = document.getElementById('receiveDay').innerText;
         var myinfoImg = document.getElementById('myinfoImg');
@@ -254,7 +220,7 @@
             var text = button.querySelector('.side_drop_down_menu_text');
             var icon = button.querySelector('.side_drop_down_menu_icon img');
 
-            if (text.textContent.trim() === '구매 내역') {
+            if (text.textContent.trim() === '전체 교재') {
                 homeButton = button;
                 button.style.backgroundColor = 'rgb(0, 54, 121)';
                 text.style.color = '#ffffff';
@@ -305,5 +271,33 @@
     function receipt() {
         window.location.href = "/student/purchase/receipt";
     }
+
+    const authorSpans = document.querySelectorAll('.author');
+
+    authorSpans.forEach(authorSpan => {
+        const authorNames = authorSpan.textContent.split('^');
+        const numNames = authorNames.length;
+
+        if (numNames > 1) {
+            const firstAuthor = authorNames[0];
+            const otherAuthors = numNames - 1;
+            const formattedAuthors = `${firstAuthor} 외 ${otherAuthors}명`;
+            authorSpan.textContent = formattedAuthors;
+        }
+    });
+
+    var price = document.querySelectorAll('.bookPrice');
+
+    const formatter = new Intl.NumberFormat('ko-KR', {
+        style: 'decimal',
+        currency: 'KRW',
+        currencyDisplay: 'symbol' // currencyDisplay 속성을 사용하여 통화 기호 대신에 "원"을 사용합니다.
+    });
+
+    price.forEach(price => {
+        const formattedValue = formatter.format(price.innerText);
+        price.innerText = formattedValue;
+    })
 </script>
+
 </html>
