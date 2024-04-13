@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>서점 메인 페이지</title>
+    <title>전체 구매 내역</title>
     <style>
         pre {
             white-space: pre-wrap;
@@ -83,9 +83,9 @@
             <div class="form-group">
                 <label for="studentId">학생 번호:</label>
                 <input type="text" class="form-control" id="studentId" name="studentId" required>
+                <button type="submit" class="btn btn-primary">검색</button>
+                <button id="printButton" class="btn btn-secondary">인쇄</button>
             </div>
-            <button type="submit" class="btn btn-primary">검색</button>
-            <button id="printButton" class="btn btn-secondary">인쇄</button>
         </form>
 
 

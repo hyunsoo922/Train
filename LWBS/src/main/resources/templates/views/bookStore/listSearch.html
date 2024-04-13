@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>서점 메인 페이지</title>
+    <title>전체 교재 내역</title>
     <style>
         pre {
             white-space: pre-wrap;
@@ -75,7 +75,7 @@
 <body>
 <th:block th:replace="~{bookheader :: bookheader(pageTitle='전체 교재 내역')}"></th:block>
 
-
+<div class = "container">
     <div class="page1" style="position: absolute; top: 154px; left: 221px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 80%; display: flex; flex-direction: column; justify-content: space-around">
 
         <form th:action="@{/bookStore/listSearch}" method="get">
@@ -110,26 +110,26 @@
                 <td th:text="${book.department.name}"></td>
             </tr>
         </table>
+
+
+        <div class="pagination">
+            <!-- 이전 버튼 -->
+            <a th:if="${nowPage > 1}" th:href="@{/bookStore/listSearch(page=${nowPage - 2})}">&lt; 이전</a>
+
+            <!-- 페이지 목록 -->
+            <!-- 페이지 목록 -->
+            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                <a th:if="${page != nowPage}" th:href="@{/bookStore/listSearch(page=${page - 1})}" th:text="${page}"></a>
+                <a th:if="${page == nowPage}" th:href="@{/bookStore/listSearch(page=${page - 1})}" th:text="${page}" class="active"></a>
+            </th:block>
+
+
+            <!-- 다음 버튼 -->
+            <a th:if="${nowPage < totalPages}" th:href="@{/bookStore/listSearch(page=${nowPage})}">다음 &gt;</a>
+        </div>
     </div>
 
-    <div class="pagination">
-        <!-- 이전 버튼 -->
-        <a th:if="${nowPage > 1}" th:href="@{/bookStore/listSearch(page=${nowPage - 2})}">&lt; 이전</a>
-
-        <!-- 페이지 목록 -->
-        <!-- 페이지 목록 -->
-        <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-            <a th:if="${page != nowPage}" th:href="@{/bookStore/listSearch(page=${page - 1})}" th:text="${page}"></a>
-            <a th:if="${page == nowPage}" th:href="@{/bookStore/listSearch(page=${page - 1})}" th:text="${page}" class="active"></a>
-        </th:block>
-
-
-        <!-- 다음 버튼 -->
-        <a th:if="${nowPage < totalPages}" th:href="@{/bookStore/listSearch(page=${nowPage})}">다음 &gt;</a>
-    </div>
-
-
-
+</div>
 
 <table>
     <tr>
@@ -213,19 +213,4 @@
 
 </div>
 </body>
-
-
-<div id="printArea"></div>
-
-<script>
-    function refreshPage() {
-        location.reload(true);
-    }
-
-
-</script>
-
-
-
-
 </html>
