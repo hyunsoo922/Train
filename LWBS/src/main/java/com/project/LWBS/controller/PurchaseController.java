@@ -68,9 +68,9 @@ public class PurchaseController {
         String tid = receipt.getTid();
         List<Receipt> refundList = receiptService.findByTid(tid);
         List<CancelDTO> cancelResponse = new ArrayList<>();
-
-        Cookie[] cookies = request.getCookies();
         String mileagePoint = null;
+        Cookie[] cookies = request.getCookies();
+
         if(cookies != null)
         {
             for(Cookie cookie : cookies)
@@ -99,7 +99,6 @@ public class PurchaseController {
 
         int totalPrice = price - useMileage;
         CancelDTO cancel = purchaseService.kakaoCancel(tid,totalPrice);
-        System.out.println(cancel);
         cancelResponse.add(cancel);
 
         receiptService.deleteReceipt(receipt);

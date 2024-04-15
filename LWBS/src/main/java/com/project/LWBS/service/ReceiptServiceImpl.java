@@ -48,7 +48,9 @@ public  class ReceiptServiceImpl implements  ReceiptService{
 
     @Override
     public void findById(long Id, Receive receive) {
-
+        Receipt receipt = receiptRepository.findById(Id).orElse(null);
+        receipt.setReceive(receive);
+        receiptRepository.saveAndFlush(receipt);
     }
 
     @Override

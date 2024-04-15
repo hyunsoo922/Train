@@ -18,7 +18,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/")
-public class HomeController {
+public class    HomeController {
     private static BookService bookService;
     private static ReceiptService receiptService;
 
