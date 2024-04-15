@@ -19,7 +19,7 @@ $(function(){
                     {
                         location.href = response.next_redirect_pc_url;
                     }
-                });
+        });
     });
 
 });
