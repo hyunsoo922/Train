@@ -1,0 +1,282 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 8px;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+section {
+    padding: 20px;
+    text-align: center;
+}
+
+.info-box div {
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+input {
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 50px; /* 조금의 마진 추가 */
+}
+footer {
+    background-color: #f2f2f2;
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+pre {
+    white-space: pre-wrap;
+}
+.box {
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+
+    font-size: 13px;
+    color: #5d5d5d;
+    border-left: 1px solid #e1e1e1;
+    border-right: 1px solid #e1e1e1;
+    border-bottom: 1px solid #e1e1e1;
+    border-top: 2px solid #0086d3;
+    height: 270px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.box_b {
+    float: left;
+    width: 33.3%;
+    height: 100%;
+    padding-right: 20px;
+    border-right: 1px solid #e4e4e4;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.box_s.border_b.border_r {
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+
+    font-size: 13px;
+    color: #5d5d5d;
+    float: left;
+    width: 31.1%;
+    height: 49.9%;
+    text-align: center;
+    box-sizing: border-box;
+    border-bottom: 1px solid #e4e4e4;
+    margin-left: 4%;
+    border-right: 1px solid #e4e4e4;
+}
+
+.box_s.border_b.haggi_cnt {
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+
+    font-size: 13px;
+    color: #5d5d5d;
+    float: left;
+    width: 31.1%;
+    height: 49.9%;
+    text-align: center;
+    box-sizing: border-box;
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.box_s.border_r {
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+
+    font-size: 13px;
+    color: #5d5d5d;
+    float: left;
+    width: 31.1%;
+    height: 49.9%;
+    text-align: center;
+    box-sizing: border-box;
+    margin-left: 4%;
+    border-right: 1px solid #e4e4e4;
+}
+
+.box_s {
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+
+    font-size: 13px;
+    color: #5d5d5d;
+    float: left;
+    width: 31.1%;
+    height: 49.9%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.thumbnail {
+    width: 100px;
+    /* Adjust this according to your design */
+    height: 100px;
+    /* Adjust this according to your design */
+    background-size: cover;
+    background-position: center;
+}
+
+.content.border {
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+
+    font-size: 13px;
+    color: #5d5d5d;
+    border-left: 1px solid #e1e1e1;
+    border-right: 1px solid #e1e1e1;
+    border-bottom: 1px solid #e1e1e1;
+    border-top: 2px solid #0086d3;
+    height: 270px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.tit_content {
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    color: #5d5d5d;
+    position: relative;
+    height: 20px;
+    margin-bottom: 40px;
+    font-size: 20px;
+
+}
+
+#student_info {
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+
+    font-size: 13px;
+    color: #5d5d5d;
+    margin-bottom: 30px;
+    float: left;
+    width: 100%;
+    padding-right: 15px;
+    box-sizing: border-box;
+}
+.grid {
+    display: flex;
+    flex-wrap: wrap; /* 요소들을 여러 행에 걸쳐 표시합니다 */
+    justify-content: flex-start; /* 컨테이너의 시작 부분에 요소들을 정렬합니다 */
+}
+
+.p-4 {
+    width: 25%; /* 각 요소가 컨테이너의 1/4 크기를 가지도록 설정합니다 */
+    box-sizing: border-box; /* 요소의 내부 여백과 테두리를 포함하여 요소의 전체 너비를 설정합니다 */
+    border: 1px solid #ccc; /* 경계선 스타일 및 색상을 여러분이 원하는 대로 변경하세요 */
+    padding: 10px; /* 필요한 경우 내용과 경계선 사이의 여백을 조절하세요 */
+    /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); !* 그림자 효과 설정 *!*/
+}
+.bookImage {
+    border: 1px solid #000; /* 테두리 스타일 및 색상을 원하는 대로 변경하세요 */
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+    /* Adjust spacing between page1 and page2 */
+    flex-direction: column;
+}
+
+
+.popup-button {
+    background-color: #008CBA;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.popup-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+.bookImageContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.overlayImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* 위에 올라가도록 설정 */
+    display: none; /* 기본적으로 가려둠 */
+}
+
+/* blur 효과 */
+.bookImageContainer:hover .bookImage {
+    filter: blur(3px);
+}
+
+.addToCartText {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 2; /* 이미지 위에 표시되도록 설정 */
+    display: none; /* 기본적으로 가려둠 */
+    white-space: nowrap;
+}
+.side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_panel_button {
+    background: rgb(0, 54, 121);
+}
+.side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_text
+{
+    color: #ffffff; /* 텍스트의 색상을 하얀색으로 변경 */
+}
+.side_drop_down_menu_panel_button_container:hover .side_drop_down_menu_icon img {
+    filter: brightness(0) invert(1);
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+    font-family: "Pretendard-Regular", serif;
+}
