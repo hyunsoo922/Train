@@ -59,7 +59,7 @@
                                             <div class="textContainer">
                                                 <strong><div th:text="${book.name}" style="margin-top: 10px"></div></strong>
                                                 <strong><h2><div class="bookPrice" th:text="${book.price}"></div></h2></strong>
-                                                <div th:text="${book.author}" style="color: light gray;"></div>
+                                                <div class="author" th:text="${book.author}" style="color: light gray;"></div>
                                                 <div th:text="${book.publisher}" style="color: light gray;"></div>
                                                 <div th:text="${book.department.name}" style="color: light gray;"></div>
                                                 <div th:text="${book.subject.name}" style="color: light gray;"></div>
@@ -89,6 +89,20 @@
 <th:block th:insert="~{banner::banner}"></th:block>
 </body>
 <script>
+    const authorSpans = document.querySelectorAll('.author');
+
+    authorSpans.forEach(authorSpan => {
+        const authorNames = authorSpan.textContent.split('^');
+        const numNames = authorNames.length;
+
+        if (numNames > 1) {
+            const firstAuthor = authorNames[0];
+            const otherAuthors = numNames - 1;
+            const formattedAuthors = `${firstAuthor} 외 ${otherAuthors}명`;
+            authorSpan.textContent = formattedAuthors;
+        }
+    });
+
     var price = document.querySelectorAll('.bookPrice');
     const formatter = new Intl.NumberFormat('ko-KR', {
         style: 'decimal',
