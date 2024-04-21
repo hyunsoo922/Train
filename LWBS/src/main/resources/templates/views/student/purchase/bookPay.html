@@ -68,7 +68,10 @@
                         </div>
                         <div class="real-value">
                             <span class="sumPrice">0원</span>
-                            <span th:text="${point} + 'P'" class="myMileage"></span>
+                            <div>
+                                <span th:text="${point}" class="myMileage"></span>
+                                <span>P</span>
+                            </div>
                             <span class="minusPrice"></span>
                         </div>
                     </div>
@@ -83,7 +86,10 @@
                             <div>
                                 <span class="totalPrice" th:text="${totalPrice}"></span>
                             </div>
-                            <span class="earnMileage">P</span>
+                            <div>
+                                <span class="earnMileage"></span>
+                                <span>P</span>
+                            </div>
                         </div>
                     </div>
                 </div>

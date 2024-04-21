@@ -423,3 +423,37 @@ body {
 .WebTitle {
     margin-bottom: -4px;
 }
+.descriptionBoxID {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border: 2px solid #000;
+    z-index: 9999;
+    border-radius: 16px;
+    display: flex;
+    justify-content: space-around;
+}
+.closeBtnContainer {
+    display: flex;
+    justify-content: right;
+}
+.closeBtn {
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+}
+.descBookName {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 5px;
+    margin-bottom: 10px;
+}
+.descBookContent {
+    display: flex;
+    justify-content: center;
+    width: 500px;
+    margin: 10px;
+}
