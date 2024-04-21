@@ -222,5 +222,14 @@
     function viewAllBooks() {
         window.location.href = "/home/studentAllBook";
     }
+    document.addEventListener("DOMContentLoaded", function() {
+        var mileageElements = document.querySelectorAll(".mileagePoint_content");
+
+        mileageElements.forEach(function(mileageElement) {
+            var mileage = parseInt(mileageElement.textContent);
+            var formattedMileage = mileage.toLocaleString();
+            mileageElement.textContent = formattedMileage;
+        });
+    });
 </script>
 </html>

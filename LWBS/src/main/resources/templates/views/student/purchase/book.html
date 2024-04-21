@@ -58,7 +58,7 @@
     </style>
     <title th:text="${user.name} + '님 환영합니다.'"></title>
 </head>
-<body onload="truncateText(); formatAuthors(); formatPrice();">
+<body>
 <span id="userID" th:text="${user.id}" style="display: none"></span>
 <span class="authority" th:text="${user.authority.id}" style="display: none"></span>
 <th:block th:insert="~{sideDropdownMenu::sidedropdownmenu}"></th:block>
@@ -135,7 +135,7 @@
                                                 </th:block>
                                             </div>
                                             <div class="description">
-                                                <button type="button" class="descriptionButton" onclick="showDescription(this)">설명</button>
+                                                <button type="button" class="descriptionButton" onclick="showDescription(this)" th:value="${book.id}">설명</button>
                                                 <div class="descriptionContainer">
                                                     <img th:src="${book.imageUrl}" alt="Book Image" style="display: block; margin: 0 auto; height: 200px; width: 150px;">
                                                     <strong><div th:text="${book.name}" style="text-align: center; font-size: 24px; margin-bottom: 10px"></div></strong>
@@ -161,7 +161,10 @@
                         </div>
                         <div class="real-value">
                             <span class="sumPrice">0원</span>
-                            <span th:text="${sumpoint} + 'P'" class="myMileage"></span>
+                            <div>
+                                <span th:text="${sumpoint}" class="myMileage"></span>
+                                <span>P</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -188,7 +191,10 @@
                         </div>
                         <div class="real-value">
                             <span class="calPrice">0원</span>
-                            <span class="earnMileage">P</span>
+                            <div>
+                                <span class="earnMileage"></span>
+                                <span>P</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -200,7 +206,27 @@
     </div>
     <th:block th:insert="~{banner::banner}"></th:block>
 </form>
-<!-- Popup content -->
+<div class="descriptionBox" th:each="book : ${bookList}">
+    <div class="descriptionBoxID" style="display: none" th:id="${book.id}">
+        <div class="innerDescriptionContainer">
+            <div class="closeBtnContainer">
+                <div class="closeBtn">
+                    <img class="close" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' fill='currentColor' class='bi bi-x' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708'/%3E%3C/svg%3E" alt="X Icon">
+                </div>
+            </div>
+            <div class="descBookImage">
+                <img th:src="${book.imageUrl}" alt="Book Image" style="display: block; margin: 0 auto; height: 200px; width: 150px;">
+            </div>
+            <div class="descBookName">
+                <strong><div th:text="${book.name}" style=""></div></strong>
+            </div>
+            <div class="descBookContent">
+                <div th:text="${book.description}"></div>
+            </div>
+        </div>
+    </div>
+</div>
+ Popup content
 <div id="popup" class="popup">
     <div class="dialog_contents">
         <p class="alert_text">선택 상품을 삭제하시겠습니까?</p>
@@ -217,23 +243,29 @@
     </div>
 </div>
 
-<!-- Overlay -->
 <div id="overlay" class="overlay"></div>
 <script th:inline="javascript">
     var userID = /*[[${ID}]]*/ null;
     var authority = /*[[${authority}]]*/ null;
     function showDescription(button) {
-        console.log("함수 진입");
-        var bookItem = button.closest('.book_prod');
-        var imageUrl = bookItem.querySelector('.descriptionContainer');
-        var name = bookItem.querySelector('.descriptionContainer');
-        var description = bookItem.querySelector('.descriptionContainer');
-        var popupWidth = 800;
-        var popupHeight = 500;
-        var left = (window.innerWidth - popupWidth) / 2;
-        var top = (window.innerHeight - popupHeight) / 2;
-        var popup = window.open('', 'descriptionPopup', 'width=' + popupWidth + ',height=' + popupHeight + ',left=' + left + ',top=' + top + ',scrollbars=yes,resizable=no');
-        popup.document.body.innerHTML = description.innerHTML;
+        var descriptionBoxID = document.querySelectorAll('.descriptionBoxID');
+
+        for (var j = 0; j < descriptionBoxID.length; j++) {
+            if (descriptionBoxID[j].id === button.value) {
+                descriptionBoxID[j].style.display = 'block';
+                document.getElementById('overlay').style.display = 'block';
+            }
+        }
+
+        // 닫기 버튼을 클릭하면 해당 설명 상자를 숨깁니다.
+        var closeButtons = document.querySelectorAll('.closeBtnContainer');
+        closeButtons.forEach(function(closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                // 해당 닫기 버튼의 부모 노드인 descriptionBoxID를 찾아 display를 'none'으로 설정합니다.
+                this.parentNode.parentNode.style.display = 'none';
+                document.getElementById('overlay').style.display = 'none';
+            });
+        });
     }
     var userIDElement = document.getElementById("userID");
     var userID = userIDElement.textContent.trim();
@@ -287,28 +319,7 @@
         document.getElementById("dateForm").submit();
     }
 
-    const formContainer = document.getElementById('formContainer');
-    const receiveDaySpan = document.getElementById('receiveDay');
-    const myinfoImg = document.getElementById('myinfoImg');
 
-    myinfoImg.addEventListener('click', function() {
-        if (formContainer.style.display === 'none') {
-            formContainer.style.display = 'block';
-            receiveDaySpan.style.display = 'none';
-            myinfoImg.style.display = 'none';
-        } else {
-            formContainer.style.display = 'none';
-            receiveDaySpan.style.display = 'block';
-            myinfoImg.style.display = 'inline-block';
-        }
-    });
-    window.onload = function() {
-        var receiveDayValue = document.getElementById('receiveDay').innerText;
-        var myinfoImg = document.getElementById('myinfoImg');
-        if (receiveDayValue === "구매하신 교재가 없습니다.") {
-            myinfoImg.style.display = 'none';
-        }
-    };
     function webscraping() {
         // 추가된 alert 메시지
         alert("수강 교재 정보를 가져오겠습니다.\n웹페이지를 닫지 말고 완료 메시지를 기다려주세요.\n확인을 누르시면 시작합니다.");
