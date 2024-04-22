@@ -45,8 +45,9 @@ public class myInfoUpdateController {
 
     @PostMapping("/bookStore")
     public String handleSubmit(@RequestParam("franchisee") String franchisee,
-                               @AuthenticationPrincipal PrincipalDetails principalDetails) {
+                               Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         userService.updateBookStoreInfo(franchisee, principalDetails.getUser().getId());
+        model.addAttribute("user", principalDetails.getUser());
         return "mypage/myInfoUpdate/bookStore";
     }
 
