@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -63,5 +64,29 @@ public class ReceiveServiceImpl implements ReceiveService{
         List<Receive> receiveList = receiveRepository.findByDay(day);
 
         return receiveList;
+    }
+
+    @Override
+    public List<LocalDate> startAndEnd() {
+        List<Receive> receiveList = receiveRepository.findAll();
+        LocalDate start = LocalDate.now();
+        LocalDate end  = LocalDate.now();
+        for(Receive receive : receiveList)
+        {
+            LocalDate day = LocalDate.parse(receive.getDay());
+            if(day.isBefore(start))
+            {
+                start = day;
+            }
+
+            if(day.isAfter(end))
+            {
+                end = day;
+            }
+        }
+        List<LocalDate> date = new ArrayList<>();
+        date.add(start);
+        date.add(end);
+        return date;
     }
 }

@@ -61,6 +61,11 @@ public class HomeBookStoreController {
         model.addAttribute("bookList", bookList);
         model.addAttribute("countList", countList);
         model.addAttribute("user",principalDetails.getUser());
+
+        List<LocalDate> date = receiveService.startAndEnd();
+        model.addAttribute("start",date.get(0));
+        model.addAttribute("end",date.get(1));
+
     }
 
     @PostMapping("/home/bookStore")
