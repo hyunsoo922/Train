@@ -1,5 +1,6 @@
 package com.project.LWBS.service;
 
+import com.project.LWBS.config.PrincipalDetails;
 import com.project.LWBS.domain.Authority;
 import com.project.LWBS.domain.DTO.KakaoDTO;
 import com.project.LWBS.domain.User;
@@ -97,21 +98,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     // 마이페이지에서 수정한 개인정보를 전달받아 User 테이블에 반영하는 메서드
-    public void updateUserInfo(String studentId, String studentPw, Long user_id) {
+    public void updateUserInfo(String studentId, String studentPw, Long user_id,PrincipalDetails principalDetails) {
         User user = userRepository.findById(user_id).orElse(null);
         if(user != null) {
             user.setStudentId(studentId);
             user.setStudentPw(studentPw);
-            userRepository.flush();
+            userRepository.saveAndFlush(user);
         }
+        principalDetails.setUser(user);
     }
 
     @Override
     // 마이페이지에서 수정한 개인정보를 전달받아 User 테이블에 반영하는 메서드
-    public void updateBookStoreInfo(String franchisee, Long user_id) {
+    public void updateBookStoreInfo(String franchisee, Long user_id, PrincipalDetails principalDetails) {
         User user = userRepository.findById(user_id).orElse(null);
         user.setFranchisee(franchisee);
-        userRepository.flush();
+        userRepository.saveAndFlush(user);
+        principalDetails.setUser(user);
     }
 
     @Override

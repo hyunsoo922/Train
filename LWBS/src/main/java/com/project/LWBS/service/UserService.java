@@ -1,5 +1,6 @@
 package com.project.LWBS.service;
 
+import com.project.LWBS.config.PrincipalDetails;
 import com.project.LWBS.domain.Authority;
 import com.project.LWBS.domain.DTO.KakaoDTO;
 import com.project.LWBS.domain.User;
@@ -23,9 +24,9 @@ public interface UserService {
 
     User findByUserId(Long user_name);
 
-    void updateUserInfo(String studentId, String studentPw, Long user_id);
+    void updateUserInfo(String studentId, String studentPw, Long user_id, PrincipalDetails principalDetails);
 
-    void updateBookStoreInfo(String franchisee, Long user_id);
+    void updateBookStoreInfo(String franchisee, Long user_id, PrincipalDetails principalDetails);
 
     void deleteUser(User user);
 
