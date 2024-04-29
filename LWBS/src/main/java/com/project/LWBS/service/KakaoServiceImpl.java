@@ -39,7 +39,6 @@ public class KakaoServiceImpl implements KakaoService{
     @Override
     public KakaoDTO getKakaoInfo(String code) throws Exception {
         if(code == null) throw  new Exception("Failed get Autorization code");
-
         String accessToken = "";
         String refreshToken = "";
 
