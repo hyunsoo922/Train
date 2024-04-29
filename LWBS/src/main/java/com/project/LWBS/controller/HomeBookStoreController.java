@@ -118,6 +118,6 @@ public class HomeBookStoreController {
         model.addAttribute("countList", countList);
         model.addAttribute("user",principalDetails.getUser());
 
-        return "/home/bookStore";
+        return "redirect:/home/bookStore";
     }
 }
