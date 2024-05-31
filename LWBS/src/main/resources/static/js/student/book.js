@@ -1,3 +1,6 @@
+window.addEventListener('beforeunload', function() {
+    localStorage.clear();
+});
 $(function () {
     $("#buyBtn").click(function () {
         console.log("버튼이 눌림");
@@ -83,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function() {
         totalPriceElement.textContent = formattedPrice + '원';
     });
 });
-
 document.addEventListener('DOMContentLoaded', function() {
     var plusButtons = document.querySelectorAll('.spinner .plus');
     var minusButtons = document.querySelectorAll('.spinner .minus');
@@ -93,6 +95,9 @@ document.addEventListener('DOMContentLoaded', function() {
     var sumPriceElement = document.querySelector('.sumPrice');
     var cartIds = document.querySelectorAll('.cartId'); // 모든 cartId 요소 가져오기
     var checkboxes = document.querySelectorAll('.bookCheckBox');
+    var calPriceElement = document.querySelector('.calPrice');
+    var earnMileageElement = document.querySelector('.earnMileage');
+    var inputMileagePoint = document.getElementById('mileagePoint').value;
 
     // 페이지가 로드될 때, 초기 합계를 계산합니다.
     calculateSumPrice();
@@ -188,13 +193,29 @@ document.addEventListener('DOMContentLoaded', function() {
             sumPriceElement.innerText = (parseFloat(sumPriceElement.innerText.replace('원', '').replace(/,/g, '')) - price).toLocaleString() + '원';
         }
     }
-});
-document.addEventListener('DOMContentLoaded', function() {
+
+    // sumPrice의 값이 변경될 때마다 calPrice와 earnMileage의 값도 업데이트됩니다.
+    sumPriceElement.addEventListener('DOMSubtreeModified', updatePrices);
+
+    function updatePrices() {
+        // calPrice 업데이트
+        var sumPriceText = sumPriceElement.innerText; // sumPriceElement의 텍스트 가져오기
+        var sumPrice = parseInt(sumPriceText.replace(/,/g, '').replace('원', '')); // 쉼표와 "원" 제거 후 숫자로 변환
+        var calPriceText = calPriceElement.innerText;
+        var calPrice = parseInt(calPriceText.replace(/,/g, '').replace('원', ''));
+        var inputMileagePoint = document.getElementById('mileagePoint').value;
+        var Price = sumPrice - inputMileagePoint;
+        calPriceElement.innerText = Price.toLocaleString() + '원';
+
+        // earnMileage 업데이트
+        var earnMileage = sumPrice / 10;
+        earnMileageElement.innerText = earnMileage.toFixed(0);
+    }
     var inputMileagePoint = document.getElementById('mileagePoint'); // input 요소를 참조합니다.
     var sumPointElement = document.querySelector('.myMileage'); // .myMileage 클래스를 가진 요소를 참조합니다.
     var sumPointText = sumPointElement.innerText; // sumPoint 요소의 텍스트를 가져옵니다.
     var sumPointValue = parseInt(sumPointText);
-    var sumPriceElement = document.querySelector('.sumPrice').innerText; // .sumPrice 클래스를 가진 요소의 텍스트를 가져옵니다.
+
     var calPriceElement = document.querySelector('.calPrice'); // .calPrice 클래스를 가진 요소를 참조합니다.
     // inputMileagePoint의 값이 변경될 때마다 이벤트 리스너를 추가합니다.
     inputMileagePoint.addEventListener('input', function() {
@@ -208,6 +229,8 @@ document.addEventListener('DOMContentLoaded', function() {
             mileageValue = sumPointValue;
         }
 
+        // calculateSumPrice();
+        var sumPriceElement = document.querySelector('.sumPrice').innerText; // .sumPrice 클래스를 가진 요소의 텍스트를 가져옵니다.
         // 상품 금액을 가져와서 마일리지를 차감합니다.
         var originalPrice = parseFloat(sumPriceElement.replace(/[^\d.-]/g, ''));
         var discountedPrice = originalPrice - mileageValue;
@@ -221,35 +244,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
 document.addEventListener('DOMContentLoaded', function() {
     var sumPriceElement = document.querySelector('.sumPrice').innerText; // .sumPrice 클래스를 가진 요소의 텍스트를 가져옵니다.
     var calPriceElement = document.querySelector('.calPrice'); // .calPrice 클래스를 가진 요소를 참조합니다.
 
     // 페이지가 로드될 때, sumPrice의 값과 calPrice의 값이 동일하도록 설정합니다.
     calPriceElement.innerText = sumPriceElement;
-});
-document.addEventListener('DOMContentLoaded', function() {
-    var sumPriceElement = document.querySelector('.sumPrice');
-    var calPriceElement = document.querySelector('.calPrice');
-    var earnMileageElement = document.querySelector('.earnMileage');
-
-    // 페이지가 로드될 때, sumPrice, calPrice, earnMileage의 값이 초기화됩니다.
-    updatePrices();
-
-    // sumPrice의 값이 변경될 때마다 calPrice와 earnMileage의 값도 업데이트됩니다.
-    sumPriceElement.addEventListener('DOMSubtreeModified', updatePrices);
-
-    function updatePrices() {
-        var sumPriceText = sumPriceElement.innerText;
-        var sumPrice = parseFloat(sumPriceText.replace(/[^\d.-]/g, ''));
-
-        // calPrice 업데이트
-        calPriceElement.innerText = sumPrice.toLocaleString() + '원';
-
-        // earnMileage 업데이트
-        var earnMileage = sumPrice / 10;
-        earnMileageElement.innerText = earnMileage.toFixed(0);
-    }
 });
 document.addEventListener('DOMContentLoaded', function() {
     var sumPriceElement = document.querySelector('.sumPrice');
