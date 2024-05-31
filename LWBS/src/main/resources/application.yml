@@ -20,8 +20,8 @@ spring:
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-#    url: jdbc:mariadb://localhost:3306/traindb?useSSL=false&useUnicode=true&characterEncoding=utf8
-    url: jdbc:mariadb://13.53.50.7:3306/traindb?useSSL=false&useUnicode=true&characterEncoding=utf8
+    #url: jdbc:mariadb://localhost:3306/traindb?useSSL=false&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mariadb://13.53.240.181:3306/traindb?useSSL=false&useUnicode=true&characterEncoding=utf8
     username: train
     password: 1234
 
@@ -47,7 +47,7 @@ kakao:
     secret: ZwJupmVkWPJM9UiAR1M5ICGAwih2fLd5
   redirect:
 #    url: http://localhost:8093/kakao/callback
-    url: http://13.53.50.7:8093/kakao/callback
+    url: http://13.53.240.181:8093/kakao/callback
 
 
 

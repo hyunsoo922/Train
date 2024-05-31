@@ -46,7 +46,7 @@ public class BookRestController {
     }
 
     @GetMapping("/webscraping/{user_id}")
-    public String hello(@PathVariable Long user_id) {
+    public String webscraping(@PathVariable Long user_id) {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
 

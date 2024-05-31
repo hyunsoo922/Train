@@ -91,7 +91,7 @@ public class HomeStudentController {
     }
 
     @GetMapping("/home/student/{department}")
-    public String hello(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable String department) {
+    public String studentDepartment(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable String department) {
         // 현재 로그인 중인 유저의 id값을 매개변수로 전달하여 유저가 수강신청한 강의의 교재명 검색 후
         // 교재명에 맞는 Book 객체들을 리스트로 전달 받음.
         User user = principalDetails.getUser();
@@ -106,7 +106,7 @@ public class HomeStudentController {
         return "home/student";
     }
     @GetMapping("/home/myEnrollment")
-    public String bye(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public String studentEnrollment(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         User user = principalDetails.getUser();
         model.addAttribute("user",user);
         List<Book> bookList = bookService.findByBookName(user.getId());
