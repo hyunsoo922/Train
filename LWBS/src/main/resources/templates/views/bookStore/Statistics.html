@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>전체 교재 구매 통계</title>
 
 
@@ -101,9 +101,10 @@
 <th:block th:replace="~{bookheader :: bookheader(pageTitle='전체 교재 구매 통계')}"></th:block>
 <th:block th:insert="~{booksideDropdownMenu::booksidedropdownmenu}"></th:block>
 <div class="container">
-    <div class="page1" style="position: absolute; top: 154px; left: 221px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 60%; display: flex; flex-direction: column; justify-content: space-around">
+    <div class="page1"
+         style="position: absolute; top: 154px; left: 221px; right: 0; padding: 25px 20px; overflow: hidden; min-height: 800px; width: 60%; display: flex; flex-direction: column; justify-content: space-around">
         <div class="tit_content">
-            <img src="/images/bar.jpg" alt="bar" class="bar" style="width: 4px; height:20px;">
+            <img alt="bar" class="bar" src="/images/bar.jpg" style="width: 4px; height:20px;">
             <strong style="padding-left: 10px; font-weight: 800;">판매량 통계</strong>
             <p style="font-size: smaller; margin-top: 3px; color: #5d5d5d;">-전체 교재 판매량 통계입니다.</p>
         </div>
@@ -113,33 +114,33 @@
                 <option value="all">전체 학과</option>
                 <!-- Thymeleaf를 사용하여 bookList에서 학과 정보를 동적으로 추가 -->
                 <option th:each="book, status : ${bookList}"
-                        th:value="${book.department.name}"
                         th:text="${book.department.name}"
-                        th:unless="${bookList.![department.name].contains(book.department.name) && bookList.![department.name].indexOf(book.department.name) != status.index}">
+                        th:unless="${bookList.![department.name].contains(book.department.name) && bookList.![department.name].indexOf(book.department.name) != status.index}"
+                        th:value="${book.department.name}">
                 </option>
             </select>
         </div>
 
         <!-- 수정된 canvas 요소: 원하는 크기로 설정 -->
         <div id="chartAndTableContainer">
-             <!-- 수정된 canvas 요소: 원하는 크기로 설정 -->
-                <canvas id="myPieChart" width="700" height="700"></canvas>
+            <!-- 수정된 canvas 요소: 원하는 크기로 설정 -->
+            <canvas height="700" id="myPieChart" width="700"></canvas>
 
-                <!-- 표에 hidden 클래스 추가 -->
-                <table border="1" id="bookTable" >
-                    <tr th:each="book, iterStat : ${bookList}">
-                        <td th:id="'department-' + ${book.department.name}">
-                           <!-- 추가된 부분: 학과 정보를 표시하는 span 엘리먼트에 클래스 추가 -->
-                            <span class="book-department" th:text="${book.department.name}" hidden></span>
-                            <span>학과명: <span th:text="${book.department.name}"></span></span>
-                            <br>
-                            <span>교재명: <span class="book-name" th:text="${book.name}"></span></span>
-                            <br>
-                            <span>판매량: <span class="book-count" th:text="${countList[iterStat.index]}"></span>권</span>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            <!-- 표에 hidden 클래스 추가 -->
+            <table border="1" id="bookTable">
+                <tr th:each="book, iterStat : ${bookList}">
+                    <td th:id="'department-' + ${book.department.name}">
+                        <!-- 추가된 부분: 학과 정보를 표시하는 span 엘리먼트에 클래스 추가 -->
+                        <span class="book-department" hidden th:text="${book.department.name}"></span>
+                        <span>학과명: <span th:text="${book.department.name}"></span></span>
+                        <br>
+                        <span>교재명: <span class="book-name" th:text="${book.name}"></span></span>
+                        <br>
+                        <span>판매량: <span class="book-count" th:text="${countList[iterStat.index]}"></span>권</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
         </table>
     </div>
 
@@ -148,13 +149,67 @@
 
 <!-- JavaScript 스크립트 -->
 <script>
-        // Thymeleaf에서 생성된 데이터를 JavaScript로 가져와서 사용
-        var departmentNames = document.querySelectorAll('.book-department');
-        var bookCounts = document.querySelectorAll('.book-count');
+    // 초기 데이터 집계 부분 유지
+var departmentNames = document.querySelectorAll('.book-department');
+var bookCounts = document.querySelectorAll('.book-count');
+var departmentSalesMap = {};
 
-        // 중복된 학과를 제거하고, 각 학과별로 교재 판매량을 합칩니다.
+departmentNames.forEach(function(departmentName, index) {
+    var name = departmentName.innerText;
+    var count = parseInt(bookCounts[index].innerText);
+
+    if (!departmentSalesMap[name]) {
+        departmentSalesMap[name] = count;
+    } else {
+        departmentSalesMap[name] += count;
+    }
+});
+
+var ctx = document.getElementById('myPieChart').getContext('2d');
+var myPieChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: Object.keys(departmentSalesMap),
+        datasets: [{
+            data: Object.values(departmentSalesMap),
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#FF9800', '#9C27B0']
+        }]
+    },
+    options: {
+        responsive: false,
+        maintainAspectRatio: false
+    }
+});
+
+function updateChart() {
+    var selectedDepartment = document.getElementById('departmentSelect').value;
+    var tableRows = document.querySelectorAll('#bookTable tr');
+    tableRows.forEach(function(row) {
+        row.style.display = 'none';
+    });
+
+    if (selectedDepartment === 'all') {
+        tableRows.forEach(function(row) {
+            row.style.display = 'table-row';
+        });
+    } else {
+        var selectedRows = document.querySelectorAll('#bookTable td[id^="department-' + selectedDepartment + '"]');
+        selectedRows.forEach(function(row) {
+            row.parentElement.style.display = 'table-row';
+        });
+    }
+    updatePieChart(selectedDepartment);
+}
+
+function updatePieChart(selectedDepartment) {
+    var bookNames = document.querySelectorAll('.book-name');
+    var bookCounts = document.querySelectorAll('.book-count');
+    var bookDepartments = document.querySelectorAll('.book-department');
+
+    if (selectedDepartment === 'all') {
         var departmentSalesMap = {};
-        departmentNames.forEach(function(departmentName, index) {
+
+        bookDepartments.forEach(function(departmentName, index) {
             var name = departmentName.innerText;
             var count = parseInt(bookCounts[index].innerText);
 
@@ -165,7 +220,6 @@
             }
         });
 
-        // 합쳐진 데이터를 기반으로 레이블과 데이터를 생성합니다.
         var labels = Object.keys(departmentSalesMap);
         var data = Object.values(departmentSalesMap);
 
@@ -176,131 +230,85 @@
                 backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#FF9800', '#9C27B0']
             }]
         };
+    } else {
+        var labels = [];
+        var data = [];
 
-
-        // 차트 생성
-        var ctx = document.getElementById('myPieChart').getContext('2d');
-        var myPieChart = new Chart(ctx, {
-            type: 'pie',
-            data: dynamicData,
-            options: {
-                responsive: false, // 크기를 동적으로 조절하지 않음
-                maintainAspectRatio: false
-                // 기타 옵션들을 필요에 따라 추가할 수 있습니다.
+        bookNames.forEach(function(bookName, index) {
+            var departmentName = bookDepartments[index].innerText;
+            if (departmentName === selectedDepartment) {
+                labels.push(bookName.innerText);
+                data.push(parseInt(bookCounts[index].innerText));
             }
         });
 
-        // 드롭다운 메뉴의 선택 변경 시 차트와 표 업데이트
-        function updateChart() {
-            var selectedDepartment = document.getElementById('departmentSelect').value;
-            var tableRows = document.querySelectorAll('#bookTable tr');
+        var dynamicData = {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+            }]
+        };
+    }
 
-            // 모든 행을 숨김
-            tableRows.forEach(function(row) {
-                row.style.display = 'none';
-            });
+    myPieChart.data.labels = dynamicData.labels;
+    myPieChart.data.datasets[0].data = dynamicData.datasets[0].data;
+    myPieChart.update();
+}
 
-            // 선택한 학과의 행만 표시
-            if (selectedDepartment === 'all') {
-                tableRows.forEach(function(row) {
-                    row.style.display = 'table-row';
-                });
-            } else {
-                var selectedRows = document.querySelectorAll('#bookTable td[id^="department-' + selectedDepartment + '"]');
-                selectedRows.forEach(function(row) {
-                    row.parentElement.style.display = 'table-row';
-                });
-            }
 
-            // 파이차트 업데이트
-            updatePieChart(selectedDepartment);
+ function reload() {
+    window.location.href = "/home/bookStore";
+}
+
+function list() {
+    window.location.href = "/bookStore/list";
+}
+
+function statistics() {
+    window.location.href = "/bookStore/Statistics";
+}
+
+function receipt() {
+    window.location.href = "/bookStore/Receipt";
+}
+
+function myInfoUpdate() {
+    window.location.href = "/mypage/myInfoUpdate/bookStore";
+}
+window.onload = function() {
+    var buttons = document.querySelectorAll('.side_drop_down_menu_panel_button');
+    var homeButton = null;
+
+    buttons.forEach(function(button) {
+        var text = button.querySelector('.side_drop_down_menu_text');
+        var icon = button.querySelector('.side_drop_down_menu_icon img');
+
+        if (text.textContent.trim() === '판매량 통계') {
+            homeButton = button;
+            button.style.backgroundColor = 'rgb(0, 54, 121)';
+            text.style.color = '#ffffff';
+            icon.style.filter = 'brightness(0) invert(1)';
         }
 
-        // 파이차트를 선택한 학과에 맞게 업데이트하는 함수
-        function updatePieChart(selectedDepartment) {
-            var bookNames = document.querySelectorAll('.book-name');
-            var bookCounts = document.querySelectorAll('.book-count');
-            var bookDepartments = document.querySelectorAll('.book-department');
-
-            var labels = [];
-            var data = [];
-
-            // 선택한 학과에 해당하는 데이터만 추출
-            bookNames.forEach(function(bookName, index) {
-                var departmentName = bookDepartments[index].innerText;
-                if (selectedDepartment === 'all' || departmentName === selectedDepartment) {
-                    labels.push(bookName.innerText);
-                    data.push(parseInt(bookCounts[index].innerText));
-                }
+        button.addEventListener('click', function() {
+            buttons.forEach(function(btn) {
+                btn.style.backgroundColor = '';
+                btn.querySelector('.side_drop_down_menu_text').style.color = '';
+                btn.querySelector('.side_drop_down_menu_icon img').style.filter = '';
             });
 
-            var dynamicData = {
-                labels: labels,
-                datasets: [{
-                    data: data,
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'] // 각 항목의 색상
-                }]
-            };
+            this.style.backgroundColor = 'rgb(0, 54, 121)';
 
-            // 파이차트 업데이트
-            myPieChart.data.labels = dynamicData.labels;
-            myPieChart.data.datasets[0].data = dynamicData.datasets[0].data;
-            myPieChart.update();
-        }
+            this.classList.add('selected');
 
-     function reload() {
-        window.location.href = "/home/bookStore";
-    }
+            this.querySelector('.side_drop_down_menu_text').style.color = '#ffffff';
 
-    function list() {
-        window.location.href = "/bookStore/list";
-    }
-
-    function statistics() {
-        window.location.href = "/bookStore/Statistics";
-    }
-
-    function receipt() {
-        window.location.href = "/bookStore/Receipt";
-    }
-
-    function myInfoUpdate() {
-        window.location.href = "/mypage/myInfoUpdate/bookStore";
-    }
-    window.onload = function() {
-        var buttons = document.querySelectorAll('.side_drop_down_menu_panel_button');
-        var homeButton = null;
-
-        buttons.forEach(function(button) {
-            var text = button.querySelector('.side_drop_down_menu_text');
-            var icon = button.querySelector('.side_drop_down_menu_icon img');
-
-            if (text.textContent.trim() === '판매량 통계') {
-                homeButton = button;
-                button.style.backgroundColor = 'rgb(0, 54, 121)';
-                text.style.color = '#ffffff';
-                icon.style.filter = 'brightness(0) invert(1)';
-            }
-
-            button.addEventListener('click', function() {
-                buttons.forEach(function(btn) {
-                    btn.style.backgroundColor = '';
-                    btn.querySelector('.side_drop_down_menu_text').style.color = '';
-                    btn.querySelector('.side_drop_down_menu_icon img').style.filter = '';
-                });
-
-                this.style.backgroundColor = 'rgb(0, 54, 121)';
-
-                this.classList.add('selected');
-
-                this.querySelector('.side_drop_down_menu_text').style.color = '#ffffff';
-
-                this.querySelector('.side_drop_down_menu_icon img').style.filter = 'brightness(0) invert(1)';
-            });
+            this.querySelector('.side_drop_down_menu_icon img').style.filter = 'brightness(0) invert(1)';
         });
-    };
+    });
+};
 </script>
-
 
 
 </html>

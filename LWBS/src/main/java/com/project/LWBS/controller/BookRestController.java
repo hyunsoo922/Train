@@ -13,11 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.*;
+
 import com.project.LWBS.service.BookService;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -29,6 +31,13 @@ public class BookRestController {
     private static BookService bookService;
     private static UserService userService;
 
+    @Autowired
+    public BookRestController(EnrollmentService enrollmentService, BookService bookService, UserService userService) {
+        this.enrollmentService = enrollmentService;
+        this.bookService = bookService;
+        this.userService = userService;
+    }
+
     // 브라우저 조작을 위한 sleep 함수
     private static void sleep(int milliseconds) {
         try {
@@ -36,13 +45,6 @@ public class BookRestController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    @Autowired
-    public BookRestController(EnrollmentService enrollmentService, BookService bookService, UserService userService) {
-        this.enrollmentService = enrollmentService;
-        this.bookService = bookService;
-        this.userService = userService;
     }
 
     @GetMapping("/webscraping/{user_id}")
@@ -82,51 +84,37 @@ public class BookRestController {
         System.out.println("XPath 조합 완료");
         sleep(1000);
         while (true) {
-            // 메뉴 버튼 XPath 조합
-            String menuButtonXPath = professorButton1 + professorButtonIndex + professorButton2;
+            String menuButtonXPath = professorButton1 + professorButtonIndex + professorButton2;// 메뉴 버튼 XPath 조합
             try {
-                // 메뉴 버튼 XPath에 해당하는 웹 요소를 탐색
-                WebElement menuButton = driver.findElement(By.xpath(menuButtonXPath));
-                // 메뉴 버튼을 클릭
-                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", menuButton);
+                WebElement menuButton = driver.findElement(By.xpath(menuButtonXPath));// 메뉴 버튼 XPath에 해당하는 웹 요소를 탐색
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", menuButton);// 메뉴 버튼을 클릭
                 sleep(1000);
                 System.out.println("메뉴 버튼 클릭");
                 while (true) {
-                    // 주교재명 XPath 조합
-                    String menuButtonXPath2 = BookInfo1 + BookInfoIndex + BookInfo2;
-                    // 과목 요소 XPath
-                    String subjectXPath = "//*[@id=\"popup_layout_list\"]/div/div[2]/div[2]/div/div[1]/div/div/table/tbody/tr[1]/td[4]/div/span[1]";
-                    // 학과 요소 XPath
-                    String departmentXPath = "//*[@id=\"popup_layout_list\"]/div/div[2]/div[2]/div/div[1]/div/div/table/tbody/tr[3]/td[4]/span";
+                    String menuButtonXPath2 = BookInfo1 + BookInfoIndex + BookInfo2;// 주교재명 XPath 조합
+                    String subjectXPath = "//*[@id=\"popup_layout_list\"]/div/div[2]/div[2]/div/div[1]/div/div/table/tbody/tr[1]/td[4]/div/span[1]";// 과목 요소 XPath
+                    String departmentXPath = "//*[@id=\"popup_layout_list\"]/div/div[2]/div[2]/div/div[1]/div/div/table/tbody/tr[3]/td[4]/span";// 학과 요소 XPath
                     System.out.println("주교재, 과목, 학과 XPath 확인");
                     try {
                         System.out.println("주교재명 XPath 탐색 시작");
-                        // 주교재명 XPath에 해당하는 웹 요소를 탐색
-                        WebElement bookElement = driver.findElement(By.xpath(menuButtonXPath2));
-                        // 수집한 웹 요소를 저장
-                        System.out.println("웹 요소 저장");
+                        WebElement bookElement = driver.findElement(By.xpath(menuButtonXPath2));// 주교재명 XPath에 해당하는 웹 요소를 탐색
+                        System.out.println("웹 요소 저장");// 수집한 웹 요소를 저장
                         String book = bookElement.getText();
                         sleep(1000);
-                        if(book.length() <= 5) {
+                        if (book.length() <= 5) {
                             System.out.println("수집한 교재명의 길이가 5글자보다 짧습니다.");
                             System.out.println("수집한 교재명 길이: " + book.length());
                             System.out.println("다음 수강계획서 탐색");
                             break;
-                        }
-                        else {
+                        } else {
                             System.out.println("과목 XPath 탐색 시작");
-                            // 과목 요소 XPath에 해당하는 웹 요소를 탐색
-                            WebElement subjectElement = driver.findElement(By.xpath(subjectXPath));
-                            // 수집한 웹 요소를 저장
-                            System.out.println("웹 요소 저장");
+                            WebElement subjectElement = driver.findElement(By.xpath(subjectXPath));// 과목 요소 XPath에 해당하는 웹 요소를 탐색
+                            System.out.println("웹 요소 저장");// 수집한 웹 요소를 저장
                             String subject = subjectElement.getText();
-                            // 1초 대기
-                            sleep(1000);
+                            sleep(1000);// 1초 대기
                             System.out.println("학과 XPath 탐색 시작");
-                            // 학과 요소 XPath에 해당하는 웹 요소를 탐색
-                            WebElement departmentElement = driver.findElement(By.xpath(departmentXPath));
-                            // 수집한 웹 요소를 저장
-                            System.out.println("웹 요소 저장");
+                            WebElement departmentElement = driver.findElement(By.xpath(departmentXPath));// 학과 요소 XPath에 해당하는 웹 요소를 탐색
+                            System.out.println("웹 요소 저장");// 수집한 웹 요소를 저장
                             String department = departmentElement.getText();
                             sleep(1000);
                             bookInfo.add(department);
@@ -136,8 +124,7 @@ public class BookRestController {
                             break;
                         }
                     } catch (org.openqa.selenium.NoSuchElementException e) {
-                        // 교재명이 없는 경우 다음 교재명을 탐색
-                        BookInfoIndex++;
+                        BookInfoIndex++;// 교재명이 없는 경우 다음 교재명을 탐색
                         continue;
                     }
                 }
@@ -169,55 +156,38 @@ public class BookRestController {
         String clientSecret = "RAXseD1BDm";
         List<String> failList = new ArrayList<>(); // 실패한 책 제목을 저장할 리스트 생성
 
-        for(int index = 0; index < bookInfo.size(); index += 3) {
+        for (int index = 0; index < bookInfo.size(); index += 3) {
             int departmentIndex = index;
             int bookNameIndex = index + 1;
             int subjectIndex = index + 2;
             try {
-                // 도서명을 UTF-8로 인코딩
-                String encodedQuery = URLEncoder.encode(bookInfo.get(bookNameIndex), "UTF-8");
-
-                // Naver 도서 검색 API의 엔드포인트 URL 생성
-                String apiUrl = "https://openapi.naver.com/v1/search/book.json?query=" + encodedQuery + "&display=1";
-
-                // URL 객체 생성
-                URL url = new URL(apiUrl);
-
-                // HTTP 연결 설정
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                String encodedQuery = URLEncoder.encode(bookInfo.get(bookNameIndex), "UTF-8");// 도서명을 UTF-8로 인코딩
+                String apiUrl = "https://openapi.naver.com/v1/search/book.json?query=" + encodedQuery + "&display=1";// Naver 도서 검색 API의 엔드포인트 URL 생성
+                URL url = new URL(apiUrl);// URL 객체 생성
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();// HTTP 연결 설정
                 con.setRequestMethod("GET");
                 con.setRequestProperty("X-Naver-Client-Id", clientId);
                 con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
-                System.out.println("departmentIndex : "+departmentIndex);
-                System.out.println("bookNameIndex : "+bookNameIndex);
+                System.out.println("departmentIndex : " + departmentIndex);
+                System.out.println("bookNameIndex : " + bookNameIndex);
                 System.out.println("subjectIndex : " + subjectIndex);
-                //System.out.println(bookNames.get(bookNameIndex) + "의 응답 코드 가져오는중");
-
                 System.out.println("응답 코드 가져오는중");
-                // HTTP 응답 코드 가져오기
-                int responseCode = con.getResponseCode();
-
+                int responseCode = con.getResponseCode();// HTTP 응답 코드 가져오기
                 if (responseCode == 200) { // 성공적인 응답인 경우
                     System.out.println("응답 코드 가져오기 성공");
-                    // 응답 내용을 읽기 위한 BufferedReader 생성
-                    BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));// 응답 내용을 읽기 위한 BufferedReader 생성
                     StringBuilder response = new StringBuilder();
                     String line;
-
-                    // 응답 내용을 문자열로 변환
-                    while ((line = br.readLine()) != null) {
+                    while ((line = br.readLine()) != null) {// 응답 내용을 문자열로 변환
                         response.append(line);
                     }
                     br.close();
-                    // 응답 내용을 JSON 객체로 파싱
-                    String responseBody = response.toString();
+                    String responseBody = response.toString();// 응답 내용을 JSON 객체로 파싱
                     JSONObject jsonResponse = new JSONObject(responseBody);
-
-                    // 교재 정보가 담긴 배열 추출
-                    JSONArray items = jsonResponse.getJSONArray("items");
+                    JSONArray items = jsonResponse.getJSONArray("items");// 교재 정보가 담긴 배열 추출
                     int LEN = items.length();
                     System.out.println("교재 정보 개수 : " + LEN);
-                    if(LEN == 0) {
+                    if (LEN == 0) {
                         System.out.println(bookInfo.get(bookNameIndex));
                         failList.add(bookInfo.get(departmentIndex));
                         failList.add(bookInfo.get(bookNameIndex));
@@ -225,10 +195,9 @@ public class BookRestController {
                         System.out.println(failList);
                         continue;
                     }
-                    for(int i = 0; i < LEN; i++) {
+                    for (int i = 0; i < LEN; i++) {
                         JSONObject item = items.getJSONObject(i);
-                        // 교재 정보 추출
-                        String title = item.getString("title");
+                        String title = item.getString("title");// 교재 정보 추출
                         System.out.println("교재 이름 : " + title);
                         String author = item.getString("author");
                         String discount = item.getString("discount");
@@ -236,15 +205,12 @@ public class BookRestController {
                         String imageUrl = item.getString("image");
                         String isbn = item.getString("isbn");
                         String description = item.getString("description");
-                        // 해당 교재의 학과 및 과목 정보 가져오기
-                        String D = bookInfo.get(departmentIndex);
+                        String D = bookInfo.get(departmentIndex);// 해당 교재의 학과 및 과목 정보 가져오기
                         String S = bookInfo.get(subjectIndex);
                         bookService.createDepartment(D);
                         bookService.createSubject(S);
-                        // Book 객체에 교재 정보를 담아 Service에게 전달
-                        bookService.createBook(title, author, publisher, discount, imageUrl, isbn, description, D, S);
-                        // Enrollment 객체에 교재명을 담아 Service에게 전달
-                        enrollmentService.createEnrollment(title, userService.findByUserId(user_id).getId());
+                        bookService.createBook(title, author, publisher, discount, imageUrl, isbn, description, D, S);// Book 객체에 교재 정보를 담아 Service에게 전달
+                        enrollmentService.createEnrollment(title, userService.findByUserId(user_id).getId());// Enrollment 객체에 교재명을 담아 Service에게 전달
                         System.out.println("데이터베이스에 값 전달 완료");
                     }
 
@@ -262,10 +228,9 @@ public class BookRestController {
             for (int failIndex = 0; failIndex < failList.size(); failIndex++) {
                 System.out.println(failList.get(failIndex));
                 bufferedWriter.write(failList.get(failIndex));
-                if(failIndex % 3 == 2) {
+                if (failIndex % 3 == 2) {
                     bufferedWriter.newLine();
-                }
-                else if(failIndex % 3 == 0 || failIndex % 3 == 1){
+                } else if (failIndex % 3 == 0 || failIndex % 3 == 1) {
                     bufferedWriter.write(" - ");
                 }
             }
