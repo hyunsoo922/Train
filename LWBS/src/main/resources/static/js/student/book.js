@@ -211,15 +211,16 @@ document.addEventListener('DOMContentLoaded', function() {
         var earnMileage = sumPrice / 10;
         earnMileageElement.innerText = earnMileage.toFixed(0);
     }
-    // input 요소를 참조합니다.
+    var inputMileagePoint = document.getElementById('mileagePoint'); // input 요소를 참조합니다.
     var sumPointElement = document.querySelector('.myMileage'); // .myMileage 클래스를 가진 요소를 참조합니다.
     var sumPointText = sumPointElement.innerText; // sumPoint 요소의 텍스트를 가져옵니다.
     var sumPointValue = parseInt(sumPointText);
 
+    var calPriceElement = document.querySelector('.calPrice'); // .calPrice 클래스를 가진 요소를 참조합니다.
     // inputMileagePoint의 값이 변경될 때마다 이벤트 리스너를 추가합니다.
     inputMileagePoint.addEventListener('input', function() {
         // inputMileagePoint의 값을 가져옵니다.
-        var mileageValue = parseFloat(inputMileagePoint.replace(/,/g, ''));
+        var mileageValue = parseFloat(inputMileagePoint.value.replace(/,/g, ''));
 
         if (mileageValue > sumPointValue) {
             // 입력란의 값을 최대값으로 설정합니다.
