@@ -38,16 +38,17 @@ public class myInfoUpdateController {
     public String handleSubmit(@RequestParam("studentId") String studentId,
                                @RequestParam("studentPw") String studentPw,
                                Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        userService.updateUserInfo(studentId, studentPw, principalDetails.getUser().getId());
+        userService.updateUserInfo(studentId, studentPw, principalDetails.getUser().getId(),principalDetails);
         model.addAttribute("user", principalDetails.getUser());
-        return "/mypage/myInfoUpdate/student";
+        return "redirect:/home/student";
     }
 
     @PostMapping("/bookStore")
     public String handleSubmit(@RequestParam("franchisee") String franchisee,
-                               @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        userService.updateBookStoreInfo(franchisee, principalDetails.getUser().getId());
-        return "mypage/myInfoUpdate/bookStore";
+                               Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        userService.updateBookStoreInfo(franchisee, principalDetails.getUser().getId(),principalDetails);
+        model.addAttribute("user", principalDetails.getUser());
+        return "redirect:/home/bookStore";
     }
 
     private static void sleep(int milliseconds) {

@@ -348,7 +348,7 @@
                     <td class="receiveCheck"><span th:text="${receipt.receive.receiveCheck}"></span></td>
 
                     <td class="receive"
-                        th:if="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
+                        >
                         <form th:action="@{/bookStore/Receipt}" method="post">
                             <select name="check">
                                 <option value="수령">수령</option>
@@ -369,9 +369,7 @@
                         </form>
                     </td>
 
-                    <td class="receive"
-                        th:unless="${status.index == 0 || receipt.user.studentId != receipts[status.index - 1].user.studentId}">
-                    </td>
+
 
                     <td class="receiveDay" style="text-align: center;"><span
                             th:text="${receipt.receive.day}"></span></td>

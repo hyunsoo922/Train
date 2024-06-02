@@ -46,7 +46,7 @@ public class BookRestController {
     }
 
     @GetMapping("/webscraping/{user_id}")
-    public String hello(@PathVariable Long user_id) {
+    public String webscraping(@PathVariable Long user_id) {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
 
@@ -166,7 +166,7 @@ public class BookRestController {
         String filePath = "/home/ubuntu/failList";
         System.out.println("네이버 API 시작");
         String clientId = "GjB1T5WYEFrpN4KIf6Pb";
-        String clientSecret = "U9jyF2ZCDa";
+        String clientSecret = "RAXseD1BDm";
         List<String> failList = new ArrayList<>(); // 실패한 책 제목을 저장할 리스트 생성
 
         for(int index = 0; index < bookInfo.size(); index += 3) {

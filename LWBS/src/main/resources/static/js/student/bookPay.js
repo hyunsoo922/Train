@@ -19,7 +19,7 @@ $(function(){
                     {
                         location.href = response.next_redirect_pc_url;
                     }
-                });
+        });
     });
 
 });
@@ -56,3 +56,15 @@ function formatAuthors() {
         }
     });
 }
+document.addEventListener('DOMContentLoaded', function() {
+    // 처리할 요소들을 선택합니다.
+    var mileageElements = document.querySelectorAll('.myMileage, .earnMileage');
+
+    // 각 요소를 처리합니다.
+    mileageElements.forEach(function(element) {
+        var mileageText = element.textContent;
+        var mileageValue = parseFloat(mileageText);
+        var formattedMileage = mileageValue.toLocaleString();
+        element.textContent = formattedMileage;
+    });
+});

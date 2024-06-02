@@ -75,6 +75,8 @@ public class ReceiptController {
         List<Receive> receives = receiveService.findDay(receiveDay);
         Receive receive = new Receive();
 
+        System.out.println("수령일"+receives);
+        System.out.println("체크"+check);
 
         model.addAttribute("user",principalDetails.getUser());
         for(int i = 0;i < receives.size();i++)

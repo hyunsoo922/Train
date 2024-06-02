@@ -32,7 +32,7 @@ public class MyPageController {
 
     @GetMapping("/mypage/{user_id}")
     // 마이페이지에 로그인한 User의 ID 값에 해당하는 정보를 view에게 전달하는 메서드
-    public String hello(@PathVariable Long user_id, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public String myPageUserInfo(@PathVariable Long user_id, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         if(userService.findAuthority(user_id).equals("ROLE_STUDENT")) {
             // 마일리지 총합을 계산

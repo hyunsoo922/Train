@@ -6,7 +6,7 @@
     <meta http-equiv="Cache-Control" content="No-Cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0;">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0">
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" th:href="@{/css/banner.css}">
     <link rel="stylesheet" href="/css/home/student.css">
@@ -57,7 +57,10 @@
                     </div>
                 </div>
                 <div class="box_s" style="display: inline-block;">
-                    <div style="padding-top: 16%"><span th:text="${mileage} + 'P'" style="font-size: 18px"></span></div>
+                    <div style="padding-top: 16%; font-size: 18px">
+                        <span class="myMileage" th:text="${mileage}"></span>
+                        <span>P</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -182,9 +185,6 @@
         };
         xhr.send();
     }
-    // function submitForm() {
-    //     document.getElementById("dateForm").submit();
-    // }
     function submitForm() {
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "/student/purchase/receipt", true);
@@ -362,7 +362,11 @@
         price.innerText = formattedValue;
     })
 
-
+    document.addEventListener("DOMContentLoaded", function() {
+        var mileageElement = document.querySelector(".myMileage");
+        var mileage = parseInt(mileageElement.textContent);
+        mileageElement.textContent = mileage.toLocaleString();
+    });
 </script>
 
 </html>

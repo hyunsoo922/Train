@@ -10,6 +10,6 @@ public interface ReceiveService {
 
         List<Receive> findDay (String day);
 
-
+        List<LocalDate> startAndEnd();
 
 }

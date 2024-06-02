@@ -37,7 +37,7 @@ public class HomeBookStoreController {
         this.receiveService = receiveService;
     }
     @GetMapping("/home/bookStore")
-    public void hello(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public void bookStoreMain(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         // 가장 많이 팔린 책 리스트
         List<Map<String, Object>> rankingList = receiptService.ranking();
         // 책의 id로 검색한 Book 객체를 담을 리스트
@@ -61,6 +61,11 @@ public class HomeBookStoreController {
         model.addAttribute("bookList", bookList);
         model.addAttribute("countList", countList);
         model.addAttribute("user",principalDetails.getUser());
+
+        List<LocalDate> date = receiveService.startAndEnd();
+        model.addAttribute("start",date.get(0));
+        model.addAttribute("end",date.get(1));
+
     }
 
     @PostMapping("/home/bookStore")
@@ -113,6 +118,6 @@ public class HomeBookStoreController {
         model.addAttribute("countList", countList);
         model.addAttribute("user",principalDetails.getUser());
 
-        return "/home/bookStore";
+        return "redirect:/home/bookStore";
     }
 }

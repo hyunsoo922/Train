@@ -78,7 +78,9 @@ document.addEventListener('DOMContentLoaded', function() {
     totalPriceElements.forEach(function(totalPriceElement) {
         // 가격을 가져와서 초기값으로 설정합니다.
         var price = parseFloat(totalPriceElement.previousElementSibling.textContent);
-        totalPriceElement.textContent = price + '원';
+        // 쉼표로 구분된 형식으로 포맷합니다.
+        var formattedPrice = price.toLocaleString();
+        totalPriceElement.textContent = formattedPrice + '원';
     });
 });
 
@@ -191,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var inputMileagePoint = document.getElementById('mileagePoint'); // input 요소를 참조합니다.
     var sumPointElement = document.querySelector('.myMileage'); // .myMileage 클래스를 가진 요소를 참조합니다.
     var sumPointText = sumPointElement.innerText; // sumPoint 요소의 텍스트를 가져옵니다.
-    var sumPointValue = parseInt(sumPointText.substring(0, sumPointText.length - 1).replace(/[^\d.-]/g, '')); // 텍스트에서 'P'를 제외하고 숫자로 변환합니다.
+    var sumPointValue = parseInt(sumPointText);
     var sumPriceElement = document.querySelector('.sumPrice').innerText; // .sumPrice 클래스를 가진 요소의 텍스트를 가져옵니다.
     var calPriceElement = document.querySelector('.calPrice'); // .calPrice 클래스를 가진 요소를 참조합니다.
     // inputMileagePoint의 값이 변경될 때마다 이벤트 리스너를 추가합니다.
@@ -210,8 +212,13 @@ document.addEventListener('DOMContentLoaded', function() {
         var originalPrice = parseFloat(sumPriceElement.replace(/[^\d.-]/g, ''));
         var discountedPrice = originalPrice - mileageValue;
 
-        // 마일리지 차감 후의 결제 예정 금액을 업데이트합니다.
-        calPriceElement.innerText = discountedPrice.toLocaleString() + '원';
+        // 만약 discountedPrice가 NaN이라면 0으로 설정합니다.
+        if (isNaN(discountedPrice)) {
+            calPriceElement.innerText = sumPriceElement;
+        } else {
+            // 마일리지 차감 후의 결제 예정 금액을 업데이트합니다.
+            calPriceElement.innerText = discountedPrice.toLocaleString() + '원';
+        }
     });
 });
 document.addEventListener('DOMContentLoaded', function() {
@@ -241,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // earnMileage 업데이트
         var earnMileage = sumPrice / 10;
-        earnMileageElement.innerText = earnMileage.toFixed(0) + 'P';
+        earnMileageElement.innerText = earnMileage.toFixed(0);
     }
 });
 document.addEventListener('DOMContentLoaded', function() {
@@ -255,8 +262,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var sumPrice = parseFloat(sumPriceElement.innerText.replace(/[^\d.-]/g, ''));
         var earnMileage = sumPrice / 10; // sumPrice를 10으로 나눈 값
 
-        // P 값에 업데이트
-        earnMileageElement.innerText = earnMileage.toFixed(0) + 'P'; // 쉼표 없이 정수값으로 표시
+        earnMileageElement.innerText = earnMileage.toFixed(0); // 쉼표 없이 정수값으로 표시
     }
 });
 
@@ -325,3 +331,20 @@ function formatPrice() {
         element.innerText = new Intl.NumberFormat('ko-KR').format(price) + "원"; // 한국 통화 형식으로 변환하여 설정
     });
 }
+document.addEventListener("DOMContentLoaded", function() {
+    truncateText();
+    formatAuthors();
+    formatPrice();
+});
+document.addEventListener('DOMContentLoaded', function() {
+    // 처리할 요소들을 선택합니다.
+    var mileageElements = document.querySelectorAll('.myMileage, .earnMileage');
+
+    // 각 요소를 처리합니다.
+    mileageElements.forEach(function(element) {
+        var mileageText = element.textContent;
+        var mileageValue = parseFloat(mileageText);
+        var formattedMileage = mileageValue.toLocaleString();
+        element.textContent = formattedMileage;
+    });
+});
